@@ -1,0 +1,10 @@
+As a Geopolitical Simulator with a central wargaming element, Project Sovereign is played over a large, dynamic and living world map that is actively lived in by AI Nations as well as the Player. 
+
+The World Authoring & Map System defines, constructs, validates and maintains the physical geography of PROJECT SOVEREIGN. It is responsible for creating the geographic environment in which the entire simulation operates. This includes terrain, elevation, water, vegetation, settlements, infrastructure, transportation networks, buildings, military installations and other physical features. The map is not simply a visual background. It is a structured geographic environment from which the simulation derives movement, visibility, routing, terrain effects and other physical relationships.
+
+As such, the map is not a static battlefield. It is the physical state of the world. A road can be constructed, damaged, destroyed, repaired or abandoned. A railway can be extended. A bridge can collapse. A forest can burn. A dam can fail. An airfield can be constructed. An industrial district can be destroyed by bombing. A river can be engineered. A coastline can be modified.
+
+The World Authoring & Map System therefore has two related responsibilities:
+
+World Authoring, creating the initial geographic truth of the world map and;
+World Representation, maintaining and exposing that geographic truth to the simulation as the world changes over time.
