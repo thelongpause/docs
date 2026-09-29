@@ -26,7 +26,7 @@ Population Centres utilise the same attributes also used by [Terrain Objects](Te
 These attributes function according to the definitions established within [Terrain Objects](TerrainObjects.md). However, other Population Centre Attributes, such as Population Density, has a modification impact/uplift on Base Attributes. 
 
 ### Demographic Attributes
-Demographic Attributes describe the composition, distribution and development of the civilian population within a Population Centre. Population Centres maintain their own demographic conditions, which in turn make up the demographic characteristics of their Nation. This allows different settlements within the same Nation to develop substantially different demographic profiles, building different conditions for the Event System.
+Demographic Attributes describe the composition, distribution and development of the civilian population within a Population Centre. Population Centres maintain their own demographic conditions, which in turn make up the demographic characteristics of their Nation. This allows different settlements within the same Nation to develop substantially different demographic profiles, building different conditions for the Event & Scenario System as well as the Nation's Overview information. 
 
 Demographic Attributes include:
 - Population: Population represents the number of civilian inhabitants residing within the Population Centre.
@@ -36,9 +36,11 @@ Demographic Attributes include:
 - Immigration
 - Emigration:
 - Refugees:
-- Laborforce 
+- Laborforce:
+- Dependents 
 - Average Education:
 - Employment Rate
+- Needs
 
 
 - Population Density;
@@ -53,8 +55,9 @@ and Population Growth.
 
 
 #### Population
-Population represents the number of civilian inhabitants residing within the Population Centre. Population is dynamic and changes over time as a result of other Attributes:
+Population represents the number of civilian inhabitants residing within the Population Centre. Population is dynamic and changes over time as a result of other Attributes. These Attributes are:
 
+- Age Distribution
 - Birth Rate
 - Death Rate
 - Immigration
@@ -62,10 +65,26 @@ Population represents the number of civilian inhabitants residing within the Pop
 - Refugees
 - Standard of Living
 
-Population is therefore not a static map value. A Population Centre may grow, decline, become depopulated or experience substantial demographic transformation throughout the simulation.
+Population is therefore not a static map value. A Population Centre may grow, decline, become depopulated or experience substantial demographic transformation throughout the simulation. For instance, a battle within a Terrain Population Centre or even close to it may dynamically increase Death Rate, lower Birth Rate, increase Emigration and lower Standard of Living. An airstrike, artillery or INSERT on Units entrenched between a population centre will also kill civilians depending on the ammunition, missile or projectile's Circular error probable (CEP). Likewise, it may also create Refugees, who flee to the closest Terrain Population Centre in a neighbouring nation. 
+
+#### Age Distribution
+Age Distribution refers to the ages of the Population Attribute. Age Distribution plays a key role in determining Laborforce and Dependents, both of which are determined by the Player's nation's legislation and FINISH. It also plays a role in Death Rate, wherein the '64 and Over' category FINISH. Age Distribution is divided into the following categories:
+
+- 0–14 years: Representing Children, who are Default Dependents. Legislation options, per the Legislation System within the larger Government System, can enforce Child Labour, wherein Children become apart of the Laborforce.
+- 15–64 years: Representing Working Age Adults who may be Employed, wherein they make up the Laborforce, or Unemployed, wherein they are Dependents. 
+- 65 and over: Representing Retirees, who are Default Dependents. Legislation options, per the Legislation System within the larger Government System, can enforce Late Retirement and other Labor Laws that adds to the Laborforce.
+
+Age Distribution is influenced by the following Attributes:
+- Population
+- Birth Rate 
 
 
+#### Birth Rate 
+FINISH
 
+
+#### Birth Rate 
+FINISH
 
 
 
@@ -81,10 +100,12 @@ Education is advanced progressively within a Population Centre by considering th
 
 - Standard of Living
 - Population Happiness
-- Relevant Laws 
+- Relevant 'Civil Rights' Legislations 
+- Access to Goods
 
 Education has significant impact on Labor Force and a Nation's overarching economy. Certain Industries, such as Space, recruits from the Labor Force that has Higher Education and higher to fill their employee requirements. As such, Education influences the following:
 - Economic Productivity
+- Research Speed
 - Migration
 - Political Participation
 - Political Interests
