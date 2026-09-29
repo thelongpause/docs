@@ -33,25 +33,22 @@ Demographic Attributes include:
 - Age Distribution: 
 - Birth Rate:
 - Death Rate:
-- Immigration
+- Immigration:
+- Migration Attraction: 
 - Emigration:
 - Refugees:
 - Laborforce:
 - Dependents 
 - Average Education:
 - Employment Rate
-- Needs
-
-
-- Population Density;
-- Population Types;
-
-
-Employment;
-Household Composition;
-Wealth Distribution;
-Standard of Living;
-and Population Growth.
+- Needs: The specific manufactured goods, or services the population demands, which are created by different Industries the Player establishes within the nation, 
+- Population Types
+- Population Happiness
+- Wealth Distribution
+- Standard of Living
+- Population Growth
+- Religion
+- Cultures:
 
 
 #### Population
@@ -78,12 +75,16 @@ Age Distribution is influenced by the following Attributes:
 - Population
 - Birth Rate 
 
-
 #### Birth Rate 
 FINISH
 
+#### Death Rate 
+FINISH
 
-#### Birth Rate 
+#### Immigration
+FINISH
+
+#### Emigration
 FINISH
 
 
