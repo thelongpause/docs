@@ -1888,11 +1888,11 @@ description: Production of steel and associated steel products.
 
 industry_establishment_capital_requirement:
   amount: null
-  currency: USD
+  currency: Dollar
 
 opening_company_capital_requirement:
   amount: null
-  currency: USD
+  currency: Dollar
 
 establishment_requirements: []
 
@@ -1961,13 +1961,13 @@ industry_type_id: steelmaking
 
 industry_establishment_capital_requirement:
   amount: null
-  currency: USD
+  currency: Dollar
   recipient_account_id: null
 
 opening_company_capital:
   required: true
   amount: null
-  currency: USD
+  currency: Dollar
 
 mandatory_requirements: []
 
