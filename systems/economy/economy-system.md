@@ -1,3 +1,4 @@
+
 # Economy System
 
 ## 1. System Definition
@@ -6,55 +7,58 @@ The Economy System simulates the financial and commercial activity of Nations, C
 
 It determines how economic entities acquire and allocate capital, employ labour, establish Industries, purchase inputs, price products, conduct transactions, generate revenue, incur expenditure, accumulate wealth and participate in domestic and international trade.
 
-The Economy System operates alongside the Production, Government, Research, Population, Military, Terrain and Diplomacy Systems.
+The Economy System operates alongside the Production, Industry Data, Inventory, Government, Research, Population, Military, Terrain, Logistics and Diplomacy Systems.
 
-The Economy System does not independently simulate every physical process involved in producing a commodity. It determines the economic conditions under which economic activity takes place and exchanges the necessary state with the systems responsible for physical production, geography, research, population and government.
+The Economy System determines the economic conditions under which activity takes place. It does not independently simulate every physical process involved in producing, storing, moving or consuming a commodity.
 
 ### 1.1 Core Responsibilities
 
 The Economy System is responsible for:
 
-1. Economic entities, including Companies and Industries.
-2. Company Capital and economic financial state.
-3. Industry establishment and economic operation.
-4. Industry establishment requirements and capital requirements.
-5. Economic product definitions and base prices.
-6. Global and domestic market pricing.
-7. Economic demand and supply aggregation.
-8. Company pricing and commercial decisions.
-9. Revenue, expenditure, operating income and financial performance.
-10. Economic employment, labour demand and wage expenditure.
-11. Economic transactions and commodity ownership transfers.
-12. Economic availability of extracted or acquired Strategic Resources recorded by the Inventory System.
-13. Domestic and international trade.
-14. Foreign investment and foreign commercial operations.
-15. Economic effects of Government policy.
-16. Economic effects of sanctions and trade restrictions.
-17. Subsidies and other defined financial transfers.
-18. Economic allocation of available goods, services and resources.
-19. Economic interfaces with Production, Government, Research, Population, Military, Terrain and Diplomacy.
+1. Company financial state, including Company Capital, revenue, expenditure, operating income and financial obligations.
+2. Economic and commercial decisions made by Companies and Industries.
+3. Industry Scale and its economic consequences.
+4. Economic rules governing Industry establishment, in coordination with Industry Data and Government.
+5. Establishment expenditure and Opening Company Capital movements.
+6. Product Base Prices and economic price calculations.
+7. Global and domestic market pricing.
+8. Economic demand and supply aggregation.
+9. Company pricing and commercial decisions.
+10. Economic employment allocation, labour demand and wage expenditure.
+11. Economic transactions, contracts, payments and financial settlement.
+12. Economic ownership and commercial rights as recorded through authorised transactions.
+13. Economic availability and valuation of physical goods recorded by the Inventory System.
+14. Domestic and international trade.
+15. Foreign investment and foreign commercial operations.
+16. Economic effects of Government policy, taxes, subsidies and financial transfers.
+17. Economic effects of sanctions and trade restrictions.
+18. Commercial procurement and economic allocation decisions.
+19. Financial and commercial interfaces with Production, Industry Data, Inventory, Government, Research, Population, Military, Terrain, Logistics and Diplomacy.
 
 ### 1.2 Explicit Non-Responsibilities
 
-The Economy System does not own the following mechanics:
-
-| Mechanic | Owning System |
+| Mechanic | Authoritative System |
 |---|---|
-| Physical extraction, manufacturing and construction | Production System |
-| Physical production capacity and actual output | Production System |
-| Geographic terrain and map geometry | Terrain System |
-| Physical Industry facility condition | Production System, with Terrain and Military interfaces |
-| Population demographics and household composition | Population System |
-| Population-level educational attainment | Population System |
-| Education policy and public education funding | Government System |
-| Education institutions and technological knowledge | Research System |
-| Laws, taxation policy and Government budgets | Government System |
-| Military organisation, equipment design and combat | Military System |
-| Research projects, component designs and technology development | Research System |
-| Diplomatic relations and treaty permissions | Diplomacy System |
-| Political institutions, political groups and political authority | Government System |
+| Canonical product identities, classifications, shared attributes and units | Good and Service Catalogue |
+| Industry Types, Industry instances, establishment configuration and Industry data | Industry Data |
+| Physical extraction, manufacturing, construction and production execution | Production |
+| Physical production capacity and actual output | Production |
+| Production processes, recipes, input/output ratios and yields | Production Processes and Recipes |
+| Physical inventory quantities, lots, condition, reservations and stock movements | Inventory |
+| Physical transportation, routes, cargo movement and delivery in transit | Logistics and Transportation |
+| Geographic terrain, map geometry and elevation | Terrain |
+| Population demographics and household composition | Population |
+| Educational attainment and population-level workforce characteristics | Population |
+| Education policy, public education funding and Government budgets | Government |
+| Scientific research, designs and technology development | Research |
+| Laws, taxation authority, public budgets and Government spending permissions | Government |
+| Military organisation, operational requirements, equipment design and combat | Military, with Research and Production interfaces |
+| Diplomatic relations and treaty permissions | Diplomacy |
+| Political institutions, political groups and political authority | Government |
 
-These ownership assignments define responsibility for simulation rules. They do not prevent another system from supplying inputs, applying effects through a defined interface, or receiving resulting state.
+These assignments identify the authoritative owner of each kind of state. Other systems may supply inputs, request authorised changes or receive results through explicit interfaces.
+
+The Economy System may store references to external entities and retain financial records concerning them. It must not become a second authoritative owner of their physical or institutional state.
 
 ---
 
@@ -64,9 +68,11 @@ These ownership assignments define responsibility for simulation rules. They do 
 
 The default starting date is 1 January 1955.
 
-The starting economic model uses reference prices, wages and financial values calibrated to the historical Western economy of the 1950s. These values provide a common economic reference for the fictional world and do not imply that the fictional world uses the historical United States monetary or political system.
+The initial economic model uses reference prices, wages and financial values calibrated to the historical Western economy of the 1950s. These values provide a common economic reference for the fictional world. They do not imply that the fictional world uses the historical United States monetary or political system.
 
-The starting values of individual goods, services, strategic resources, Industries, Companies and Nations must be defined in the relevant starting data.
+Starting values for individual products, Industries, Companies and Nations must be defined in the relevant reference or scenario data.
+
+Scenario-loaded economic entities and their starting financial state are initial conditions, not new establishment or investment events. Loading a starting Company or Industry must not automatically charge it establishment expenditure again.
 
 ### 2.2 Calendar and Time
 
@@ -76,66 +82,95 @@ Every simulation year contains exactly 365 days.
 
 The world clock uses a 24-hour format. The calendar begins on 1 January and advances through 365 days per simulation year.
 
-Economic production and consumption may be resolved daily where required by the relevant system. The Economy System must not assume that all financial transactions, market prices or Company decisions update at the same frequency.
+Economic mechanics may update daily or at another explicitly defined frequency. The Economy System must not assume that all financial transactions, market prices or Company decisions update at the same frequency.
 
-Each economic mechanic must define its own processing frequency and the point at which its state becomes available to other systems.
+Each economic mechanic must define its own processing frequency and when its updated state becomes available to other systems.
+
+The global ordering and coordination of system updates belong in the shared simulation scheduler specification. This document defines economic dependencies, not an independent competing global schedule.
 
 ### 2.3 Currency
 
-The canonical currency is the **Dollar ($)**.
+The canonical currency is the Dollar ($), with canonical identifier `DOLLAR`.
 
 The Dollar is a fictional global currency used throughout Project Sovereign. It is not the United States Dollar and is not controlled by a real-world monetary authority.
 
-All monetary values use Dollars unless an explicitly defined alternative denomination is introduced in a future design decision.
+All monetary values use Dollars unless an explicitly approved future design introduces another denomination.
 
 There is no foreign exchange system in the current design.
 
-A transaction between two Nations does not require currency conversion. Differences in economic conditions are represented through prices, wages, taxes, trade restrictions, investment rules and other defined economic mechanics.
+Transactions between Nations do not require currency conversion. Differences in economic conditions are represented through prices, wages, taxes, trade restrictions, investment rules and other defined economic mechanics.
 
 ### 2.4 Reference Prices and Starting Values
 
 Economic reference prices and wages are calibrated to a 1955 baseline.
 
-A reference value does not automatically determine the price of an actual transaction. Market prices and transaction prices can diverge from reference values through explicitly defined economic rules.
+A reference value does not automatically determine the price of an actual transaction. Market prices and transaction prices may diverge from reference values through explicitly defined economic rules.
 
-The Economy System must distinguish:
+The Economy System distinguishes the following price concepts:
 
-- Base Price.
-- Global Price.
-- Domestic Market Price.
-- Company Selling Price.
-- Transaction Price.
+- **Base Price:** the reference monetary value assigned to a canonical product unit.
+- **Global Price:** the current global market reference price.
+- **Domestic Market Price:** the reference price within a defined domestic market.
+- **Company Selling Price:** the price at which a Company offers a product for sale.
+- **Transaction Price:** the price agreed for a particular transaction.
 
-These values are not interchangeable.
+These values are not interchangeable. Their source data, calculation rules, scope and update frequency must be defined explicitly.
 
 ### 2.5 No Automatic Financial or Physical Effects
 
-A financial transaction does not automatically produce a physical commodity.
+A financial transaction does not automatically create, deliver or consume a physical commodity.
 
 Physical production does not automatically generate revenue.
 
 A financial loss does not automatically destroy a Company.
 
-An increase in Industry Scale does not automatically increase physical output unless the Production System can support that output.
+An increase in Industry Scale does not automatically increase physical output.
 
-A Government subsidy does not automatically increase production.
+A purchase order does not prove that goods have been delivered. A dispatch does not prove that a shipment has arrived. A delivery does not prove that payment has been made.
 
-A change in Company Capital does not automatically change production capacity.
+Each state change must be committed by the system that owns the affected state through the relevant interface.
 
-Each resulting effect must occur through the system that owns the affected mechanic.
+### 2.6 Units and Product Identity
+
+The Good and Service Catalogue owns canonical product identities, product classifications, shared attributes, measurement units and defined unit conversions.
+
+The Economy System references catalogue identifiers and compatible units. It must not create competing product identities or redefine canonical units.
+
+Consumer consumption requirements may use a defined Consumption Interval, such as one standard individual requirement per day. A consumption unit is not necessarily the same as the physical unit used for production, storage, transport or trade.
+
+Conversions between consumption requirements and physical quantities must be explicitly defined. They must not be assumed merely because two quantities refer to the same product.
 
 ---
 
 ## 3. System Ownership and Interfaces
-### 3.1 Economy and Production
 
-The Economy System owns the economic Industry and its commercial state.
+### 3.1 Economy and Industry Data
 
-The Production System owns the physical production process.
+Industry Data owns the authoritative definitions and configuration for Industry Types and Industry instances, including establishment prerequisites, Company relationships where specified, Industry Areas, workforce requirements and scenario starting data.
 
-The Economy System determines the financial and commercial conditions under which an Industry operates, including:
+The Economy System owns the resulting financial movements and economic state, including Company Capital, Industry Scale, operating expenditure and financial performance.
 
-- Company Capital available for economic decisions.
+For establishment:
+
+1. Industry Data supplies the applicable Industry definition, establishment configuration and required entity relationships.
+2. Government supplies the relevant authority, permissions and Treasury availability.
+3. Economy validates and commits the required financial movements and economic state.
+4. Production establishes or updates physical production entities only through its own authorised interface.
+5. Inventory records physical stock only when an authorised Inventory transaction creates, receives or otherwise changes stock.
+
+The establishment operation must be atomic across the required participating systems. If any mandatory step fails, no partial Industry, Company or financial state may remain.
+
+Industry Data does not independently debit Treasury or Company Capital. Economy does not independently redefine Industry Types or establishment prerequisites.
+
+### 3.2 Economy and Production
+
+The Economy System owns the economic and commercial state associated with an Industry.
+
+The Production System owns physical production execution.
+
+The Economy System determines commercial priorities and economic requirements, including:
+
+- Company Capital available for authorised spending.
 - Industry Scale.
 - Economic labour demand.
 - Intended production priorities.
@@ -148,58 +183,126 @@ The Economy System determines the financial and commercial conditions under whic
 The Production System determines:
 
 - Physical production capacity.
+- Eligible production facilities and lines.
 - Actual physical output.
-- Physical input consumption.
+- Physical input requirements derived from selected recipes.
+- Physical input consumption through authorised Inventory operations.
 - Resource extraction.
-- Manufacturing and construction processes.
+- Manufacturing and construction execution.
 - Physical production constraints.
-- Production facility condition.
-- Physical stockpile changes caused by production.
-- Production losses resulting from physical damage or disruption.
+- Facility condition and operational availability.
+- Physical output and production losses.
 
-The systems must exchange explicit information about intended production, required inputs, available inputs, physical capacity, actual output and associated economic transactions.
+Production receives economic priorities and relevant constraints, determines what is physically feasible, and reports the result. Economy must not independently calculate or override physical capacity or actual output.
 
-The Economy System must not independently calculate physical production capacity or actual physical output.
+Production must not independently calculate Company revenue, Company Capital or operating income.
 
-The Production System must not independently calculate Company revenue or operating income.
+### 3.3 Economy and Production Processes and Recipes
 
-### 3.2 Cross-System Ownership Table
+Production Processes and Recipes owns the definitions of physical transformations, including recipe inputs, outputs, quantities, yields, by-products and process losses.
 
-| Data or mechanic | Owner | Economy System responsibility |
+Economy uses recipe-derived requirements to estimate economic input demand, procurement costs and potential output economics.
+
+Economy must not independently define production ratios, substitute ingredients, process yields or physical production outcomes.
+
+A recipe defines a transformation. It does not reserve, consume, transfer or create inventory. Production orchestrates execution, and Inventory commits the authorised physical stock changes.
+
+Executed production records must retain the exact recipe version used so that historical outcomes remain reproducible.
+
+### 3.4 Economy and Inventory
+
+Inventory is the sole authoritative owner of physical inventory quantities, locations, condition, lots, reservations, transfers and stock-changing transactions.
+
+Economy owns financial records, commercial orders, transaction prices, payment obligations and financial settlement.
+
+Economy may request that Inventory reserve, transfer, receive or otherwise change stock through authorised interfaces. Inventory validates and commits the physical change. Economy must not directly modify physical inventory quantities or maintain a competing authoritative stock ledger.
+
+Economic ownership and physical custody are separate concepts. An economic transaction may change ownership without changing physical location, while a physical shipment may change location or custody without immediately changing ownership.
+
+A reservation keeps stock physically present but unavailable for incompatible uses. An order or expected delivery is not available inventory until the relevant Inventory and delivery conditions are satisfied.
+
+### 3.5 Economy and Government
+
+Government owns public authority, laws, tax policy, budget authority, Treasury state and Government expenditure permissions.
+
+Economy applies the financial consequences of authorised Government rules.
+
+Government subsidies, taxes, public procurement and establishment payments must use explicit financial interfaces. Economy must not create Government authority or change Treasury state outside an authorised operation.
+
+Nation Treasury and Company Capital remain separate accounts.
+
+### 3.6 Economy and Population
+
+Population owns demographics, household composition, workforce characteristics, educational attainment and the population-level supply of labour.
+
+Economy receives the relevant population and labour data, allocates employment and records wages and associated economic state.
+
+Economy must not create population or independently change educational attainment.
+
+### 3.7 Economy and Research
+
+Research owns technology development, scientific knowledge, design research and technology prerequisites.
+
+Economy may use research-derived information to assess eligible commercial opportunities, input demand and investment decisions. It does not discover technologies or make a technology available independently.
+
+Production determines whether available technology can be realised as physical capability under its facilities, equipment and process rules.
+
+### 3.8 Economy and Military
+
+Military owns military requirements, procurement priorities, operational use and military acceptance of equipment.
+
+Economy resolves commercial demand, procurement prices, financial commitments and relevant transaction state.
+
+Production determines whether the required physical items can be manufactured or assembled. Inventory records the physical stock and its authorised movement.
+
+A military requirement does not prove that the required items have been produced, purchased, delivered or accepted.
+
+### 3.9 Economy and Diplomacy
+
+Diplomacy owns diplomatic relations, treaty permissions and the diplomatic authority associated with international agreements.
+
+Government owns domestic law and the relevant legal authority for sanctions and restrictions. The applicable system supplies each restriction through an explicit interface.
+
+Economy applies these permissions and restrictions to commercial decisions and transactions. It must not invent diplomatic permissions or undocumented sanction effects.
+
+### 3.10 Cross-System Ownership Table
+
+| Data or mechanic | Authoritative owner | Economy responsibility |
 |---|---|---|
-| Industry Scale | Economy | Calculate and persist |
 | Company Capital | Economy | Calculate and persist |
-| Nation Treasury | Government | Receive available funding and record approved transfers |
-| Industry Establishment Requirements | Economy | Define and validate |
-| Physical Production Capacity | Production | Receive and use as an operating constraint |
-| Actual Production | Production | Receive resulting output quantities |
-| Strategic Resource Deposit | Production | Receive resource availability and extraction outcomes |
-| Economic Stockpile Valuation | Economy | Calculate financial value where required |
-| Physical inventory quantity, location, condition, reservation and transfer records | Inventory | Use authoritative inventory state and request permitted changes |
+| Company revenue and expenditure | Economy | Calculate and persist |
+| Industry Scale | Economy | Calculate and persist |
+| Industry Type definitions | Industry Data | Reference and apply |
+| Industry instance configuration | Industry Data | Use in economic operations |
+| Industry establishment prerequisites | Industry Data, with Government authority | Validate and execute economic effects |
+| Nation Treasury | Government | Request or record authorised transfers |
+| Physical Production Capacity | Production | Receive and use as a constraint |
+| Actual Production | Production | Record economic consequences |
+| Production recipe and yield | Production Processes and Recipes | Derive economic requirements |
+| Physical stock quantity and condition | Inventory | Request authorised stock operations |
+| Inventory valuation | Economy | Calculate financial value under defined accounting rules |
+| Strategic Resource deposit and extraction | Terrain and Production, according to the defined resource interface | Use reported availability and extraction outcomes |
 | Population Labour Force | Population | Receive available labour |
-| Industry Employment | Economy | Allocate economic employment and report changes |
-| Educational Attainment | Population | Receive workforce qualification information |
-| Education policy, education laws, public funding and institutional governance | Government | Receive applicable policies and funding effects |
-| Population-level educational attainment and workforce characteristics | Population | Receive workforce qualification information |
-| Scientific research, accumulated technological knowledge, discoveries and technology prerequisites | Research | Receive applicable capabilities and prerequisites |
-| Physical laboratories, facilities, equipment and capacity | Production | Receive applicable physical capability constraints |
-| Education Policy | Government | Receive policy restrictions and funding effects |
-| Government Tax Policy | Government | Apply the defined tax rules to economic accounts |
-| Government Subsidies | Government | Record transfers and recipient financial effects |
-| Military Procurement Demand | Military | Receive and resolve demand |
-| Armament Design and Requirements | Military and Research, according to the defined interface | Receive product specifications and economic demand |
-| Diplomatic Trade Permissions | Diplomacy | Apply permissions to economic transactions |
-| Sanctions | Government and Diplomacy, according to the sanction mechanism | Apply the defined restrictions |
-| Industry Area Geometry | Terrain | Use the geographic reference |
-| Physical Facility Damage | Production | Receive damage events and calculate physical consequences |
+| Industry Employment | Economy | Allocate employment and report changes |
+| Educational attainment | Population | Receive workforce qualification information |
+| Education policy and public funding | Government | Apply relevant economic consequences |
+| Scientific research and technology availability | Research | Use eligible capability information |
+| Government taxes and subsidies | Government authority, Economy accounting | Apply and record authorised effects |
+| Military procurement demand | Military | Resolve commercial demand and financial transactions |
+| Diplomatic trade permissions | Diplomacy | Apply permissions to transactions |
+| Industry Area geometry | Terrain | Reference geographic association |
+| Physical facility damage | Production, with event sources such as Military | Apply reported economic consequences |
+| Cargo movement and delivery in transit | Logistics and Transportation | Use confirmed delivery state |
 
-Where two systems participate in the same mechanic, one must own the authoritative state and the other must interact through a defined interface.
+Where several systems participate in a mechanic, one system must own each authoritative state. Other systems interact through defined interfaces.
 
-### 3.3 Undefined External Mechanics
+### 3.11 Undefined External Mechanics
 
-When an Economy mechanic depends on a system that has not yet been fully specified, the Economy document must identify the dependency without inventing the external system's rules.
+When an Economy mechanic depends on a system that has not yet been fully specified, this document identifies the dependency without inventing the external system's rules.
 
-For example, the Economy System may require an Industry to have access to a sufficiently qualified workforce. The Government and Population Systems determine the relevant qualifications and workforce characteristics. The Economy System determines how the Industry's labour requirement is matched against the available workforce.
+For example, Economy may require an Industry to have access to a sufficiently qualified workforce. Population determines workforce characteristics and availability. Economy determines how Industry labour requirements are matched against that available workforce.
+
+The precise external algorithm belongs in the specification for the system that owns it.
 
 ---
 
@@ -209,24 +312,23 @@ For example, the Economy System may require an Industry to have access to a suff
 
 A Nation is a political and economic jurisdiction represented in the world simulation.
 
-The Nation's Government owns its Treasury and public financial decisions. The Economy System simulates the commercial activity taking place within the Nation and the economic consequences of Government actions.
+The Government owns the Nation Treasury and public financial decisions. Economy simulates commercial activity and the economic consequences of Government actions.
 
-A Nation can contain Companies, Industries, Population Centres, physical production facilities, stockpiles and economic infrastructure.
+A Nation may contain Companies, Industries, Population Centres, physical production facilities, inventory holdings and economic infrastructure.
 
-A Nation's economic state is an aggregation of the economic activity and financial relationships associated with its territory and economic participants. Aggregation rules must prevent the same financial value from being counted multiple times.
+A Nation's economic state is an aggregation of relevant activity and financial relationships. Aggregation rules must prevent the same financial value or physical quantity from being counted multiple times.
 
 ### 4.2 Company
 
-A Company is an economic organisation responsible for operating one or more Industries.
+A Company is an economic organisation responsible for commercial activity and the operation of one or more Industries.
 
-A Company may conduct production-related commercial activity, purchase inputs, sell outputs, employ workers, receive investment, incur expenditure and accumulate Company Capital.
+A Company may purchase inputs, sell outputs, employ workers, receive investment, incur expenditure and accumulate Company Capital.
 
-Company state includes:
+Company state may include:
 
 - Company identity.
-- Company name.
-- Company logo.
-- Controlling Senior Executive.
+- Company name and logo.
+- Senior Executive association.
 - Associated Industries.
 - Company Capital.
 - Revenue.
@@ -238,21 +340,25 @@ Company state includes:
 - Investment decisions.
 - Trade relationships.
 - Financial obligations.
-- Stockpile ownership, where applicable.
+- References to inventory holdings owned or controlled by the Company.
 
-The Senior Executive is the default owner, controller and chief executive of the Company. Ownership is not a separate Company attribute in the current design. An explicit authorised legal mechanism, such as nationalisation or transfer of control, may override this default. Legal state control and the operational executive role must remain distinct. This does not imply a complete equity or shareholder system.
+Company state must not duplicate physical inventory quantities owned by Inventory.
 
-A Company is not identical to an Industry. A Company is an economic organisation; an Industry is an economic activity and operating entity associated with a geographic Industry Area and physical production processes.
+The Senior Executive is the default owner, controller and chief executive of the Company under the current design. This default is subject to an explicit authorised legal mechanism, such as nationalisation or a transfer of control.
 
-A Company may operate multiple Industries if the relevant Government rules permit it.
+The model does not imply a complete equity or shareholder system. Legal ownership, control and the operational executive role must remain distinct concepts even where the initial rules assign them to the same Character.
+
+A Company is not identical to an Industry. A Company is an economic organisation. An Industry represents an economic activity and operating entity defined through Industry Data and associated with geographic and physical production entities.
+
+A Company may operate multiple Industries where the relevant legal and Industry Data rules permit it.
 
 ### 4.3 Senior Executive
 
-Each Company has a Senior Executive Character who controls the Company's commercial decisions by default.
+Each Company has an associated Senior Executive Character who directs the Company's commercial decisions by default.
 
 The Senior Executive belongs to the Character System and has Statistics, Traits, Interests and Political Affiliation as defined by that system.
 
-The Economy System uses the Senior Executive's characteristics to inform Company AI decision-making.
+Economy uses the Senior Executive's characteristics to inform Company AI decision-making.
 
 Relevant decisions may include:
 
@@ -262,22 +368,22 @@ Relevant decisions may include:
 - Pricing strategy.
 - Capital preservation or expenditure.
 - Labour and wage decisions.
-- Stockpile management.
+- Inventory procurement and commercial stockpile policy.
 - Trade participation.
 - Response to economic restrictions.
 - Negotiation and commercial risk-taking.
 
 Character Statistics and Traits must have separately defined effects.
 
-A Character Statistic informs decision-making according to the Character System and Company AI rules. A Trait may also have a direct mechanical effect on an economic value where its definition explicitly specifies one.
+A Character Statistic informs decision-making according to the Character System and Company AI rules. A Trait may have a direct mechanical effect on an economic value only where its definition explicitly specifies that effect.
 
-For example, a future Character Trait may provide a defined 15% increase to a particular production-related value. The exact affected value, calculation order, scope and stacking rules must be defined by the Character System and the relevant receiving system. The Economy System must not apply an undefined general-purpose Executive Modifier.
+For example, a future Character Trait may provide a defined 15% increase to a particular production-related value. The affected value, calculation order, scope and stacking rules must be defined by the Character System and the relevant receiving system. Economy must not apply an undefined general-purpose Executive Modifier.
 
 The detailed Character System remains outside the scope of this document.
 
 ### 4.4 Company AI
 
-Company AI makes commercial decisions on behalf of the Senior Executive and the Company.
+Company AI makes commercial decisions on behalf of the Senior Executive and Company.
 
 Its decisions are constrained by:
 
@@ -285,16 +391,16 @@ Its decisions are constrained by:
 - Available Company Capital.
 - Industry Scale and establishment state.
 - Available labour.
-- Available inputs.
-- Physical production capabilities.
+- Required inputs and their confirmed availability.
+- Physical production capability.
 - Market conditions.
 - Trade permissions.
 - Sanctions and restrictions.
 - Company obligations.
-- The Senior Executive's Statistics, Traits and Interests.
+- Senior Executive Statistics, Traits and Interests.
 - Player-issued directives, where permitted.
 
-Company AI does not override physical production constraints, Government authority or transaction validity rules.
+Company AI cannot override physical production constraints, Government authority, inventory availability or transaction validity rules.
 
 The exact decision algorithms belong in the AI and Technical Specifications.
 
@@ -310,15 +416,15 @@ The Player may influence economic activity through defined actions, including:
 - Authorising capital injections.
 - Appointing or replacing Senior Executives where the relevant authority permits.
 - Setting procurement requirements.
-- Establishing economic legislation.
-- Nationalising or transferring control of Companies.
-- Establishing price controls.
-- Permitting or restricting trade.
+- Establishing economic legislation through the appropriate authority.
+- Nationalising or transferring control of Companies through authorised mechanisms.
+- Establishing price controls through the appropriate authority.
+- Permitting or restricting trade through authorised rules.
 - Directing strategic investment.
 
 The Player does not automatically possess direct operational control over every Company.
 
-The available actions depend on Government authority, laws, ownership and the relevant distribution of economic power.
+Available actions depend on Government authority, laws, ownership, Company control and the relevant distribution of economic power.
 
 ---
 
@@ -332,44 +438,45 @@ It is owned by the Government System.
 
 Treasury funds are distinct from Company Capital and must not be combined into a single account.
 
-Government revenue and expenditure, including taxation, public spending, subsidies and Industry establishment payments, are governed by the Government System and recorded through explicit financial interfaces with the Economy System.
+Government revenue and expenditure, including taxation, public spending, subsidies and Industry establishment payments, are governed by Government rules and recorded through explicit financial interfaces with Economy.
 
 ### 5.2 Company Capital
 
-Company Capital is the Company's spendable financial balance from which purchases, wages and other payments are made.
+Company Capital is the Company's spendable financial balance from which authorised purchases, wages and other payments are made.
 
 Company Capital is distinct from:
 
 - Nation Treasury.
 - Company revenue.
-- Company profit or loss.
-- Physical inventories.
-- The financial value of unsold stockpiles.
+- Company Operating Income.
+- Physical inventory.
+- The financial value of unsold stock.
 - Industry Establishment Capital Requirement.
+- Unsettled financial obligations.
 
-Company Capital changes through explicitly defined financial events, including opening capital allocation, operating receipts and payments, investment, subsidies, capital injections, financing transactions and distributions where those mechanics are implemented. The same funds must not be represented as a second Company cash balance.
+Company Capital changes through explicitly defined financial events, including opening capital allocation, operating receipts and payments, investment, subsidies, capital injections, financing transactions and distributions where those mechanics are implemented.
 
-Company Capital does not automatically depreciate.
+The same funds must not be represented as a second Company cash balance.
 
-Any future reduction in Company Capital must arise from a defined financial transaction or rule, not an assumed depreciation process.
+Company Capital does not automatically depreciate. Any reduction must arise from a defined financial transaction or rule.
 
 ### 5.3 Industry Establishment
 
 Industry Establishment is the process by which an Industry is authorised, funded and created within the simulation.
 
-By default, the Government establishes an Industry and pays its Industry Establishment Capital Requirement from the Nation Treasury.
+Under the default establishment model, the Government authorises establishment and funds the Industry Establishment Capital Requirement from the Nation Treasury. Any alternative establishment authority or funding model must be explicitly defined.
 
-Establishment creates the relevant economic Industry and its associated Company arrangements, geographic representation and Production System interfaces.
+Industry Data provides the applicable Industry definition, establishment requirements and configuration. Economy validates and records the required financial movements. The participating systems create their respective state through an atomic establishment operation.
 
-Establishing an Industry does not automatically guarantee that it can operate at full capacity. Its operation remains subject to labour, inputs, technology, infrastructure, physical production capacity, legal restrictions and other applicable requirements.
+Establishing an Industry does not automatically guarantee that it can operate at full capacity. Operation remains subject to labour, inputs, technology, infrastructure, physical production capability, legal restrictions and other applicable requirements.
 
 ### 5.4 Industry Establishment Capital Requirement
 
 Each Industry Type defines an Industry Establishment Capital Requirement expressed in Dollars.
 
-This is the required capital expenditure to establish the Industry under the relevant establishment rules.
+This is the required establishment expenditure under the applicable Industry establishment rules.
 
-The requirement is distinct from:
+It is distinct from:
 
 - Opening Company Capital.
 - Ongoing operating expenditure.
@@ -377,26 +484,30 @@ The requirement is distinct from:
 - Capital required to construct additional physical facilities.
 - Capital required to acquire inputs or stockpile outputs.
 
-The precise establishment cost of each Industry Type must be defined in the Industry data.
+The Industry Establishment Capital Requirement is defined in the relevant Industry Data. Economy must not maintain a conflicting copy as an independent source of truth.
 
 ### 5.5 Opening Company Capital
 
-When an Industry and its associated Company are established, the Company receives an Opening Company Capital allocation.
+When an Industry and its associated Company are established, the Company receives an Opening Company Capital allocation if required by the applicable establishment rules.
 
-The Opening Company Capital allocation is separate from the Industry Establishment Capital Requirement.
+This allocation is separate from the Industry Establishment Capital Requirement.
 
-The Government's total establishment outlay therefore consists of separate, auditable financial movements:
+Where the Government funds both, the establishment outlay consists of distinct, auditable financial movements:
 
-1. The Industry Establishment Capital Requirement paid from the Nation Treasury to an explicitly defined recipient or expenditure account.
-2. The Opening Company Capital allocation transferred from the Nation Treasury to the Company's Company Capital balance.
+1. The Industry Establishment Capital Requirement is paid from the Nation Treasury to the explicitly defined recipient or expenditure account.
+2. Opening Company Capital is transferred from the Nation Treasury to the Company's Company Capital account.
 
-The amount of Opening Company Capital must be defined by the relevant establishment rules. It must not be assumed to equal the establishment cost. The establishment payment must not be implicitly converted into facility value, production capacity or Company Capital. Both movements must identify their source, destination, amount and accounting purpose.
+The amount of Opening Company Capital must be defined by the establishment configuration. It must not be assumed to equal the establishment cost.
+
+The establishment payment must not be implicitly converted into facility value, production capacity or Company Capital.
+
+Each financial movement must identify its source, destination, amount, purpose and effective date.
 
 ### 5.6 Industry Establishment Requirements
 
-Every Industry Type must have an explicit Establishment Requirements definition.
+Every Industry Type must have an explicit Establishment Requirements definition in Industry Data.
 
-The definition identifies all prerequisites that must be satisfied before that Industry can be established.
+The definition identifies prerequisites that must be satisfied before the Industry can be established.
 
 Depending on the Industry Type, requirements may include:
 
@@ -413,31 +524,36 @@ Depending on the Industry Type, requirements may include:
 - Environmental or geographic constraints.
 - Other explicitly defined prerequisites.
 
-Not every Industry must require every category of prerequisite.
+Not every Industry requires every category of prerequisite.
 
-The establishment rules for each Industry Type must identify which requirements apply, how each requirement is validated and which system supplies the relevant state.
+Each requirement must identify how it is validated and which system supplies the authoritative state.
 
-The existence of a Strategic Resource is not a universal prerequisite for establishing an Industry unless that Industry's Establishment Requirements explicitly require it.
+The existence of a Strategic Resource is not a universal prerequisite for establishing an Industry unless the relevant Industry Data explicitly requires it.
 
-### 5.7 Establishment Validation
+### 5.7 Establishment Validation and Atomicity
 
-An Industry may be established only when all mandatory Establishment Requirements are satisfied and the Government can fund the required Treasury expenditure.
+An Industry may be established only when all mandatory Establishment Requirements are satisfied and all required funding movements can be completed.
 
-If any mandatory requirement fails, or the Nation Treasury cannot fund every required establishment payment, establishment is rejected.
+If any mandatory requirement fails, or the Nation Treasury cannot fund every required payment, establishment is rejected.
 
-A rejected establishment attempt must not partially create the Industry or Company, deduct Treasury funds, transfer Opening Company Capital or create partial physical facilities.
+A rejected establishment attempt must not partially create an Industry or Company, deduct Treasury funds, transfer Opening Company Capital or create partial physical facilities.
 
-If establishment succeeds, validation, entity creation and all required financial movements must be committed as one atomic operation. If any required part fails, the entire operation fails and no partial state change remains. Existing Industries loaded from scenario starting data are not new establishment events and incur no retroactive establishment charge.
+If establishment succeeds, validation, entity creation and required financial movements must be committed as one atomic operation across the participating systems.
 
-The exact handling of interruptions, cancellation and save-state recovery belongs in the Technical Specifications.
+If any required part fails, the entire operation fails and no partial state change remains.
+
+Existing Industries and Companies loaded from scenario starting data are initial state. They do not constitute new establishment events and must not incur retroactive establishment charges.
+
+The exact transaction protocol, rollback and save-state recovery mechanism belongs in the Technical Specifications.
 
 ### 5.8 Nationalisation and Transfer of Control
 
-Government nationalisation or another legally authorised transfer of control may change who controls a Company.
+Government nationalisation or another legally authorised transfer may change control of a Company.
 
-Such an action does not automatically determine the value, ownership or destination of every asset and liability associated with the Company. These consequences must be defined by the relevant Government legislation and economic transaction rules.
+Such an action does not automatically determine the ownership, valuation or destination of every asset and liability associated with the Company. Those consequences must be defined by the applicable legislation and transaction rules.
 
-The default ownership model remains that the Senior Executive is the Company's owner, controller and chief executive unless an authorised mechanism changes that control.
+The default Senior Executive ownership and control model remains in effect unless an authorised mechanism changes it.
+
 
 ---
 
@@ -445,13 +561,13 @@ The default ownership model remains that the Senior Executive is the Company's o
 
 ### 6.1 Industry Definition
 
-An Industry represents a defined category of economic activity associated with a Company and a geographic Industry Area.
+An Industry represents a defined category of economic activity configured through Industry Data and associated with a Company and relevant geographic and physical production entities.
 
-An Industry has economic state, commercial requirements, an associated physical production process and defined relationships with the relevant systems.
+An Industry has economic state, commercial requirements and defined relationships with other simulation systems.
 
-Industry Scale determines the economic magnitude at which the Industry is intended to operate. It is not itself a measure of physical output.
+Industry Scale determines the intended economic magnitude at which the Industry operates. It is not itself a measure of physical output.
 
-Industry Scale affects the Industry's economic requirements and potential activity, including:
+Industry Scale may influence the Industry's economic requirements and intended activity, including:
 
 - Labour demand.
 - Capital requirements.
@@ -462,7 +578,7 @@ Industry Scale affects the Industry's economic requirements and potential activi
 - Potential operating expenditure.
 - Required infrastructure and operating resources, where applicable.
 
-The relationship between Industry Scale and physical production capacity is defined through the Economy and Production interface.
+The relationship between Industry Scale and physical production capability must be defined through the Economy and Production interface.
 
 ### 6.2 Industry Types
 
@@ -485,23 +601,21 @@ Project Sovereign contains exactly 16 Industry Types in the initial Industry tax
 | 13 | Space | Production of space vehicles, launch systems and associated space products |
 | 14 | Agribusiness | Processing, packaging, storage and commercial distribution of agricultural outputs |
 | 15 | Consumer Goods | Production of household and personal-use goods not assigned to a more specific Industry |
-| 16 | Agriculture | Production and extraction of agricultural outputs associated with an agricultural Industry Area |
+| 16 | Agriculture | Primary agricultural production and extraction of agricultural outputs associated with an agricultural Industry Area |
 
 These Industry Types define economic specialisation, not a restriction that each Industry can produce only one Good.
 
-The precise outputs and input recipes available to each Industry must be defined in the Product and Production data.
+The precise outputs and input recipes available to each Industry must be defined by the Catalogue and Production Processes and Recipes. An Industry Type association alone does not prove that a particular output is currently producible.
 
 ### 6.3 Agriculture and Agribusiness
 
-Agriculture represents primary agricultural activity. It operates within a geographic Industry Area and produces the outputs defined for agricultural production.
+Agriculture represents primary agricultural activity. It operates within a geographic Industry Area and produces outputs defined by the relevant production processes.
 
 Agribusiness represents the processing, packaging, storage and commercial distribution of agricultural outputs.
 
-Agriculture may produce agricultural outputs and extract Rich Soils where the relevant Production rules permit it.
+Agriculture and Agribusiness are distinct Industry Types. Agricultural outputs do not automatically become processed or packaged consumer Goods.
 
-Agribusiness may purchase agricultural outputs and transform them into other Goods through defined production processes.
-
-The two Industries are distinct. Agricultural outputs do not automatically become processed or packaged consumer goods.
+Agriculture may produce agricultural outputs and extract Rich Soils where the relevant Production rules permit it. Rich Soils are an explicit simulation abstraction, not a claim that fertile soil is ordinarily extracted as a commodity in the same manner as a mineral deposit.
 
 ### 6.4 Industry Scale
 
@@ -516,9 +630,9 @@ Industry Scale is not interchangeable with:
 - Number of facilities.
 - Geographic Area size.
 
-An Industry's Scale must be calculated from explicitly defined economic rules and available state.
+Industry Scale must be calculated from explicitly defined economic rules and authoritative state.
 
-Relevant inputs include:
+Relevant inputs may include:
 
 - Available Company Capital.
 - Available labour and required qualifications.
@@ -534,35 +648,39 @@ The calculation must identify how each input affects Scale. These relationships 
 
 The Industry Scale calculation, permitted range, update frequency and adjustment limits must be specified in the relevant economic algorithms.
 
+Industry Scale does not grant Production additional facilities, capacity or inputs. Any resulting physical expansion must be implemented by Production through the appropriate physical changes.
+
 ### 6.5 Industry Geographic Representation
 
-Each Industry has a geographic Industry Area represented using the Terrain System's Area Mapping Primitive. The Industry Area is a geographic association, not the Industry's economic Scale or physical production capacity.
+Each Industry may be associated with a geographic Industry Area represented using the Terrain System's Area Mapping Primitive.
 
-The Industry Area identifies the geographic footprint associated with the Industry. Its size and shape must be defined by the relevant geographic and establishment rules.
+Industry Data owns the Industry's configuration and reference to its Industry Area. Terrain owns the geographic geometry and spatial state.
+
+The Industry Area is a geographic association, not a measure of Industry Scale or physical production capacity.
+
+Its size and shape must be defined by the relevant geographic and establishment rules.
 
 For Agriculture, the Industry Area represents the geographic area used for agricultural activity.
 
 An Industry Area may overlap with other geographic and terrain objects where the map rules permit it.
 
-The Industry Area may be rendered using an Industry-specific bitmap or visual representation. Rendering does not determine simulation priority or physical effects.
+The Industry Area may be rendered using an Industry-specific visual representation. Rendering does not determine simulation priority or physical effects.
 
-### 6.6 Industry Area State
+### 6.6 Industry Area and Operational State
 
-The Industry Area, physical facilities, economic Industry and production processes are separate but connected entities.
+The Industry Area, physical facilities, economic Industry and production processes are separate but connected entities. Their state must not be collapsed into a single Industry Health value.
 
-Their state must not be collapsed into a single Industry Health value.
-
-| State | Meaning | Owning System |
+| State | Meaning | Authoritative owner |
 |---|---|---|
-| Geographic footprint | Area occupied by the Industry | Terrain |
-| Area integrity | Condition of the geographic Industry Area as a simulation object | Terrain, with Military interaction |
-| Facility condition | Physical condition of the facilities used for production | Production |
+| Geographic footprint | Area occupied or associated with the Industry | Terrain geometry, referenced by Industry Data |
+| Area integrity | Condition of the geographic Industry Area as a simulation object | Terrain, with authorised event interfaces |
+| Facility condition | Physical condition of production facilities | Production |
 | Operational status | Whether a facility or process can operate under current conditions | Production |
-| Industry Scale | Intended economic scale of the Industry | Economy |
+| Industry Scale | Intended economic scale | Economy |
 | Physical Production Capacity | Maximum physical output under current operating conditions | Production |
 | Actual Production | Quantity physically produced | Production |
-| Workforce | Employees associated with the Industry | Economy, using Population inputs |
-| Stockpile quantity | Physical quantity of a commodity at a location | Designated inventory owner |
+| Workforce allocation | Workers allocated to the Industry | Economy, using Population inputs |
+| Physical stock quantity | Quantity of a product held at a location | Inventory |
 | Company financial state | Capital, revenue, expenditure and operating income | Economy |
 | Infrastructure connections | Connections to transport, energy, logistics and other networks | Relevant infrastructure-owning system |
 
@@ -570,7 +688,7 @@ Their state must not be collapsed into a single Industry Health value.
 
 Military action, bombardment, sabotage, accidents and other defined events may affect an Industry Area or its associated facilities.
 
-Each event must identify the object affected and the state change caused.
+Each event must identify the affected object and the state change it causes.
 
 Examples include:
 
@@ -584,9 +702,9 @@ Examples include:
 - Repair expenditure.
 - Reduced or restored operating availability.
 
-These effects must be resolved by the systems that own the affected state.
+Each effect must be resolved by the system that owns the affected state.
 
-Damage to an Industry Area does not automatically imply an equal reduction in production capacity. Physical capacity is determined by the condition and availability of the relevant facilities and processes.
+Damage to an Industry Area does not automatically imply an equal reduction in Production Capacity. Physical capacity is determined by the condition and availability of the relevant facilities and processes.
 
 Repairing an Industry Area does not automatically restore destroyed equipment, stockpiles, workforce or Company Capital.
 
@@ -596,17 +714,17 @@ An Industry may expand or contract when its economic conditions, Government perm
 
 Expansion may require additional Company Capital, labour, inputs, facilities, technology or infrastructure.
 
-Contraction may reduce the Industry's economic Scale, labour demand or intended activity.
+Contraction may reduce Industry Scale, labour demand or intended activity.
 
-The Economy System determines economic Scale and associated economic requirements. The Production System determines the physical changes required to realise a change in production capability.
+Economy determines Industry Scale and its economic requirements. Production determines the physical changes required to realise a change in production capability.
 
-Industry Scale must not increase beyond what the defined economic and physical constraints permit.
+Industry Scale must not increase beyond what the defined economic rules permit. An increase in Industry Scale must not be treated as proof that physical expansion has been completed.
 
 ### 6.9 Industry Persistence
 
-Industry identity, Industry Type, Company association, Industry Scale, geographic association and financial relationships persist unless changed by an explicit simulation event or rule.
+Industry identity, Industry Type, Company association, Industry Scale, geographic association and financial relationships persist unless changed by an explicit event or rule.
 
-Physical capacity, facility condition, operational status, stockpile quantities and actual production persist according to their respective owning systems.
+Physical capacity, facility condition, operational status, stock quantities and actual production persist according to their respective authoritative systems.
 
 An Industry's economic existence does not imply that it is currently producing.
 
@@ -616,62 +734,63 @@ An Industry's economic existence does not imply that it is currently producing.
 
 ### 7.1 Product Definition
 
-An Economic Product is a defined category of commodity or service that can participate in economic activity.
+An Economic Product is a canonical product or service that can participate in economic activity.
 
-The Economy System uses Economic Products to represent demand, supply, prices, transactions, stockpiles, input requirements and commercial output.
+The Good and Service Catalogue defines product identity, classification, canonical units and shared descriptive attributes. Economy uses those definitions to represent demand, supply, prices, transactions, procurement and commercial output.
 
-Product categories should remain manageable and meaningful to the Player. Individual recipes, military designs and specific product configurations should be represented through more detailed definitions where required, rather than by creating an excessive number of generic economic categories.
+Product categories should remain manageable and meaningful to the Player. Individual recipes, military designs and specific product configurations should be represented through more detailed definitions where required, rather than by creating excessive generic economic categories.
 
-The product taxonomy must support both the consumer economy of a 1950s/60s industrial society and the detailed research, component and armament design systems.
+The product taxonomy must support both the consumer economy of a 1950s industrial society and the detailed research, component and armament design systems.
 
-### 7.2 Economic Product Classes
+### 7.2 Product Classification
 
-Every Economic Product has exactly one primary class:
+Every Economic Product must have exactly one primary economic class:
 
 1. Good.
 2. Service.
 3. Designed Component.
 4. Armament.
 
-Strategic Resource is a separate designation that may be applied to an eligible physical product; it is not a mutually exclusive primary class. A product designated as a Strategic Resource retains its primary class and all applicable unit, inventory, production and transaction rules.
+The Catalogue must represent primary economic class separately from physical form. The class determines the product's economic and simulation treatment; physical form determines whether it represents a physical product or a non-physical service.
 
-A Strategic Resource is a physical resource or material designated as strategically significant. It can be extracted or produced, stockpiled, transferred, sold or consumed according to its definition.
+For the initial taxonomy:
 
-A Designed Component is a defined physical component that can be produced and used as an input in a larger product or system. Military-designed components may be researched and designed through the Research and Military Systems.
+- **Good:** a physical product that does not require the more specific Designed Component or Armament class.
+- **Service:** a non-physical economic activity or deliverable.
+- **Designed Component:** a physical component defined for use in a larger product, system or assembly.
+- **Armament:** a physical military item or system defined for independent military use, deployment, operation or installation.
 
-An Armament is a completed or independently usable military item or system, such as a rifle, missile, tank, aircraft, naval vessel or radar installation.
+These classes are mutually exclusive. A product must not be assigned multiple primary economic classes to represent multiple possible uses.
 
-A Designed Component is not automatically an Armament. A radar unit designed as a component for an aircraft, for example, is distinct from the completed aircraft incorporating it.
+Strategic Resource is an additional designation for an eligible physical product. It is not a primary economic class and does not replace the product's existing class.
 
-The exact design, compatibility, assembly and performance rules for Components and Armaments belong to the Research, Military and Production Systems. The Economy System supports their economic costs, demand, supply, stockpiles and transactions.
+### 7.3 Physical Inventory Eligibility
 
-### 7.3 Goods
+Physical products may be recorded as Inventory holdings. Services do not automatically create physical inventory.
 
-Goods are physical products that can be produced, purchased, sold, consumed, stockpiled, imported, exported or used as production inputs.
+A Service may have associated physical inputs, facilities, equipment or deliverables, but those items retain their own Catalogue identities and inventory rules.
 
-Each Good must have a defined identity, category, unit, Base Price and relevant economic properties.
+The Catalogue identifies whether a product is physical or non-physical. Inventory determines the authoritative physical stock state for eligible physical products.
 
-A Good may be an input to an Industry, an output of an Industry, a consumer product or an item used by another system.
+Economy may record the commercial value of a Service or physical product without assuming that the underlying service activity or physical stock exists.
 
-A Good's economic category does not by itself determine its physical production recipe or all of its possible uses.
+### 7.4 Good Categories
 
-### 7.4 Mutually Exclusive Good Categories
+Every product whose primary economic class is Good belongs to exactly one of the following three mutually exclusive Good Categories:
 
-Every product whose primary class is Good belongs to exactly one of the following three mutually exclusive economic Good Categories:
+1. Staple.
+2. Luxury.
+3. Industrial.
 
-1. Staple Goods.
-2. Luxury Goods.
-3. Industrial Goods.
+These categories describe the primary economic role of Goods. They do not replace primary economic class and do not apply automatically to Services, Designed Components or Armaments.
 
-These categories are mutually exclusive. A Good cannot simultaneously be a Staple Good and a Luxury Good.
-
-The categories describe the Good's primary economic role, not necessarily every possible consumer or use.
+A Good cannot simultaneously be a Staple Good and a Luxury Good. If a broad product family contains both basic and premium products, those products must have distinct Catalogue identities or variants with an explicitly defined classification rule.
 
 #### 7.4.1 Staple Goods
 
 Staple Goods are everyday goods associated with ordinary household consumption and routine material needs.
 
-Examples include:
+Initial examples include:
 
 - Grocery Staples.
 - Basic Clothing.
@@ -680,35 +799,35 @@ Examples include:
 - Basic Household Supplies.
 - Basic Furniture and Household Essentials.
 
-Staple Goods are intended to represent categories of recurring household demand rather than hundreds of individual product models.
+Staple Goods represent categories of recurring household demand rather than every individual product model.
 
-Demand for Staple Goods is primarily associated with population, household structure, consumption requirements, purchasing power and availability.
+Demand is primarily associated with population, household structure, consumption requirements, purchasing power and availability.
 
-Different Population Types may have different demand levels, preferences and affordability for Staple Goods. The Population System defines the relevant population characteristics; the Economy System resolves the associated economic demand.
+Population defines relevant population characteristics. Economy resolves the associated economic demand.
 
 #### 7.4.2 Luxury Goods
 
 Luxury Goods are discretionary or premium products whose economic role is distinguished from ordinary staple consumption.
 
-Examples include:
+Initial examples include:
 
 - Luxury Clothing and Accessories.
-- Premium Jewellery and Watches.
-- Luxury Cosmetics and Perfumes.
-- Luxury Furniture and Home Furnishings.
-- Premium Consumer Electronics.
+- Jewellery and Watches.
+- Cosmetics and Perfumes.
+- Furniture and Home Furnishings.
+- Premium Electronics.
 - Luxury Motor Vehicles.
 - Premium Recreational Products.
 
-Luxury Goods are separate from Staple Goods even where the products serve related broad needs. For example, Basic Clothing is a Staple Good, whereas Luxury Clothing and Accessories are Luxury Goods.
+Luxury Goods remain distinct from Staple Goods even where they serve related broad needs. Basic Clothing is a Staple Good, whereas Luxury Clothing and Accessories are Luxury Goods.
 
-Demand for Luxury Goods may depend on income, wealth, preferences, status-related consumption and cultural factors. The Population and relevant social systems define these factors; the Economy System resolves their economic consequences through explicit demand interfaces.
+Demand may depend on income, wealth, preferences, status-related consumption and cultural factors. Population and other relevant systems define those characteristics; Economy resolves their economic consequences through explicit demand interfaces.
 
 #### 7.4.3 Industrial Goods
 
 Industrial Goods are physical products primarily intended for production, infrastructure, transport, construction, commercial operations or other productive uses.
 
-Examples include:
+Initial examples include:
 
 - Industrial Machinery.
 - Machine Tools.
@@ -723,15 +842,13 @@ Examples include:
 
 Industrial Goods may be purchased by Companies, Industries, Government entities or other authorised economic participants.
 
-Industrial Goods are not interchangeable with Strategic Resources. A Strategic Resource is explicitly designated as a strategically significant resource or material; an Industrial Good is a defined economic product category.
+Industrial Goods are not interchangeable with Strategic Resources. A Strategic Resource is explicitly designated as strategically significant; an Industrial Good is a product class and category.
 
-A particular material may have both raw-resource and processed-product representations where the relevant definitions distinguish them. These representations must not be treated as the same inventory item.
+A raw material and a processed product may have separate Catalogue identities where their physical form, production process, handling, quality or economic role differs. They must not be treated as the same inventory item merely because they contain the same material.
 
 ### 7.5 Initial Economic Goods Catalogue
 
-The initial catalogue should use manageable product categories rather than a separate Good for every brand, model, colour or quality variation.
-
-The following is the proposed starting catalogue. It establishes economic product categories, not the complete production recipes for every item.
+The following establishes the initial economic Good categories and their primary Industry associations. It is an initial economic taxonomy, not a complete production recipe catalogue.
 
 | Good Category | Economic Good | Primary Industry Association |
 |---|---|---|
@@ -743,9 +860,9 @@ The following is the proposed starting catalogue. It establishes economic produc
 | Staple | Basic Furniture and Household Essentials | Consumer Goods |
 | Luxury | Luxury Clothing and Accessories | Consumer Goods |
 | Luxury | Jewellery and Watches | Consumer Goods |
-| Luxury | Luxury Cosmetics and Perfumes | Consumer Goods |
-| Luxury | Luxury Furniture and Home Furnishings | Consumer Goods |
-| Luxury | Premium Consumer Electronics | Electronics |
+| Luxury | Cosmetics and Perfumes | Consumer Goods |
+| Luxury | Furniture and Home Furnishings | Consumer Goods |
+| Luxury | Premium Electronics | Electronics |
 | Luxury | Luxury Motor Vehicles | Automotive |
 | Luxury | Premium Recreational Products | Consumer Goods |
 | Industrial | Industrial Machinery | Industrial Manufacturing |
@@ -759,9 +876,11 @@ The following is the proposed starting catalogue. It establishes economic produc
 | Industrial | Transport Equipment | Automotive; Aerospace; Maritime |
 | Industrial | General-Purpose Industrial Components | Industrial Manufacturing; Electronics |
 
-This catalogue is an initial economic taxonomy. Additional categories may be introduced where a distinct demand profile, production process, strategic role or economic behaviour justifies the distinction.
+This table identifies broad economic product categories. Each category must be assigned a canonical Catalogue identifier and compatible unit in the Catalogue.
 
-A Good may have more than one relevant Industry association. The association identifies Industries that may produce, process, supply or use the Good; it does not guarantee that every associated Industry can produce it without the required technology, inputs, facilities and production recipe.
+A Good may have more than one relevant Industry association. An association indicates potential relevance to production, processing, supply or use. It does not guarantee that every associated Industry can produce the Good without the required technology, inputs, facilities and recipe.
+
+Additional categories may be introduced where a distinct demand profile, production process, strategic role or economic behaviour justifies the distinction.
 
 ### 7.6 Services
 
@@ -782,11 +901,11 @@ Initial service categories may include:
 - Personal Services.
 - Other explicitly defined service categories.
 
-A Service must have a defined unit of sale or delivery, Base Price and applicable demand rules.
+Each Service must have a canonical Catalogue identity, a defined unit of sale or delivery, and applicable pricing and demand rules.
 
-The physical production and delivery requirements of a Service must be defined by its responsible system. For example, Transportation Services depend on transport capacity and infrastructure, while the Economy System resolves commercial demand, prices and payments.
+The responsible system defines the operational requirements for delivering the Service. For example, Transportation Services depend on transport capacity and infrastructure, while Economy resolves commercial demand, prices and payments.
 
-Whether a Service can be imported, exported or traded internationally must be explicitly defined for that Service category.
+Whether a Service can be imported, exported or traded internationally must be explicitly defined for that Service or service category.
 
 ### 7.7 Designed Components
 
@@ -803,25 +922,26 @@ Examples include:
 - Rangefinders.
 - Communications Equipment.
 - Electronic Countermeasure Equipment.
-- Missiles.
 - Missile Guidance Systems.
 - Fire-Control Systems.
-- Weapons.
+- Weapons intended for incorporation into a larger assembly.
 - Protective Equipment.
 - Camouflage Materials.
 - Specialist Military Clothing.
 - Ghillie Suits.
 - Ammunition Components.
 
-These examples are not a closed list. The detailed Component catalogue and design system belong to Research, Military and Production.
+These examples are not a closed list. The detailed Component catalogue and design rules belong to the Catalogue, Research, Military and Production specifications.
 
-A designed Component can be produced as an industrial output, purchased by an authorised buyer, stockpiled and consumed as an input into a larger design or production process.
+A Designed Component can be produced as an industrial output, purchased by an authorised buyer, held in Inventory and consumed as an input into a larger design or production process.
 
-Component performance is defined by the relevant design and simulation systems. The Economy System determines economic demand, supply, costs and transactions without independently inventing performance values.
+Component performance is defined by the relevant design and simulation systems. Economy determines economic demand, supply, prices and transactions without independently inventing performance values.
+
+Where an item is independently usable as a complete military system, the Catalogue must classify it according to the established distinction between Designed Component and Armament.
 
 ### 7.8 Armaments
 
-Armaments are military products intended for independent military use, deployment, issue, operation or installation.
+Armaments are physical military products intended for independent military use, deployment, issue, operation or installation.
 
 Examples include:
 
@@ -839,19 +959,21 @@ Examples include:
 
 An Armament may incorporate multiple Designed Components.
 
-The Military System defines operational requirements and military demand. The Research System defines applicable technology and design knowledge. The Production System determines how the Armament is physically produced or assembled. The Economy System resolves the associated economic requirements and transactions.
+Military defines operational requirements and military demand. Research defines applicable technology and design knowledge. Production determines physical production or assembly. Inventory records resulting physical stock. Economy resolves the associated economic requirements and transactions.
 
 A component does not become an Armament solely because it is used by the military. A radar component incorporated into an aircraft remains a Component; a separately deployable radar station is an Armament.
 
-The exact distinction between Components and Armaments must be established in the product and design definitions so that demand, production, procurement and inventory systems use consistent identities.
+The Catalogue and relevant design specifications must establish consistent identities so that demand, production, procurement and inventory systems classify the same item consistently.
 
 ### 7.9 Strategic Resources
 
-A Strategic Resource is a designated physical resource or material whose availability is important to economic or industrial activity.
+A Strategic Resource is an additional designation applied to a physical product or material whose availability is important to economic or industrial activity.
 
-Strategic Resources may be extracted, produced, stockpiled, transferred, traded and consumed according to their defined rules.
+A Strategic Resource retains its canonical product identity, primary economic class, physical form, unit and applicable category. The designation does not create a second product identity or separate duplicate inventory.
 
-The initial Strategic Resource catalogue contains exactly eight categories:
+Strategic Resources may be extracted, produced, stockpiled, transferred, traded and consumed according to their definitions.
+
+The initial Strategic Resource taxonomy contains exactly eight categories:
 
 | Strategic Resource | Primary Industry Association | Resource Type |
 |---|---|---|
@@ -866,27 +988,31 @@ The initial Strategic Resource catalogue contains exactly eight categories:
 
 These categories are retained as the initial Strategic Resource taxonomy.
 
-Steel and Aluminium are treated as strategic materials produced through industrial processes, rather than as naturally occurring geological deposits. Their physical production rules must define the required inputs and outputs.
+Steel and Aluminium are strategic materials produced through industrial processes, not naturally occurring geological deposits. Their production rules must define the required inputs and outputs.
 
-Rich Soils are represented as a commodity extracted through Agriculture and recorded in stockpiles. This is a deliberate abstraction for the economic simulation.
+Rich Soils are represented as a commodity extracted through Agriculture and recorded in Inventory. This is a deliberate abstraction for the economic simulation.
 
-The Production System defines the physical extraction or production mechanics for each Strategic Resource. The Economy System defines its economic identity, price, demand, trade, ownership and financial treatment.
+Production defines the physical extraction or production mechanics. The Catalogue defines product identity and shared attributes. Inventory records physical stock. Economy defines economic demand, price, commercial ownership and financial treatment.
 
 ### 7.10 Product Units and Consumption Intervals
 
-Every Good must have a defined unit of measurement.
+Every economic product must have a canonical unit or defined service-delivery unit in the Good and Service Catalogue.
 
-For consumer Goods, a Good Unit represents the quantity required to satisfy the standard consumption requirement of **one individual for the Good's specified Consumption Interval**.
+For consumer Goods, a Good Unit represents the quantity required to satisfy the standard consumption requirement of one individual for the Good's specified Consumption Interval.
 
 The Consumption Interval defines the period for which one Good Unit satisfies that standard requirement.
 
-For example, if a Good has a Consumption Interval of one day, one Good Unit represents the standard daily requirement of one individual. If its interval is one year, one Good Unit represents the standard annual requirement.
+For example, if a Good has a Consumption Interval of one day, one Good Unit represents the standard daily requirement of one individual. If the interval is one year, one Good Unit represents the standard annual requirement.
 
 This definition does not mean every individual consumes exactly one unit in every interval. Actual demand may depend on Population Type, household circumstances, income, preferences, availability and other explicitly defined variables.
 
-The Population System owns individual and household characteristics. The Economy System receives demand quantities and resolves their economic consequences.
+The Population System owns individual and household characteristics. Economy receives demand quantities and resolves their economic consequences.
 
-For Industrial Goods, Strategic Resources, Components, Armaments and Services, the relevant unit must reflect the item's defined production, consumption, sale or delivery requirements. The individual-consumption definition must not be applied indiscriminately to products that are not consumer goods.
+For Industrial Goods, Strategic Resources, Components, Armaments and Services, the unit must reflect the product's defined production, consumption, sale or delivery requirements.
+
+The consumer-consumption definition must not be applied indiscriminately to products that are not consumer Goods.
+
+Consumption Interval is a demand concept. It must not replace or redefine the physical units used for production, storage, inventory, transport or trade.
 
 ---
 
@@ -894,37 +1020,37 @@ For Industrial Goods, Strategic Resources, Components, Armaments and Services, t
 
 ### 8.1 Base Price
 
-Every tradable Good, Service, Strategic Resource, Component and Armament must have a defined Base Price where the relevant product is assigned a monetary value.
+Every economic product assigned a monetary value must have a defined Base Price where required by its economic rules.
 
-Base Price is the static reference monetary value assigned to one defined unit of the product at the beginning of the simulation.
+Base Price is the reference monetary value assigned to one canonical product unit at the beginning of the simulation.
 
 Base Prices are calibrated to the 1955 economic baseline.
 
 Base Price is not necessarily the actual market price, Company Selling Price or Transaction Price.
 
-Base Prices are owned by the Economy System and persist unless changed by an explicit data or simulation rule.
+Economy owns the economic Base Price state. The product identity and unit used by the price must reference the Catalogue. A Base Price persists unless changed by an explicit data or simulation rule.
 
 ### 8.2 Global Price
 
 Global Price is the current global reference price of an eligible product.
 
-It represents the global market's aggregate economic conditions and provides a reference for domestic pricing and international transactions where applicable.
+It represents aggregate global market conditions and provides a reference for domestic pricing and international transactions where applicable.
 
 Global Price may differ from Base Price as global supply, global demand and other explicitly defined market conditions change.
 
 The Global Price calculation must identify:
 
-- The relevant product unit.
-- The aggregation period.
+- Canonical product identity and unit.
+- Aggregation period.
 - Global supply.
 - Global demand.
-- Eligible stockpile availability.
+- Eligible stock availability.
 - Restrictions on market participation.
-- The defined price-response function.
-- The permitted price range, if any.
-- The update frequency.
+- Defined price-response function.
+- Permitted price range, if any.
+- Update frequency.
 
-The price-response function must be explicitly defined in the Economic Algorithms or Technical Specifications. The Economy System must not apply an unspecified market modifier.
+The price-response function must be explicitly defined in the Economic Algorithms or Technical Specifications. Economy must not apply an unspecified market modifier.
 
 ### 8.3 Domestic Market Price
 
@@ -934,13 +1060,13 @@ A domestic market may reflect the relevant Nation's economic conditions, domesti
 
 Domestic Market Price is distinct from Global Price and Company Selling Price.
 
-The rules defining domestic market boundaries, price aggregation and regional market separation must be specified in the market model.
+The market model must define domestic market boundaries, price aggregation, regional market separation and the relevant calculation rules.
 
 ### 8.4 Company Selling Price
 
 Company Selling Price is the price at which a Company offers a product for sale.
 
-The Senior Executive and Company AI determine the Company's pricing decisions within applicable Government rules, contractual obligations, market conditions and available state.
+The Senior Executive and Company AI determine pricing decisions within applicable Government rules, contractual obligations, market conditions and available state.
 
 Relevant considerations may include:
 
@@ -961,15 +1087,17 @@ Relevant considerations may include:
 
 These considerations must be implemented through defined decision rules. The list does not imply that every consideration automatically changes price.
 
-A Company may offer a product at a price above, below or equal to its reference prices when permitted by the applicable rules.
+A Company may offer a product above, below or equal to its reference prices when permitted by applicable rules.
 
 ### 8.5 Transaction Price
 
-Transaction Price is the actual price agreed for a completed economic transaction.
+Transaction Price is the price agreed for a particular economic transaction.
 
 It may equal the Company Selling Price, but this is not mandatory where a permitted negotiated price, contract price, Government procurement price or other explicitly defined transaction rule applies.
 
-Transaction Price is the authoritative monetary value used to calculate the payment for that transaction.
+Transaction Price is the authoritative monetary value used to calculate the contractual payment for that transaction.
+
+The agreed price, payment obligation, actual payment and revenue recognition are separate states.
 
 ### 8.6 Price Controls
 
@@ -977,17 +1105,17 @@ Government may impose price controls where authorised by its laws and institutio
 
 A price control must specify:
 
-- The authority imposing it.
-- The affected product or product class.
-- The affected market or jurisdiction.
-- The type of price restriction.
-- The permitted price range or required price.
-- The effective date and duration.
-- The entities and transactions to which it applies.
+- Authority imposing it.
+- Affected product or product class.
+- Affected market or jurisdiction.
+- Type of price restriction.
+- Permitted price range or required price.
+- Effective date and duration.
+- Entities and transactions to which it applies.
 
-The Economy System applies the restriction to eligible pricing and transactions.
+Economy applies the restriction to eligible pricing and transactions.
 
-Price controls do not automatically guarantee that a product will be supplied or that demand will be fulfilled. Supply, production, allocation and transaction rules continue to apply.
+Price controls do not automatically guarantee that a product will be supplied or demand fulfilled. Supply, production, allocation and transaction rules continue to apply.
 
 ---
 
@@ -997,11 +1125,11 @@ Price controls do not automatically guarantee that a product will be supplied or
 
 A market is an economic aggregation and transaction context in which demand, supply, prices and economic exchanges are resolved.
 
-Markets do not create physical commodities. They aggregate and resolve the economic availability of commodities supplied through production, stockpiles, imports and other permitted sources.
+Markets do not create physical commodities. They aggregate economic availability from production, inventory, imports and other permitted sources.
 
 A market may be global or domestic.
 
-The market model must identify which products participate, which entities may trade, the relevant geographic or economic scope, the aggregation period and the rules for resolving transactions.
+The market model must identify participating products, eligible entities, geographic or economic scope, aggregation period and transaction rules.
 
 ### 9.2 Global Market
 
@@ -1009,7 +1137,9 @@ The Global Market aggregates eligible economic supply and demand across particip
 
 It provides a global reference context for product availability and Global Price.
 
-The Global Market is not a physical location or a universal stockpile. A quantity being represented in global market statistics does not mean that it can automatically be purchased and delivered to any Nation. Physical access, transport, delivery time, permissions, sanctions and existing commitments constrain fulfilment.
+The Global Market is not a physical location or a universal stockpile. A quantity represented in global market statistics cannot automatically be purchased and delivered to any Nation.
+
+Physical access, transport, delivery time, permissions, sanctions and existing commitments constrain fulfilment.
 
 Global market participation is subject to:
 
@@ -1022,43 +1152,50 @@ Global market participation is subject to:
 - Applicable Government policy.
 - The product's eligibility for international trade.
 
-The Global Market must distinguish aggregate global production, available stockpiles, domestic use, export availability, restricted quantities and quantities already committed to other transactions.
+The Global Market must distinguish aggregate production flows from physical stock and from quantities that are genuinely available for additional commitments.
 
-### 9.3 Global Supply
+### 9.3 Global Production and Global Supply
 
-Global Supply represents the quantity of an eligible product available to satisfy demand within the defined global market period.
+Global Production is the aggregate quantity reported as physically produced during a defined period by Production.
 
-Global Supply is not automatically equal to Global Production.
+Global Supply represents the quantity eligible to satisfy demand within the defined global market period.
 
-Its calculation must distinguish:
+Global Production and Global Supply are distinct measures. Production is a flow over a period. Inventory is physical stock at a point in time. Supply is a market calculation that determines which quantities may be offered to fulfil demand.
 
-- Newly produced quantity.
-- Eligible quantities released from stockpiles.
+The Global Supply calculation must account for:
+
+- Newly produced quantity eligible for the market.
+- Eligible quantities released from stock.
 - Quantities reserved for existing obligations.
-- Quantities allocated to domestic use.
+- Quantities committed to domestic use.
 - Quantities available for export.
 - Quantities restricted from trade.
 - Quantities physically unavailable for delivery.
 - Quantities destroyed or lost.
+- Other explicitly defined availability constraints.
 
-The exact Global Supply calculation must prevent the same physical quantity from being counted more than once.
+The calculation must prevent the same physical quantity from being counted more than once. A quantity cannot be counted both as newly available output and as an additional stockpile quantity unless the accounting explicitly reconciles the production inflow and resulting stock.
+
+Global Supply must not be treated as a physical inventory record. Inventory remains the authoritative source of physical quantities.
 
 ### 9.4 Global Demand
 
 Global Demand is the aggregate demand for an eligible product within the defined global market period.
 
-The canonical demand sources are:
+Canonical demand sources include:
 
 1. Population Demand.
 2. Industry Demand.
 3. Government Demand.
 4. Military Demand.
-5. Foreign Demand, where not already represented through the preceding sources.
+5. Foreign Demand, where it does not duplicate another source.
 6. Other demand sources explicitly defined by a system.
 
-A demand quantity must have a defined originating entity, product, quantity, time period and fulfilment status.
+A demand quantity must identify its originating entity, product, quantity, unit, time period and fulfilment status.
 
 Foreign Demand must not duplicate the same demand already represented as Population, Industry, Government or Military Demand within another Nation.
+
+Demand is not necessarily effective purchasing demand. Where affordability, budget authority or commercial eligibility constrains demand, the market model must distinguish requested need from effective demand eligible to participate in market resolution.
 
 ### 9.5 Population Demand
 
@@ -1078,21 +1215,21 @@ Relevant inputs may include:
 - Availability.
 - Other defined population conditions.
 
-The Population System owns the population characteristics and demand-generation rules. The Economy System receives and resolves the resulting economic demand.
+Population owns population characteristics and demand-generation rules. Economy receives and resolves the resulting economic demand.
 
-Demand does not guarantee a completed purchase. Actual purchases depend on affordability, availability, market access and the applicable transaction and allocation rules.
+Demand does not guarantee a completed purchase. Actual purchases depend on affordability, availability, market access and applicable transaction and allocation rules.
 
 ### 9.6 Industry Demand
 
 Industry Demand represents the Goods and Strategic Resources required by Industries for their intended operations.
 
-Physical input requirements are defined by Production recipes.
+Physical input requirements are defined by Production Processes and Recipes. Production supplies the relevant requirements for an intended production quantity and selected recipe.
 
-The Economy System receives the required input quantities and resolves their commercial availability, procurement, costs and allocation.
+Economy resolves commercial availability, procurement, costs and allocation.
 
 The intended input requirement for a production process is derived from its defined recipe and intended production quantity.
 
-The Economy System must not invent input ratios for a physical production process.
+Economy must not invent input ratios for a physical production process. Planned demand must not be confused with a valid Production Order or with a guarantee that the required inputs will be available.
 
 ### 9.7 Government Demand
 
@@ -1107,7 +1244,7 @@ Examples include:
 - Public-sector equipment and supplies.
 - Other authorised Government purchases.
 
-The Government System defines Government requirements, budget authority and purchasing permissions. The Economy System resolves the economic demand, available supply, transaction prices and financial transfers.
+Government defines requirements, budget authority and purchasing permissions. Economy resolves the associated demand, available supply, transaction prices and financial transfers.
 
 Government demand must not be treated as unlimited merely because the Government has issued a requirement.
 
@@ -1129,30 +1266,33 @@ It may include:
 - Maintenance and repair services.
 - Other explicitly defined military requirements.
 
-The Military System determines the required items, quantities, timing and military priorities.
+Military determines the required items, quantities, timing and military priorities.
 
-The Economy System resolves the associated economic demand, procurement costs, commercial availability and financial transactions.
+Economy resolves the associated economic demand, procurement costs, commercial availability and financial transactions.
 
-The Production System determines whether the required items can physically be produced.
+Production determines whether required items can physically be produced. Inventory records stock and authorised movement. Military determines whether delivered items satisfy the relevant military acceptance requirements.
 
 ### 9.9 Demand Fulfilment
 
-Demand Fulfilment represents the quantity of a demand that has been supplied through completed or otherwise valid fulfilment.
+Demand Fulfilment represents the quantity of a demand that has been supplied through valid fulfilment.
 
 The system must distinguish:
 
 - Requested quantity.
+- Effective demand quantity.
 - Quantity available.
 - Quantity allocated.
 - Quantity ordered.
+- Quantity dispatched.
 - Quantity delivered.
+- Quantity accepted, where applicable.
 - Quantity paid for.
 - Unfulfilled quantity.
 - Cancelled or expired quantity.
 
 These states must not be treated as equivalent.
 
-An order does not count as delivered supply before the applicable delivery conditions are satisfied. A delivery does not automatically count as paid revenue until the financial transaction rules establish that payment has occurred.
+An order does not count as delivered supply before delivery conditions are satisfied. A delivery does not automatically count as paid revenue until the financial rules establish that payment has occurred.
 
 ### 9.10 Economic Allocation
 
@@ -1166,13 +1306,14 @@ Available output may be allocated to:
 - Stockpiling.
 - Other explicitly defined destinations.
 
-Allocation determines the intended destination of a quantity. It does not automatically mean the quantity has been physically delivered or consumed.
+Allocation determines the intended destination or commitment of a quantity. It does not automatically mean the quantity has been physically delivered or consumed.
 
 Allocation rules must identify applicable priority, reservation, contractual obligation, Government directive, Military requirement, export commitment and stockpile policy.
 
-The rules must define how competing demands are resolved when available supply is insufficient.
+The rules must define how competing demands are resolved when eligible supply is insufficient.
 
-The Economy System must not silently allocate the same quantity to multiple destinations.
+Economy must not silently allocate the same quantity to multiple incompatible destinations. Physical reservation and stock commitment must be performed through the Inventory interface.
+
 
 ---
 
@@ -1186,22 +1327,22 @@ Production Capacity is owned by the Production System.
 
 It may depend on facilities, equipment, labour availability, technology, physical inputs, operational status, infrastructure and other explicitly defined production conditions.
 
-The Economy System receives Production Capacity as a constraint on the Industry's intended activity.
+Economy receives Production Capacity as a constraint on intended Industry activity.
 
-Production Capacity is not a guarantee that the full quantity will be produced.
+Production Capacity is not a guarantee that the full quantity will be produced. It is also not equivalent to Industry Scale, inventory quantity or Actual Production.
 
 ### 10.2 Intended Production
 
-Intended Production represents the quantity or production priorities the Industry is seeking to realise under its current economic and commercial decisions.
+Intended Production represents the quantity or production priorities an Industry seeks to realise under its current economic and commercial decisions.
 
-The Economy System supplies economic priorities and relevant constraints. The Production System determines the physically feasible output.
+Economy supplies commercial priorities and relevant economic constraints. Production determines the physically feasible output and executes authorised Production Orders.
 
 Intended Production must be compatible with:
 
 - Industry Scale.
-- Available Company Capital.
+- Available Company Capital and authorised operating expenditure.
 - Available labour.
-- Input availability.
+- Input requirements derived from the selected recipe.
 - Commercial demand and allocation priorities.
 - Government restrictions.
 - Production Capacity.
@@ -1209,92 +1350,106 @@ Intended Production must be compatible with:
 
 The exact relationship between Industry Scale and Intended Production must be defined by the Economy and Production interface.
 
+An economic intention is not itself a Production Order, and a Production Order is not proof that production has completed.
+
 ### 10.3 Actual Production
 
-Actual Production is the quantity physically produced by the Production System during the relevant production period.
+Actual Production is the quantity physically produced by Production during the relevant production period.
 
-Actual Production is constrained by the applicable physical production rules, including input availability, operational status and Production Capacity.
+Actual Production is constrained by applicable physical production rules, including input availability, operational status and Production Capacity.
 
-The Economy System records the economic consequences of the reported output. It must not independently recalculate or override Actual Production.
+Economy records the economic consequences of reported output. It must not independently recalculate or override Actual Production.
 
-Actual Production does not automatically equal quantity sold, quantity delivered or revenue earned.
+Actual Production does not automatically equal quantity sold, quantity delivered, quantity accepted or revenue earned.
 
-### 10.4 Production Recipes
+Physical output becomes available stock only when Production reports completion and the corresponding Inventory operation successfully records the output.
 
-A Production Recipe defines the physical inputs and outputs required for a production process.
+### 10.4 Production Processes and Recipes
 
-Each recipe must specify:
+Production Processes and Recipes defines the physical inputs and outputs required for a transformation.
+
+Each applicable recipe must specify:
 
 - Production Process identity.
-- Required input product.
-- Required input quantity.
-- Output product.
-- Output quantity.
-- Relevant unit definitions.
+- Recipe identity and version.
+- Required input products and quantities.
+- Output products and quantities.
+- Canonical product units or valid unit conversions.
 - Applicable technology or process requirements.
-- Any defined by-products, waste or losses.
-- The production period or batch basis.
+- Defined co-products, by-products, recoverable materials, waste or process losses.
+- Production batch or period basis.
+- Other explicit execution constraints.
 
-The exact recipe data and processing algorithms belong to the Production System and Technical Specifications.
+The detailed recipe schema and transformation calculations belong in the Production Processes and Recipes specification.
 
-The Economy System uses recipe-derived input demand for economic planning and procurement.
+Economy uses recipe-derived requirements for economic planning and procurement.
 
 There is no universal assumption that one unit of input produces one unit of output.
 
+Recipes do not independently reserve, consume, transfer or create Inventory. Production orchestrates execution and Inventory commits physical stock changes.
+
 ### 10.5 Input Availability
 
-The Production System determines the physical quantities available to production processes.
+Inventory is the authoritative source of physical stock and reservation state.
 
-The Economy System may procure or allocate inputs through economic transactions and inventory reservations.
+Production validates the physical inputs required for an order through its Inventory interface. Economy may procure or commercially allocate inputs, but cannot declare undelivered goods physically available.
 
-Only quantities that are validly available to a process may be treated as available inputs.
+The input interface must distinguish quantities that are:
 
-The input interface must distinguish quantities held in stock, quantities reserved for other processes, quantities in transit and quantities that have arrived and are eligible for use.
+- Physically present and available.
+- Reserved for a production order or another valid purpose.
+- Committed to an existing obligation.
+- In transit.
+- Restricted from use.
+- Damaged, unsuitable or otherwise unavailable.
 
-A scheduled delivery must not be treated as physically available before its delivery conditions are satisfied.
+A scheduled delivery must not be treated as physically available before the applicable delivery and receipt conditions are satisfied.
 
 ### 10.6 Input Shortfalls
 
-The Production System determines how a process responds to insufficient inputs according to its explicit production rules.
+Production determines how a process responds to insufficient inputs according to its explicit production rules.
 
-A production process that requires all mandatory inputs must not silently consume nonexistent quantities or produce output without satisfying those requirements.
+A production process that requires all mandatory inputs must not consume nonexistent quantities or produce output without satisfying those requirements.
 
-If a recipe permits partial production, substitution or alternative inputs, that behaviour must be explicitly defined by the recipe and Production rules.
+Partial production, input substitution or alternative recipes are permitted only where explicitly defined by the relevant recipe and Production rules.
 
-The Economy System records the commercial consequences of the resulting production state.
+The Economy System records the commercial consequences of the resulting production state. It must not independently alter recipe requirements to resolve a physical input shortfall.
 
-### 10.7 Stockpiles
+### 10.7 Physical Inventory
 
-A Stockpile is an inventory of a defined physical commodity held at a location or by an economic entity.
+Inventory is the single authoritative owner of physical inventory records, including:
 
-Stockpiles may contain Strategic Resources, Goods, Components, Armaments, Industry Inputs and Industry Outputs.
-
-A stockpile record must identify:
-
-- Commodity identity.
-- Quantity.
-- Unit.
+- Product identity.
+- Physical quantity and unit.
 - Location.
-- Owner or controlling entity.
-- Allocation or reservation status.
-- Incoming transfers.
-- Outgoing transfers.
-- Applicable storage restrictions.
-- Relevant physical condition, where applicable.
+- Lot or batch identity, where applicable.
+- Condition and quality.
+- Ownership and custody references.
+- Reservation and commitment state.
+- Restrictions.
+- Incoming and outgoing movements.
+- Production provenance.
+- Destruction, loss and consumption records.
 
-The Inventory System is the single authoritative owner of physical inventory records, including quantities, locations, condition, reservations, transfers and inventory movements. Economy and Production use this shared state and must not maintain competing inventories. Legal or organisational ownership is recorded as a field on the authoritative inventory record.
+Economy may hold references to inventory records and calculate their economic value. It must not maintain a competing authoritative inventory quantity.
 
-### 10.8 Stockpile Accounting
+A physical inventory record must reference the canonical product identity and unit defined in the Good and Service Catalogue.
 
-For a defined inventory period, the basic quantity reconciliation is:
+### 10.8 Inventory Reconciliation
 
-**Closing Quantity = Opening Quantity + Incoming Quantity − Consumed Quantity − Transferred Out − Sold Quantity − Destroyed Quantity**
+For a defined inventory holding and accounting period, the basic physical quantity reconciliation is:
 
-Each term must refer to a distinct, valid inventory movement. A sale and a transfer must not both deduct the same physical quantity for one transaction.
+**Closing Quantity = Opening Quantity + Physical Receipts + Production Outputs − Consumption − Physical Dispatches − Destruction − Other Explicit Physical Losses**
 
-The resulting quantity cannot be negative.
+Every term must refer to a distinct, valid physical movement.
 
-A transaction that would reduce available stock below the required quantity must be rejected, reduced or deferred according to the relevant transaction and allocation rules. Borrowing, negative inventory or deficit inventory must not be assumed unless explicitly introduced as a separate mechanic.
+The reconciliation must not deduct the same quantity twice because it was both sold and transferred. A sale is a commercial event; the associated physical removal is recorded once through the applicable Inventory transaction.
+
+Likewise, an inventory transfer between locations is not a global loss of stock. The origin and destination movements must reconcile with any in-transit holding or cargo record so that the quantity remains accounted for throughout the movement.
+
+Closing physical quantity cannot be negative.
+
+The detailed movement ledger, lot accounting, reservations and transaction atomicity rules belong to the Inventory System.
 
 ### 10.9 Stockpile Valuation
 
@@ -1302,17 +1457,21 @@ The financial value of a stockpile is distinct from its physical quantity.
 
 Where inventory valuation is required for Company financial reporting, the valuation method must be explicitly defined in the Economy System or its Technical Specifications.
 
-A change in Global Price must not automatically create Company revenue or cash.
+A change in Global Price must not automatically create Company revenue, cash or a new physical stock quantity.
 
 A physical inventory loss does not automatically deduct Company Capital by the same amount unless the financial accounting rules define that consequence.
 
+Inventory quantity and inventory valuation must be separately identifiable.
+
 ### 10.10 Unsold Output
 
-Output that has been physically produced but not sold or otherwise transferred remains inventory.
+Output that has been physically produced but not sold or otherwise transferred remains Inventory.
 
 Production does not automatically create revenue.
 
-Revenue is recorded only when a valid economic transaction or other explicitly defined revenue event occurs.
+Revenue is recognised only when a qualifying economic transaction or other explicitly defined revenue event occurs.
+
+An output that is reserved for a customer remains physical stock until the relevant physical transfer is committed. Reservation alone does not prove dispatch or delivery.
 
 ---
 
@@ -1320,11 +1479,11 @@ Revenue is recorded only when a valid economic transaction or other explicitly d
 
 ### 11.1 Labour Ownership
 
-The Population System determines population composition, workforce characteristics, educational attainment and the Nation's available labour supply.
+Population determines population composition, workforce characteristics, educational attainment and the Nation's available labour supply.
 
-The Economy System receives the available labour information and allocates workers to economic employment according to Industry requirements and the relevant employment rules.
+Economy receives available labour information and allocates workers to economic employment according to Industry requirements and the relevant employment rules.
 
-The Economy System does not independently create population or change educational attainment.
+Economy does not independently create population or change educational attainment.
 
 ### 11.2 Labour Demand
 
@@ -1345,13 +1504,15 @@ The calculation may depend on:
 
 The relevant labour requirements must be explicit. Labour demand must not be calculated using an undefined generic labour modifier.
 
+Where a Production recipe or process defines operational staffing requirements, Production supplies those requirements through the defined interface. Economy determines the economic employment and wage consequences.
+
 ### 11.3 Labour Availability
 
 Labour Availability represents the quantity of eligible labour that can be allocated to an Industry.
 
-The Population System supplies the available labour and relevant workforce characteristics.
+Population supplies available labour and relevant workforce characteristics.
 
-The Economy System allocates labour subject to:
+Economy allocates labour subject to:
 
 - Available workers.
 - Required qualifications.
@@ -1361,7 +1522,7 @@ The Economy System allocates labour subject to:
 - Wage and employment conditions.
 - Other explicitly defined labour constraints.
 
-The Economy System must not allocate the same worker or labour quantity to multiple incompatible full-time positions.
+Economy must not allocate the same worker or labour quantity to multiple incompatible full-time positions.
 
 ### 11.4 Employment
 
@@ -1369,9 +1530,9 @@ Employment records the labour allocated to an Industry.
 
 Industry employment must identify the quantity and relevant type of workers employed.
 
-Where an Industry cannot fill its Labour Demand, its employment remains below its required level.
+Where an Industry cannot fill its Labour Demand, actual employment remains below the required level.
 
-An Industry's employment state is distinct from its physical production capacity.
+An Industry's employment state is distinct from its physical Production Capacity.
 
 A reduction in employment may constrain production through the Production System's labour interface. The precise physical effect depends on the relevant production process.
 
@@ -1387,9 +1548,9 @@ When Labour Demand is greater than zero:
 
 The result is bounded between 0 and 1.
 
-When Labour Demand is zero, Labour Fulfilment is not calculated by dividing by zero. Its reported state must follow the explicit zero-demand convention defined in the Technical Specifications.
+When Labour Demand is zero, Labour Fulfilment must not be calculated by dividing by zero. Its reported state must follow the explicit zero-demand convention defined in the Technical Specifications.
 
-Labour Fulfilment is an economic measure of staffing, not a universal production multiplier. Its physical production consequences are defined by Production.
+Labour Fulfilment is an economic staffing measure, not a universal Production multiplier. Its physical production consequences are defined by Production.
 
 ### 11.6 Wages
 
@@ -1399,9 +1560,9 @@ Base Gross Salary is the reference annual gross salary for a defined employment 
 
 Actual Gross Salary may differ from the reference value according to explicitly defined economic, institutional, labour-market and employment rules.
 
-The wage model must define the inputs and calculation order rather than applying an unspecified Wage Modifier.
+The wage model must define its inputs and calculation order rather than applying an unspecified Wage Modifier.
 
-Where annual salary is used and the employment contract pays evenly across the simulation year:
+Where annual salary is paid evenly across the simulation year:
 
 **Daily Gross Salary = Annual Gross Salary / 365**
 
@@ -1415,7 +1576,7 @@ Labour Expenditure represents the Company's financial expenditure on employee co
 
 It must be calculated from actual employment, applicable compensation and the defined payment schedule.
 
-For daily-paid compensation, the basic relationship is:
+For daily-paid compensation:
 
 **Daily Gross Wage Expenditure = Sum of Daily Gross Salary for All Employed Workers**
 
@@ -1425,13 +1586,13 @@ Additional employer costs must be included only where a defined rule applies.
 
 ### 11.8 Employment and Population Types
 
-The Population System owns Population Types and their relevant characteristics.
+Population owns Population Types and their relevant characteristics.
 
-The Economy System uses those characteristics to define or receive employment eligibility, workforce composition and economic relationships where required.
+Economy uses those characteristics to define or receive employment eligibility, workforce composition and economic relationships where required.
 
 Industry employment may be represented by employment categories linked to Population Types.
 
-The mapping between Population Types and Industry employment categories must be explicitly defined. The Economy System must not invent demographic or educational characteristics for a Population Type.
+The mapping between Population Types and Industry employment categories must be explicitly defined. Economy must not invent demographic or educational characteristics for a Population Type.
 
 ---
 
@@ -1439,7 +1600,7 @@ The mapping between Population Types and Industry employment categories must be 
 
 ### 12.1 Revenue
 
-Revenue is money received or recognised from completed economic transactions according to the applicable accounting rules.
+Revenue is money recognised from qualifying economic transactions according to the applicable accounting rules.
 
 Physical production, inventory ownership, market demand and potential sales do not automatically create revenue.
 
@@ -1449,9 +1610,11 @@ For a completed sale:
 
 Where a transaction contains multiple products or transaction lines, each line must be accounted for using its own quantity and Transaction Price.
 
-Daily Revenue is the sum of the revenue recognised from qualifying transactions during the relevant day.
+Daily Revenue is the sum of revenue recognised from qualifying transactions during the relevant day.
 
 The financial rules must define when revenue is recognised for cash transactions, credit transactions, contracts, Government procurement and other transaction types.
+
+Revenue recognition must not be conflated with physical delivery, customer acceptance or cash settlement. The applicable accounting policy must explicitly identify which event establishes revenue for each transaction type.
 
 ### 12.2 Expenditure
 
@@ -1468,21 +1631,25 @@ Initial expenditure categories include:
 
 Each category must have a defined source, accounting treatment and period.
 
+A financial outflow, an accounting expense and a physical inventory movement are related but distinct records. The same event must not create duplicate expenses or duplicate cash movements.
+
 ### 12.3 Input Expenditure
 
 Input Expenditure represents the cost of inputs acquired through economic transactions.
 
-For a completed input purchase:
+For a qualifying input purchase:
 
 **Input Transaction Cost = Quantity Purchased × Transaction Price**
 
-Input Expenditure is aggregated across qualifying input purchases within the accounting period.
+Input Expenditure is aggregated across qualifying purchases within the accounting period.
 
 Using an input already owned by the Company or Industry does not create a new purchase transaction. Any inventory-consumption cost recognised in financial accounts must follow the defined inventory valuation and accounting rules.
 
+Purchasing an input does not prove that the input has been delivered or received. Physical availability is established through Inventory and the applicable delivery interface.
+
 ### 12.4 Operating Expenditure
 
-Operating Expenditure represents the costs recognised from the ongoing operation of a Company or Industry.
+Operating Expenditure represents costs recognised from the ongoing operation of a Company or Industry.
 
 It may include labour, purchased inputs, maintenance services, energy purchases, logistics, taxes and other defined operating costs.
 
@@ -1490,7 +1657,7 @@ The category must not automatically include every cash outflow. Capital investme
 
 ### 12.5 Operating Income
 
-Operating Income represents Revenue less the applicable Operating Expenditure for the same accounting period.
+Operating Income represents Revenue less applicable Operating Expenditure for the same accounting period.
 
 **Operating Income = Revenue − Operating Expenditure**
 
@@ -1508,7 +1675,7 @@ Company financial state includes Company Capital, recognised Revenue, Expenditur
 
 The financial model must distinguish:
 
-- Cash or funds available for spending.
+- Funds available for spending.
 - Company Capital.
 - Revenue.
 - Operating Income.
@@ -1516,6 +1683,8 @@ The financial model must distinguish:
 - Financial obligations.
 - Capital investment.
 - Subsidies and transfers.
+- Accounts payable and receivable, where implemented.
+- Settled and unsettled payments.
 
 These values may be related but must not be treated as interchangeable.
 
@@ -1525,9 +1694,9 @@ A Company experiencing an operating loss does not automatically cease to exist.
 
 Any transition to financial distress, insolvency, default, closure or restructuring must be governed by explicit financial rules.
 
-The rules must identify the triggering conditions, calculation period, affected obligations, permitted interventions and resulting state changes.
+Those rules must identify triggering conditions, calculation periods, affected obligations, permitted interventions and resulting state changes.
 
-Those rules are not implied merely by a negative Operating Income.
+Such outcomes are not implied merely by negative Operating Income.
 
 ---
 
@@ -1547,27 +1716,25 @@ Company Capital may change through defined financial transactions, including:
 
 Each source must specify the source account, receiving account, amount, authority, effective date and financial treatment.
 
-Capital must not be created without a defined source.
+Capital must not be created without a defined source, except through an explicitly defined scenario initialisation or other authorised rule.
 
 ### 13.2 Capital Allocation
 
 Company Capital is available for authorised commercial decisions.
 
-The Senior Executive and Company AI may allocate capital among eligible activities, subject to Company rules, legal restrictions, available funds and any Player or Government directives.
+The Senior Executive and Company AI may allocate capital among eligible activities, subject to Company rules, legal restrictions, available funds and Player or Government directives.
 
-The Economy System must validate that an expenditure or investment is permitted and financially supportable.
+Economy must validate that expenditure or investment is permitted and financially supportable.
 
 The same funds cannot be committed to incompatible expenditures simultaneously.
 
-The rules governing reserved capital, commitments and unspent allocations must be defined in the financial model.
+Rules governing reserved capital, commitments and unspent allocations must be defined in the financial model. A commitment or reservation of funds must be distinguishable from a completed payment.
 
 ### 13.3 Government Subsidies
 
 A Subsidy is a defined Government financial transfer to an eligible recipient.
 
-The Government System owns subsidy authority, eligibility and public expenditure rules.
-
-The Economy System records the recipient's financial effect and the relevant economic state.
+Government owns subsidy authority, eligibility and public expenditure rules. Economy records the recipient's financial effect and resulting economic state.
 
 A subsidy definition must identify:
 
@@ -1579,7 +1746,7 @@ A subsidy definition must identify:
 - Start date.
 - End date or termination condition.
 - Payment schedule.
-- Any attached obligations.
+- Attached obligations, if any.
 - Financial treatment.
 
 A subsidy does not automatically increase Industry Scale, Production Capacity, Actual Production or Company profitability. Any such result must arise from the recipient's decisions and the relevant system mechanics.
@@ -1590,11 +1757,11 @@ A Capital Injection is an explicitly authorised transfer of funds into a Company
 
 It must identify the source, recipient, amount, date and resulting financial treatment.
 
-A capital injection from the Government must debit the appropriate public account and credit the Company according to the defined financial rules.
+A Government capital injection must debit the appropriate public account and credit the Company Capital account according to the defined financial rules.
 
 A Player-authorised capital injection must use the account and authority specified by the applicable gameplay and Government rules.
 
-A capital injection does not automatically imply ownership changes unless the relevant transaction or legislation explicitly provides for them.
+A capital injection does not automatically imply a change in ownership unless the relevant transaction or legislation explicitly provides for it.
 
 ### 13.5 Foreign Investment
 
@@ -1604,17 +1771,19 @@ Foreign investment must be resolved without currency conversion under the curren
 
 Its permissions and effects depend on:
 
-- The investor.
-- The recipient.
-- The source and destination Nations.
+- Investor.
+- Recipient.
+- Source and destination Nations.
 - Applicable Government investment legislation.
 - Diplomatic and investment agreements.
 - Sanctions.
 - Ownership and control restrictions.
-- The terms of the investment.
+- Terms of the investment.
 - Applicable taxation and financial rules.
 
 An investment must specify the rights it grants. Voting rights, control rights, profit distribution, capital recovery, withdrawal and ownership changes must not be inferred solely from the transfer of funds.
+
+The financial transfer and any resulting ownership or control change must be recorded as distinct but linked effects where applicable.
 
 ---
 
@@ -1622,13 +1791,13 @@ An investment must specify the rights it grants. Voting rights, control rights, 
 
 ### 14.1 Trade
 
-Trade is the transfer of a Good, Strategic Resource, Component, Armament or eligible Service between authorised economic entities.
+Trade is a commercial transaction involving a Good, Strategic Resource, Designed Component, Armament or eligible Service between authorised economic entities.
 
 A trade transaction must identify:
 
 - Seller.
 - Buyer.
-- Product.
+- Canonical product identity.
 - Quantity and unit.
 - Transaction Price.
 - Origin.
@@ -1639,7 +1808,9 @@ A trade transaction must identify:
 - Contractual obligations.
 - Transaction status.
 
-A transaction must satisfy the relevant commercial, legal, inventory and delivery rules.
+A transaction must satisfy the relevant commercial, legal, Inventory and delivery rules.
+
+Trade is the commercial relationship and agreement. Physical dispatch, transportation, receipt and inventory changes are recorded through the systems that own those operations.
 
 ### 14.2 Domestic Trade
 
@@ -1649,15 +1820,19 @@ It is subject to applicable domestic laws, market rules, transaction requirement
 
 Domestic Trade does not require an international trade permission unless another defined rule applies.
 
+Domestic trade may involve transportation and delivery between locations. The fact that buyer and seller are in the same Nation does not remove the need to record physical movement where it occurs.
+
 ### 14.3 Imports and Exports
 
 Imports and Exports represent eligible international transfers of products between Nations.
 
-Imports and Exports may include Goods, Strategic Resources, Components, Armaments and Services where the relevant product and transaction rules permit international trade.
+They may include Goods, Strategic Resources, Designed Components, Armaments and Services where the relevant product and transaction rules permit international trade.
 
-An international transaction must satisfy the applicable export, import, diplomatic, transport, payment and sanction rules.
+An international transaction must satisfy applicable export, import, diplomatic, transport, payment and sanction rules.
 
-A product being available in the Global Market does not automatically mean it can be imported by every Nation.
+A product being represented in the Global Market does not automatically mean that it can be imported by every Nation.
+
+The economic transaction, legal permission, physical movement and financial settlement remain separate but linked state changes.
 
 ### 14.4 Trade Agreements
 
@@ -1677,17 +1852,17 @@ Depending on their explicit terms, they may govern:
 - Service access.
 - Other defined economic rights and restrictions.
 
-The Diplomacy and Government Systems own the legal and diplomatic authority associated with Trade Agreements.
+Diplomacy and Government own the legal and diplomatic authority associated with Trade Agreements.
 
-The Economy System applies the defined commercial consequences.
+Economy applies their defined commercial consequences.
 
 The terms of a Trade Agreement must not be inferred from its name or diplomatic relationship alone.
 
 ### 14.5 Subsidiaries and Foreign Operations
 
-A foreign subsidiary is a commercial operation established in a Nation that is owned or controlled by, or otherwise legally linked to, a Company based in another Nation.
+A foreign subsidiary is a commercial operation established in a Nation that is owned, controlled or otherwise legally linked to a Company based in another Nation.
 
-Foreign operations must operate subject to the host Nation's applicable laws and economic conditions.
+Foreign operations must comply with the host Nation's applicable laws and economic conditions.
 
 The legal and economic relationship between the parent Company and foreign operation must be explicitly defined.
 
@@ -1724,9 +1899,9 @@ A restriction must identify:
 - Applicable exceptions.
 - Resulting transaction rules.
 
-The Economy System applies the restriction to eligible economic transactions.
+Economy applies the restriction to eligible economic transactions.
 
-The precise restriction categories and their effects must be defined by the Government and Diplomacy Systems. The Economy System must not invent a generic sanction severity modifier.
+The precise restriction categories and effects must be defined by Government and Diplomacy. Economy must not invent a generic sanction severity modifier.
 
 ---
 
@@ -1734,13 +1909,13 @@ The precise restriction categories and their effects must be defined by the Gove
 
 ### 15.1 Transaction Validation
 
-Before an economic transaction is completed, the relevant rules must validate:
+Before an economic transaction reaches a committed state, the relevant rules must validate:
 
 - Buyer and seller eligibility.
-- Product identity.
+- Canonical product identity.
 - Quantity and unit.
-- Available inventory.
-- Product ownership or transfer authority.
+- Commercial authority and transfer rights.
+- Applicable inventory availability or supply commitment.
 - Transaction Price.
 - Legal permissions.
 - Trade restrictions.
@@ -1748,11 +1923,13 @@ Before an economic transaction is completed, the relevant rules must validate:
 - Delivery conditions.
 - Contractual obligations.
 
-A transaction that fails a mandatory validation must not complete.
+A transaction that fails a mandatory validation must not complete the affected operation.
+
+Validation of a commercial order does not prove that physical stock has been reserved, dispatched or delivered. Each of those operations must be confirmed by the system that owns it.
 
 ### 15.2 Transaction States
 
-The transaction model must distinguish the relevant stages of a transaction, including:
+The transaction model must distinguish relevant stages, including:
 
 - Proposed.
 - Accepted.
@@ -1765,20 +1942,25 @@ The transaction model must distinguish the relevant stages of a transaction, inc
 - Cancelled.
 - Failed.
 
-The precise state machine belongs in the Technical Specifications.
+The exact state machine and permitted transitions belong in the Technical Specifications.
 
-Not every transaction type must use every state, but the applicable state transitions must be explicitly defined.
+Not every transaction type must use every state. The applicable state transitions, prerequisites and resulting financial or physical effects must be explicitly defined.
+
+A transaction may be delivered but unpaid, paid but awaiting delivery, or cancelled after an earlier non-final state, if its terms and the defined state machine permit those conditions.
 
 ### 15.3 Financial and Physical Settlement
 
 Financial settlement and physical delivery are related but distinct.
 
-A transaction may require a payment, a physical transfer or both.
+A transaction may require payment, physical transfer or both.
 
 The transaction rules must specify when:
 
-- The seller's inventory is reduced.
-- The buyer's inventory is increased.
+- A commercial obligation is created.
+- Funds are reserved or committed.
+- The seller's physical inventory is reduced.
+- A quantity becomes in transit.
+- The buyer's physical inventory is increased.
 - Funds are transferred.
 - Revenue is recognised.
 - Expenditure is recognised.
@@ -1786,13 +1968,17 @@ The transaction rules must specify when:
 
 The same transaction must not create duplicate inventory transfers, payments or revenue.
 
+Inventory changes must be committed through Inventory. Financial movements must be committed through Economy and the appropriate account authority. Where an operation spans multiple systems, the Technical Specifications must define the atomicity, recovery and reconciliation mechanism.
+
 ### 15.4 Revenue Recognition
 
 Revenue is recognised according to the transaction's defined accounting rules.
 
 The creation of a sales offer, purchase order or contract does not automatically constitute realised revenue.
 
-Where revenue recognition depends on delivery, payment or another contractual condition, that condition must be explicit.
+Where revenue recognition depends on delivery, payment, customer acceptance or another contractual condition, that condition must be explicit.
+
+Revenue recognition must not cause a duplicate cash movement. Recognising revenue and receiving payment are separate accounting events where the applicable transaction rules distinguish them.
 
 ### 15.5 Transaction Auditability
 
@@ -1800,50 +1986,60 @@ Economic transactions must retain sufficient information to explain resulting fi
 
 The exact event schema belongs in the Technical Specifications.
 
-At minimum, the system must be able to determine which transaction caused a change to an account, stockpile, product quantity, financial obligation or recorded revenue.
+At minimum, the system must be able to determine which transaction caused a change to an account, stock reservation, physical movement reference, financial obligation, recorded revenue or expenditure.
+
+Corrections and reversals must reference the original event and follow explicit rules. A historical transaction must not be silently overwritten in a way that makes the resulting state irreproducible.
 
 ---
 
 ## 16. Daily Economic Processing
 
-The Economy System processes economic state through an ordered sequence of operations.
+The Economy System processes economic state according to the shared simulation scheduler and the update frequencies defined for individual mechanics.
 
-The exact implementation schedule and processing architecture belong in the Technical Specifications, but the logical dependencies must remain consistent.
+This section establishes logical dependencies and required economic operations. It does not establish a competing global execution order for the simulation.
 
 ### 16.1 External State Collection
 
 Receive the current authoritative state required from external systems, including:
 
 - Population and available labour.
+- Industry Data and establishment configuration.
 - Government laws, taxes, subsidies and restrictions.
 - Research and technology availability.
 - Military procurement demand.
 - Production capacity and physical production state.
-- Resource and inventory availability.
+- Inventory quantities, reservations and availability.
 - Terrain and infrastructure conditions.
+- Logistics and delivery state.
 - Diplomatic permissions and trade restrictions.
 
-Only state required by Economy should be imported. The Economy System must not take ownership of external state merely because it needs to read it.
+Only state required by Economy should be imported. Economy must not take ownership of external state merely because it needs to read it.
 
 ### 16.2 Establishment and Eligibility Validation
 
 Validate Industry establishment requests and other economic operations requiring prerequisites.
 
-Confirm the relevant legal permissions, Treasury availability, Company Capital requirements, resource access and other defined Establishment Requirements.
+Use Industry Data for Industry definitions and establishment configuration, Government for authority and Treasury state, and the relevant systems for other prerequisites.
+
+Establishment must follow the atomic operation defined in Section 5.
 
 ### 16.3 Resource and Inventory Availability
 
 Receive authoritative physical inventory and resource availability.
 
-Identify quantities that are available, reserved, committed, in transit, restricted or unavailable for economic allocation.
+Identify quantities that are available, reserved, committed, in transit, restricted or otherwise unavailable for economic allocation.
 
 Prevent duplicate availability across competing transactions and production processes.
+
+Economy may make commercial allocation decisions but must request physical reservations through Inventory.
 
 ### 16.4 Labour Availability
 
 Receive available labour and workforce characteristics from Population.
 
 Determine eligible labour quantities and the workforce information required for Industry allocation.
+
+Do not duplicate Population's demographic or educational state.
 
 ### 16.5 Industry Economic Requirements
 
@@ -1852,7 +2048,7 @@ Calculate or update the economic requirements of each Industry, including:
 - Industry Scale.
 - Labour Demand.
 - Intended Production priorities.
-- Input demand.
+- Input demand derived from Production requirements.
 - Capital availability.
 - Commercial commitments.
 - Relevant operating expenditure requirements.
@@ -1861,23 +2057,27 @@ Physical Production Capacity remains owned by Production.
 
 ### 16.6 Input Procurement and Allocation
 
-Resolve input procurement and allocation decisions using available stockpiles, supplier offers, transaction rules and Production-derived input requirements.
+Resolve input procurement and allocation decisions using available stock, supplier offers, transaction rules and Production-derived input requirements.
 
 Create valid economic orders or allocations without treating undelivered goods as physically available.
 
+Where physical stock must be committed to a production order, request the appropriate Inventory reservation.
+
 ### 16.7 Production Interface
 
-Send the relevant economic priorities and input arrangements to Production.
+Send relevant economic priorities and commercial constraints to Production.
 
-Receive the resulting physical production state and Actual Production.
+Production validates physical feasibility and executes authorised orders according to its own rules.
 
-Do not calculate physical output within the Economy System.
+Economy receives reported production results and their associated economic consequences. It must not calculate physical output within the Economy System.
 
 ### 16.8 Inventory Reconciliation
 
-Record qualifying inventory changes resulting from production, consumption, destruction, delivery, sale and transfer.
+Receive and reconcile authoritative Inventory results associated with production, consumption, destruction, delivery, sale and transfer.
 
-Maintain a consistent authoritative inventory state.
+Do not directly apply duplicate stock changes in Economy.
+
+Maintain consistent financial and commercial references to the authoritative inventory state.
 
 ### 16.9 Demand Aggregation
 
@@ -1885,39 +2085,49 @@ Receive and aggregate Population, Industry, Government, Military and other expli
 
 Avoid duplicate demand across domestic and international aggregation.
 
+Distinguish requested needs from effective demand, allocated quantities and fulfilled quantities.
+
 ### 16.10 Market Calculation
 
-Calculate eligible Global Market and Domestic Market state using defined supply, demand, stockpile availability and market rules.
+Calculate eligible Global Market and Domestic Market state using defined supply, demand, stock availability and market rules.
 
 Update Global Price and Domestic Market Price according to their specified calculations.
+
+Global Production, physical Inventory and Global Supply must remain distinct measures.
 
 ### 16.11 Company Pricing Decisions
 
 Company AI determines Company Selling Prices and other commercial decisions within applicable legal and market constraints.
 
-Pricing decisions must use the current state made available by the processing schedule.
+Pricing decisions must use the authoritative state available for the relevant update.
 
 ### 16.12 Transaction Resolution
 
 Resolve eligible domestic and international transactions according to availability, permissions, pricing, contracts, allocation and delivery rules.
 
-Validate that each transaction can be completed without duplicate or negative inventory. Transaction state must distinguish order, reservation, dispatch, delivery and payment. An order or dispatch does not establish delivery or payment. Inventory movements are committed by the Inventory System, and a single physical quantity must not be deducted twice because a sale is also represented as a transfer.
+Validate that each transaction can proceed without duplicate or negative inventory.
+
+Transaction state must distinguish order, reservation, dispatch, delivery and payment.
+
+Inventory movements are committed by Inventory. Financial movements are committed through Economy's financial transaction rules. A single physical quantity must not be deducted twice because a sale is also represented as a transfer.
 
 ### 16.13 Financial Accounting
 
-Record qualifying Revenue, Expenditure, transfers, payments, taxes, financing costs and other financial movements.
+Record qualifying revenue, expenditure, transfers, payments, taxes, financing costs and other financial movements.
 
 Update Company financial state according to the accounting rules.
 
 ### 16.14 Company Financial and Operating State
 
-Update Company Capital and other financial values using the completed transactions and explicitly defined financial rules.
+Update Company Capital and other financial values using completed financial transactions and explicitly defined accounting rules.
 
 Calculate Operating Income for the relevant accounting period.
 
+Do not infer cash movement solely from a change in inventory valuation or an accounting entry.
+
 ### 16.15 Company AI Decisions
 
-Company AI evaluates the updated state and determines subsequent commercial decisions.
+Company AI evaluates updated state and determines subsequent commercial decisions.
 
 Decisions may affect future Industry Scale, pricing, capital allocation, procurement, trade participation and other eligible economic actions.
 
@@ -1925,7 +2135,7 @@ A decision must not retroactively change a transaction that has already complete
 
 ### 16.16 Cross-System Outputs
 
-Publish the resulting economic state required by other systems.
+Publish resulting economic state required by other systems.
 
 Potential outputs include:
 
@@ -1936,7 +2146,7 @@ Potential outputs include:
 - Economic product demand.
 - Purchase orders.
 - Transaction results.
-- Stockpile changes.
+- Economic stock reservations and commitments.
 - Market prices.
 - Government financial effects.
 - Military procurement fulfilment.
@@ -1954,10 +2164,10 @@ Economic state persists between simulation updates unless an explicit event or r
 Persistent Economy state includes:
 
 - Company identity and Company-to-Industry relationships.
-- Senior Executive association.
+- Senior Executive association and authorised control state.
 - Company Capital.
 - Industry Scale.
-- Industry establishment state.
+- Industry establishment and economic operating state.
 - Economic financial records required by the simulation.
 - Company pricing and commercial decisions.
 - Employment allocations.
@@ -1966,12 +2176,14 @@ Persistent Economy state includes:
 - Foreign commercial operations.
 - Economic transaction state.
 - Product prices and relevant market state.
-- Stockpile ownership and economic reservations, where owned by Economy.
-- Other explicitly defined economic relationships.
+- Economic obligations, commitments and payment status.
+- References to inventory holdings and commercial stock reservations, where applicable.
 
-Physical Production Capacity, actual production, facility condition, physical stockpile quantities and resource deposits remain authoritative in their respective systems.
+Physical Production Capacity, actual production, facility condition, physical stock quantities, inventory lots and resource deposits remain authoritative in their respective systems.
 
 Persistence does not imply immutability. State changes only through defined simulation events, calculations or authorised actions.
+
+Executed transactions and production-related economic records must retain enough references to reproduce their financial consequences. Recipe versions, Catalogue definitions and other relevant reference data must not silently rewrite the historical interpretation of completed operations.
 
 ---
 
@@ -1982,54 +2194,72 @@ The Economy System must enforce the following invariants.
 ### 18.1 Financial Invariants
 
 - Nation Treasury and Company Capital are separate accounts.
-- Every financial transfer has a defined source and destination, except for explicitly defined creation or destruction of money by a future monetary mechanic.
+- Every financial transfer has a defined source and destination, except for explicitly defined creation or destruction of money by a future monetary mechanic or authorised scenario initialisation.
 - Industry Establishment Capital Requirement and Opening Company Capital are separate financial movements.
 - A financial expenditure cannot be completed if the relevant account lacks the required available funds, unless an explicit credit or deficit mechanic permits it.
 - Company Capital does not automatically depreciate.
 - Revenue is not created solely by production or inventory accumulation.
 - Operating Income and Company Capital are distinct values.
+- Inventory valuation changes do not automatically create cash or revenue.
+- A financial transaction must not be committed twice.
+- Financial settlement must follow the applicable transaction state and accounting rules.
 
-### 18.2 Inventory Invariants
+### 18.2 Inventory and Transaction Invariants
 
+- Inventory owns physical stock quantities and physical stock movements.
 - Physical inventory quantities cannot be negative.
 - The same physical quantity cannot be allocated to incompatible uses simultaneously.
 - A transaction cannot transfer a quantity the seller does not validly own or control.
-- Inventory movements must reconcile with the authoritative Inventory System records.
+- Inventory movements must reconcile with authoritative Inventory records.
 - Economy and Production must not maintain competing authoritative physical inventories.
 - Reservations do not remove physical stock, but reduce the quantity available for other uses.
-- A purchase order or dispatch does not make stock available before delivery is recorded.
-- A sale and a transfer must not deduct the same physical quantity twice.
+- A purchase order or dispatch does not make stock available before the relevant delivery and receipt conditions are satisfied.
+- A sale and its associated transfer must not deduct the same physical quantity twice.
+- A physical transfer between locations must not be counted as a global loss of stock.
+- In-transit quantities must not be counted as available at both origin and destination.
 - Global Supply must not count the same physical quantity more than once.
 - Production must not consume unavailable inputs unless an explicit production rule permits the relevant alternative.
+- A Service must not automatically create physical inventory.
+- Corrections and reversals must be traceable to the original transaction or event.
 
 ### 18.3 Industry Invariants
 
 - Every Industry has a defined Industry Type.
-- Every Industry Type has an explicit Establishment Requirements definition.
+- Every Industry Type has an explicit Establishment Requirements definition in Industry Data.
 - Industry establishment cannot succeed while a mandatory requirement remains unsatisfied.
+- Industry establishment is atomic across all required participating systems.
+- Existing scenario-loaded Industries do not incur retroactive establishment charges.
 - Industry Establishment Capital Requirement is not the same as Opening Company Capital.
 - Industry Scale is not identical to Production Capacity.
 - Production Capacity and Actual Production are owned by Production.
 - An Industry may exist without currently producing.
 - Physical damage, financial loss and operational suspension remain distinct states.
+- Industry Data remains authoritative for Industry definitions and configuration.
 
 ### 18.4 Product and Market Invariants
 
-- Every economic product has a defined identity and unit.
+- Every economic product references a canonical Catalogue identity.
+- Every product has a defined canonical unit or service-delivery unit where applicable.
+- Every product has exactly one primary economic class.
 - Every Good belongs to exactly one of the three mutually exclusive Good Categories.
+- Physical form is distinct from primary economic class.
+- Strategic Resource is an additional designation, not a replacement primary class or duplicate product identity.
 - Base Price, Global Price, Domestic Market Price, Company Selling Price and Transaction Price are distinct values.
 - A reference price does not guarantee availability.
 - Demand does not guarantee fulfilment.
 - An accepted order does not automatically mean delivery has occurred.
 - An offer does not automatically mean a sale has occurred.
+- Global Production, physical Inventory and Global Supply are distinct measures.
 - International trade must satisfy applicable permissions and restrictions.
+- A change to Catalogue definitions must not silently rewrite the historical interpretation of completed transactions.
 
 ### 18.5 Cross-System Invariants
 
-- The Economy System does not independently create population, technology, physical production capacity or military capability.
+- Economy does not independently create population, technology, physical production capacity or military capability.
 - External state remains authoritative in its owning system.
 - Cross-system effects must be transmitted through defined interfaces.
+- Each kind of state has one authoritative owner.
 - A mechanic must not be implemented as an undocumented generic modifier.
 - Each derived value must identify its source variables, units, valid range, calculation order and update frequency in the relevant specification.
-
----
+- System update dependencies must be compatible with the shared simulation scheduler.
+- Historical economic records must retain sufficient references to explain and reproduce their effects.
