@@ -829,9 +829,11 @@ Production and Inventory must ensure that execution retries cannot consume the s
 
 Repeated calculation requests with identical inputs and parameters must return the same result.
 
-Repeated execution-commit requests must be handled according to the authoritative transaction and idempotency rules established by Production and Inventory.
+Repeated execution-commit requests must be handled according to the shared Production Execution transaction contract defined by Production and Inventory. The recipe supplies the immutable quantitative transformation definition; it does not commit inventory or financial changes.
 
-If an execution transaction fails, the relevant systems must apply their defined rollback or recovery behaviour so that physical stock is not left in an inconsistent state.
+The transaction must reference the exact recipe version used and must preserve the calculated quantities for every output, each with its own canonical Catalogue identifier, unit, quantity and relationship to the Production Execution. Retrying calculation must not mutate stock, and retrying a committed execution must not duplicate input consumption or output registration.
+
+If an execution transaction fails, the shared contract must apply its defined failure and recovery behaviour so physical stock is not left in an inconsistent state.
 
 ---
 
