@@ -258,8 +258,11 @@ A Production Order must support:
 | `process_id` | Process to execute |
 | `recipe_id` | Selected recipe |
 | `recipe_version_id` | Exact recipe version selected for execution |
-| `output_specification` | Required output Goods and quantities |
-| `requested_quantity` | Requested quantity, expressed in the defined output unit |
+| `target_output_catalogue_id` | Canonical Catalogue identifier of the output whose quantity defines order completion, when the order targets a specific output |
+| `production_basis` | Explicit basis for the requested quantity, such as a target output or a recipe-defined input/throughput basis |
+| `output_specification` | Required output specification, including the target output or production basis and any applicable constraints; it does not replace the recipe's complete output calculation |
+| `requested_quantity` | Requested quantity expressed in the unit belonging to the explicitly identified target output or production basis |
+| `requested_quantity_unit` | Canonical unit compatible with the Catalogue entry for the target output or the defined production basis |
 | `priority` | Order priority under the applicable scheduling policy |
 | `order_state` | Current execution state |
 | `created_at` | Simulation time at which the order was created |
@@ -273,9 +276,11 @@ A Production Order must support:
 | `failure_reason` | Structured reason for a blocked, failed or cancelled order |
 | `last_updated_at` | Simulation time of the most recent order update |
 
-Requested, completed, rejected and cancelled quantities must use compatible units.
+The order must explicitly identify the basis to which `requested_quantity` applies. Where the order targets a specific output, it must identify that output by its canonical Catalogue identifier and compatible unit. Where the order instead uses a recipe-defined input or throughput basis, that basis and its unit must be explicit and defined by the selected recipe.
 
-Where a process produces multiple outputs, the order and execution records must preserve the relationship between the process execution and every resulting output. The quantity of one co-product must not be mistaken for the quantity of another.
+Requested, completed, rejected and cancelled quantities must use compatible units for the same target output or production basis. Quantities belonging to different outputs must never be compared or added as if they shared a unit or completion basis.
+
+The selected recipe version and Production Execution determine the quantities of all associated outputs. Each output record must retain its own canonical `catalogue_id`, unit, quantity, output role where applicable, and relationship to the Production Execution that produced it. Co-products, by-products, recoveries, waste and losses must not be inferred from the requested target quantity alone.
 
 ### 4.4 Production Execution Record
 
@@ -826,19 +831,31 @@ The implementation may combine these operations into a single transaction or use
 
 The exact recipe calculation belongs to Production Processes and Recipes. The authoritative physical stock changes belong to Inventory. Production orchestrates the execution and records its result.
 
-### 11.4 Atomicity and Recovery
+### 11.4 Shared Production Execution Transaction, Atomicity and Recovery
 
-Input consumption and output registration must not result in duplicated or lost physical quantities because of a partial commit.
+Production and Inventory must implement one shared **Production Execution transaction** for committing the physical result of a production execution. Production orchestrates the transaction and owns the Production Execution record. Inventory owns the authoritative stock changes and stock transaction records. Neither system may independently commit a competing version of the same physical outcome.
 
-An execution must have a stable identifier that can be used to detect duplicate processing.
+The shared transaction must use a stable Production Execution identifier and idempotency key. The same key must identify retries of the same logical execution, and a key must not be reused for a different execution payload.
 
-If the execution transaction fails before commitment, the world must not retain unintended partial consumption or output.
+Before commitment, the transaction must validate the selected immutable recipe version, the target output or production basis, input quantities and units, relevant reservations, and the complete set of calculated outputs. Inventory must validate stock availability, reservation ownership and quantity, product eligibility for physical stock, and the requested stock changes against authoritative inventory state.
 
-If an execution has already committed, replaying the same execution identifier must not consume inputs or create outputs again.
+The transaction contract must cover, as applicable:
 
-The implementation must use transactional operations, idempotency controls or an equivalent mechanism to enforce this invariant.
+1. Validation of all required input reservations or other explicitly supported input-allocation records.
+2. Consumption of the authorised input quantities.
+3. Registration of every physical output, including primary outputs, co-products, by-products, recoverable materials and tracked waste.
+4. Recording of process losses where they affect stock or require a separately defined non-stock record.
+5. Recording of the Production Execution outcome and references to the authoritative Inventory transactions.
+6. Updating of the order's completed quantity and remaining outstanding quantity consistently with the committed execution.
+7. Publication of success events only after the physical outcome is committed.
 
-A failed execution must not be represented as a successful production event.
+All stock changes belonging to one committed execution must form one atomic logical operation. The implementation may use a database transaction, a transactional event/commit protocol, or an equivalent mechanism. This specification defines the required outcome, not a particular database or infrastructure design.
+
+If validation or commitment fails, the operation must not leave partial input consumption, partial output registration, or an execution falsely marked as committed. A retry using the same idempotency key must return or resolve to the existing committed result if commitment already succeeded, and must not duplicate stock changes. A retry with the same key but a materially different payload must be rejected as an idempotency conflict.
+
+Long-running or multi-stage production may use multiple explicitly identified Production Executions. Each execution is a separate transaction with its own inputs, outputs, result and idempotency key. A later stage must not be treated as committed merely because an earlier stage completed.
+
+A failed execution must not be represented as a successful production event. The transaction and recovery mechanism must preserve enough state to distinguish not started, prepared or pending, committed, rejected and failed outcomes without replaying already committed stock changes.
 
 ### 11.5 Production Result
 
