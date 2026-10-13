@@ -195,7 +195,7 @@ An Inventory Holding should contain:
 | Field | Description |
 |---|---|
 | `inventory_holding_id` | Stable, unique holding identifier |
-| `good_id` | Canonical Good and Service Catalogue identifier |
+| `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `location_id` | Authoritative location identifier |
 | `owner_id` | Entity that owns the stock, where applicable |
 | `custodian_id` | Entity responsible for custody, where applicable |
@@ -220,7 +220,7 @@ A Stock Lot should contain:
 | Field | Description |
 |---|---|
 | `stock_lot_id` | Stable, unique lot identifier |
-| `good_id` | Canonical Good and Service Catalogue identifier |
+| `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `quantity` | Physical quantity represented by the lot |
 | `unit` | Unit of measurement |
 | `location_id` | Current inventory location |
@@ -246,7 +246,7 @@ A Reservation should contain:
 | Field | Description |
 |---|---|
 | `reservation_id` | Stable, unique reservation identifier |
-| `good_id` | Canonical good identifier |
+| `catalogue_id` | Canonical good identifier |
 | `stock_lot_id` | Referenced lot, where reservation is lot-specific |
 | `inventory_holding_id` | Referenced holding |
 | `quantity_reserved` | Reserved quantity |
@@ -273,7 +273,7 @@ The conceptual transaction record should include:
 |---|---|
 | `transaction_id` | Stable, unique transaction identifier |
 | `transaction_type` | Receipt, consumption, transfer, output, loss, adjustment, or another supported type |
-| `good_id` | Canonical good identifier |
+| `catalogue_id` | Canonical good identifier |
 | `quantity` | Transaction quantity |
 | `unit` | Unit of measurement |
 | `source_location_id` | Source location, where applicable |
@@ -643,15 +643,21 @@ Outputs may include primary products, co-products, by-products, recoverable mate
 
 Recorded quantities must correspond to the authorised execution result, not merely the recipe's theoretical output for a fully completed order.
 
-### 9.4 Atomicity
+### 9.4 Shared Production Execution Transaction and Atomicity
 
-Where an execution consumes inputs and creates outputs as one committed production operation, the system must preserve a consistent result.
+Production and Inventory must use one shared Production Execution transaction to commit the physical stock effects of each production execution. Production orchestrates the execution and owns its operational execution record. Inventory alone owns the authoritative physical stock quantities, reservations, stock changes and inventory transaction records.
 
-The implementation must prevent a failed or duplicated commit from consuming inputs without accounting for the authorised outcome, or from creating outputs more than once.
+The transaction must use a stable Production Execution identifier and idempotency key. Before commitment, Inventory must validate all relevant input reservations or supported allocation records, product eligibility, compatible units, available quantities, and the complete set of physical output changes against authoritative state.
 
-The precise transaction boundary must be established by the shared Production and Inventory execution contract.
+Where the execution is valid, the shared transaction must commit all authorised input consumption and all physical outputs as one atomic logical operation. This includes applicable primary outputs, co-products, by-products, recoverable materials and tracked waste. Every output must retain its own `catalogue_id`, unit, quantity and relationship to the Production Execution. Non-physical services or deliverables must not be represented as physical stock.
 
-For long-running or interrupted processes, intermediate transactions may be valid, but each committed stage must have a defined and auditable effect.
+The transaction must also preserve references linking the Production Execution record to the authoritative Inventory transactions. The Production Execution must not be reported as committed before its physical stock effects are committed, and Inventory must not infer production completion from a stock transaction alone.
+
+If validation or commitment fails, no unintended partial stock change may remain. Repeating a request with the same idempotency key must not duplicate consumption, reservations or outputs. Reuse of the same key with a different execution payload must be rejected. If a prior request committed successfully but its response was lost, a retry must resolve to that committed result rather than applying the stock changes again.
+
+The implementation may use database transactions, a transactional event/commit protocol, or an equivalent mechanism. The specification defines the consistency and recovery guarantees, not the technical implementation.
+
+Long-running or multi-stage production may consist of multiple separately identified Production Executions. Each committed stage must have a defined, auditable effect and must not imply that an uncommitted later stage has completed.
 
 ### 9.5 By-products and Losses
 
