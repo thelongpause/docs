@@ -998,21 +998,21 @@ Production defines the physical extraction or production mechanics. The Catalogu
 
 Every economic product must have a canonical unit or defined service-delivery unit in the Good and Service Catalogue.
 
-For consumer Goods, a Good Unit represents the quantity required to satisfy the standard consumption requirement of one individual for the Good's specified Consumption Interval.
+For consumer Goods, Economy may express demand using a Good Unit defined in relation to the standard consumption requirement of one individual over a specified Consumption Interval. This is an economic demand convention governed by the Good and Service Catalogue, not a physical measurement unit.
 
-The Consumption Interval defines the period for which one Good Unit satisfies that standard requirement.
+The Catalogue defines the canonical physical unit for each physical product and keeps it distinct from any consumption interval, standard consumption requirement or economic valuation. Economy must not redefine the Catalogue's physical unit through the Good Unit convention.
 
-For example, if a Good has a Consumption Interval of one day, one Good Unit represents the standard daily requirement of one individual. If the interval is one year, one Good Unit represents the standard annual requirement.
+The Consumption Interval defines the period over which a standard consumption requirement is assessed. For example, a daily or annual consumption interval may be used to express demand for a product, while the product's physical stock continues to be measured in its canonical unit, such as kilograms, litres or individual items.
 
-This definition does not mean every individual consumes exactly one unit in every interval. Actual demand may depend on Population Type, household circumstances, income, preferences, availability and other explicitly defined variables.
+This convention does not mean every individual consumes exactly one Good Unit in every interval. Actual demand may depend on Population Type, household circumstances, income, preferences, availability and other explicitly defined variables.
 
 The Population System owns individual and household characteristics. Economy receives demand quantities and resolves their economic consequences.
 
-For Industrial Goods, Strategic Resources, Components, Armaments and Services, the unit must reflect the product's defined production, consumption, sale or delivery requirements.
+For Industrial Goods, Strategic Resources, Components, Armaments and Services, the applicable unit must reflect the product's defined production, consumption, sale or delivery requirements and must remain compatible with the Catalogue's canonical unit or defined service-delivery unit.
 
-The consumer-consumption definition must not be applied indiscriminately to products that are not consumer Goods.
+The consumer-consumption convention must not be applied indiscriminately to products that are not consumer Goods.
 
-Consumption Interval is a demand concept. It must not replace or redefine the physical units used for production, storage, inventory, transport or trade.
+A Consumption Interval is a demand concept. It must not replace or redefine the physical units used for production, storage, inventory, transport or trade. Economic price denominators must explicitly identify the unit to which the price applies.
 
 ---
 
