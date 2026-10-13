@@ -1,3 +1,4 @@
+
 # Inventory System
 
 **Canonical Path:** `docs/systems/inventory/inventory-system.md`  
@@ -12,21 +13,21 @@
 
 The Inventory System maintains the authoritative record of physical goods held throughout the world.
 
-It determines the quantities of goods that exist within recognised inventory holdings, where those goods are located, who owns or controls them, what condition they are in, and whether they are available, reserved, committed, in transit, or otherwise restricted.
+It determines the quantities of goods represented in recognised inventory holdings, their locations, ownership and custody, their condition, and whether they are available, reserved, committed, in transit, restricted, or otherwise unavailable for a particular use.
 
 Inventory is a shared system used by industrial companies, commercial enterprises, governments, military organisations, infrastructure operators, and other entities that hold physical goods.
 
 It supports the movement of resources through the economy, from extraction and manufacturing to storage, distribution, consumption, military supply, and final use.
 
-The system must support both simple inventory operations and complex supply chains involving multiple locations, organisations, transport networks, intermediate goods, and competing demands for scarce resources.
+The system must support simple inventory operations and complex supply chains involving multiple locations, organisations, transport networks, intermediate goods, and competing demands for scarce resources.
 
 ### 1.1 Core Principle
 
 **Inventory is the authoritative record of physical stock. No system may independently create, consume, transfer, or destroy physical stock outside the authorised Inventory transaction interfaces.**
 
-Production may generate goods, Logistics may move goods, Economy may purchase or sell goods, and Military may consume or allocate supplies. Inventory records the corresponding physical changes and ensures that quantities remain consistent across the simulation.
+Production may generate goods, Logistics may move goods, Economy may purchase or sell goods, and Military may request or consume supplies. Inventory records the corresponding physical stock changes and ensures that quantities remain consistent across the simulation.
 
-An economic transaction does not, by itself, move physical stock. A production order does not, by itself, establish that its outputs exist. A transport order does not, by itself, establish that goods have arrived.
+An economic transaction does not, by itself, move physical stock. A production order does not, by itself, establish that its outputs exist. A transport order does not, by itself, establish that goods have arrived. A reservation does not, by itself, consume goods.
 
 Each operation must be reflected through the appropriate authoritative systems and interfaces.
 
@@ -34,38 +35,40 @@ Each operation must be reflected through the appropriate authoritative systems a
 
 ## 2. System Boundaries
 
-Inventory owns the authoritative physical stock record and the rules governing stock reservations, adjustments, and inventory transactions.
+Inventory owns authoritative physical stock records and the rules governing stock reservations, inventory transactions, and stock adjustments.
 
 It does not independently determine the economic, productive, or logistical decisions that lead to those transactions.
 
-| System | Responsibility |
+| System | Authoritative responsibility |
 |---|---|
-| Economy System | Financial balances, purchasing and selling decisions, prices, expenditure, revenue, and financial ownership records |
-| Industry Data | Industry Types, industry instances, Industry Scale, establishment requirements, and Industry Areas |
-| Production System | Production facilities, production orders, scheduling, execution, and the coordination of input consumption and output creation |
+| Economy System | Financial balances, purchases and sales, prices, expenditure, revenue, financial ownership records, and economic decisions |
+| Industry Data | Industry Types, Industry instances, Industry Scale, establishment configuration, and Industry Areas |
+| Production System | Production facilities, production orders, scheduling, execution, and coordination of input consumption and output registration |
 | Production Processes and Recipes | Transformation definitions, input requirements, expected outputs, yields, by-products, and process losses |
-| Good and Service Catalogue | Canonical definitions of goods and services that inventory records may reference |
-| Logistics and Transportation | Transport capacity, route planning, movement execution, and delivery operations |
-| Terrain and Geography | Physical locations, geographic features, and infrastructure locations |
+| Good and Service Catalogue | Canonical product identifiers, classifications, attributes, and measurement conventions |
+| Logistics and Transportation | Transport capacity, route planning, physical movement execution, and delivery operations |
+| Terrain and Geography | Physical locations, geographic features, and infrastructure geography |
 | Government System | Legal restrictions, seizures, requisitions, embargoes, and other authorised interventions |
 | Military System | Military supply requirements, allocation priorities, acceptance criteria, and authorised consumption requests |
-| Workforce and Population | Population and workforce records, including goods held or consumed by households where those activities are modelled |
-| Research System | Technologies and technical capabilities that may affect production, storage, or handling requirements |
+| Workforce and Population | Population and workforce records, including household-held or consumed goods where those activities are modelled |
+| Research System | Technologies and capabilities that may affect production, storage, or handling requirements |
 
 The interfaces described in this document define system responsibilities. They do not require every dependent system to be fully implemented before basic inventory operations can function.
 
 ### 2.1 Ownership Rules
 
-1. Inventory owns the authoritative quantity of each physical stock holding.
-2. Inventory records reference goods through canonical catalogue identifiers.
-3. Inventory does not define the characteristics, specifications, or canonical identity of goods.
-4. Inventory does not determine the price or financial value of stock.
-5. Inventory does not independently purchase goods or transfer money.
+1. Inventory owns the authoritative quantity and state of each physical stock holding.
+2. Inventory records reference goods through canonical identifiers defined by the Good and Service Catalogue.
+3. Inventory does not independently define product identity, specifications, or canonical characteristics.
+4. Inventory does not determine prices, market values, or financial asset valuations.
+5. Inventory does not independently purchase goods, transfer money, or settle financial obligations.
 6. Inventory does not schedule production or calculate recipe outputs.
 7. Inventory does not plan or simulate transportation routes.
-8. Inventory does not independently decide which organisation deserves scarce resources.
-9. Inventory must not permit stock to be consumed or transferred beyond the quantity legally available for the requested operation.
+8. Inventory does not independently determine which organisation or objective should receive scarce resources.
+9. Inventory must not permit stock to be consumed, reserved, or transferred beyond the quantity eligible for the requested operation.
 10. Every committed stock-changing transaction must be traceable and reproducible.
+11. Services and other non-physical economic outputs must not be represented as physical stock unless a separate, explicitly defined physical good is produced.
+12. No system may record the same physical stock change independently of Inventory.
 
 ---
 
@@ -75,21 +78,7 @@ The interfaces described in this document define system responsibilities. They d
 
 A Good is a catalogue-defined physical product or material that may be held in inventory.
 
-Examples include:
-
-- Iron ore.
-- Coal.
-- Crude oil.
-- Steel.
-- Timber.
-- Grain.
-- Fuel.
-- Machinery.
-- Electrical components.
-- Vehicles.
-- Ammunition.
-- Medical supplies.
-- Finished consumer products.
+Examples include iron ore, coal, crude oil, steel, timber, grain, fuel, machinery, electrical components, vehicles, ammunition, medical supplies, and finished consumer products.
 
 Each good must reference a canonical identifier in the Good and Service Catalogue.
 
@@ -97,94 +86,71 @@ A good's identity must not be duplicated merely because it is held by a differen
 
 ### 3.2 Inventory Holding
 
-An Inventory Holding is a logical record of stock associated with a particular good and a defined combination of ownership, location, condition, and other relevant attributes.
+An Inventory Holding is a logical record of stock associated with a particular good and a defined combination of ownership, location, and other relevant attributes.
 
 A holding may contain one or more stock lots.
 
-Inventory holdings provide the aggregate view of stock. The underlying stock lots provide the detail necessary to track differences in condition, origin, quality, restrictions, or other relevant attributes.
+Inventory holdings provide the aggregate view of stock. Underlying stock lots preserve distinctions in condition, origin, quality, restrictions, or other attributes that affect subsequent operations.
 
 ### 3.3 Stock Lot
 
 A Stock Lot is a distinguishable quantity of a good held under a shared set of relevant attributes.
 
-A lot may be used to track:
+A lot may track:
 
 - Quantity.
 - Quality or grade.
 - Condition.
-- Production origin.
-- Acquisition or production date.
+- Production or acquisition origin.
+- Production or acquisition date.
 - Expiry date, where applicable.
 - Ownership.
 - Custody.
 - Restrictions.
 - Provenance.
-- Other catalogue-supported attributes.
+- Other supported attributes.
 
 Lots allow the simulation to distinguish goods that share a catalogue identity but are not necessarily interchangeable for every purpose.
 
-The initial implementation may aggregate stock where these distinctions do not affect simulation behaviour. It must not aggregate away an attribute that changes eligibility, availability, quality, or a later operation's result.
+The initial implementation may aggregate stock where these distinctions do not affect simulation behaviour. It must not aggregate away an attribute that changes eligibility, availability, quality, or the outcome of a later operation.
 
-### 3.3 Inventory Location
+### 3.4 Inventory Location
 
 An Inventory Location is a recognised place at which stock can be held or through which stock passes.
 
-Examples include:
-
-- Warehouses.
-- Factories.
-- Production facilities.
-- Mines.
-- Farms.
-- Ports.
-- Railway depots.
-- Distribution centres.
-- Shops.
-- Military depots.
-- Military units.
-- Construction sites.
-- Households, where household inventory is modelled.
+Examples include warehouses, factories, production facilities, mines, farms, ports, railway depots, distribution centres, shops, military depots, military units, construction sites, and households where household inventory is modelled.
 
 An inventory location must reference the appropriate authoritative location or entity in the relevant system.
 
-Inventory does not create geographic locations independently of Terrain and Geography, Industry Data, military entities, or other authoritative location-owning systems.
+Inventory does not independently create geographic locations. Locations must originate from Terrain and Geography, Industry Data, Military, or another authoritative location-owning system.
 
-### 3.4 Owner
+### 3.5 Owner
 
 The Owner is the entity that holds the recognised ownership interest in a stock holding.
 
 Ownership may belong to a company, government, military organisation, household, or another supported entity.
 
-Ownership is distinct from physical location and custody.
+Ownership is distinct from physical location and custody. Goods may be stored by a third-party warehouse, held by a distributor, or transported by a carrier without ownership necessarily changing.
 
-Goods may be stored by a third-party warehouse, held by a distributor, or transported by a carrier without ownership necessarily changing.
+### 3.6 Custodian
 
-### 3.5 Custodian
-
-The Custodian is the entity responsible for holding or handling stock on behalf of an owner, where custody is relevant to the simulation.
+The Custodian is the entity responsible for physically holding or handling stock on behalf of an owner, where custody is relevant to the simulation.
 
 Custody may affect access, handling, and operational responsibility.
 
-Custody does not automatically imply ownership.
+Custody does not automatically imply ownership or authority to sell, consume, or transfer stock.
 
-### 3.6 Reservation
+### 3.7 Reservation
 
 A Reservation is a commitment of available stock to a defined purpose, order, or authorised recipient.
 
-Reserved stock remains part of physical inventory, but it is no longer generally available for competing uses.
+Reserved stock remains part of physical inventory but is no longer generally available for competing uses.
 
-Examples include stock reserved for:
-
-- A production order.
-- A military supply requirement.
-- A customer order.
-- A construction project.
-- A scheduled shipment.
-- An authorised government requirement.
+Examples include stock reserved for a production order, military supply requirement, customer order, construction project, scheduled shipment, or authorised government requirement.
 
 A reservation does not itself consume stock or transfer ownership.
 
-### 3.7 Inventory Transaction
+### 3.8 Inventory Transaction
 
 An Inventory Transaction is an authorised, recorded operation that changes stock quantity, location, availability, condition, ownership, or another inventory-controlled attribute.
 
@@ -194,10 +160,10 @@ Transactions may include:
 - Production output.
 - Consumption.
 - Transfer.
-- Shipment.
-- Delivery.
+- Dispatch.
+- Receipt at destination.
 - Reservation.
-- Release of a reservation.
+- Reservation release.
 - Loss.
 - Destruction.
 - Adjustment.
@@ -206,15 +172,15 @@ Transactions may include:
 
 Each transaction must identify the relevant stock, quantities, source and destination where applicable, reason, and authoritative initiating operation.
 
-### 3.8 In-Transit Stock
+### 3.9 In-Transit Stock
 
 In-Transit Stock is physical stock that has departed its origin but has not yet been received at its destination.
 
-In-transit stock remains part of the world's physical inventory unless the applicable operation explicitly records a loss or other change.
+In-transit stock remains part of the world's physical inventory unless an authorised operation records a loss or another change.
 
-It must not simultaneously be counted as available stock at both its origin and destination.
+It must not simultaneously be counted as available stock at the origin and destination.
 
-Logistics owns the movement operation. Inventory records the stock's authoritative inventory state throughout that movement.
+Logistics owns the movement operation. Inventory owns the authoritative stock record throughout that movement.
 
 ---
 
@@ -231,7 +197,7 @@ An Inventory Holding should contain:
 | `inventory_holding_id` | Stable, unique holding identifier |
 | `good_id` | Canonical Good and Service Catalogue identifier |
 | `location_id` | Authoritative location identifier |
-| `owner_id` | Entity that owns the stock, where ownership is applicable |
+| `owner_id` | Entity that owns the stock, where applicable |
 | `custodian_id` | Entity responsible for custody, where applicable |
 | `quantity_on_hand` | Total physical quantity represented by the holding |
 | `quantity_reserved` | Quantity committed to active reservations |
@@ -241,9 +207,11 @@ An Inventory Holding should contain:
 | `created_at` | Simulation time at which the holding was created |
 | `updated_at` | Simulation time of the latest relevant update |
 
-The aggregate quantity fields may be derived from underlying stock lots and reservations rather than independently stored.
+Aggregate quantity fields may be derived from stock lots and reservations rather than independently stored.
 
 If a value is stored redundantly for performance, the system must maintain consistency with the authoritative underlying records.
+
+An inventory holding represents physical stock. It must not be used as a substitute for a financial asset record or a service-delivery record.
 
 ### 4.2 Stock Lot
 
@@ -293,7 +261,7 @@ A Reservation should contain:
 
 Reservations must be traceable to their purpose and the authority that created them.
 
-The reservation record does not replace the physical stock record.
+A reservation does not replace the physical stock record or the initiating system's order record.
 
 ### 4.4 Inventory Transaction Record
 
@@ -321,9 +289,9 @@ The conceptual transaction record should include:
 | `idempotency_key` | Identifier used to prevent duplicate execution |
 | `metadata` | Additional relevant transaction information |
 
-A transaction may affect more than one holding or lot. In such cases, the transaction must record the full set of stock movements needed to represent the operation consistently.
+A transaction may affect more than one holding or lot. In such cases, the transaction must record the complete set of stock movements needed to represent the operation consistently.
 
-The specific storage schema may separate the transaction header from its individual stock movements.
+The implementation may separate the transaction header from individual stock movements.
 
 ---
 
@@ -365,7 +333,7 @@ Where:
 
 The calculation applies only to compatible units and the relevant holding or stock scope.
 
-Additional restrictions may reduce the quantity eligible for a particular use. For example, damaged goods may exist physically but be unsuitable for a production recipe.
+Additional restrictions may reduce the quantity eligible for a particular use. Damaged goods, for example, may exist physically but be unsuitable for a production recipe.
 
 The system must not treat every unreserved unit as universally usable.
 
@@ -375,7 +343,7 @@ Quantity in transit represents stock that has departed its source but has not ye
 
 It must be represented separately from available stock at either endpoint.
 
-A shipment's departure reduces the source holding by the quantity dispatched. The stock remains part of the world inventory and is associated with the authorised movement until it is received, lost, or otherwise resolved.
+Dispatch reduces the source holding by the quantity dispatched. The stock remains part of the world's physical inventory and is associated with the authorised movement until it is received, lost, or otherwise resolved.
 
 ### 5.5 Non-Negative Quantities
 
@@ -383,7 +351,7 @@ Physical quantities must not become negative through ordinary inventory transact
 
 A stock-consuming transaction must be rejected or constrained if the eligible quantity is insufficient.
 
-Any exceptional correction that reveals an earlier accounting error must be handled through an explicit, auditable correction process. It must not silently bypass the quantity invariants.
+Any exceptional correction that reveals an earlier accounting error must be handled through an explicit, auditable correction process. It must not silently bypass quantity invariants.
 
 ---
 
@@ -395,7 +363,7 @@ Inventory must retain the attributes and commitments needed to determine whether
 
 ### 6.1 Availability Conditions
 
-A stock quantity may be unavailable because it is:
+Stock may be unavailable because it is:
 
 - Reserved for another purpose.
 - In transit.
@@ -407,7 +375,7 @@ A stock quantity may be unavailable because it is:
 - Subject to an ownership or custody restriction.
 - Otherwise ineligible under an authoritative system's rules.
 
-The relevant restriction must be represented explicitly where the simulation models it.
+Restrictions must be represented explicitly where the simulation models them.
 
 Inventory provides stock and restriction information to authorised requesting systems. It does not independently determine legal policy, facility eligibility, route accessibility, or military priority.
 
@@ -429,15 +397,13 @@ The applicable set may vary by good category and implementation scope.
 
 Condition classifications must have defined meanings and must not be assigned arbitrary operational effects.
 
-For example, a damaged machine component may be unsuitable for assembly, while a damaged package of another good may remain usable under specified conditions.
-
 The applicable production or consumption system determines the acceptance criteria for a particular use.
 
 ### 6.3 Quality and Specification
 
 Inventory may hold multiple lots of the same good with different quality attributes.
 
-A production recipe may require a particular grade or purity. Inventory must provide the relevant lot information so Production can determine which quantities satisfy that requirement.
+A production recipe may require a particular grade or purity. Inventory must provide relevant lot information so Production can determine which quantities satisfy that requirement.
 
 Inventory must not redefine the meaning of a material grade. The Good and Service Catalogue and applicable domain specifications own the relevant definitions.
 
@@ -472,19 +438,19 @@ A reservation request must specify:
 - The eligible stock scope or location.
 - The requesting entity.
 - The purpose and originating order.
-- Any quality, condition, or ownership requirements.
+- Quality, condition, ownership, or other applicable requirements.
 - The applicable priority or allocation rule.
 - Any reservation expiry or release conditions.
 
-Inventory validates the request against the available stock and applicable restrictions.
+Inventory validates the request against available stock and applicable restrictions.
 
 A reservation may be accepted in full, accepted in part where explicitly permitted, or rejected.
 
-The system must not silently reserve more stock than exists or double-commit the same quantity to competing reservations.
+The system must not reserve more stock than exists or double-commit the same quantity to competing reservations.
 
 ### 7.2 Reservation Scope
 
-Reservations may be made against a specific stock lot or against a defined holding.
+Reservations may be made against a specific stock lot or a defined holding.
 
 Lot-specific reservations are required when the requesting operation depends on lot attributes, quality, condition, origin, or other restrictions.
 
@@ -498,7 +464,7 @@ If the requested quantity exceeds the eligible available quantity, the system ma
 
 The accepted quantity must be explicit.
 
-Production or the requesting system must determine whether that partial quantity is sufficient to proceed. Inventory must not independently decide whether a partially supplied production order should run.
+Production or the requesting system determines whether the partial quantity is sufficient to proceed. Inventory must not independently decide whether a partially supplied production order should run.
 
 ### 7.4 Reservation Fulfilment
 
@@ -526,7 +492,7 @@ Releasing a reservation does not create stock. It returns the eligible unconsume
 
 Inventory may support priority values supplied by the requesting system or determined through an authorised allocation policy.
 
-Examples of priority sources include production urgency, contractual commitments, military requirements, or government directives.
+Examples include production urgency, contractual commitments, military requirements, or government directives.
 
 Inventory must not invent a universal priority hierarchy or decide which economic or military objective should take precedence.
 
@@ -567,7 +533,7 @@ A transaction must not be committed if its required validations fail.
 
 ### 8.2 Receipt
 
-A receipt adds stock to an inventory holding.
+A receipt adds physical stock to an inventory holding.
 
 A receipt may originate from:
 
@@ -580,20 +546,13 @@ A receipt may originate from:
 
 The receipt must identify the origin of the goods and the location at which they are received.
 
-A purchase order alone does not create a physical receipt. The stock must be recorded when the relevant receipt event is authorised under the applicable procurement and delivery rules.
+A purchase order alone does not create a physical receipt. Stock is recorded when the relevant receipt event is authorised under the applicable procurement and delivery rules.
 
 ### 8.3 Consumption
 
 Consumption removes physical stock from inventory for an authorised purpose.
 
-Examples include:
-
-- Inputs consumed by production.
-- Fuel used in an operating process.
-- Supplies consumed by a military unit.
-- Materials used in construction.
-- Goods consumed by households, where modelled.
-- Goods destroyed or otherwise irreversibly used.
+Examples include inputs consumed by production, fuel used in an operating process, supplies consumed by a military unit, materials used in construction, goods consumed by households where modelled, and goods irreversibly used.
 
 The transaction must identify the quantity consumed and the initiating operation.
 
@@ -607,20 +566,13 @@ The transaction must explicitly identify which attributes change.
 
 A location transfer does not automatically imply a change in ownership. A change in custody does not automatically imply a sale.
 
-Where a transfer involves physical movement, Logistics must coordinate the movement and Inventory must record the corresponding stock state changes.
+Where a transfer involves physical movement, Logistics coordinates the movement and Inventory records the corresponding stock state changes.
 
 ### 8.5 Loss
 
-A loss transaction records a reduction in physical stock that is not represented by an ordinary consumption or completed transfer.
+A loss transaction records a reduction in physical stock that is not represented by ordinary consumption or a completed transfer.
 
-Examples may include:
-
-- Spoilage.
-- Accidental destruction.
-- Transport damage that renders stock unusable.
-- Theft, where the simulation models it.
-- Environmental degradation.
-- Other explicitly modelled losses.
+Examples include spoilage, accidental destruction, transport damage that renders stock unusable, theft where modelled, environmental degradation, and other explicitly modelled losses.
 
 The reason for the loss must be recorded.
 
@@ -637,7 +589,7 @@ Adjustments must include:
 - The reason.
 - The initiating authority.
 - The simulation time.
-- The reference to any relevant audit or investigation record.
+- A reference to any relevant audit or investigation record.
 
 Adjustments must not be used as an undocumented substitute for production, purchases, transfers, or consumption.
 
@@ -665,13 +617,13 @@ If a transformation physically converts one good into another, it is normally a 
 
 Production and Inventory must operate as separate but coordinated systems.
 
-Production determines what is executed and the actual quantities resulting from that execution. Inventory records the physical input and output consequences.
+Production determines what is executed and the actual quantities resulting from execution. Production Processes and Recipes defines the quantitative transformation rules. Inventory records the physical input and output consequences.
 
 ### 9.1 Production Inputs
 
 Before a production order executes, Production must obtain the required stock through the Inventory interface.
 
-The recipe defines the expected input requirements. Production determines the requested execution quantity. Inventory validates availability and records any authorised reservation.
+The recipe defines expected input requirements. Production determines the requested execution quantity. Inventory validates availability and records any authorised reservation.
 
 The presence of a valid recipe does not guarantee that the required materials exist.
 
@@ -685,17 +637,11 @@ If production is interrupted or completes partially, Inventory must not consume 
 
 ### 9.3 Production Outputs
 
-When Production reports a completed execution, Inventory records the resulting physical outputs.
+When Production reports a completed execution or authorised partial execution, Inventory records the resulting physical outputs.
 
-Outputs may include:
+Outputs may include primary products, co-products, by-products, recoverable materials, and physical waste that the simulation tracks.
 
-- Primary products.
-- Co-products.
-- By-products.
-- Recoverable materials.
-- Waste products that the simulation tracks as physical goods.
-
-The recorded quantities must correspond to the authorised execution result, not merely the recipe's theoretical output for a fully completed order.
+Recorded quantities must correspond to the authorised execution result, not merely the recipe's theoretical output for a fully completed order.
 
 ### 9.4 Atomicity
 
@@ -721,7 +667,7 @@ Production must not bypass Inventory when recording completed output.
 
 Similarly, Inventory must not independently calculate recipe outputs or decide that a production order has completed.
 
-The two systems must coordinate through an explicit execution result and authorised transaction.
+The systems must coordinate through an explicit execution result and authorised transaction.
 
 ---
 
@@ -729,31 +675,31 @@ The two systems must coordinate through an explicit execution result and authori
 
 Inventory records physical quantities, not monetary value.
 
-Economy remains the authoritative system for financial balances, prices, payments, revenue, expenditure, and other economic records.
+Economy remains authoritative for financial balances, prices, payments, revenue, expenditure, Company Capital, and other economic records.
 
 ### 10.1 Purchasing
 
 A purchase may create a financial commitment or payment without immediately creating a physical receipt.
 
-Inventory receives the goods when the authorised delivery or receipt event occurs.
+Inventory receives goods when the authorised delivery or receipt event occurs.
 
 The purchase record and physical receipt must be linked where the procurement system supports that relationship.
 
 ### 10.2 Sales
 
-A sale does not automatically remove stock from inventory at the moment a commercial agreement is created.
+A sale does not automatically remove stock from inventory when a commercial agreement is created.
 
 The applicable order, fulfilment, and delivery rules determine when stock is reserved, dispatched, and transferred.
 
-Inventory records the physical consequences of fulfilment.
+Inventory records the physical consequences of fulfilment. Economy records the corresponding financial consequences according to its own transaction rules.
 
-Economy records the corresponding financial consequences according to its own transaction rules.
+A sale must not be deducted once as a sale and again as a physical transfer. Each physical quantity change must be represented exactly once.
 
 ### 10.3 Ownership Changes
 
-Ownership may change without the stock changing physical location.
+Ownership may change without stock changing physical location.
 
-Where an authorised sale or other transaction transfers ownership, Inventory must update the relevant ownership records without inventing a physical movement.
+Where an authorised sale or other transaction transfers ownership, Inventory updates the relevant ownership records without inventing a physical movement.
 
 The associated financial transfer remains Economy's responsibility.
 
@@ -761,7 +707,7 @@ The associated financial transfer remains Economy's responsibility.
 
 Inventory must not independently determine market prices, replacement costs, accounting valuations, or company asset values.
 
-If a valuation view is needed, it must use the applicable valuation rules supplied by Economy or another authorised financial system.
+If a valuation view is needed, it must use applicable valuation rules supplied by Economy or another authorised financial system.
 
 Physical quantity and financial value must remain distinct concepts.
 
@@ -783,11 +729,11 @@ Logistics determines how goods move through the transportation network. Inventor
 
 A shipment may require goods to be reserved before dispatch.
 
-Inventory validates the stock, quantity, location, ownership, and other applicable constraints.
+Inventory validates stock, quantity, location, ownership, and other applicable constraints.
 
-Logistics validates the transport operation, including applicable route and capacity constraints.
+Logistics validates the transport operation, including route and capacity constraints.
 
-Neither system may assume that the other has successfully completed its part without an authoritative result.
+Neither system may assume that the other has completed its part without an authoritative result.
 
 ### 11.2 Dispatch
 
@@ -801,13 +747,13 @@ It must not be added to the destination's available stock before receipt.
 
 While a shipment is in transit, its stock must remain accounted for.
 
-The in-transit record should preserve the association with the originating stock, shipment, and expected destination.
+The in-transit record must preserve its association with the originating stock, shipment, and expected destination.
 
-Inventory must not duplicate the goods across source, transit, and destination holdings.
+Inventory must not duplicate goods across source, transit, and destination holdings.
 
 ### 11.4 Arrival and Receipt
 
-When Logistics confirms arrival and the applicable receiving conditions are satisfied, Inventory records the receipt at the destination.
+When Logistics confirms arrival and the applicable receiving conditions are satisfied, Inventory records receipt at the destination.
 
 The received quantity may differ from the dispatched quantity if the simulation explicitly records losses, damage, or discrepancies.
 
@@ -819,13 +765,13 @@ If a shipment is delayed, diverted, damaged, captured, destroyed, or otherwise i
 
 Inventory updates the stock's recorded state only through an authorised transaction.
 
-The exact handling of cargo held at intermediate locations, transferred between carriers, or awaiting inspection must be defined by the Logistics and Inventory contracts.
+The handling of cargo at intermediate locations, transfers between carriers, or cargo awaiting inspection must be defined by the Logistics and Inventory contracts.
 
 ### 11.6 No Instantaneous Remote Availability
 
-Stock at one location must not be treated as immediately available at another location merely because both locations are connected in the simulation.
+Stock at one location must not be treated as immediately available at another location merely because both locations exist in the simulation or are connected by a route.
 
-Any operation that requires physical relocation must respect the applicable movement and delivery rules.
+Any operation that requires physical relocation must respect applicable movement and delivery rules.
 
 ---
 
@@ -833,25 +779,17 @@ Any operation that requires physical relocation must respect the applicable move
 
 Inventory must be capable of representing stock whose condition changes over time.
 
-Detailed spoilage, degradation, and storage physics may be implemented incrementally, but the core data model must not prevent their introduction.
+Detailed spoilage, degradation, and storage physics may be implemented incrementally, but the core data model must support their introduction.
 
 ### 12.1 Storage Requirements
 
 A good may require particular storage conditions or handling capabilities.
 
-Examples include:
+Examples include temperature control, moisture protection, ventilation, hazardous-material containment, secure storage, special handling, and protection against contamination.
 
-- Temperature control.
-- Moisture protection.
-- Ventilation.
-- Hazardous-material containment.
-- Secure storage.
-- Special handling.
-- Protection against contamination.
+Where the simulation models these requirements, the Catalogue or relevant technical specification defines them, and the applicable storage or facility system determines whether they are satisfied.
 
-Where the simulation models these requirements, the catalogue or relevant technical specification defines the requirements, and the applicable storage or facility system determines whether they are satisfied.
-
-Inventory records the relevant stock attributes and any authorised resulting changes.
+Inventory records the relevant stock attributes and authorised resulting changes.
 
 ### 12.2 Expiry
 
@@ -867,14 +805,7 @@ The system must distinguish between physical existence and eligibility for use.
 
 If stock deteriorates over time, the simulation must use explicit deterioration rules.
 
-Those rules may affect:
-
-- Quantity.
-- Condition.
-- Quality.
-- Usability.
-- Recoverability.
-- Permitted destinations.
+Those rules may affect quantity, condition, quality, usability, recoverability, or permitted destinations.
 
 Deterioration must be deterministic under the simulation's time and state rules unless an explicitly defined stochastic process applies.
 
@@ -900,9 +831,9 @@ The physical stock must not be duplicated because multiple entities have a relat
 
 ### 13.2 Custody and Access
 
-Custody may determine which entity physically controls or handles the goods.
+Custody may determine which entity physically controls or handles goods.
 
-Access to stock must be validated against the applicable permissions and ownership rules.
+Access to stock must be validated against applicable permissions and ownership rules.
 
 Possession does not automatically confer a right to sell, consume, or transfer ownership.
 
@@ -910,11 +841,9 @@ Possession does not automatically confer a right to sell, consume, or transfer o
 
 Government actions may restrict, requisition, seize, release, or otherwise affect stock when authorised under the simulation's legal and political systems.
 
-Inventory records the resulting stock restrictions or changes.
+Inventory records the resulting restrictions or changes.
 
-The Government System determines whether the intervention is authorised and defines its scope.
-
-Inventory must not independently invent a seizure, embargo, requisition, or other government action.
+The Government System determines whether the intervention is authorised and defines its scope. Inventory must not independently invent a seizure, embargo, requisition, or other government action.
 
 ### 13.4 Military Stock
 
@@ -961,11 +890,11 @@ Before a transfer is committed, Inventory must validate:
 - The source stock exists.
 - The quantity is eligible for transfer.
 - The operation is authorised.
-- The source and destination references are valid.
+- Source and destination references are valid.
 - Units and stock attributes are compatible.
 - Active reservations are respected.
 - The operation does not duplicate stock.
-- Any applicable restrictions are satisfied.
+- Applicable restrictions are satisfied.
 
 Where physical transport is required, Logistics must additionally validate and execute the movement.
 
@@ -1001,7 +930,7 @@ If disposal generates recoverable materials or other outputs, those outputs must
 
 ### 15.4 Environmental Consequences
 
-Inventory does not independently calculate pollution, emissions, contamination of land, or environmental damage.
+Inventory does not independently calculate pollution, emissions, land contamination, or environmental damage.
 
 Where disposal or destruction has environmental consequences, the responsible system must calculate them and report the resulting effects through the appropriate interface.
 
@@ -1021,7 +950,7 @@ The history should make it possible to determine:
 
 - What good changed.
 - What quantity changed.
-- Which stock holding or lot was affected.
+- Which holding or lot was affected.
 - Where the stock originated.
 - Where it went, where applicable.
 - Who owned or controlled it.
@@ -1041,7 +970,7 @@ The implementation may use compensating transactions, explicit correction record
 
 The inventory architecture should support reconstructing stock quantities at a prior simulation time from an authoritative baseline and the relevant committed transactions.
 
-The initial implementation need not expose a full historical-query interface, but its transaction model should not make historical reconstruction impossible.
+The initial implementation need not expose a full historical-query interface, but its transaction model must not make historical reconstruction impossible.
 
 ### 16.4 Provenance
 
@@ -1067,11 +996,11 @@ If several eligible lots could satisfy a request, the selection rule must be def
 
 ### 17.2 Atomicity
 
-A committed transaction must leave the inventory state internally consistent.
+A committed transaction must leave inventory state internally consistent.
 
 For a transfer between two holdings, the source reduction and destination or in-transit representation must form one logically consistent operation.
 
-For production execution, the relationship between input consumption and output receipt must follow the shared Production and Inventory transaction contract.
+For production execution, the relationship between input consumption and output registration must follow the shared Production and Inventory transaction contract.
 
 The implementation may use database transactions, event-based commits, or another mechanism, provided the resulting state remains consistent.
 
@@ -1340,13 +1269,13 @@ Inventory may publish events such as:
 - `inventory_stock_adjusted`
 - `inventory_stock_reclassified`
 
-These names are illustrative and should follow the shared event naming and versioning conventions.
+These names are illustrative and should follow shared event naming and versioning conventions.
 
 The initiating system remains responsible for the decision that caused the event. Inventory reports the authoritative stock consequence.
 
 ---
 
-## 20. Deterministic Simulation Processing
+## 20. Simulation Timing and Daily Processing
 
 Inventory must participate in the simulation's authoritative processing sequence without independently deciding the order of production, economic, or logistical activities.
 
@@ -1356,7 +1285,7 @@ A typical interaction may proceed as follows:
 
 1. An authoritative system requests an inventory query or transaction.
 2. Inventory validates the request, references, quantities, permissions, and current stock state.
-3. If the operation involves a reservation, Inventory commits the reservation under the applicable allocation rules.
+3. If the operation involves a reservation, Inventory commits it under the applicable allocation rules.
 4. If the operation requires physical movement, Logistics coordinates dispatch and transportation.
 5. Inventory records dispatch and associates the stock with the authorised movement.
 6. Upon arrival, the relevant system confirms the actual receipt.
@@ -1364,7 +1293,7 @@ A typical interaction may proceed as follows:
 8. The initiating system receives the authoritative transaction result.
 9. Relevant dependent systems receive the appropriate events or updated records.
 
-This sequence is illustrative rather than a universal requirement for every transaction. A production receipt, local consumption, or ownership change may require a different sequence.
+This sequence is illustrative rather than universal. A production receipt, local consumption, or ownership change may require a different sequence.
 
 All operations must respect the same underlying invariants.
 
@@ -1380,7 +1309,7 @@ Where transaction ordering affects outcomes, the authoritative simulation archit
 
 Inventory must not rely on nondeterministic request arrival order to decide which competing operation receives scarce stock.
 
-Where a priority-based allocation is required, the responsible system must provide the relevant rule and tie-breaking behaviour.
+Where priority-based allocation is required, the responsible system must provide the relevant rule and tie-breaking behaviour.
 
 ---
 
@@ -1449,6 +1378,7 @@ The Inventory System is ready for foundational integration when the following co
 - [ ] Relevant quality, condition, and restriction attributes can be retained.
 - [ ] Quantity on hand, reserved, and available are distinguishable.
 - [ ] In-transit stock remains accounted for without being duplicated at either endpoint.
+- [ ] Non-physical services are not represented as physical stock.
 
 ### 22.2 Transactions
 
@@ -1457,7 +1387,7 @@ The Inventory System is ready for foundational integration when the following co
 - [ ] Transfers preserve stock consistency between source, transit, and destination.
 - [ ] Ownership changes do not create duplicate physical stock.
 - [ ] Reservations prevent the same stock from being committed twice.
-- [ ] Reservation release restores the appropriate availability without creating stock.
+- [ ] Reservation release restores appropriate availability without creating stock.
 - [ ] Losses and adjustments are explicitly recorded.
 - [ ] Invalid or unauthorised transactions are rejected.
 
@@ -1480,6 +1410,7 @@ The Inventory System is ready for foundational integration when the following co
 - [ ] In-transit stock is not available at the destination before receipt.
 - [ ] Arrival records the actual received quantity.
 - [ ] Financial valuation remains outside Inventory's authority.
+- [ ] A physical outflow is not deducted twice because it is associated with both a sale and a transfer.
 
 ### 22.5 Determinism and Integrity
 
@@ -1506,14 +1437,17 @@ The following decisions must be resolved through shared contracts or implementat
 7. **Transaction architecture:** Select the implementation model for atomic commits, transaction records, and idempotency.
 8. **Production transaction boundaries:** Finalise the contract for input reservations, consumption, output recording, interrupted production, and partial completion.
 9. **Logistics integration:** Define the state model for dispatched cargo, intermediate stops, diversions, damage, losses, and final receipt.
-10. **Condition and quality:** Define the catalogue and domain contracts for quality attributes, grades, condition, inspection, and usability.
+10. **Condition and quality:** Define the Catalogue and domain contracts for quality attributes, grades, condition, inspection, and usability.
 11. **Deterioration:** Determine which goods deteriorate over time and how expiry, spoilage, and degradation are simulated.
 12. **Waste and disposal:** Define the treatment of physical waste, recycling, destruction, and environmental consequences.
 13. **Historical reconstruction:** Determine the implementation strategy for stock history, transaction retention, and historical queries.
 14. **Save compatibility:** Define how inventory state and transaction records are migrated across simulation version changes.
 15. **Starting inventory:** Specify the initial stock holdings, ownership, locations, quantities, and provenance for the 1955 starting world.
-16. **Good and Service Catalogue:** Finalise the canonical identifiers, physical versus non-physical classifications, unit definitions, and relevant stock attributes in the catalogue document.
+16. **Good and Service Catalogue:** Finalise canonical identifiers, physical versus non-physical classifications, unit definitions, and relevant stock attributes in the Catalogue specification.
 17. **Household inventory:** Determine whether consumer goods held by individual households are represented as detailed inventory holdings or through an aggregate population-consumption model.
+18. **In-transit accounting:** Finalise the canonical representation of stock in transit and its relationship to Logistics movement records.
+19. **Inventory valuation interfaces:** Define any read-only interface through which Economy can obtain quantities and provenance for valuation without transferring valuation authority to Inventory.
+20. **Event contracts:** Establish shared event names, payload schemas, versioning, retry behaviour, and failure handling.
 
 Until these decisions are resolved, implementation must preserve the ownership boundaries and invariants defined here.
 
@@ -1523,10 +1457,10 @@ Until these decisions are resolved, implementation must preserve the ownership b
 
 Inventory represents the physical reality of the simulated economy.
 
-A company may purchase goods without having received them. A factory may possess a valid recipe without having the necessary materials. A military unit may have a supply requirement without having received the required stock. A shipment may have departed without having arrived.
+A company may purchase goods without having received them. A factory may possess a valid recipe without having the necessary materials. A military unit may have a supply requirement without having received the required stock. A shipment may have departed without having arrived. A reservation may commit stock without consuming it.
 
 These are distinct states and must remain distinct in the simulation.
 
-Economy records financial consequences. Industry Data establishes industries. Production executes transformations. Production Processes and Recipes define the quantitative rules of those transformations. Logistics moves goods. Inventory records the authoritative physical stock and its state throughout the process. The Good and Service Catalogue defines the goods and services referenced by these systems.
+Economy records financial consequences. Industry Data defines industry configuration. Production executes transformations. Production Processes and Recipes define the quantitative rules of those transformations. Logistics moves goods. Inventory records authoritative physical stock and its state throughout the process. The Good and Service Catalogue defines the goods and services referenced by these systems.
 
 **No purchase, production order, shipment, reservation, or requirement may be treated as physical stock unless the corresponding inventory state has been authoritatively recorded.**
