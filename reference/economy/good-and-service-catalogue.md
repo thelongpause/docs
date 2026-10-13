@@ -638,20 +638,20 @@ Permission to represent a fractional quantity does not automatically imply that 
 
 ### 7.6 Consumer Consumption Intervals
 
-For consumer goods, the Economy System may define a Good Unit in relation to the quantity required to satisfy a standard consumption requirement for one individual over a specified Consumption Interval.
+For consumer Goods, Economy may define a Good Unit as an economic convention for expressing the standard consumption requirement of one individual over a specified Consumption Interval. This convention is not a physical measurement unit and does not replace or redefine the Catalogue's canonical unit for a physical product.
 
-This is an economic consumption convention, not a physical measurement unit.
+The Catalogue is authoritative for the canonical physical unit of each physical product and for the defined delivery unit of a non-physical Service. Other systems may define demand, consumption intervals, rates or economic valuation, but must reference the Catalogue's product identity and must not redefine its unit of measure.
 
 The Catalogue must keep these concepts separate:
 
-- **Physical unit:** The canonical unit in which actual quantity is measured.
+- **Physical unit:** The canonical unit in which actual physical quantity is measured, such as kilograms, litres or individual items.
 - **Consumption interval:** The period over which a standard consumption requirement is assessed.
 - **Consumption requirement:** The quantity or rate expected by the applicable Population or Economy rules.
 - **Economic valuation:** The monetary value assigned by the Economy System.
 
-For example, a household may have a weekly requirement for a defined quantity of a physical product. Inventory still records that product using its canonical physical unit, while Population and Economy determine the consumption requirement and its economic interpretation.
+For example, a household may have a weekly requirement for a defined quantity of a physical product. Inventory continues to record the product using its canonical physical unit, while Population and Economy determine the consumption requirement and its economic interpretation. An economic price must explicitly identify the quantity unit or demand convention to which it applies.
 
-A consumption interval must not change the physical definition of the product or its unit of measurement.
+A consumption interval or Good Unit convention must not change the physical definition of a product, the unit in which its stock is measured, or the unit used for production, inventory, transport or trade.
 
 ### 7.7 Unit Authority
 
