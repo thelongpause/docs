@@ -1,0 +1,157 @@
+# World Map and Simulation Dependency Map
+
+**Canonical Path:** `technical/architecture/world-simulation-dependencies.md`  
+**Document Type:** Technical Architecture Reference  
+**Status:** Foundational Architecture Reference
+
+---
+
+## 1. Purpose
+
+This document records the principal ownership boundaries and dependency relationships for the World Map, Terrain Objects, Population Centres and the simulation systems that consume them.
+
+It is a navigation and integration reference. It does not replace the canonical rules in the owning system specifications.
+
+## 2. Canonical Documents
+
+| Concern | Authoritative document |
+| --- | --- |
+| Shared geographic model, coordinates, spatial queries and Movement Grid | `systems/world/world-map-system.md` |
+| Terrain Object model, attributes, states and initial type catalogue | `systems/world/terrain-objects.md` |
+| Settlement geography and its relationship to population state | `systems/population/population-centres-system.md` |
+| Map authoring architecture and Godot integration | `technical/map-authoring/mapmaker-specification.md` |
+| Financial state and transactions | `systems/economy/economy-system.md` |
+| Industry Types and establishment configuration | `systems/economy/industry-data.md` |
+| Production facilities, orders, capacity and execution | `systems/production/production-system.md` |
+| Production transformations and recipes | `systems/production/production-processes-and-recipes.md` |
+| Physical stock, holdings, reservations and inventory movements | `systems/inventory/inventory-system.md` |
+| Canonical Goods, Services, product classes and units | `reference/economy/good-and-service-catalogue.md` |
+
+A document may link to another specification, but must not copy its rules as a competing authority.
+
+## 3. Authority Model
+
+The architecture separates geographic truth, mutable simulation state, and derived data.
+
+| Data | Authority | Examples |
+| --- | --- | --- |
+| Geographic definition | World Map / canonical world data | Geometry, altitude surface, feature IDs |
+| Terrain definition | Terrain Objects | Road type, forest type, base height, supported states |
+| Current terrain condition | Owning simulation system | Flooding, freezing, damage, repair progress |
+| Settlement geometry | World Map and Population Centres | Population Centre Area and settlement class |
+| Population and demographics | Population | Population totals, cohorts, migration, labour, needs |
+| Financial state | Economy | Cash, prices, revenue, expenditure, tax transactions |
+| Industry configuration | Industry Data | Industry Type, establishment profile, location requirements |
+| Production state | Production | Facility, capacity, order, execution |
+| Physical stock | Inventory | Stock lot, quantity, location, reservation, movement |
+| Product identity and units | Good and Service Catalogue | `catalogue_id`, class, canonical unit |
+| Transport and delivery | Logistics | Network use, shipment, in-transit state, delivery |
+| Rendering and derived caches | Runtime/build pipeline | Meshes, visual layers, cell samples, spatial indexes |
+
+A system may cache another system's data for performance, but cached copies must be invalidatable and must not become authoritative.
+
+## 4. Dependency Graph
+
+```mermaid
+flowchart TD
+    A[Canonical World Definition] --> B[World Map System]
+    A --> C[MapMaker]
+    C --> D[Validation and Export]
+    D --> A
+    B --> E[Terrain Objects]
+    B --> F[Population Centre Geometry]
+    E --> G[Movement]
+    E --> H[Visibility and Detection]
+    E --> I[Combat and Weapons]
+    E --> J[Weather and Climate]
+    E --> K[Infrastructure and Construction]
+    F --> L[Population]
+    G --> M[Logistics]
+    K --> M
+    L --> N[Economy]
+    N --> O[Industry Data]
+    O --> P[Production]
+    P --> Q[Inventory]
+    R[Good and Service Catalogue] --> N
+    R --> P
+    R --> Q
+    M --> P
+    M --> N
+    S[Godot Runtime] --> T[Rendering and Player Interaction]
+    B --> S
+    E --> S
+    F --> S
+```
+
+This graph represents conceptual dependencies, not a required runtime call order. The global scheduler and each owning specification determine when state changes are applied.
+
+## 5. Integration Contracts
+
+### 5.1 World Map to Terrain Consumers
+
+World Map supplies spatial queries, geometry, altitude, grid addressing and stable feature references. It does not return a universal movement cost, detection probability or weapon effect.
+
+Movement, Visibility and Detection, Combat, Logistics and Construction evaluate geographic facts using their own rules.
+
+### 5.2 Terrain Objects to Simulation Systems
+
+Terrain Objects supply type, geometry, base physical attributes and supported Terrain States. The owning simulation system applies the relevant state transition and calculates its effects.
+
+For example, Weather may trigger a road becoming muddy; Movement evaluates the road's current condition. Combat may damage a bridge; Infrastructure and Engineering determine repair. Rendering only communicates the committed state.
+
+### 5.3 Population Centres to Population
+
+Population Centre geometry supplies the settlement footprint and spatial identity. Population owns people, demographic cohorts, migration, labour, dependants, education, needs, social groups and population change.
+
+A Population Centre's displayed population is a Population-owned value associated with a stable geographic ID. It is not derived from polygon area unless an explicit scenario-generation or demographic model requires an initial estimate.
+
+### 5.4 Population and Catalogue to Economy
+
+Population need definitions reference canonical Catalogue IDs and explicit quantities/units. Catalogue defines product identity and unit semantics. Population defines demand and consumption interval. Economy defines prices, affordability and financial transactions. Inventory and Logistics determine physical availability and movement. Production determines production execution.
+
+A stated need is not proof that a good has been produced, purchased, delivered or consumed.
+
+### 5.5 Geography to Industry and Production
+
+An Industry or production facility may reference a geographic location or feature. Geographic proximity does not itself create an Industry, assign labour, grant resource access, establish production capacity or generate output.
+
+Industry Data defines establishment configuration. Economy owns establishment costs and financial movements. Production owns facilities, capacity, orders and execution. Inventory owns physical stock. Logistics owns shipment and delivery.
+
+### 5.6 Physical Infrastructure and Logistics
+
+Roads, railways, rivers and crossings provide geographic features for transport-network construction and traversal. Logistics owns network interpretation, transport capacity, shipment state and delivery. Movement owns Unit traversal rules.
+
+The existence of a road line does not guarantee that it is connected, passable, maintained, available to a particular transport mode or operational in its current state.
+
+## 6. Change Propagation
+
+A change to World Definition may invalidate derived spatial data. It must not silently overwrite runtime World State or existing save data.
+
+A change to a Terrain Object definition may affect movement, visibility, combat, infrastructure and rendering previews. Such changes require versioning and compatibility review where saved state or scenarios depend on the prior definition.
+
+A change to Population Centre geometry may affect spatial queries and displayed settlement boundaries. It must not silently change Population Total or duplicate people. If geometry edits require demographic reallocation, that must be an explicit migration or scenario operation.
+
+A change to a Catalogue entry, unit definition or recipe must not rewrite historical economic or production records. Existing cross-system invariants continue to apply.
+
+## 7. Questions Requiring Later Technical Decisions
+
+The following decisions must be resolved by the relevant Technical Specification before implementation contracts are frozen:
+
+- canonical coordinate reference, projection, precision and world bounds;
+- geometry serialization and supported topology rules;
+- stable ID format and namespace policy;
+- exact Movement Grid indexing and edge-cell handling;
+- altitude data representation and slope sampling;
+- versioning and migration of World Definition;
+- save-game references to world-data versions;
+- event delivery and scheduler ordering for state changes;
+- cache invalidation and deterministic rebuild requirements;
+- whether terrain visibility remains linear per 100 metres or adopts a richer model;
+- storage and performance strategy for large worlds;
+- authoritative representation of urban density, buildings and settlement damage.
+
+These questions should be resolved centrally. Individual systems must not make incompatible assumptions while they remain open.
+
+## 8. Acceptance Criteria
+
+This dependency reference is conformant when each major data domain has a clear authority, cross-system references use stable IDs, derived data can be rebuilt, and no system duplicates the authoritative financial, demographic, production, inventory or geographic state of another system.
