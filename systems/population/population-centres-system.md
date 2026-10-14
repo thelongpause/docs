@@ -226,7 +226,7 @@ Population Happiness is a separate wellbeing or satisfaction measure. It must ha
 
 Wealth Distribution describes how wealth is distributed across households or population groups. Economy owns the financial quantities; Population may store derived distributions or classifications for demographic and political calculations. The same wealth must not be independently created in Population.
 
-## 9. Population Types, Culture and Religion
+## 9. Population Composition, Culture and Religion
 
 Population Centres may contain multiple social, cultural, religious and political-interest groups. These are not necessarily exclusive and should not be compressed into one label.
 
@@ -324,7 +324,7 @@ Validation must cover:
 - stable and unique Population Centre IDs;
 - valid Area geometry and coordinate reference;
 - valid settlement class and separate capital designation where used;
-- valid Nation and jurisdiction references;
+- valid administrative-jurisdiction references and effective-date intervals; valid citizenship or nationality references where those distributions are modelled;
 - age-cohort reconciliation with Population Total, including the explicit handling of unknown ages;
 - population stock-flow reconciliation across births, deaths, arrivals, departures, displacement and authorised adjustments;
 - unique application of population-changing events and deterministic fractional-flow rounding;
