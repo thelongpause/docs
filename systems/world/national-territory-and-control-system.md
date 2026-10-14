@@ -29,7 +29,8 @@ This system owns:
 This system does not own:
 
 - Canonical coordinates, vector geometry storage, elevation, or spatial indexing. These belong to the World Map System.
-- Unit positions, orders, combat results, or formations. These belong to military operations.
+- Authoritative continuous unit/platform positions, route traversal, and movement execution state. These belong to Movement.
+- Unit identity, organisation, formations, orders, and military operational state. These belong to the relevant Military Systems.
 - National legal recognition policy or diplomatic decisions beyond their resulting sovereignty and claims state. These belong to Government and Diplomacy.
 - Population, tax, industry, or inventory state.
 - Rendering, flag artwork, line colour, or map label placement.
@@ -135,7 +136,7 @@ The frontline is a derived operational layer, calculated from current military s
 
 The derivation process should:
 
-1. Obtain current positions, formations, operational presence, and relevant control assessments from military operations.
+1. Obtain authoritative continuous positions and movement state from Movement, and force identity, formations, orders, operational presence, and relevant control assessments from the appropriate Military Systems.
 2. Identify areas controlled or contested by opposing sides.
 3. Determine spatial contact or near-contact boundaries according to configurable operational rules.
 4. Apply smoothing and simplification for legible display without altering the underlying control state.
@@ -184,7 +185,8 @@ Observed territorial status should carry an observation time or freshness state 
 
 - **World Map:** provides geometry, coordinates, spatial queries, and boundary geometry storage.
 - **Government and Diplomacy:** provide nation identities, claims, recognition, treaties, sovereignty-transfer decisions, and relevant political permissions.
-- **Military Operations:** provide unit positions, force identity, orders, presence, and operational state.
+- **Movement:** provides authoritative continuous positions, route traversal, and movement execution state.
+- **Military Systems:** provide unit identity, force identity, formations, orders, and military operational state relevant to control assessments.
 - **Combat:** provides combat outcomes that can change unit presence and local control conditions.
 - **Population:** provides population-centre geography and, where modelled, local administration or resistance inputs.
 - **Installations and Facilities:** provides facility locations and facility identity; the territorial system supplies the current controlling authority separately.
