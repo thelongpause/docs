@@ -232,3 +232,27 @@ The World Map System is conformant when:
 8. Godot and MapMaker consume the same canonical world-data model.
 9. Spatial queries have deterministic, documented semantics.
 10. Large-world performance can be improved through partitioning and caching without changing simulation truth.
+
+## Political Geography and Continuous Movement Clarifications
+
+### Political Boundaries Are Not Terrain Objects
+
+National boundaries are first-class political-geography features and must be renderable as visible lines at appropriate zoom levels. They may follow rivers, ridgelines, coastlines, surveyed borders, or authored geometric paths, but they are not inferred automatically from the terrain that they follow.
+
+The World Map System stores and serves the spatial geometry required to display and query boundaries. The National Territory and Control System is authoritative for each boundary's political meaning, legal status, claims, and effective territorial control. A boundary's visible geometry must not itself determine sovereignty, occupation, military control, or access permissions.
+
+The world must support, at minimum, internationally recognised borders, disputed boundaries, and temporary or negotiated lines such as armistice and ceasefire lines. These may overlap or differ. Their legal and simulation status is data, not a property of line colour or draw order.
+
+### The Movement Grid Is a Spatial Analysis Layer
+
+The 100 m Movement Grid is not a discrete unit movement board. Units retain continuous geographic positions and move through continuous space over time. Movement resolution considers orders, routes, speed, formation, terrain, roads and other infrastructure, obstacles, weather, unit capabilities, and the current simulation state.
+
+The grid supports local spatial calculations such as terrain sampling, movement-cost evaluation, line-of-sight queries, local effects, and other analyses where a regular sampling surface is useful. Routing may use coarser hierarchical graphs, road and rail networks, continuous geometry, or other optimised representations. The simulation must not require a unit to enter and leave each 100 m cell as its fundamental movement action.
+
+Grid resolution is an implementation parameter and must not become a gameplay assumption. Continuous positions and authoritative vector geometry remain available even when calculations use grid-derived caches.
+
+### Strategic Information Layers
+
+The map renderer may display national flags, political borders, frontlines, contested areas, military units, active transport, installations, and company control of economic facilities. These are presentation layers driven by the authoritative systems that own each fact.
+
+The renderer must support layer visibility, filtering, and zoom-dependent simplification. Displaying a symbol or line must never create or modify the underlying political, military, economic, or logistics state.
