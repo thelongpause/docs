@@ -39,7 +39,7 @@ The architecture separates geographic truth, mutable simulation state, and deriv
 | Terrain definition | Terrain Objects | Road type, forest type, base height, supported states |
 | Current terrain condition | Owning simulation system | Flooding, freezing, damage, repair progress |
 | Settlement geometry | World Map and Population Centres | Population Centre Area and settlement class |
-| Population and demographics | Population | Population totals, cohorts, migration, labour, needs |
+| Population and demographics | Population | Civilian totals and cohorts, residence/displacement assignments, labour supply, education, needs/fulfilment, wellbeing and composition distributions |
 | Financial state | Economy | Cash, prices, revenue, expenditure, tax transactions |
 | Industry configuration | Industry Data | Industry Type, establishment profile, location requirements |
 | Production state | Production | Facility, capacity, order, execution |
@@ -101,9 +101,11 @@ For example, Weather may trigger a road becoming muddy; Movement evaluates the r
 
 ### 5.3 Population Centres to Population
 
-Population Centre geometry supplies the settlement footprint and spatial identity. Population owns civilian population totals, single-year age cohorts, migration and displacement accounting, labour availability, dependants, education, needs, social/cultural distributions and demographic change. Population uses aggregate counts by default, with spatial distribution represented separately from built-up intensity.
+Population Centre geometry supplies the settlement footprint and spatial identity. Population owns civilian population totals, single-year age cohorts, births/deaths, migration and displacement accounting, labour eligibility and availability, dependants, education, needs, fulfilment reconciliation, wellbeing indicators, social/cultural distributions and demographic change. Population uses aggregate counts by default, with spatial distribution represented separately from built-up intensity.
 
-A Population Centre's displayed population is a Population-owned value associated with a stable geographic ID. It is not derived from polygon area unless an explicit scenario-generation or demographic model requires an initial estimate. Cohort counts must reconcile to population totals; committed population-changing events must be applied once; residence, citizenship, sovereignty, territorial control and administrative jurisdiction remain separate. Population needs do not imply delivery or consumption, which require the appropriate Inventory, Logistics, Catalogue and service-delivery records.
+A Population Centre's displayed population is a Population-owned value associated with a stable geographic ID. It is not derived from polygon area unless an explicit scenario-generation or demographic model requires an initial estimate. Cohort counts must reconcile to population totals; committed population-changing events must be applied once; residence, citizenship, sovereignty, territorial control and administrative jurisdiction remain separate. Labour eligibility is not employment, a job offer is not an employment assignment, and education-service availability is not proof of attendance or completion. Population needs distinguish requirement, request, allocation, delivery, access, confirmed consumption and shortfall. Population does not infer consumption from production, purchase, shipment or stock existing somewhere in the economy.
+
+The Population System follows the shared scheduler and defines a local logical update contract. Civilian-harm effects are calculated by Combat and Weapons and supplied as committed, idempotent events; Population applies the demographic consequences once. Wellbeing indicators are descriptive unless another owning system defines an explicit causal rule. National reporting distinguishes residence, citizenship, jurisdiction, legal sovereignty, effective control, displacement status and in-transit assignment.
 
 ### 5.4 Population and Catalogue to Economy
 
