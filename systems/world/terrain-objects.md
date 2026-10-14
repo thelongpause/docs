@@ -34,9 +34,7 @@ Terrain Objects use the following primitives:
 - **Line:** a linear feature, such as Road, Railway, Stream or River.
 - **Point:** a discrete feature or crossing location, such as a Ford or Bridge.
 
-A primitive describes geometry, not the complete simulation behaviour of the object. A road remains a Line even when it intersects a settlement Area. A bridge is a Point crossing feature associated with the relevant transport and water geometry.
-
-Where a crossing spans a non-trivial distance, the implementation may represent its physical structure with an associated Line or Area while retaining a stable crossing identity. The schema must document that relationship rather than forcing every bridge to be represented by one point alone.
+A primitive describes geometry, not the complete simulation behaviour of the object. A road remains a Line even when it intersects a settlement Area. A crossing, including a ford or bridge, is represented by a Point primitive only. The crossing Point is associated with the relevant transport and water geometry through explicit feature relationships. Its symbol or artwork may visually span a road and river, but this does not create a Line or Area crossing primitive. More detailed physical structure may be introduced in a later, separately specified model, but it is not required for the initial crossing model and must not change the authoritative crossing primitive.
 
 ## 4. Terrain Object Definition
 
