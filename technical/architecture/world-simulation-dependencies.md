@@ -101,9 +101,9 @@ For example, Weather may trigger a road becoming muddy; Movement evaluates the r
 
 ### 5.3 Population Centres to Population
 
-Population Centre geometry supplies the settlement footprint and spatial identity. Population owns people, demographic cohorts, migration, labour, dependants, education, needs, social groups and population change.
+Population Centre geometry supplies the settlement footprint and spatial identity. Population owns civilian population totals, single-year age cohorts, migration and displacement accounting, labour availability, dependants, education, needs, social/cultural distributions and demographic change. Population uses aggregate counts by default, with spatial distribution represented separately from built-up intensity.
 
-A Population Centre's displayed population is a Population-owned value associated with a stable geographic ID. It is not derived from polygon area unless an explicit scenario-generation or demographic model requires an initial estimate.
+A Population Centre's displayed population is a Population-owned value associated with a stable geographic ID. It is not derived from polygon area unless an explicit scenario-generation or demographic model requires an initial estimate. Cohort counts must reconcile to population totals; committed population-changing events must be applied once; residence, citizenship, sovereignty, territorial control and administrative jurisdiction remain separate. Population needs do not imply delivery or consumption, which require the appropriate Inventory, Logistics, Catalogue and service-delivery records.
 
 ### 5.4 Population and Catalogue to Economy
 
