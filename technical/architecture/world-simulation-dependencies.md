@@ -155,3 +155,23 @@ These questions should be resolved centrally. Individual systems must not make i
 ## 8. Acceptance Criteria
 
 This dependency reference is conformant when each major data domain has a clear authority, cross-system references use stable IDs, derived data can be rebuilt, and no system duplicates the authoritative financial, demographic, production, inventory or geographic state of another system.
+
+## Additional Foundational Domains
+
+The following specifications extend the world and simulation ownership model:
+
+- `systems/world/national-territory-and-control-system.md` owns national territory and claims, political boundary status, effective territorial control, frontline derivation, contested areas, and occupation status.
+- `systems/infrastructure/installations-and-facilities-system.md` owns the common installation/facility model, facility capabilities and capacity, physical condition, and the integration contract for military and economic sites. Domain systems continue to own their specialised rules.
+- `technical/map-authoring/mapmaker-art-and-asset-specification.md` owns MapMaker visual asset requirements, terrain patterns, transparency/masking, state variants, zoom-dependent labels, and display-layer contracts. It does not own simulation state.
+
+### Political and Military Spatial State
+
+The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Military operations provide unit positions, formations, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
+
+### Installation and Facility State
+
+The World Map System owns the spatial location and footprint geometry of installations and their sub-features. The Installations and Facilities System owns the common facility identity, composition, capabilities, capacity, ownership/operator/control references, and physical condition. Production, Inventory, Logistics, Military Operations, and specialised infrastructure systems own their respective stock, transport, unit, runway, port, repair, and operational calculations. An installation record must not duplicate those systems' authoritative state.
+
+### Rendering Contracts
+
+MapMaker and the runtime renderer consume world geometry and state from authoritative systems. They may derive labels, symbols, clusters, visual overlays, and simplified zoom representations, but these are presentation products. Company ownership, national sovereignty, military control, occupation, and facility operation are separate facts and must remain distinguishable in both data and visualisation.
