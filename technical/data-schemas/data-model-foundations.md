@@ -263,3 +263,38 @@ The schema foundation is acceptable when:
 ## Governing Principle
 
 **The database must encode the ownership and invariants of the simulation, not replace them with duplicated state.** Each domain owns its truth, each relationship is explicit, each quantity has a defined unit, and each committed physical or financial change is auditable and idempotent.
+
+## 12. World and Spatial Schema Boundary
+
+The world-data schema is defined in `technical/data-schemas/world-data-schema.md`. It establishes the logical model for canonical world geometry, Terrain Objects and their state references, the 100 m Movement Grid as a derived analysis layer, political boundaries and territorial state, Population Centre geometry references, installations, facilities, and visual-asset references.
+
+The world-data schema must be implemented alongside, but not conflated with, the Catalogue, Production, Inventory, and Economy schemas. Its principal cross-domain rules are:
+
+- World Map owns coordinates, canonical geometry, spatial indexes, and geometry versioning.
+- Terrain Objects owns terrain definitions and supported state semantics.
+- National Territory and Control owns political meaning, claims, effective territorial control, occupation, and frontline derivation.
+- Population owns population and demographic state, while geographic records own only spatial identity and geometry references.
+- Installations and Facilities owns site composition, capabilities, capacity definitions, condition, and ownership/operator references.
+- Economy and corporate domains own legal economic ownership and financial truth; military domains own unit presence and readiness; Inventory owns physical stock; Logistics owns transport and delivery.
+- The renderer owns no authoritative simulation state. Labels, textures, flags, frontlines, spatial indexes, and Movement Grid values may be derived or cached only when they can be rebuilt from authoritative records.
+
+The Movement Grid must not become a discrete movement model or require one persistent database record per 100 m cell without performance evidence. Unit positions remain continuous geographic positions.
+
+Political sovereignty, national claims, effective control, occupation, and frontlines must be separately represented. A frontline can move without a national border changing; occupation does not automatically transfer sovereignty; and capturing a facility does not automatically transfer its company ownership, stock, or serviceability.
+
+### 12.1 Revised Implementation Dependency Order
+
+The implementation sequence must respect domain dependencies rather than assume all schemas can be built in isolation:
+
+1. Shared identifier, time, unit, and historical-validity conventions.
+2. Canonical Catalogue definitions and unit conventions.
+3. World geometry and spatial-query foundations.
+4. Terrain definitions and runtime terrain-state references.
+5. Nation, boundary, territorial claim, control, occupation, and frontline data contracts.
+6. Installation, facility, capability, capacity, and ownership/operator relationships.
+7. Population-centre geometry references and the separate Population state schema.
+8. Production, Inventory, Economy, and Logistics contracts that reference catalogue entries, facilities, and locations.
+9. Derived Movement Grid, spatial indexes, frontline geometry, label placement, and rendering caches.
+10. Runtime persistence, event history, validation, and integration tests.
+
+This is a dependency order, not a requirement to complete every system before prototyping. Temporary adapters are permitted, but must not establish duplicate authoritative state.
