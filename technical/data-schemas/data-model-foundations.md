@@ -275,7 +275,7 @@ The world-data schema must be implemented alongside, but not conflated with, the
 - National Territory and Control owns political meaning, claims, effective territorial control, occupation, and frontline derivation.
 - Population owns population and demographic state, while geographic records own only spatial identity and geometry references.
 - Installations and Facilities owns site composition, capabilities, capacity definitions, condition, and ownership/operator references.
-- Economy and corporate domains own legal economic ownership and financial truth; military domains own unit presence and readiness; Inventory owns physical stock; Logistics owns transport and delivery.
+- Economy and corporate domains own legal economic ownership and financial truth. Military Systems own military unit identity, organisation, equipment/personnel state, orders, and readiness according to explicit subsystem boundaries. Movement owns authoritative continuous positions and route traversal. Inventory owns physical stock; Logistics owns transport and delivery.
 - The renderer owns no authoritative simulation state. Labels, textures, flags, frontlines, spatial indexes, and Movement Grid values may be derived or cached only when they can be rebuilt from authoritative records.
 
 The Movement Grid must not become a discrete movement model or require one persistent database record per 100 m cell without performance evidence. Unit positions remain continuous geographic positions.
