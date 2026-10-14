@@ -166,11 +166,11 @@ The following specifications extend the world and simulation ownership model:
 
 ### Political and Military Spatial State
 
-The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Military operations provide unit positions, formations, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
+The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Movement provides authoritative continuous unit/platform positions and route traversal. Military Systems provide unit identity, formations, orders, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
 
 ### Installation and Facility State
 
-The World Map System owns the spatial location and footprint geometry of installations and their sub-features. The Installations and Facilities System owns the common facility identity, composition, capabilities, capacity, ownership/operator/control references, and physical condition. Production, Inventory, Logistics, Military Operations, and specialised infrastructure systems own their respective stock, transport, unit, runway, port, repair, and operational calculations. An installation record must not duplicate those systems' authoritative state.
+The World Map System owns the spatial location and footprint geometry of installations and their sub-features. The Installations and Facilities System owns the common facility identity, composition, capabilities, capacity, ownership/operator/control references, and physical condition. Production, Inventory, Logistics, Military Systems, Movement, and specialised infrastructure systems own their respective unit state, positions and traversal, runway, port, repair, and operational calculations. An installation record must not duplicate those systems' authoritative state.
 
 ### Rendering Contracts
 
