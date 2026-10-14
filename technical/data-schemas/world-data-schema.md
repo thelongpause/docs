@@ -32,7 +32,8 @@ This is a logical schema, not a final SQL migration or engine-specific class lay
 | National Territory and Control | Nation-to-territory political relationships, boundary status, claims, effective controller, occupation, control assessments |
 | Population | Population-centre identity and population/demographic state |
 | Installations and Facilities | Installation composition, facility capabilities, capacities, condition, ownership/operator references |
-| Military Operations | Unit positions, assignment, readiness, orders, and operational presence |
+| Military Systems | Military unit identity, organisation, equipment and personnel state, orders, readiness, and subsystem-specific operational state. Each military subsystem must have an explicit authority boundary. |
+| Movement | Authoritative continuous unit/platform position, route traversal, movement execution state, and movement-cost evaluation |
 | Economy and corporate domains | Legal economic ownership, company/operator state, financial records |
 | Inventory | Physical stock, lots, reservations, and movements |
 | Logistics | Routes, shipments, transport activity, loading, transit, and delivery |
@@ -175,11 +176,11 @@ A single installation may combine airfield, depot, headquarters, maintenance, fu
 
 Where required, physical sub-features have their own records and geometry. Examples include runways, taxiways, parking aprons, hangars, berths, piers, dry docks, loading areas, and storage buildings.
 
-A runway record must expose geometry and the data needed by airfield operations, including length/width or values derived from validated geometry, surface, condition, and operational status. Runway throughput is not a static property inferred only from runway count; it is calculated by airfield operations using configuration, weather, shared infrastructure, and other constraints.
+A runway record must expose geometry and physical attributes needed by airfield operations, including length/width or values derived from validated geometry, surface, and physical condition. Physical condition and generic facility restrictions must remain distinct from operational availability, aircraft compatibility, and throughput. Airfield and Runway Operations evaluates those operational outcomes using runway attributes, aircraft requirements, weather, shared infrastructure, damage effects, and other current constraints. Runway throughput is not a static property inferred only from runway count.
 
 ### 10.4 Ownership and State Separation
 
-Legal owner, operator, territorial sovereign, effective controller, and access authority are separate relationships. Current inventory, unit readiness, cargo, financial value, and repair-task progress remain owned by their respective domains. Facility records may reference these states but must not duplicate them as independent truth.
+Legal owner, operator, territorial sovereign, effective controller, and access authority are separate relationships. Current inventory, unit readiness, cargo, financial value, repair-task progress, and derived operational eligibility remain owned by their respective domains. Facility records may reference these states but must not duplicate them as independent truth. Installation and Facilities owns generic facility identity, declared capabilities, capacity definitions, physical condition, and generic availability restrictions; the consuming operational system determines whether a particular activity can be performed under current conditions.
 
 Capture of a facility may change its effective controller without automatically changing ownership, stock, condition, or operational availability.
 
