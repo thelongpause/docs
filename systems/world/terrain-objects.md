@@ -362,3 +362,11 @@ Terrain Object data must be validated for:
 - no duplicate ownership of Economy, Inventory, Production or Population state.
 
 The specification is conformant when Terrain Objects preserve identity and geometry, support overlapping features and persistent states, expose typed physical attributes to consuming systems, and leave simulation-specific calculations to their owning systems.
+
+## Crossing Representation Clarification
+
+Crossings are represented as **Point primitives only**. A crossing identifies a discrete location at which a route or movement path may pass across an otherwise restrictive feature, such as a river. It is not a Line primitive and does not represent the entire bridge, ford, or river segment as a continuous geometry.
+
+A Crossing Point may reference the relevant intersecting Terrain Objects and infrastructure features. Its simulation meaning is determined by the systems responsible for movement, infrastructure, logistics, and combat. Where the crossing represents a destructible bridge or other structure, condition, damage, restrictions, repair requirements, and repair progress are authoritative state owned by the appropriate infrastructure feature, not by the visual point marker alone.
+
+The MapMaker may render bridge or ford artwork that visually spans the route and watercourse, but the visual footprint does not change the canonical Point geometry or turn the crossing into a Line primitive.
