@@ -110,7 +110,8 @@ The initial logical model must distinguish these fields:
 - **Legal sovereign:** the nation with recognised sovereignty under current political state.
 - **Claimants:** zero or more nations asserting claims.
 - **Effective controller:** the nation or authority currently exercising practical control, if any.
-- **Control status:** controlled, contested, uncontrolled, or unknown to the observing player where fog of war applies.
+- **Authoritative control status:** controlled, contested, uncontrolled, or unresolved. This describes the simulation's current assessment, not what a player knows.
+- **Player knowledge:** a separate observer-specific assessment that may be known, uncertain, stale, or unknown under fog-of-war rules. It must not overwrite authoritative territorial state.
 - **Occupation status:** not occupied, occupied, contested occupation, or occupation status unresolved.
 - **Administrative status:** whether an occupying or local authority is exercising civil administration, if this is modelled.
 - **Effective time:** when the state applies in simulation time.
