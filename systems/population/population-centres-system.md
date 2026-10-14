@@ -3,7 +3,7 @@
 **Canonical Path:** `systems/population/population-centres-system.md`  
 **System:** Population  
 **Document Type:** Systems Specification  
-**Status:** Foundational Specification  
+**Status:** Behavioural Specification; scenario reference data and implementation schema remain separate  
 **Starting World Date:** 1 January 1955
 
 ---
@@ -137,9 +137,9 @@ Each movement must have a stable event or movement ID, origin, destination where
 
 ### 6.4 Refugees and Displacement
 
-Refugees and internally displaced people are people in a displacement state, not an additional population category to be added on top of the Population Total. The Population System must define whether displaced people remain assigned to an origin centre, are assigned to a destination centre on arrival, or are tracked through a separate in-transit record. The chosen model must avoid counting the same people in both places simultaneously.
+Refugees and internally displaced people carry a displacement status; they are not an additional population category to be added on top of Population Total. The canonical accounting transition is: people remain resident at the origin until departure is committed; after departure they are assigned to one in-transit movement record; after arrival is committed they are assigned to the destination centre or an explicitly modelled unassigned population pool. They must not be counted as resident at the origin while also in transit or resident at the destination. Displacement status may persist after arrival and is not a separate population count.
 
-A displaced population may move to a nearby safe Population Centre, another region or another Nation. Destination selection must consider route accessibility, safety, capacity, border policy and other explicitly modelled factors. “Nearest settlement” must not be the only rule unless the simulation intentionally abstracts away those constraints.
+A displaced population may move to a nearby safe Population Centre, another region or another Nation. Destination selection must consider route accessibility, safety, capacity, border policy and other explicitly modelled factors. “Nearest settlement” must not be the only rule unless the simulation intentionally abstracts away those constraints. A failed or interrupted movement must resolve to one authoritative assignment state, with any return to origin represented by a committed movement transition.
 
 ### 6.5 Population Representation and Accounting
 
@@ -199,6 +199,24 @@ Education changes through schooling, cohort ageing, migration and policy-driven 
 
 Education may affect workforce suitability, productivity, research staffing, political participation, social mobility, migration and happiness through explicit rules in the relevant systems. An Industry's education requirements are defined by Industry Data and Production configuration, not by a hard-coded exception for a named industry.
 
+### 7.4 Labour Supply Accounting and Employment Interface
+
+Population publishes a labour-supply snapshot for a defined location, period and labour classification. At minimum, the interface distinguishes working-age or legally eligible population, labour-force participants, available job-seekers, people unavailable for work under the current model, employed people sourced from committed employment assignments, and people outside the labour force. These are distinct counts. The labour force is the sum of employed people and unemployed job-seekers under the chosen statistical definition; it is not the same as the eligible population. The system must document whether temporary absence, seasonal work, underemployment, multiple jobs and informal work are represented.
+
+Population calculates demographic eligibility and participation inputs. The system owning employment assignments commits hiring, separation and job allocation. Population consumes those events or snapshots to update derived employment classifications. A job offer, vacancy, labour demand value or wage payment alone does not establish that a person is employed.
+
+Where the simulation uses aggregate labour rather than identified workers, allocation must still reconcile: the same labour quantity cannot be assigned to incompatible jobs, and committed employment must not exceed the eligible workforce after applying defined availability rules. Any fractional or probabilistic allocation must use deterministic accumulation and integer reconciliation. Workforce skills and education profiles must be available as explicit distributions when required; a centre-wide average must not be treated as proof that every worker has a qualification.
+
+A recruitment or conscription event transfers or reclassifies people through an explicit interface. It must reduce civilian labour availability where appropriate, must not create duplicate persons, and must preserve Population accounting. Military Systems own service status, personnel records and assignment. The convention for settlement resident display remains a cross-system decision and must not alter the no-duplication invariant.
+
+### 7.5 Education Progression
+
+Education is represented as a distribution by defined education level and, where needed for progression, by age cohort. A transition from one level to another must identify the eligible cohort, transition rule, effective interval, source of eligibility and destination level. Education progression may depend on school access, capacity, attendance, policy and scenario parameters, but the existence of a school or education service does not prove attendance or completion.
+
+The transition process must conserve the affected population: progression changes education classification, not Population Total. Migration carries education composition under an explicit composition-transfer rule. If a detailed cohort-by-education cross-tab is not enabled, any derived allocation between age and education groups must declare its method and uncertainty; it must not imply unsupported individual-level precision.
+
+Education levels are ordered categories, not inherently equal numeric intervals. Any displayed average must document its scoring and weighting convention and remain a derived indicator. Changes to education definitions must be versioned so historical simulation state remains interpretable.
+
 ## 8. Needs, Living Conditions and Wellbeing
 
 Population needs describe desired or required access to goods and services. They must reference canonical entries in the Good and Service Catalogue using stable `catalogue_id` values and explicit quantities and units.
@@ -225,6 +243,26 @@ Standard of Living is a derived or composite indicator whose inputs, weights, sc
 Population Happiness is a separate wellbeing or satisfaction measure. It must have a documented scale, inputs and update rules. It is not interchangeable with wealth, Standard of Living, political support or migration attraction.
 
 Wealth Distribution describes how wealth is distributed across households or population groups. Economy owns the financial quantities; Population may store derived distributions or classifications for demographic and political calculations. The same wealth must not be independently created in Population.
+
+### 8.1 Need Fulfilment and Demand Interface
+
+For each need definition and assessment interval, Population calculates a requirement from the applicable population exposure, cohort or group and versioned per-person requirement. The interface must distinguish required quantity, requested quantity, quantity allocated or reserved, quantity dispatched, quantity delivered, quantity accessible, quantity confirmed consumed or service received, and unmet shortfall. Only the owning system may confirm the state it controls.
+
+For physical Goods, delivered quantities must be associated with the receiving population or a declared distribution area before they count as locally accessible. Delivery to a warehouse, port or market is not automatically delivery to every resident. Confirmed consumption reduces the outstanding requirement only once. For Services, access or service delivery must be recorded using the Catalogue's defined service unit and an explicit recipient or coverage model.
+
+Where the model uses aggregate allocation, priorities and tie-breaking must be deterministic. Fulfilment must not exceed eligible available quantity after reservations, losses and competing claims. A substitute product may fulfil a need only when the versioned need rule explicitly permits it and defines unit conversion and equivalence. Shortfall must remain visible even where a substitute partially fulfils the requirement.
+
+Population publishes demand and receives fulfilment outcomes; it does not create physical stock, commit inventory, route shipments, settle purchases or assert consumption from economic activity alone. Each exchanged record must carry a stable reference, Catalogue ID, unit, covered population or area, effective interval, source and state.
+
+### 8.2 Wellbeing Indicators and Causal Boundaries
+
+Standard of Living and Population Happiness are separate derived indicators. Each configured indicator must define its scale, input measures, directionality, weights or aggregation rule, missing-data behaviour, update interval and version. Missing input is not zero unless the indicator definition explicitly establishes that interpretation.
+
+The calculation must retain component measures where available. A composite score must not erase critical shortages, inequality, insecurity or regional variation behind a single average. National averages must be population-weighted where the underlying measure is an individual-level quantity; simple averaging of settlement averages is invalid unless explicitly intended.
+
+A wellbeing indicator is descriptive unless a receiving system defines a causal rule that consumes it. Migration, political support, fertility, mortality, productivity and unrest must not all respond automatically to a single score. Any causal response must name the source indicator, affected population, direction, lag or assessment interval, response function, bounds and owning system. Avoid circular calculations in which wellbeing depends on migration while migration is resolved from the same newly calculated wellbeing value without a declared update order.
+
+Wealth Distribution is a demographic or social description derived from Economy-owned financial quantities and a defined population grouping. Population may classify or aggregate wealth distribution, but must not create household balances, income, wages or assets. If household-level finance is not simulated, the approximation from economic aggregates to population groups must be explicitly marked as estimated.
 
 ## 9. Population Composition, Culture and Religion
 
@@ -275,6 +313,16 @@ These are candidate classifications, not a mandatory flat enum. Some are economi
 
 A population group's size, interests and political effects should be calculated from defined membership and influence rules. Do not assume that all wealthy, educated or urban inhabitants share the same ideology or cultural traits.
 
+### 9.4 Composition Accounting and Change
+
+Every composition dimension must declare whether its categories are mutually exclusive, overlapping or probabilistic. Counts within a mutually exclusive and exhaustive dimension must reconcile to the applicable population denominator, including an explicit unknown or unclassified category where required. Overlapping dimensions, such as occupational identity, political interest or multiple cultural affiliations, must not be expected to sum to Population Total.
+
+The system must distinguish a population distribution from a settlement's dominant label. Primary Culture, majority religion and largest interest group are derived reporting values. They must not replace distributions or trigger automatic political, legal or behavioural changes.
+
+Composition changes through explicit events or versioned transition rules, including migration, education, employment change, conversion where modelled, cultural assimilation where modelled, and changes in political affiliation. Each transition must define its eligible population, time basis, inputs and accounting effect. Changes to a taxonomy must use an explicit migration or mapping rule; renaming or merging categories must not silently erase or duplicate counts.
+
+Where demographic cohorts and composition dimensions are not stored as a full cross-tab, queries that require their intersection must use a declared allocation method and report the result as estimated. The system must not assume every age cohort has the same religious, cultural or political distribution unless scenario data or the model explicitly says so.
+
 ## 10. Local Economic Indicators
 
 Population Centres may display local economic indicators where a canonical system can calculate them. Examples include employment, unemployment, local income, consumption, business activity, tax contribution and local or attributed GDP.
@@ -299,6 +347,14 @@ Civilian casualties must not be calculated solely from a generic circular error 
 
 Damage to a settlement may be represented at the Population Centre level, through linked buildings or infrastructure objects, or through finer urban subareas. The selected model must define how damage affects housing, services, capacity, accessibility and recovery without double-counting the same destroyed asset across multiple layers.
 
+### 11.1 Civilian-Harm Event Contract
+
+Combat and Weapons are authoritative for weapon effects and the resulting casualty and damage event. A committed civilian-harm event supplied to Population must have a stable event ID, effective time, affected geographic area or population assignment, source and event version, and explicit counts or a defined aggregate distribution for fatalities, injuries and displacement. If demographic composition of casualties is not directly resolved by the owning combat model, the event must state the deterministic sampling or allocation rule used to derive cohort impacts.
+
+Population applies the event once. Fatalities reduce the appropriate resident or in-transit population and update age-cohort and composition counts to the resolution supported by the event. Injuries do not reduce Population Total unless a later, separate death event is committed. Displacement changes residence or assignment state but does not itself change world population. A single event may produce fatalities, injuries and displacement, but the same person must not be counted twice within a mutually exclusive outcome for the same event unless the event model explicitly represents sequential outcomes and their timing.
+
+Events affecting an area with estimated spatial density must retain that exposure uncertainty. Population reports only the committed civilian demographic consequences; it must not recalculate weapon probability, blast effects, structural protection or casualties from CEP or another delivery-error measure alone. Missing casualty composition must not be fabricated as exact demographic knowledge.
+
 ## 12. Nation-Level Aggregation
 
 Population Centre data contributes to national demographic summaries. National totals must be derived from a consistent set of centre-level assignments plus any explicitly modelled unassigned, nomadic, maritime, displaced or in-transit populations.
@@ -306,6 +362,16 @@ Population Centre data contributes to national demographic summaries. National t
 Aggregation must avoid double-counting people who are represented in transit, displaced or linked to multiple administrative regions. If a population belongs to a Nation politically but resides in another Nation, the system must distinguish residence, citizenship and jurisdiction where those concepts are modelled.
 
 A centre's Culture, Religion, Population Interest Groups and demographic composition may differ substantially from national averages. Nation-level summaries should aggregate distributions, not simply copy the characteristics of the capital or the most populous centre.
+
+### 12.1 Aggregation Dimensions and Reconciliation
+
+National reporting must declare the dimension being aggregated. At minimum, distinguish residence, citizenship or nationality, administrative jurisdiction, legal sovereignty and effective control, displacement status, and in-transit status. Residence describes where a person is currently assigned for population accounting; citizenship describes political membership where modelled; jurisdiction describes administrative authority under effective-dated rules; sovereignty and effective control come from National Territory and Control. Displacement is a status, not an additional population to sum. In-transit status is a temporary accounting assignment between origin departure and destination arrival.
+
+A national resident total uses the chosen residence definition and includes each resident assignment once. A citizenship total may include citizens resident abroad and exclude non-citizen residents, so it must not be substituted for a resident total. Territorial control or occupation does not automatically change citizenship or legal sovereignty.
+
+For internal migration, origin departure and destination arrival must reconcile at world scale. During transit, people occupy one in-transit assignment and are not simultaneously resident at the origin or destination. Cross-border movement changes residence assignment and, where relevant, citizenship/residence distribution; it does not by itself change citizenship. Any unassigned or special population pool must have a stable identity, an explicit inclusion rule for each report and a reconciliation rule.
+
+If administrative boundaries or Population Centre geometries change, historical values must remain interpretable. A boundary change may alter geographic attribution only through an explicit effective-dated reallocation or reporting crosswalk; it must not create births, deaths or migration merely because a polygon changed.
 
 ## 13. Time, Update Order and Persistence
 
@@ -316,6 +382,26 @@ The Population System must define update cadence and ordering for births, deaths
 Systems must exchange committed events or explicitly ordered inputs rather than independently modifying the same population total. Population-changing events require stable identifiers and idempotent application so retries, save/load, or event replay cannot double-count people. Fractional expected flows from rate-based calculations must use a documented deterministic accumulation and rounding method rather than being silently discarded each update.
 
 Save/load must preserve stable Population Centre identity, cohort counts, residence and displacement assignments, in-transit movement records, applied-event identity or equivalent replay protection, and state version. Scenario authoring may set initial values; the running simulation owns subsequent changes.
+
+### 13.1 Population Update Contract
+
+Population follows the shared simulation scheduler and does not establish an independent global clock. Each process declares its required input state, effective time, cadence, output state and whether it is event-driven or interval-driven.
+
+Within a Population update, the logical dependency order is:
+
+1. Ingest and validate committed external events effective at or before the update boundary, including births or deaths reported by authoritative sources, arrivals, departures, displacement, recruitment transfers, employment changes, service delivery and civilian-harm events.
+2. Apply each event idempotently to the relevant population assignment and demographic distributions.
+3. Resolve any due annual cohort-ageing transition using the canonical boundary convention, without changing Population Total.
+4. Calculate rate-based births and deaths for the elapsed interval from the defined exposure population and versioned schedules. Accumulate fractional expected flows deterministically and commit integer outcomes as events.
+5. Resolve interval-driven migration and displacement decisions from the explicitly ordered snapshot of safety, routes, capacity, policy, employment and living conditions. Commit departures, in-transit assignments and arrivals as separate state transitions.
+6. Update labour eligibility and availability from the resulting demographics, education, policy and committed service/employment status.
+7. Update education progression and composition transitions due in the interval, preserving their population denominators.
+8. Evaluate need requirements and reconcile delivery, access and consumption records for the applicable assessment interval.
+9. Calculate derived wellbeing and reporting indicators from committed inputs; publish outputs for receiving systems.
+
+This is a Population-local logical order, not a replacement for the global scheduler. If an event is produced after the relevant phase has passed, it is applied at the next eligible boundary or at its effective time through the scheduler's event contract. Systems must not mutate Population-owned totals directly.
+
+Rate-based calculations must define whether the exposure population is measured at interval start, interval end or another explicitly ordered point. The same people must not be used as exposure for incompatible calculations because of an accidental double update. Annual transitions, event processing and rate calculations must be deterministic across save/load and replay.
 
 ## 14. Data Validation
 
@@ -348,17 +434,17 @@ The Population System defines the ownership boundaries, accounting invariants an
 The following items require explicit values or a documented model before Population can be considered implementation-ready:
 
 - Baseline fertility and mortality schedules, including age-specific rates, scenario variation, time basis and any supported effects from health, deprivation, conflict or access to services.
-- The deterministic calculation interval for rate-based demographic flows, fractional remainder handling, and the precise annual cohort-ageing convention.
+- Versioned scenario reference values for fertility and mortality schedules, plus the configured scheduler interval and annual cohort-ageing boundary. The behavioural contract requires deterministic fractional remainder handling and one canonical convention; these are not optional implementation behaviours.
 - The default and scenario-authored model for spatial population distribution within settlements, including uncertainty and fallback behaviour when detailed density data is absent.
-- Labour-force participation, eligibility, availability, retirement, caregiving and education progression parameters, with clear separation between demographic facts and policy.
-- Per-capita or cohort-specific need requirements, assessment intervals, priority rules, substitution eligibility, and the interface for recording confirmed delivery, access and consumption.
-- The definitions, input variables, weights, scales and update intervals for Standard of Living and Population Happiness. Neither indicator may become an unexplained catch-all modifier.
+- Versioned scenario and policy parameters for labour-force participation, eligibility, availability, retirement, caregiving and education progression. Rules remain separate from demographic facts and use the labour and education accounting contracts in Section 7.
+- Versioned need definitions, per-capita or cohort-specific requirements, assessment intervals, priority rules and substitution eligibility. Cross-system records must implement the requirement/fulfilment distinctions and stable references in Section 8.
+- The configured definitions, input variables, weights, scales and update intervals for Standard of Living and Population Happiness. The causal boundary in Section 8.2 is mandatory regardless of selected values.
 - The reference taxonomies and membership rules for cultural affiliation, religion, social/economic groups and political ideologies, including whether each distribution is exclusive or overlapping.
 - The rules by which migration responds to safety, employment, living conditions, policy, routes, capacity, family or community ties, and border restrictions.
-- The representation of unassigned, nomadic, maritime, displaced and in-transit civilian populations, and how each contributes to local and national reporting.
-- The spatial and temporal exposure model connecting population distribution to committed civilian-harm events, without duplicating Combat and Weapons calculations.
+- Scenario-specific initial representation for unassigned, nomadic, maritime, displaced and in-transit civilian populations. Their mutually exclusive accounting and reporting rules are defined in Sections 6 and 12.
+- The configured spatial and temporal exposure model connecting population distribution to committed civilian-harm events. The event ownership and idempotency contract in Section 11.1 is mandatory and must not duplicate Combat and Weapons calculations.
 - The reporting convention for serving military personnel with respect to settlement resident counts, to be agreed with the Military Systems architecture before military data schemas are frozen.
-- The rules for changes to Population Centre geometry, administrative jurisdiction, names and classifications over time without silently reallocating residents or changing demographic totals.
+- Scenario and authoring rules for changes to Population Centre geometry, administrative jurisdiction, names and classifications over time. Such changes require effective dates and explicit reporting crosswalks or reallocation events; they must not silently change demographic totals.
 
 Each item must have an owning system, explicit inputs and outputs, a time basis where relevant, and validation rules. An unresolved parameter must be represented as missing or unconfigured, not silently treated as zero or a universal default.
 
@@ -378,3 +464,11 @@ The Population System is conformant when:
 10. Combat casualty events update Population once and are not recalculated independently.
 11. National aggregation reconciles with local assignments and explicitly modelled unassigned or in-transit populations.
 12. Terrain, rendering and settlement class do not silently determine demographic or political outcomes.
+13. Labour supply distinguishes eligibility, participation, availability, unemployment and committed employment without assigning the same workforce twice.
+14. Education transitions conserve population and do not assume that service availability proves attendance or completion.
+15. Need requirement, request, allocation, delivery, access and consumption are distinct states with explicit units and idempotent records.
+16. Wellbeing indicators retain their configured inputs and do not act as undocumented universal modifiers.
+17. Cultural, religious, social/economic and political dimensions declare their overlap and reconciliation rules.
+18. Civilian-harm events update demographic state once; injuries and displacement do not automatically reduce world population.
+19. National reporting distinguishes residence, citizenship, jurisdiction, sovereignty, effective control and displacement/transit assignment.
+20. The Population-local update contract is deterministic and compatible with the shared scheduler.
