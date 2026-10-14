@@ -224,3 +224,62 @@ MapMaker architecture is conformant when:
 8. State persists independently of the active viewport and authoring application.
 9. Large-world optimisation does not change geographic or simulation semantics.
 10. Decisions about a separate editor or custom engine follow prototyping and profiling.
+
+## Reference Cartography and Pattern-Based Terrain Artwork
+
+### Reference Standard
+
+Command Ops 2 is the primary visual reference for Sovereign's operational map cartography. Its use of terrain patterns, transparent pattern layers, and a terrain key is the intended visual direction: legible, information-dense operational geography whose terrain remains recognisable at multiple zoom levels.
+
+The repository contains the user's Command Ops 2 reference files:
+
+- `MapPat.bmp`: reference terrain-pattern artwork.
+- `MapPatA.bmp`: reference alpha/transparency artwork.
+- `MapKey.bmp`: reference terrain-key and legend artwork.
+
+These are reference assets, not a required runtime file format. Sovereign must not assume that a BMP triplet is the correct or only implementation. The MapMaker and runtime renderer may use modern formats, texture atlases, tiled textures, shader-driven masks, embedded alpha channels, separate alpha masks, vector fills, or a combination of techniques, provided the authored result can reproduce the intended cartographic behaviour.
+
+### Terrain Pattern Model
+
+Each renderable terrain type should be able to declare or reference visual definitions for relevant map scales and environmental states. The rendering system must support, where appropriate:
+
+- A base or normal appearance.
+- Mud-condition appearance.
+- Ice or frozen-condition appearance.
+- Other state-specific appearances introduced by the simulation, such as snow, flooding, burning, damage, or destruction.
+- Pattern scale, repeat behaviour, rotation or orientation rules, colour treatment, and blending or transparency settings.
+- A distinct compact icon or swatch for the MapMaker terrain key and in-game terrain legend.
+
+Not every terrain type needs every state-specific artwork variant. Missing variants must use a documented fallback rather than silently altering simulation state. Environmental and damage states are owned by simulation systems; artwork is selected from those states.
+
+### Transparency and Masking
+
+Transparency is a rendering capability, not a mandatory three-file asset architecture. The chosen renderer may store alpha in the image, use a separate mask, or compute blending in a shader. The MapMaker asset pipeline must make opacity and blend behaviour authorable and testable without requiring users to edit raw channel masks manually.
+
+Where separate masks are used, the tooling must validate their dimensions, alignment, colour interpretation, and association with the correct pattern. Where alpha is embedded, the pipeline must preserve it during import, conversion, atlas packing, and export.
+
+### Strategic and Operational Map Presentation
+
+The map is a living simulation view, not only a terrain illustration. It must support zoom-dependent display of:
+
+- Nation borders and national flags or other national identifiers.
+- Names of cities, towns, population centres, rivers, seas, mountain ranges, and other designated geographic features.
+- Frontlines, contested areas, occupied territory, and relevant political boundaries.
+- Player and other military units, with legibility and decluttering appropriate to scale.
+- Moving logistics activity when useful, including cargo aircraft and cargo ships, without requiring every movement to be drawn at every zoom.
+- Installations and facilities, including airfields, naval bases, depots, and other military or economic sites.
+- Company or organisation control of economic facilities, clearly distinguished from national sovereignty, military occupation, and operational control.
+
+At strategic zoom, national flags may identify nations or their territories; frontlines and major territorial changes should remain readable; and selected units, transport activity, and economic control may be shown as contextual overlays. At operational zoom, terrain, routes, obstacles, installations, and unit positions take precedence. The renderer must use label prioritisation, collision avoidance, scale thresholds, clustering, and decluttering rather than displaying every label and symbol simultaneously.
+
+Players must be able to toggle and filter information layers. The visual system must distinguish political ownership, military control, occupation, company ownership, and facility operator using separate semantics. Colour alone must not be the only distinction.
+
+### MapMaker Asset Authoring
+
+The MapMaker must provide an asset workflow for importing, previewing, assigning, and validating terrain patterns and state variants. A terrain-key preview should show the swatch and the terrain name alongside the resulting appearance on the map. Preview tools should allow the author to inspect normal, mud, ice, and other supported states, transparency/blending, and appearance at representative zoom levels.
+
+Visual assets should be generated and polished after the terrain taxonomy, state vocabulary, rendering layers, and data contracts are stable. Until then, the specification should define asset requirements and import contracts, not commit to a final atlas layout or manually authored production artwork.
+
+### Simulation and Rendering Separation
+
+Artwork is a representation of state, never the source of state. A mud pattern does not make terrain muddy; a damaged-runway texture does not damage a runway; a flag does not transfer sovereignty; and a frontline graphic does not determine which force controls territory. The renderer consumes authoritative data and derived presentation data from the relevant systems.
