@@ -66,6 +66,14 @@ The geometry represents the settlement footprint used by the World Map and relev
 
 Population density may be uniform, zonal, rasterised or represented through finer settlement subareas depending on the implementation. The chosen representation must be explicit and must support meaningful differences between a dense urban core, low-density outskirts, industrial districts and undeveloped land where the simulation models those distinctions.
 
+### 3.1 Population Distribution Within a Centre
+
+Population density and built-up intensity are separate attributes. Built-up intensity describes the presence or concentration of buildings and urban fabric; population density describes the number and distribution of residents. Neither may be inferred solely from the Population Centre's total population or polygon area.
+
+The World Map and infrastructure layers provide the geometry and physical settlement features. Population owns the distribution of residents across any modelled zones or spatial density representation. The representation may use authored subareas, a raster or tiled density field, or another validated aggregate model, but it must support location-sensitive civilian exposure and demographic sampling where those features are enabled.
+
+The sum of population assigned to spatial subareas or density partitions must reconcile to the Population Centre's authoritative cohort counts. If detailed distribution data is unavailable, the system must use a declared fallback model and preserve the fact that the result is estimated; it must not silently assume uniform density when that assumption materially changes civilian exposure or other spatial calculations.
+
 The Population Centre is not required to be a single point. A centre point may be derived for labels, routing or user-interface purposes, but the Area geometry remains authoritative for spatial containment and area-based effects.
 
 ## 4. Settlement Class
@@ -117,7 +125,7 @@ The sum of mutually exclusive age cohorts must reconcile to Population Total, su
 
 ### 6.2 Births and Deaths
 
-Births and deaths are flows that change Population Total over a simulation interval. Rates must specify their denominator and time basis, such as events per 1,000 inhabitants per year, rather than using an undefined percentage.
+Births and deaths are flows that change Population Total over a simulation interval. Each rate or probability must specify its applicable population subgroup or age cohort, denominator, time basis, causal inputs and valid range. Rates may be expressed as events per 1,000 relevant persons per year or another explicitly defined unit; an undefined percentage is not sufficient.
 
 The Population System owns demographic calculations. War, disease, deprivation, living conditions and access to services may be causal inputs where those systems define them. Combat damage and civilian casualties must be resolved by Combat and Weapons, then reported to Population as a committed demographic event to avoid double-counting deaths.
 
@@ -125,7 +133,7 @@ The Population System owns demographic calculations. War, disease, deprivation, 
 
 Immigration is population entering a Nation from outside that Nation. Emigration is population leaving a Nation. Internal migration is movement between Population Centres within a Nation. Refugee and forced-displacement movements require explicit classifications so they are not counted again as ordinary migration.
 
-Each movement must have a stable event or movement ID, origin, destination where known, quantity, cause or movement class, effective time, and resolution status. Population totals must be debited and credited consistently, and the same committed movement must not be applied more than once. Cross-border movement must not create or erase population merely because the receiving or originating centre is unloaded or outside the active viewport.
+Each movement must have a stable event or movement ID, origin, destination where known, quantity by applicable age cohort, cause or movement class, effective time, and resolution status. Where other demographic distributions are modelled, the event must either carry the relevant composition or identify an explicit deterministic selection rule for deriving it. Population totals and cohort counts must be debited and credited consistently, and the same committed movement must not be applied more than once. Cross-border movement must not create or erase population merely because the receiving or originating centre is unloaded or outside the active viewport.
 
 ### 6.4 Refugees and Displacement
 
@@ -208,7 +216,9 @@ A need definition should specify:
 - substitution rules, if supported;
 - source and version of the need definition.
 
-A population need is not itself an Inventory reservation or proof of consumption. Consumption is resolved through the relevant systems and must be recorded once.
+A population need is not itself an Inventory reservation or proof of consumption. Consumption is resolved through the relevant systems and must be recorded once. A need requirement, requested quantity, delivered quantity, confirmed consumption and unmet shortfall are separate values. Physical Goods require the relevant delivery and consumption events; Services require an explicit service-delivery or access record. Population must not infer consumption merely from production, purchase, shipment, or stock existing somewhere in the economy.
+
+Need fulfilment is evaluated against the applicable population count, cohort or group, requirement quantity and assessment interval. Where the model supports substitution, the substituted Catalogue entry and conversion rule must be explicit. A shortfall may contribute to wellbeing, health, migration or other outcomes only through defined causal rules in the owning systems.
 
 Standard of Living is a derived or composite indicator whose inputs, weights, scale and update interval must be explicitly defined. It should not be treated as a single authoritative cause of every other attribute. Access to necessities, housing, healthcare, education, income, security and other factors may contribute according to the eventual model.
 
