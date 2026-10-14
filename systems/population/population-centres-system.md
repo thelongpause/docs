@@ -333,17 +333,17 @@ Validation must cover:
 
 ## 15. Acceptance Criteria
 
-The Population Centres System is conformant when:
+The Population System is conformant when:
 
 1. Settlement geography is distinct from the population living there.
 2. Population Centres are Area features in the shared World Map.
 3. Population and demographic values are dynamic and persistent.
-4. Population Total reconciles to mutually exclusive age cohorts and to committed stock-flow events.
+4. Population Total reconciles to mutually exclusive age cohorts and committed stock-flow events.
 5. Residence, citizenship, sovereignty, territorial control and administrative jurisdiction remain distinct.
 6. Population-changing events are idempotent and cannot double-count or silently erase people.
-4. Population, labour, dependants and economic indicators have explicit ownership and do not duplicate one another.
-5. Needs reference canonical Catalogue entries and explicit units.
-6. Culture, religion, social groups and political ideologies are represented as distinct concepts.
-7. Combat casualty events update Population once and are not recalculated independently.
-8. National aggregation reconciles with local assignments and explicitly modelled unassigned or in-transit populations.
-9. Terrain, rendering and settlement class do not silently determine demographic or political outcomes.
+7. Population, labour, dependants and economic indicators have explicit ownership and do not duplicate one another.
+8. Needs reference canonical Catalogue entries and explicit units.
+9. Culture, religion, social groups and political ideologies are represented as distinct concepts.
+10. Combat casualty events update Population once and are not recalculated independently.
+11. National aggregation reconciles with local assignments and explicitly modelled unassigned or in-transit populations.
+12. Terrain, rendering and settlement class do not silently determine demographic or political outcomes.
