@@ -133,6 +133,32 @@ Refugees and internally displaced people are people in a displacement state, not
 
 A displaced population may move to a nearby safe Population Centre, another region or another Nation. Destination selection must consider route accessibility, safety, capacity, border policy and other explicitly modelled factors. “Nearest settlement” must not be the only rule unless the simulation intentionally abstracts away those constraints.
 
+### 6.5 Population Representation and Accounting
+
+The Population System uses aggregate demographic counts as its default simulation representation. It does not require one persistent entity per civilian. Aggregate counts must retain enough demographic resolution for the processes enabled by the simulation, and derived summaries must be reproducible from the authoritative distributions.
+
+For each Population Centre, the Population Total is the count of people currently assigned as resident civilians under the Population System's assignment rules. The total must reconcile to its mutually exclusive age cohorts and any explicitly modelled unknown-age cohort. Cultural affiliation, religion, social/economic group, political interest, education and wellbeing dimensions may overlap; their counts must not be added together as if they were mutually exclusive components of Population Total unless a specific taxonomy explicitly defines them that way.
+
+Population counts are integer persons. Rate-based demographic calculations may produce fractional expected flows internally; those fractions must be accumulated using a deterministic method and converted to integer persons under a documented rounding rule. The same sub-person remainder must not be independently rounded in multiple systems.
+
+For each Population Centre and accounting interval:
+
+`Closing Residents = Opening Residents + Births + Arrivals - Deaths - Departures + Authorised Adjustments`
+
+Cohort ageing and reclassification change the distribution of residents but do not, by themselves, change Population Total. Authorised adjustments must identify their cause, effective time, source and quantity; they must not be used to conceal an unreconciled flow.
+
+At the simulation-wide level, internal movements between centres cancel out. The total population changes through births, deaths, explicitly modelled migration across the simulation world's boundary, and authorised scenario adjustments. People in transit must be represented in a single in-transit or displacement assignment after departure and before arrival. They must not remain counted as resident at the origin and also be counted at the destination or in transit.
+
+A committed casualty, birth, death, arrival, departure or other population-changing event must be applied exactly once. Replaying or retrying the same event must not duplicate its effect. A destination that is unloaded, outside the viewport or not currently simulated in detail remains part of the authoritative accounting model.
+
+### 6.6 Cohort Ageing and Eligibility
+
+At the annual demographic boundary, each age cohort advances according to a documented deterministic transition rule. People reaching age 100 enter the open-ended 100+ cohort. Births enter the age-0 cohort at their effective time. The implementation must document how partial-year timing is handled and must apply the same convention consistently across all centres.
+
+Age cohort is a demographic fact, not a determination of employment, legal adulthood, military eligibility or conscription status. Those are derived from age, health or capability where modelled, and the applicable law or military rules. A policy change may change eligibility without changing a person's age cohort.
+
+The single-year cohort model is an aggregate approximation. It does not imply that the simulation stores each person's exact birthday or individual identity. If a later subsystem requires finer-grained individual-level representation, it must define an explicit interface and reconciliation rules rather than silently replacing aggregate counts.
+
 ## 7. Labour, Dependants and Education
 
 ### 7.1 Labour Force
