@@ -33,7 +33,7 @@ The World Map System owns the shared coordinate model, spatial geometry, spatial
 
 ### 2.2 Population System Ownership
 
-The Population System owns population totals, demographic cohorts, births, deaths, migration, labour-force availability, dependants, education, employment, needs, population groups, religion, cultural affiliation and other population state defined by its specification.
+The Population System owns population totals, demographic cohorts, births, deaths, migration, residence assignments, labour-force availability, dependants, education, population-group distributions, religion, cultural affiliation, needs and other population state defined by its specification. Employment demand, job capacity, wage payments and financial wealth remain with the systems that own those facts; Population may hold derived employment or wellbeing indicators only under an explicit interface.
 
 ### 2.3 Economy Ownership
 
@@ -43,7 +43,7 @@ A Population Centre may expose economic indicators calculated by Economy, but mu
 
 ### 2.4 Government and Nation Ownership
 
-Government owns legislation, policy and administrative rules. Nation-level political organisation, national policy and legal status are owned by the relevant Government and Political Systems. A Population Centre may have a capital or administrative designation, but that designation does not itself grant authority.
+Government owns legislation, policy and administrative rules. National Territory and Control owns legal sovereignty, territorial claims and effective control; Government and other political systems own national identity, citizenship policy and administrative jurisdiction. A Population Centre's location, resident population, citizenship distribution, legal sovereign, effective controller and administrative jurisdiction are distinct relationships. A Population Centre may have a capital or administrative designation, but that designation does not itself grant authority.
 
 ### 2.5 Industry, Production and Inventory Ownership
 
@@ -57,7 +57,8 @@ Each Population Centre must have:
 - a name and any localisation or historical names;
 - an Area geometry;
 - a settlement class;
-- an associated Nation or jurisdiction reference where applicable;
+- zero or more administrative-jurisdiction references where applicable, with effective dates;
+- any required political-geography references resolved through National Territory and Control rather than embedded as an independent sovereignty or control value;
 - a defined initial scenario state;
 - references to associated features and administrative entities where applicable.
 
@@ -108,15 +109,11 @@ A Population Centre may become partially evacuated or depopulated while retainin
 
 Population total is the count of civilian inhabitants assigned to the Population Centre under the canonical Population System rules.
 
-Age distribution should be represented as population counts or shares across explicitly defined cohorts. The initial broad cohorts proposed for scenario configuration are:
+Age distribution must be represented at sufficient resolution to support cohort ageing, labour eligibility, education, demographic projections and later manpower interfaces. The canonical simulation representation should use single-year age cohorts from age 0 through age 99, plus an open-ended 100+ cohort. Broader reporting bands, including 0–14, 15–64 and 65+, are derived aggregations and must not replace the underlying cohorts.
 
-- 0–14 years;
-- 15–64 years;
-- 65 years and over.
+Age cohort definitions are data-model conventions, not assumptions about legal working age, retirement age, conscription eligibility or other policy. Those rules are owned by the relevant Labour, Government and Military Systems. A change in policy must not rewrite the underlying age distribution.
 
-These bands are a starting model, not a universal demographic truth. They must be reconciled with the Labour and Legislation rules. If laws alter legal working age or retirement age, the underlying age distribution must remain unchanged; labour eligibility is derived from age cohorts plus applicable policy and capability rules.
-
-The sum of mutually exclusive age cohorts must reconcile to the Population Total, subject only to a documented treatment of unknown or unclassified ages.
+The sum of mutually exclusive age cohorts must reconcile to Population Total, subject only to an explicit and consistently handled unknown-age cohort. If unknown ages are represented, they must not silently disappear from totals or be treated as eligible for an age-dependent process.
 
 ### 6.2 Births and Deaths
 
@@ -128,7 +125,7 @@ The Population System owns demographic calculations. War, disease, deprivation, 
 
 Immigration is population entering a Nation from outside that Nation. Emigration is population leaving a Nation. Internal migration is movement between Population Centres within a Nation. Refugee and forced-displacement movements require explicit classifications so they are not counted again as ordinary migration.
 
-Each movement must have an origin, destination where known, quantity, cause or movement class, time, and resolution status. Population totals must be debited and credited consistently. Cross-border movement must not create or erase population merely because the receiving or originating centre is unloaded or outside the active viewport.
+Each movement must have a stable event or movement ID, origin, destination where known, quantity, cause or movement class, effective time, and resolution status. Population totals must be debited and credited consistently, and the same committed movement must not be applied more than once. Cross-border movement must not create or erase population merely because the receiving or originating centre is unloaded or outside the active viewport.
 
 ### 6.4 Refugees and Displacement
 
@@ -278,9 +275,11 @@ A centre's Culture, Religion, Population Interest Groups and demographic composi
 
 Population values are simulation state and must persist when a region is outside the active viewport. Demographic processes use the global simulation scheduler and canonical simulation-time representation.
 
-The Population System must define the update cadence and ordering for births, deaths, migration, labour availability, education, needs and derived indicators. Systems should exchange committed events or explicitly ordered inputs rather than independently modifying the same population total.
+The Population System must define update cadence and ordering for births, deaths, cohort ageing, migration, labour availability, education, needs and derived indicators. Demographic rates must declare their denominator and time basis and be prorated against elapsed simulation time where the scheduler interval differs from that basis. Cohort ageing occurs on a defined annual demographic boundary; event-driven changes such as births, deaths, recruitment transfers where modelled, casualties and migration are applied at their committed effective time.
 
-Save/load must preserve stable Population Centre identity, population assignments, demographic distributions, in-transit movement records and state version. Scenario authoring may set initial values; the running simulation owns subsequent changes.
+Systems must exchange committed events or explicitly ordered inputs rather than independently modifying the same population total. Population-changing events require stable identifiers and idempotent application so retries, save/load, or event replay cannot double-count people. Fractional expected flows from rate-based calculations must use a documented deterministic accumulation and rounding method rather than being silently discarded each update.
+
+Save/load must preserve stable Population Centre identity, cohort counts, residence and displacement assignments, in-transit movement records, applied-event identity or equivalent replay protection, and state version. Scenario authoring may set initial values; the running simulation owns subsequent changes.
 
 ## 14. Data Validation
 
@@ -290,7 +289,11 @@ Validation must cover:
 - valid Area geometry and coordinate reference;
 - valid settlement class and separate capital designation where used;
 - valid Nation and jurisdiction references;
-- age-cohort reconciliation with Population Total;
+- age-cohort reconciliation with Population Total, including the explicit handling of unknown ages;
+- population stock-flow reconciliation across births, deaths, arrivals, departures, displacement and authorised adjustments;
+- unique application of population-changing events and deterministic fractional-flow rounding;
+- distinct residence, citizenship, legal sovereignty, effective control and administrative jurisdiction references;
+- no duplicate representation of the same people in resident, displaced, in-transit or military-personnel records;
 - valid demographic rates with denominators and time bases;
 - non-negative population counts and defined rounding rules;
 - valid migration origins, destinations and movement states;
@@ -309,6 +312,9 @@ The Population Centres System is conformant when:
 1. Settlement geography is distinct from the population living there.
 2. Population Centres are Area features in the shared World Map.
 3. Population and demographic values are dynamic and persistent.
+4. Population Total reconciles to mutually exclusive age cohorts and to committed stock-flow events.
+5. Residence, citizenship, sovereignty, territorial control and administrative jurisdiction remain distinct.
+6. Population-changing events are idempotent and cannot double-count or silently erase people.
 4. Population, labour, dependants and economic indicators have explicit ownership and do not duplicate one another.
 5. Needs reference canonical Catalogue entries and explicit units.
 6. Culture, religion, social groups and political ideologies are represented as distinct concepts.
