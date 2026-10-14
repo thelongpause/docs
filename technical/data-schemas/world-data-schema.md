@@ -2,8 +2,7 @@
 
 **Canonical Path:** `technical/data-schemas/world-data-schema.md`  
 **Document Type:** Logical Data Schema Specification  
-**Status:** Foundational Schema Draft  
-**Target Branch:** `implementation-data-schema-foundation`
+**Status:** Foundational Schema Draft, reviewed after merge of implementation schema foundations
 
 ## 1. Purpose
 
@@ -135,7 +134,7 @@ A territorial control record references a spatial region or partition and record
 - Effective simulation time and provenance event.
 - Observation/freshness metadata only in the player-knowledge model, not as a substitute for authoritative state.
 
-The representation must allow local territorial changes without changing an entire nation or province. Storage may use polygons, spatial partitions, tiled overlays, or a hybrid. It must not require territorial state to align to the 100 m Movement Grid.
+The representation must allow local territorial changes without changing an entire nation or province. Storage may use polygons, spatial partitions, tiled overlays, or a hybrid. It must not require territorial state to align to the 100 m Movement Grid. Player-specific knowledge of territorial state is a separate information model and must not be stored as the authoritative territorial-control assessment.
 
 ### 8.5 Frontline
 
