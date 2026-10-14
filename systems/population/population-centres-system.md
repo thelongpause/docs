@@ -341,7 +341,28 @@ Validation must cover:
 - valid cultural, religious and interest-group taxonomies;
 - persistent references for damaged, evacuated or depopulated centres.
 
-## 15. Acceptance Criteria
+## 15. Required Reference Data and Open Decisions
+
+The Population System defines the ownership boundaries, accounting invariants and minimum behavioural contracts. Scenario values and model parameters must be supplied through versioned reference data or explicit system rules; they must not be guessed by the implementation.
+
+The following items require explicit values or a documented model before Population can be considered implementation-ready:
+
+- Baseline fertility and mortality schedules, including age-specific rates, scenario variation, time basis and any supported effects from health, deprivation, conflict or access to services.
+- The deterministic calculation interval for rate-based demographic flows, fractional remainder handling, and the precise annual cohort-ageing convention.
+- The default and scenario-authored model for spatial population distribution within settlements, including uncertainty and fallback behaviour when detailed density data is absent.
+- Labour-force participation, eligibility, availability, retirement, caregiving and education progression parameters, with clear separation between demographic facts and policy.
+- Per-capita or cohort-specific need requirements, assessment intervals, priority rules, substitution eligibility, and the interface for recording confirmed delivery, access and consumption.
+- The definitions, input variables, weights, scales and update intervals for Standard of Living and Population Happiness. Neither indicator may become an unexplained catch-all modifier.
+- The reference taxonomies and membership rules for cultural affiliation, religion, social/economic groups and political ideologies, including whether each distribution is exclusive or overlapping.
+- The rules by which migration responds to safety, employment, living conditions, policy, routes, capacity, family or community ties, and border restrictions.
+- The representation of unassigned, nomadic, maritime, displaced and in-transit civilian populations, and how each contributes to local and national reporting.
+- The spatial and temporal exposure model connecting population distribution to committed civilian-harm events, without duplicating Combat and Weapons calculations.
+- The reporting convention for serving military personnel with respect to settlement resident counts, to be agreed with the Military Systems architecture before military data schemas are frozen.
+- The rules for changes to Population Centre geometry, administrative jurisdiction, names and classifications over time without silently reallocating residents or changing demographic totals.
+
+Each item must have an owning system, explicit inputs and outputs, a time basis where relevant, and validation rules. An unresolved parameter must be represented as missing or unconfigured, not silently treated as zero or a universal default.
+
+## 16. Acceptance Criteria
 
 The Population System is conformant when:
 
