@@ -1,7 +1,7 @@
-# Population Centres System
+# Population System: Population Centres and Demographics
 
 **Canonical Path:** `systems/population/population-centres-system.md`  
-**System:** Population Centres and Demographics  
+**System:** Population  
 **Document Type:** Systems Specification  
 **Status:** Foundational Specification  
 **Starting World Date:** 1 January 1955
@@ -33,7 +33,7 @@ The World Map System owns the shared coordinate model, spatial geometry, spatial
 
 ### 2.2 Population System Ownership
 
-The Population System owns population totals, demographic cohorts, births, deaths, migration, residence assignments, labour-force availability, dependants, education, population-group distributions, religion, cultural affiliation, needs and other population state defined by its specification. Employment demand, job capacity, wage payments and financial wealth remain with the systems that own those facts; Population may hold derived employment or wellbeing indicators only under an explicit interface.
+The Population System owns civilian population totals, demographic cohorts, births, deaths, migration, residence assignments, labour-force availability, dependants, education, population-group distributions, religion, cultural affiliation, needs and other population state defined by its specification. Active military personnel, personnel records and service assignments belong to Military Systems. Recruitment or conscription must affect civilian labour availability and population reporting through an explicit cross-system contract and must never duplicate the same people across civilian and military records. The convention for whether serving personnel remain included in a settlement's displayed resident count must be resolved with the Military System architecture before its data schema is frozen. Employment demand, job capacity, wage payments and financial wealth remain with the systems that own those facts; Population may hold derived employment or wellbeing indicators only under an explicit interface.
 
 ### 2.3 Economy Ownership
 
