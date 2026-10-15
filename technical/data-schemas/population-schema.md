@@ -594,6 +594,30 @@ The Population schema is conformant when:
 19. It preserves historical validity and deterministic replay.
 20. It can be implemented incrementally without requiring dense 100 m population data or unsupported cross-tab precision.
 
+## 19A. Behavioural Specification Cross-Validation
+
+The logical model has been reviewed against the authoritative Population behavioural specification and the shared Data Model Foundations. The following matrix records the coverage and distinguishes fixed behavioural contracts from choices that remain open before database migration.
+
+| Behavioural requirement | Schema coverage | Validation result |
+|---|---|---|
+| Population Centre references canonical World Map Area geometry | Sections 4, 6.1 | Conformant; geometry remains World Map-owned |
+| Aggregate civilian representation and authoritative residence/transit assignments | Sections 5, 6.2 | Conformant; no individual civilian record is required |
+| Single-year age cohorts, 100+ cohort, births, deaths and ageing | Sections 6.3–6.6, 7.4 | Conformant; exact scheduler boundary and rate parameters remain configuration/implementation decisions |
+| Migration, displacement, movement lifecycle and stock-flow reconciliation | Sections 6.5, 7.1–7.3, 14–16 | Conformant; route and transport execution remain externally owned |
+| Mutually exclusive versus overlapping cultural, religious, social and economic dimensions | Section 8 | Conformant; enabled taxonomies and scenario data remain open |
+| Spatial population counts/density and estimated fallback | Section 9 | Conformant; spatial storage and resolution remain open |
+| Labour eligibility, employment assignments, dependants and education | Section 10 | Conformant; employment contracts and education policy remain externally owned |
+| Needs, requests, allocation, delivery, access, consumption and shortfall | Section 11 | Conformant; lifecycle storage and scenario need definitions remain open |
+| Wellbeing indicators and economic group statistics | Sections 11.4, 12.1 | Conformant; Economy remains authoritative for financial measures and formulas remain versioned reference data |
+| Interest axes, profiles, observations and explicit transition rules | Sections 8.5, 12 | Conformant; initial axes and response rules remain open reference data |
+| Political organisations, platforms and support | Sections 8.6, 12.2 | Conformant; Political Systems remains authoritative |
+| Civilian harm and casualty consequences | Section 13 | Conformant; Combat and Weapons supplies committed source events and Population applies them once |
+| National aggregation by residence, citizenship, jurisdiction and territorial control | Section 14 | Conformant; reporting must declare the aggregation dimension |
+| Deterministic events, idempotency, replay and fractional-flow handling | Sections 3, 7, 15–16 | Conformant as logical contracts; exact shared event envelope, key scope and rounding implementation remain open |
+| Military personnel and resident-count interface | Sections 4, 10.1, 18 | Ownership boundary is conformant; detailed personnel and reporting contract remains intentionally deferred to Military Systems architecture |
+
+This review confirms behavioural coverage at the logical-schema level. It does not mean all reference data, simulation coefficients, scheduler conventions, or physical database design choices have been resolved. Those items remain explicit prerequisites for migration implementation, not grounds to weaken the behavioural invariants.
+ 
 ## Governing Principle
 
 **Population schema records where civilian population is assigned, how its demographic and social distributions change, and which derived conditions and interests it exposes. It does not duplicate geographic, financial, employment, logistical, military or political authority.**
