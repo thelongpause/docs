@@ -127,6 +127,8 @@ environmental_susceptibility: {}
 reliability:
   base_availability: null
 design_version: 1
+source_provenance: []
+evidence_status: inferred
 data_status: provisional
 ```
 
@@ -145,6 +147,8 @@ Use stable, namespaced IDs. Examples:
 
 Names are presentation data; IDs are references. Renaming a sensor must not break installed equipment, research prerequisites, saves or scenario files.
 
+Every imported or researched property must distinguish source evidence from the Project Sovereign design decision. Use evidence_status values observed, inferred, speculative or project_defined, and preserve source document, section/page or source-field provenance where available. A glossary entry marked inferred or speculative in the source dashboard must not silently become a verified simulation rule. CMO field names are import/reference metadata, not Project Sovereign's canonical runtime API.
+
 ### 3.2 Detection model contract
 
 Every sensor definition must reference a detection model compatible with its domain. The model should declare:
@@ -161,6 +165,23 @@ Every sensor definition must reference a detection model compatible with its dom
 - Calibration parameters, provenance and test fixtures.
 
 A detection model must not silently read or expose hidden target data beyond the inputs permitted by the simulation architecture.
+
+### 3.3 Capability vocabulary and source-field mapping
+
+The CMO dashboard's Feature Glossary is useful as a reference vocabulary, but its numeric enum IDs and engine-specific behaviour are not canonical Project Sovereign identifiers. Map imported source entries to stable Project Sovereign capability IDs, preserve the source ID as provenance, and validate the mapping rather than copying raw numeric codes into runtime logic.
+
+The initial capability vocabulary should support the following independent dimensions:
+
+- **Detection target class:** air, surface, submerged submarine, periscope/mast, fixed land installation, mobile land target, incoming missile, incoming torpedo, rocket/artillery/mortar, space/ballistic-missile target, mine/underwater obstacle.
+- **Measurement output:** bearing, range, altitude, speed, heading, classification, identification, emitter direction finding, time-difference-of-arrival/geolocation.
+- **Radar processing and operation:** continuous tracking, track-while-scan, moving-target indication, ground-moving-target indication, pulse-only, pulse-Doppler/look-down-shoot-down, frequency agility, non-cooperative target recognition, synthetic-aperture imaging, and supported phased-array characteristics.
+- **Illumination and engagement support:** continuous-wave illumination, interrupted/time-shared illumination where actually supported, fire-control-quality track output, and explicit illumination/track channel limits.
+- **Optical/infrared:** night/low-light operation, imaging versus non-imaging IR, cued tracking, search versus track performance, and range-precision behaviour.
+- **Passive electromagnetic sensing:** emission warning, emitter classification, direction finding, multi-receiver geolocation, and passive coherent location with its external-illuminator requirements.
+- **Acoustic and underwater sensing:** passive/active mode, shallow-water suitability, thermal-layer/array properties, acoustic-intercept warning, and specialised bearing-only sensors such as MAD.
+- **Electronic protection:** resistance to specific jamming methods, frequency agility, sidelobe/beamforming properties and other explicit counter-countermeasure capabilities.
+
+These are separate flags or model references, not one cumulative sensor-quality score. A sensor can support several measurement outputs while lacking the processing, geometry or precision needed for a fire-control solution. In particular, detection, emitter classification, precise location, continuous tracking and engagement-quality data must remain distinct.
 
 ## 4. Sensor Families
 
