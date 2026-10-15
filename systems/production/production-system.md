@@ -40,7 +40,7 @@ It is not the authority for every economic, geographic, logistical or organisati
 |---|---|---|
 | Economy | Economic entities, financial resources, expenditure, revenue, transactions and economic decisions | Provides economic intent and records financial consequences |
 | Industry Data | Industry Types, Industry instances, Company relationships, Industry Scale, establishment configuration, Industry Areas, workforce requirements and starting-world Industry data | Defines the Industries for which productive activity may be configured |
-| Production | Facilities, production lines, capacity, production orders, scheduling, operating constraints and execution | Determines and executes physical production |
+| Production | Production-specific facility capability mappings, process throughput, production lines, capacity calculations and allocation, production orders, scheduling, operating constraints and execution | References canonical Facility identity and shared physical/capacity state; determines and executes production |
 | Production Processes and Recipes | Transformation definitions, recipe versions, input/output quantities, yields, by-products, waste and process-level requirements | Defines the transformation executed by Production |
 | Inventory | Physical stock, quantities, locations, condition, ownership, reservations, transfers, delivery and consumption | Supplies inputs and records resulting physical stock changes |
 | Good and Service Catalogue | Canonical product identities, classifications, attributes and units | Defines the Goods and Services referenced by Production |
@@ -91,7 +91,9 @@ Production must not redefine Industry identity, Industry Type, Company relations
 
 ### 3.2 Production Facility
 
-A Production Facility is a physical installation, asset or operational unit capable of performing one or more production activities.
+A Production Facility, in Production terminology, is a canonical Facility that has a Production-owned capability extension enabling one or more production activities. The Installations and Facilities System owns the underlying Facility identity, type, name, location, shared condition, ownership/operator/control relationships and common facility capabilities/capacity definitions. Production must reference that identity rather than create a competing facility record.
+
+Production owns the mapping from a Facility to supported production processes, production-specific throughput bases and calculations, line-level production configuration, capacity allocation, orders and execution state. A process-specific throughput value is not a duplicate of generic facility capacity. Production eligibility is distinct from the Facility's shared physical condition and lifecycle state.
 
 Examples include:
 
@@ -193,50 +195,36 @@ All persistent production entities must have stable identifiers. Relationships m
 
 The following is the logical data model. Exact storage formats, programming-language types and serialisation structures are implementation decisions unless otherwise specified.
 
-### 4.1 Production Facility Record
+### 4.1 Production Facility Capability Extension
 
-A Production Facility must support the following information:
+The canonical Facility record is owned by the Installations and Facilities System. Production maintains a capability extension keyed by the same `facility_id`, which is both the extension's primary key and a foreign key to the canonical Facility. Production must not duplicate the Facility's type, name, location, ownership, operator, shared physical condition, lifecycle state or generic capacity definitions.
 
-| Field | Purpose |
+The Production-owned extension and related capability associations may reference:
+
+| Field or association | Purpose |
 |---|---|
-| `facility_id` | Unique, stable facility identifier |
-| `industry_id` | Associated Industry |
-| `facility_type_id` | Reference to the applicable facility type definition |
-| `name` | Human-readable facility name |
-| `location_id` | Reference to the physical location |
-| `industry_area_id` | Optional associated Industry Area |
-| `ownership_id` | Reference to the authoritative owner |
-| `operator_id` | Optional entity responsible for operations |
-| `operational_state` | Current operating condition |
-| `installed_capacity` | Nominal installed productive capability |
-| `capacity_unit` | Canonical unit or compatible unit reference |
-| `capacity_period` | Time interval to which capacity applies |
-| `process_capabilities` | Processes the facility is equipped and permitted to execute |
-| `infrastructure_requirements` | Required utilities, access and supporting infrastructure |
-| `technology_requirements` | Required technologies or equipment capabilities |
-| `maintenance_state` | Maintenance status and applicable restrictions |
-| `commissioning_state` | Whether the facility is planned, under construction, commissioning, operational or decommissioned |
-| `construction_progress` | Applicable construction progress, where supported |
-| `workforce_requirements` | Required labour by category, skill or role |
-| `workforce_allocation_reference` | Reference to the authoritative labour allocation |
-| `created_at` | Simulation time at which the facility was created |
-| `last_updated_at` | Simulation time of the most recent authoritative update |
+| `facility_id` | Canonical Facility ID; primary/foreign key, not a separately generated identity |
+| `industry_id` or normalised Industry association | Economic/operational Industry relationship where applicable; use a many-to-many association if needed |
+| `industry_area_id` | Optional Industry Area reference |
+| `production_eligibility_state` | Production-specific eligibility, distinct from shared Facility condition |
+| `facility_process_capability` | Supported Production Processes, configuration state, validity and process-specific nominal throughput basis |
+| `production_requirements` | References to technology, workforce, utilities, infrastructure and operating prerequisites |
+| `created_simulation_time` | Simulation time at which the Production extension was created |
+| `last_updated_simulation_time` | Simulation time of the latest Production-owned change |
 
-Optional fields may be omitted where the associated system is not yet implemented. Their absence must not silently imply that a requirement is satisfied.
+A process-specific throughput definition must identify the process or compatible process family, output/process basis, canonical unit, time basis, applicable conditions and configuration version. It is not generic Facility capacity, Effective Capacity, Allocated Capacity or Actual Output. Production calculates effective throughput from the configured capability and authoritative constraints. If independently scheduled production lines are modelled, line-specific throughput and eligibility are represented on the Production Line record.
 
-The facility record must not become an alternative source of truth for inventory quantities, Company finances, population totals or territorial ownership.
+A canonical Facility may serve more than one Industry. If that relationship is supported, represent it as a normalised association rather than overwriting a single authoritative Industry reference.
 
 ### 4.2 Production Line Record
 
 A Production Line should support:
 
 - `production_line_id`
-- `facility_id`
-- `operational_state`
+- `facility_id` (canonical Facility reference)
+- `production_eligibility_state`
 - `supported_processes`
-- `installed_capacity`
-- `capacity_unit`
-- `capacity_period`
+- `installed_throughput` and its process/output basis, canonical unit and time basis, only where line-level throughput is independently modelled
 - `current_process_id`, if assigned
 - `current_order_id`, if assigned
 - `maintenance_state`
