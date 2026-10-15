@@ -534,13 +534,17 @@ The logical schema must support an auditable link between an extraction executio
 - The Inventory transaction and resulting stock lot must retain provenance to the source and extraction operation.
 - The resource-source schema, finite/renewable behaviour, regeneration and depletion parameters remain open until specified by the owning resource model.
 
-## 10. Required Integration Tests
+## 11. Required Integration Tests
 
 Before this schema is considered implementation-ready, tests must demonstrate:
 
 - A recipe with two or more outputs produces separate output rows with independent quantities and units.
 - A target-output order completes based on the selected target, not co-product totals.
 - A throughput-based order resolves its basis to an explicit recipe input or other supported basis.
+- A recipe basis identifies its basis type and, where relevant, its canonical Catalogue identity or exact input/output line within the immutable recipe version.
+- A facility or line capability references an immutable throughput-basis version belonging to the same process and supplies compatible throughput unit and time interval.
+- A Production Line does not duplicate process capability or throughput already represented by `facility_process_capability`.
+- A Production Order reservation is allocated to the exact recipe input line through `production_order_input_reservation`; aggregate allocations cannot exceed eligible reservation quantity.
 - A service output is recorded as a non-stock result and does not create an Inventory Holding or Stock Lot.
 - A physical output is registered once and linked to its Production Execution.
 - A Production facility extension cannot exist without a canonical Facility, and its `facility_id` is the same primary/foreign key rather than a separately generated ID.
@@ -549,6 +553,7 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - An input reservation cannot be consumed by two competing executions beyond its reserved quantity.
 - Two simultaneous reservations cannot exceed eligible stock.
 - A retry after successful commit does not duplicate any input consumption or output.
+- An extraction execution cannot commit source depletion without its corresponding Inventory receipt, and the Inventory transaction retains the source and source-side commit references.
 - Reusing an idempotency key with a different payload is rejected.
 - Failure between preparation and commitment leaves no unintended partial stock outcome.
 - A multi-stage process preserves separate execution and transaction identities for each committed stage.
