@@ -289,7 +289,9 @@ A candidate failing a hard eligibility gate is not affected by that jammer for t
 
 ### 8.3 Effect resolution
 
-For an eligible target, calculate an effect strength from equipment characteristics, geometry, signal compatibility, target-system resistance, processing and technology.
+For an eligible target, calculate an effect strength from equipment characteristics, geometry, signal compatibility, target-system resistance, processing and technology. The technical contest must account for the relative sophistication of the jammer and the specific receiver/radar, not only a single generic EW rating. Relevant properties include frequency-band compatibility, distance and positional geometry, antenna/beam characteristics, sidelobes, pulse-repetition and emission characteristics where modelled, receiver processing, and applicable electronic-protection capabilities.
+
+Phased-array radars may receive explicit resistance benefits where supported by their modeled properties. AESA systems can be particularly resistant to some OECM techniques because of low sidelobes, signal-to-noise performance and beamforming. These are method-specific advantages, not blanket immunity; a newer radar is not automatically unaffected by every jammer, and a jammer must not receive a universal bonus simply because it is newer.
 
 The initial model may use a calibrated domain-specific function:
 
@@ -322,9 +324,9 @@ The exact priority policy must be visible in system documentation and testable. 
 
 ### 8.5 Geometry and placement
 
-Jamming effectiveness depends on the relationship between jammer, target receiver, propagation path and relevant geometry. Range alone is insufficient.
+Jamming effectiveness depends on the relationship between jammer, target receiver, propagation path and relevant geometry. Range alone is insufficient. Stand-off distance, relative bearing and placement within a supported strike formation can materially change the result; a jammer supporting strikers may need to remain close enough to the threat axis to be effective while balancing exposure and survivability.
 
-The model must allow a jammer to be effective against some targets but ineffective against others due to terrain masking, band mismatch, directionality, receiver protection or other constraints.
+The model must allow a jammer to be effective against some targets but ineffective against others due to terrain masking, band mismatch, directionality, receiver protection or other constraints. OECM is area/directional interference, not a guarantee that every eligible radar in a region is suppressed equally.
 
 ### 8.6 Emission risk
 
@@ -360,11 +362,11 @@ The Combat system must supply the incoming weapon and seeker context at the appr
 
 ### 9.3 Resolution
 
-Combat resolves the terminal interaction using the countermeasure's effect model and the weapon seeker's capabilities. Relevant factors may include technology, compatibility, seeker generation or sophistication, counter-countermeasures, geometry, damage and random variation.
+Combat resolves the terminal interaction using the countermeasure's effect model and the weapon seeker's capabilities. The reference model is probabilistic: success depends on chance and the relative generations/sophistication of the defensive countermeasure and the attacking weapon's seeker. An older DECM system should generally be less effective against a substantially more modern seeker, and a modern seeker should not be assumed automatically defeated by the presence of DECM.
 
-Where generation levels are used, the comparison must be calibrated and domain-specific. A numerical generation label must not be treated as the sole physical determinant of success.
+Where generation levels are used, the comparison must be calibrated and domain-specific. Compatibility with the seeker type, counter-countermeasures, operating state and any supported resource/capacity constraints must also be evaluated. A numerical generation label must not be treated as the sole physical determinant of success.
 
-DECM success may reduce the probability of successful acquisition, tracking or terminal engagement according to the relevant seeker model. The precise outcomes belong to the Combat weapon-endgame contract.
+DECM is a platform-level self-protection effect resolved as part of the weapon endgame. It is not area jamming and does not directly reduce hostile search-radar detection of unrelated units. DECM success may reduce the probability of successful acquisition, tracking or terminal engagement according to the relevant seeker model. The precise outcomes belong to the Combat weapon-endgame contract.
 
 ### 9.4 Information and observability
 
