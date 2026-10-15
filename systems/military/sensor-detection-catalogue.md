@@ -88,11 +88,27 @@ supported_modes:
 supported_signature_domains:
   - visual
 detection_model_id: detection_model.visual_baseline
+sensor_capabilities: []
+geometry_and_coverage:
+  sensor_height_m: null
+  minimum_range_m: null
+  maximum_range_m: null
+  minimum_target_altitude_m: null
+  maximum_target_altitude_m: null
+  horizontal_field_of_view_deg: null
+  vertical_field_of_view_deg: null
+  scan_interval_s: null
+  operating_frequency_bands: []
 classification_capabilities:
   maximum_classification_level: general_category
 tracking_capabilities:
   bearing_only: false
   position_estimate: true
+  fire_control_quality: false
+precision_model:
+  search_model_id: null
+  cued_track_model_id: null
+  range_ambiguity_model_id: null
 operating_requirements:
   power_w: null
   crew_required: true
@@ -104,6 +120,9 @@ physical_properties:
 emission_profile:
   intentionally_emits: false
   emission_types: []
+electronic_protection:
+  supported_methods: []
+  resistance_profile_id: null
 environmental_susceptibility: {}
 reliability:
   base_availability: null
@@ -131,14 +150,15 @@ Names are presentation data; IDs are references. Renaming a sensor must not brea
 Every sensor definition must reference a detection model compatible with its domain. The model should declare:
 
 - Candidate eligibility rules.
-- Required geometry and propagation inputs.
-- Supported signature domains.
-- Relevant environmental inputs.
-- Detection probability calculation.
-- Classification and location outputs.
-- Supported interference or EW inputs.
-- Update interval requirements.
-- Calibration parameters and test fixtures.
+- Required geometry and propagation inputs, including sensor height, horizon/skyline, field of view and domain-specific propagation where applicable.
+- Supported signature domains and sensor capability flags.
+- Relevant environmental inputs and clutter conditions.
+- Detection probability calculation and hard eligibility limits.
+- Separate un-cued search and cued-track behaviour where the sensor supports them.
+- Classification, track quality, position precision and location-ambiguity outputs.
+- Supported interference, EW and electronic-protection interactions.
+- Scan/revisit interval and track/illumination resource constraints.
+- Calibration parameters, provenance and test fixtures.
 
 A detection model must not silently read or expose hidden target data beyond the inputs permitted by the simulation architecture.
 
@@ -214,7 +234,7 @@ Rangefinding requires an observable target and suitable operating conditions. It
 
 The initial baseline should include historically appropriate air-search radar capability for fixed installations and relevant naval or other platforms where scenario content supports them. Exact platform compatibility belongs to equipment and installation data.
 
-Air-search definitions must specify supported frequency bands, transmitter/receiver properties, antenna coverage, rotation or update behaviour where relevant, target signature sensitivity, power demand, installation constraints, classification capability and emission profile.
+Air-search definitions must specify supported frequency bands, transmitter/receiver properties, antenna height and coverage, horizontal/vertical field of view, minimum and maximum range and target-altitude envelope, scan/revisit behaviour, target signature sensitivity, power demand, installation constraints, classification capability and emission profile. Where supported, encode track-while-scan, moving-target indication, look-down/shoot-down, frequency agility, non-cooperative target recognition, phased-array characteristics and fire-control-quality track production as separate capabilities. Do not infer these capabilities solely from a sensor's name, era or array type. Search detection, cued tracking and precise location may require different calibrated models.
 
 ### 5.5 Surface-search radar
 
@@ -272,7 +292,7 @@ Active sonar creates an acoustic emission that can itself be observed by suitabl
 **Primary domains:** Electromagnetic emission  
 **Typical outputs:** Emission detection, emitter classification, bearing or estimated location according to capability.
 
-The initial catalogue should support receiver band coverage, sensitivity, signal analysis, bearing accuracy, processing capability and operating restrictions. ESM observations must feed the shared observation/contact model.
+The initial catalogue should support receiver band coverage, sensitivity, signal analysis, bearing accuracy, processing capability and operating restrictions. It must distinguish basic warning, emitter classification, direction finding and geolocation capability. A single receiver may detect and classify an emitter without producing a precise location; location estimation may require multiple receivers or repeated bearings. ESM observations must feed the shared observation/contact model.
 
 ### 5.11 Radio direction finding
 
@@ -411,9 +431,12 @@ The development team should create controlled test fixtures such as:
 - The same target behind opaque terrain.
 - A moving target under poor visibility.
 - A radar-compatible target at increasing range.
-- A radar target under supported interference.
-- An emitting target observed by compatible and incompatible ESM receivers.
-- A submarine or underwater target under several acoustic conditions.
+- A radar target under supported interference, including older mechanically scanned and modern phased-array/AESA-like protection profiles without assuming universal immunity.
+- A radar whose target is in or outside its altitude/field-of-view envelope.
+- A moving and a halted ground target under radar clutter with and without MTI/GMTI support.
+- An emitting target observed by compatible and incompatible ESM receivers, including one-bearing versus multi-receiver geolocation.
+- A visual/IR contact with range ambiguity beyond its precise-location envelope.
+- A submarine or underwater target under several acoustic conditions, plus a MAD-like bearing-only observation.
 
 Calibration should be based on relative expected behaviour and scenario playtests. Do not present provisional values as real-world equipment specifications.
 
