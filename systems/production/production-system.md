@@ -265,7 +265,7 @@ A Production Order must support:
 | `earliest_start_time` | Earliest permitted execution time |
 | `deadline` | Optional requested completion time |
 | `production_order_reservation` | Normalised references to Inventory reservations associated with this order |
-| `production_order_input_reservation` | Normalised line-level allocation of each reservation to a specific input in the selected recipe version, including allocated quantity and compatible unit |
+| `production_order_input_reservation` | Normalised line-level allocation of each reservation to a specific input in the selected recipe version, including allocated quantity, compatible unit and exact versioned conversion where needed |
 | `allocated_throughput` | Capacity assigned to the order |
 | `completed_quantity` | Quantity successfully produced |
 | `rejected_quantity` | Quantity rejected or recorded as unusable, where quality simulation is supported |
@@ -492,7 +492,7 @@ It must be physically available and accessible under Inventory and Logistics rul
 
 ### 7.2 Input Reservations
 
-Where Inventory supports reservations, a production order references them through normalised association records, not an embedded array of reservation IDs. Where a reservation supplies a specific recipe input, a line-level allocation record identifies the exact `recipe_input_id`, allocated quantity and compatible unit from the order's immutable recipe version.
+Where Inventory supports reservations, a production order references them through normalised association records, not an embedded array of reservation IDs. Where a reservation supplies a specific recipe input, a line-level allocation record identifies the exact `recipe_input_id`, allocated quantity and compatible unit from the order's immutable recipe version. If the allocation unit differs from the reservation or recipe input unit, it references the exact valid versioned unit conversion.
 
 A reservation establishes a claim on available stock under Inventory's rules. It does not consume that stock or create additional stock. Allocations across lines must not exceed the reservation's eligible quantity or the requirement permitted by the recipe and order rules.
 
