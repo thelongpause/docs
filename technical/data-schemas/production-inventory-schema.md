@@ -504,6 +504,16 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - Transfer and in-transit logic never makes the same quantity available at two locations.
 - A Catalogue unit change does not rewrite the unit or quantity recorded by a historical execution.
 
+## 9A. Resource Extraction Source-to-Stock Contract
+
+The logical schema must support an auditable link between an extraction execution, the authoritative resource-source model and the Inventory transaction that registers extracted stock. This is an interface requirement, not a declaration that the resource-source entity belongs in this schema.
+
+- Do not model a natural deposit as an Inventory holding or copy its remaining quantity into Inventory.
+- An extraction result must identify the source reference, originating Production Execution or extraction operation, `catalogue_id`, quantity, compatible unit, destination holding/location, and Inventory transaction.
+- Source depletion and stock registration must be atomic or recoverable through a durable idempotent commit protocol.
+- The Inventory transaction and resulting stock lot must retain provenance to the source and extraction operation.
+- The resource-source schema, finite/renewable behaviour, regeneration and depletion parameters remain open until specified by the owning resource model.
+
 ## Governing Principle
 
 Production defines and records the transformation event. Inventory records the physical stock changes. A shared idempotent transaction links them, while the Catalogue provides the canonical identity and units for every product involved.
