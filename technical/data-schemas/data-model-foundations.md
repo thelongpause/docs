@@ -63,7 +63,8 @@ The schema must not treat a consumer Good Unit or consumption interval as the ph
 | Economy | Companies' financial state, economic transactions, prices, obligations, Industry Scale | Nation Treasury authority, physical stock quantities, production execution |
 | Government | Nation Treasury, policy, permissions, establishment authorisation | Company Capital, physical stock, recipe calculations |
 | Production Processes and Recipes | Process definitions, recipe identities and immutable versions, quantitative transformation rules | Stock mutations, financial postings, facility capacity |
-| Production | Facilities, production lines, capacity allocation, Production Orders, Production Executions and outcomes | Physical stock ledger, canonical product definitions, Company accounts |
+| Installations and Facilities | Canonical Facility identity, shared physical condition/lifecycle, ownership/operator/control, generic capabilities and capacity definitions | Production-specific throughput, production orders and execution state |
+| Production | Facility capability extensions keyed by canonical Facility ID, process-specific throughput and allocation, Production Orders, Production Executions and outcomes | Canonical Facility identity or shared Facility state, physical stock ledger, canonical product definitions, Company accounts |
 | Inventory | Stock holdings, lots, reservations, stock transactions and in-transit stock representation | Recipe calculations, production scheduling, financial balances |
 | Logistics and Transportation | Transport capacity, route and movement execution, shipment and delivery state | Product identity, Company accounts, duplicate stock ledger |
 | Shared simulation engine | Deterministic phase order, command execution coordination, save/load and simulation-time progression | Domain-owned rules or duplicate domain state |
@@ -91,6 +92,7 @@ Catalogue entries remain the canonical identity for every product reference. The
 - `industry_configuration`: reusable rules and permitted activities for a type or configuration version.
 - `industry_establishment_profile`: establishment expenditure, Opening Company Capital requirement, and applicable prerequisites as separate concepts.
 - `industry_instance`: the established Industry identity and references to its type, Company, Nation, geographic area, and configuration.
+- `industry_facility_association`: normalised, effective-dated association between an Industry and a canonical Facility, with role and configuration provenance; it must not duplicate either entity's identity or state.
 - `company`: the economic entity that owns Company Capital and financial records.
 - `company_capital_account` or equivalent Economy-owned account records: Company Capital and its auditable movements.
 - `nation_treasury_account` or equivalent Government-owned account records: public funds and authorised Treasury movements.
@@ -155,7 +157,7 @@ At minimum, the relational model must enforce or validate these relationships:
 5. Each execution input/output row belongs to exactly one execution. Each physical output row references the Catalogue entry and unit used, and links to the authoritative Inventory transaction that registers it.
 6. Each Inventory Reservation references a holding and/or lot, a Catalogue identity consistent with that stock, a quantity and unit, and its requesting purpose.
 7. Each Inventory Transaction Line references a valid Catalogue entry and eligible physical stock item for stock-changing movements. Service delivery cannot masquerade as physical stock.
-8. Each Industry references a canonical Industry Type and a Company, with valid Nation and geographic references.
+8. Each Industry references a canonical Industry Type and a Company, with valid Nation and geographic references. Industry-to-Facility relationships use a normalised association to canonical Facility IDs rather than a denormalised Facility ID list on the Industry record.
 9. Financial transactions reference the appropriate Economy-owned accounts and do not directly mutate Inventory.
 10. Treasury postings require Government-authorised operations. Company Capital postings remain Economy-owned.
 11. Industry establishment is committed atomically with its required financial movements and authorisation; scenario-loaded starting Industries are not charged establishment costs again.
