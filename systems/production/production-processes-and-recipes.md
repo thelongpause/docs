@@ -250,6 +250,9 @@ Each recipe must identify its process, version, execution mode, quantitative bas
 | `production_mode` | Batch, continuous, discrete assembly, extraction, service, or construction |
 | `basis_quantity` | Reference execution quantity or rate |
 | `basis_unit` | Canonical unit associated with the basis |
+| `basis_type` | Explicit basis kind: target output, defined process unit, recipe input line, or recipe output line |
+| `basis_catalogue_id` | Canonical Catalogue identity when the basis measures a specific Good or Service |
+| `basis_line_reference` | Exact input/output line reference when the basis is recipe-line-specific; must resolve within this recipe version |
 | `inputs` | Defined input requirements |
 | `outputs` | Defined output results |
 | `required_capabilities` | Additional technical capabilities required |
@@ -295,7 +298,7 @@ Each input must identify the resource, quantity, unit, functional role, and cons
 | Field | Description |
 |---|---|
 | `input_id` | Identifier unique within the recipe version |
-| `catalogue_entry_id` | Canonical Good and Service Catalogue identifier |
+| `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `quantity` | Required quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
 | `input_role` | Functional role of the input |
@@ -363,7 +366,7 @@ A recipe must identify its primary output and any represented secondary products
 | Field | Description |
 |---|---|
 | `output_id` | Identifier unique within the recipe version |
-| `catalogue_entry_id` | Canonical catalogue identifier, where applicable |
+| `catalogue_id` | Canonical catalogue identifier, where applicable |
 | `quantity` | Expected quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
 | `output_role` | Primary product, co-product, by-product, recovered material, or other supported result |
@@ -440,7 +443,7 @@ Examples include:
 - Electricity consumed per hour of operation.
 - Labour or service quantities required per completed unit.
 
-The basis quantity must have an explicit unit and must not be inferred from a recipe's name or description.
+The basis quantity must have an explicit unit and must not be inferred from a recipe's name or description. The basis type and reference must identify what that quantity measures. If the basis references an input or output line, the line must belong to the same immutable recipe version. If it references a Catalogue-defined Good or Service, the basis Catalogue identity and unit must be compatible with that entry.
 
 ### 9.2 Unit Compatibility
 
