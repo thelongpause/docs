@@ -61,7 +61,8 @@ Industry Data must not maintain a competing authoritative copy of live economic 
 | Live Industry economic state and Industry Scale | Economy |
 | Company Capital, revenue, expenditure and accounting | Economy |
 | Nation Treasury and public financial authority | Government |
-| Physical production capacity and facilities | Production |
+| Canonical Facility identity, shared physical condition/lifecycle and generic facility capacity | Installations and Facilities |
+| Production-specific process capability, throughput, allocation, orders and execution | Production |
 | Actual production quantities | Production |
 | Input-to-output transformation definitions | Production Processes and Recipes |
 | Physical inventory, reservations, transfers and consumption | Inventory |
@@ -110,6 +111,8 @@ An Industry Type is a definition, not a physical establishment.
 ### 2.2 Industry Instance
 
 An Industry instance is an individual industrial establishment represented in the simulation.
+
+An Industry is not a Facility. An Industry may use one or more canonical Facilities, and a Facility may serve one or more Industries where the relevant legal and operational rules permit it. Industry Data must reference canonical Facility IDs and must not create or duplicate Facility identity, shared condition/lifecycle, ownership/operator/control, or generic capacity.
 
 Each committed instance references exactly one canonical Industry Type and includes or references:
 
@@ -466,8 +469,8 @@ The following states must remain distinct:
 - Industry Scale.
 - Workforce demand and fulfilment.
 - Company financial state.
-- Physical facility condition.
-- Physical Production Capacity.
+- Canonical Facility identity and shared physical condition/lifecycle, owned by Installations and Facilities.
+- Production-specific process capability and throughput, owned by Production.
 - Actual Production.
 - Inventory availability.
 - Geographic Industry Area condition.
@@ -1125,7 +1128,7 @@ Economy must not use Industry Data as a substitute for physical production or in
 
 ### 11.3 Production System Interface
 
-Production consumes Industry identity, type, geographic association, selected production configuration and relevant economic intent.
+Production consumes Industry identity, type, geographic association, selected production configuration and relevant economic intent. It references canonical Facility IDs through the Installations and Facilities System and must not create a competing facility identity.
 
 The interface must support exchange of:
 
@@ -1137,13 +1140,12 @@ The interface must support exchange of:
 - Workforce fulfilment where applicable.
 - Technology and operating prerequisites.
 - Applicable legal or operational restrictions.
-- Production Capacity.
+- Canonical Facility references and facility-to-Industry associations.
+- Production capability eligibility and process-specific throughput references.
 - Actual Production outcomes.
 - Physical operating constraints.
 
-Economy supplies economic intent and receives production results. Production determines physical capacity and actual output.
-
-Industry Scale must not be interpreted as Production Capacity.
+Installations and Facilities owns canonical Facility identity, shared physical state, generic capabilities and generic capacity definitions. Production owns process-specific capability mappings, throughput basis and calculations, capacity allocation, orders and execution. Economy supplies economic intent and receives production results. Industry Scale is not physical capacity, and neither Industry Data nor Economy may duplicate Facility state.
 
 ### 11.4 Production Processes and Recipes Interface
 
@@ -1918,6 +1920,20 @@ The implementation must include tests for:
 - Deterministic state transitions.
 
 ---
+
+## 18A. Facility Reference and Ownership Contract
+
+Industry Data must represent the relationship between an Industry and physical Facilities through stable references, not copied Facility records.
+
+- Each referenced Facility ID must resolve to the canonical Installations and Facilities record.
+- Industry-to-Facility associations must support the declared cardinality. If a Facility can serve multiple Industries, use a normalised association rather than a single overwritten Industry field.
+- Industry Data may state which Facility or capability is required for an establishment or activity. It must not define the Facility's identity, shared physical condition, lifecycle, owner/operator/control, or generic capacity.
+- A facility association does not prove that a Facility is production-eligible, has a compatible process capability, has available throughput, possesses required inputs, or has produced output.
+- Process-specific capability and throughput references must resolve through Production and must identify the process/basis, unit, interval, applicable configuration version and validity period where those are modelled.
+- A geographic Industry Area is not a Facility and does not itself confer physical capacity.
+- Starting-world Industry initialisation must reference pre-existing or explicitly created canonical Facilities. It must not create duplicate Facility identities or charge for a Facility merely because an Industry references it.
+
+This contract supplements the Industry instance schema and cross-system interfaces; it does not establish the Facility or resource-source schema.
 
 ## 19. Acceptance Criteria
 
