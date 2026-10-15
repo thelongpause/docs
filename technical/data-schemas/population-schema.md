@@ -68,7 +68,7 @@ The core relationship is: World Map Area feature → Population Centre → popul
 Core entity groups:
 
 - Geographic identity: population centre.
-- Assignment and accounting: population assignment, population event, event effect, population movement.
+- Assignment and accounting: Population Aggregate Group, population assignment, population event, event effect, population movement.
 - Demographics: cohort state, demographic rate schedule and immutable schedule versions.
 - Composition: population dimension, category, composition state.
 - Group classifications: population group definition and group distribution.
@@ -100,10 +100,13 @@ Constraints:
 
 ### 6.2 Population Aggregate Group and Assignment
 
-A Population Aggregate Group is a stable identity for an aggregate set of civilians that the simulation can track through residence changes, movement, displacement and demographic events without creating one record per person. It is not a socioeconomic Population Type. A group may be split into child groups when only part of its count moves or experiences an event; the split/merge relationship and counts must be recorded explicitly. Groups may be merged only when their relevant demographic and composition state can be reconciled under a declared rule. The record contains a stable group ID, creation/provenance reference and optional parent group reference for a split. It does not require individual identities.\n\nA Population Assignment represents that aggregate group assigned to one accounting location/state at a given simulation time. Assignment is the authoritative answer to where the group's counted population currently resides for Population accounting.
+A Population Aggregate Group is a stable identity for an aggregate set of civilians that the simulation can track through residence changes, movement, displacement and demographic events without creating one record per person. It is not a socioeconomic Population Type. A group may be split into child groups when only part of its count moves or experiences an event; the split/merge relationship and counts must be recorded explicitly. Groups may be merged only when their relevant demographic and composition state can be reconciled under a declared rule. The record contains a stable group ID, creation/provenance reference and optional parent group reference for a split. It does not require individual identities.
+
+A Population Assignment represents that aggregate group assigned to one accounting location/state at a given simulation time. Assignment is the authoritative answer to where the group's counted population currently resides for Population accounting.
 
 Fields:
-- Stable assignment ID.\n- Stable Population Aggregate Group ID.
+- Stable assignment ID.
+- Stable Population Aggregate Group ID.
 - Assignment kind: resident, in transit, unassigned, or another explicitly modelled kind.
 - Population Centre ID, required for resident assignments and otherwise nullable only where permitted by the assignment kind.
 - Movement ID, required for in-transit assignments.
@@ -114,7 +117,8 @@ Fields:
 Assignments should be effective-dated or retained as immutable transition history, not silently overwritten. A current-state projection is permitted if it can be reconstructed from committed transitions.
 
 Constraints:
-- A population quantity is counted in one authoritative assignment at a time.\n- Each active aggregate group has one authoritative assignment at a time, except during an atomic split/merge transition whose effects reconcile exactly.
+- A population quantity is counted in one authoritative assignment at a time.
+- Each active aggregate group has one authoritative assignment at a time, except during an atomic split/merge transition whose effects reconcile exactly.
 - A group cannot be resident at origin and simultaneously counted in transit or at destination.
 - In-transit assignment requires a valid movement record.
 - Assignment intervals for the same aggregate group must not overlap incompatibly.
@@ -174,7 +178,7 @@ Stores one or more typed effects of an event.
 
 Fields:
 - Parent event ID and stable effect sequence.
-- Affected assignment and, where applicable, age cohort.
+- Affected assignment and aggregate-group ID and, where applicable, age cohort.
 - Controlled effect kind: addition, removal, transfer, reclassification or another defined effect.
 - Signed integer person-count delta where applicable.
 - Destination assignment for transfers where applicable.
