@@ -234,7 +234,7 @@ A production line is optional and exists only where the facility is modelled wit
 | `created_simulation_time` | Yes | Simulation time, not wall-clock timestamp |
 | `earliest_start_time` | No | Simulation time |
 | `deadline` | No | Simulation time |
-| `allocated_capacity` | No | Derived or explicitly allocated capacity with unit and interval |
+| `allocated_throughput` | No | Derived or explicitly allocated capacity with unit and interval |
 | `completed_quantity` | Yes | Quantity measured in the order's requested basis |
 | `rejected_quantity` | Yes | Quantity measured in the same basis where supported |
 | `cancelled_quantity` | Yes | Quantity measured in the same basis |
@@ -277,7 +277,7 @@ One row represents one attempted logical execution. The record must distinguish 
 | `execution_state` | Yes | Prepared/pending, committed, rejected, failed, or approved lifecycle state |
 | `requested_basis_quantity` | Yes | Basis quantity evaluated for this execution |
 | `basis_unit_id` | Yes | Unit for basis quantity |
-| `allocated_capacity` | Yes | Capacity used or allocated |
+| `allocated_throughput` | Yes | Capacity used or allocated |
 | `capacity_unit_id` | Yes | Capacity unit |
 | `deterministic_input_snapshot` | Yes | Versioned references and resolved inputs needed to explain/reproduce result |
 | `execution_result` | Conditional | Final outcome payload/reference |
