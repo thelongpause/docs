@@ -192,7 +192,7 @@ Conceptual fields:
 - `current_mode`
 - `emcon_state`
 - `available_capacity`
-- `resource_state)
+- `resource_state`
 
 ### 5.6 EWEffect
 
@@ -206,8 +206,8 @@ Conceptual fields:
 - `affected_domain`
 - `effect_type`
 - `start_time`
-- `end_time), if applicable
-- `effect_strength)
+- `end_time`, if applicable
+- `effect_strength`
 - `geometry_context`
 - `resolution_provenance`
 
