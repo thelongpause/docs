@@ -113,6 +113,7 @@ The basis version is immutable once referenced by a committed capability configu
 | `production_mode` | Yes | Batch, continuous, discrete assembly, extraction, service, construction, or other supported mode |
 | `basis_quantity` | Yes | Reference execution quantity or rate |
 | `basis_unit_id` | Yes | Foreign key to measurement unit compatible with the declared basis |
+| `basis_unit_conversion_id` | Conditional | Exact versioned conversion when the basis unit differs from the canonical unit of its referenced Catalogue product or recipe line |
 | `basis_type` | Yes | Controlled basis kind: target output, defined process unit, recipe input line, or recipe output line |
 | `basis_catalogue_id` | Conditional | Canonical Catalogue identity when the basis is a specific Good or Service output/input |
 | `basis_line_reference` | Conditional | Exact recipe input/output line reference when the basis is recipe-line-specific; must resolve within this recipe version |
@@ -138,7 +139,8 @@ One row represents one input requirement for one recipe version.
 | `input_code` | Yes | Stable within the recipe version |
 | `catalogue_id` | Yes when product/service input | Canonical Catalogue reference |
 | `quantity` | Yes | Quantity relative to recipe basis |
-| `unit_id` | Yes | Compatible with Catalogue unit and basis |
+| `unit_id` | Yes | Unit used for the input quantity; canonical Catalogue unit unless an explicit conversion is referenced |
+| `unit_conversion_id` | Conditional | Versioned conversion when `unit_id` differs from the Catalogue unit or required recipe basis unit |
 | `input_role` | Yes | Feedstock, component, consumable, fuel, utility, catalyst, auxiliary material, packaging, service input, or approved extension |
 | `consumption_mode` | Yes | Consumed, incorporated, reusable, returned, service-consumed, or approved extension |
 | `substitution_group` | No | Explicit permitted alternatives |
@@ -162,7 +164,8 @@ One row represents one defined output of one recipe version.
 | `output_role` | Yes | Primary output, co-product, by-product, recovery, waste, or another defined role |
 | `quantity_method` | Yes | Fixed, proportional yield, conversion yield, multi-output yield, conditional yield, discrete yield, or approved extension |
 | `quantity` | Conditional | Required where the method specifies a fixed or reference quantity |
-| `unit_id` | Yes for quantitative output | Compatible with the Catalogue entry or defined result |
+| `unit_id` | Yes for quantitative output | Unit used for the output quantity; canonical Catalogue unit unless an explicit conversion is referenced |
+| `unit_conversion_id` | Conditional | Versioned conversion when `unit_id` differs from the Catalogue unit or required recipe basis unit |
 | `calculation_definition` | Conditional | Versioned/validated parameters for yield or conditional calculations |
 | `conditions` | No | Explicit execution conditions |
 | `inventory_eligible` | Yes | Must agree with Catalogue physical form and Inventory rules |
@@ -203,7 +206,8 @@ One row declares that a canonical Facility, or an independently modelled product
 | `capability_state` | Yes | Configured, restricted, suspended or retired under the declared lifecycle |
 | `throughput_basis_id` | Conditional | Foreign key to a valid immutable `process_throughput_basis` version for the same `process_id`; required when process-specific throughput is declared |
 | `configured_nominal_throughput` | Conditional | Configured process-specific nominal throughput for the stated basis and interval |
-| `throughput_unit_id` | Conditional | Canonical compatible unit |
+| `throughput_unit_id` | Conditional | Unit used for configured nominal throughput |
+| `throughput_unit_conversion_id` | Conditional | Versioned conversion required when the throughput unit differs from the referenced basis unit |
 | `throughput_period` | Conditional | Explicit simulation interval or rate basis |
 | `valid_from` | Yes | Simulation validity start |
 | `valid_until` | No | Optional simulation validity end |
@@ -213,6 +217,7 @@ Constraints:
 - The same capability scope and validity interval must not have conflicting duplicate rows.
 - `throughput_basis_id` must resolve to one immutable basis version owned by the same `process_id`.
 - If `configured_nominal_throughput` is present, `throughput_basis_id`, `throughput_unit_id` and `throughput_period` are all required.
+- If `throughput_unit_id` differs from the referenced basis unit, `throughput_unit_conversion_id` is required and must identify the exact valid conversion direction and version.
 - The configured throughput quantity, unit and period must match the referenced basis semantics.
 - Throughput values are not interchangeable across different output/process bases merely because their units share a dimension.
 - Nominal throughput is not effective capacity, allocated capacity or actual output.
@@ -249,6 +254,7 @@ Process compatibility and all facility- or line-specific throughput are stored i
 | `production_basis_reference` | Yes | Explicit basis definition/recipe line when not target-output based |
 | `requested_quantity` | Yes | Quantity of the stated basis |
 | `requested_unit_id` | Yes | Unit compatible with the stated basis |
+| `requested_unit_conversion_id` | Conditional | Exact versioned conversion when requested unit differs from the selected basis unit |
 | `priority` | Yes | Explicit scheduling priority |
 | `order_state` | Yes | Controlled lifecycle state |
 | `created_simulation_time` | Yes | Simulation time, not wall-clock timestamp |
@@ -338,6 +344,7 @@ One row per resolved input for an execution.
 | `quantity_requested` | Yes | Calculated required quantity |
 | `quantity_committed` | Yes | Quantity actually committed as consumed/used |
 | `unit_id` | Yes | Unit for the quantity |
+| `unit_conversion_id` | Conditional | Versioned conversion when the recorded unit differs from the canonical Catalogue or recipe-line unit |
 | `consumption_mode` | Yes | Semantics from recipe version |
 | `inventory_transaction_line_id` | Conditional | Link to authoritative stock consumption line when physical stock changes |
 | `source_reservation_id` | No | Inventory reservation fulfilled by the input |
@@ -359,6 +366,7 @@ One row per calculated output, regardless of whether it becomes physical stock.
 | `quantity_calculated` | Yes | Calculated result |
 | `quantity_committed` | Yes | Quantity committed to its authoritative destination |
 | `unit_id` | Yes | Unit for output |
+| `unit_conversion_id` | Conditional | Versioned conversion when the recorded unit differs from the canonical Catalogue or recipe-line unit |
 | `inventory_transaction_line_id` | Conditional | Required for a physical stock output |
 | `resource_source_reference` | Conditional | Source provenance for extracted material; resolves to the authoritative resource-source model |
 | `result_state` | Yes | Calculated, committed, rejected, non-stock result, or approved state |
@@ -379,6 +387,7 @@ Represents a stock context, not a financial asset.
 | `owner_id` | Conditional | Stock owner |
 | `custodian_id` | Conditional | Responsible custodian |
 | `unit_id` | Yes | Canonical or compatible unit |
+| `unit_conversion_id` | Conditional | Required when holding unit differs from the Catalogue's canonical unit |
 | `status` | Yes | Controlled holding state |
 | `created_simulation_time` | Yes | Simulation time |
 | `updated_simulation_time` | Yes | Simulation time |
@@ -394,6 +403,7 @@ Represents a stock context, not a financial asset.
 | `catalogue_id` | Yes | Must agree with holding |
 | `quantity_on_hand` | Yes | Non-negative physical quantity |
 | `unit_id` | Yes | Compatible with Catalogue unit and holding |
+| `unit_conversion_id` | Conditional | Required when lot unit differs from the Catalogue or holding unit |
 | `location_id` | Yes | Current physical location |
 | `owner_id` | Conditional | Current owner |
 | `custodian_id` | Conditional | Current custodian |
@@ -417,6 +427,7 @@ A lot split must create traceable child lot(s) or equivalent lineage. Lot merges
 | `inventory_holding_id` | Yes | Reserved holding |
 | `quantity_reserved` | Yes | Positive quantity |
 | `unit_id` | Yes | Compatible unit |
+| `unit_conversion_id` | Conditional | Required when reservation unit differs from the canonical Catalogue unit or reserved stock unit |
 | `requesting_entity_id` | Yes | Requesting system/entity |
 | `purpose_type` | Yes | Production, shipment, military supply, customer order, or approved purpose |
 | `purpose_reference` | Yes | Stable reference to order/requirement |
@@ -459,6 +470,7 @@ A single inventory transaction may change several products, lots, or stock locat
 | `catalogue_id` | Yes | Canonical physical product identity |
 | `quantity_delta` | Yes | Signed stock change or explicit direction/quantity representation, selected consistently for all transaction types |
 | `unit_id` | Yes | Compatible measurement unit |
+| `unit_conversion_id` | Conditional | Required when transaction unit differs from the canonical Catalogue or affected stock-lot unit |
 | `stock_lot_id` | Conditional | Existing or newly created affected lot |
 | `source_location_id` | Conditional | Source location |
 | `destination_location_id` | Conditional | Destination location |
