@@ -229,12 +229,9 @@ A production line is optional and exists only where the facility is modelled wit
 | `facility_id` | Yes | Foreign key to canonical Facility ID and Production facility extension |
 | `name` | Yes | Production-line name; does not rename the canonical Facility |
 | `production_eligibility_state` | Yes | Production-line-specific operating eligibility, distinct from parent Facility condition |
-| `process_capabilities` | Conditional | Normalised relationship to supported processes; use association rows when queried or versioned independently |
-| `configured_nominal_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
-| `throughput_basis_id` | Conditional | Foreign key to an immutable `process_throughput_basis` version for the same process; required with configured nominal throughput |
-| `throughput_unit_id` | Conditional | Required with configured nominal throughput |
-| `throughput_period` | Conditional | Required with configured nominal throughput |
 | `maintenance_reference` | No | Reference to authoritative maintenance/condition state; do not duplicate it |
+
+Process compatibility and all facility- or line-specific throughput are stored in `facility_process_capability`. A line-specific capability row sets `production_line_id`; a facility-level capability row leaves it null. Do not store a second throughput value or process-capability list on the line record.
 
 ### 4.4 `production_order`
 
