@@ -71,6 +71,25 @@ One row defines a logical transformation type.
 
 Many-to-many requirements should use association tables when independently queried, versioned, or validated. Do not store foreign-key identities as unvalidated text arrays.
 
+### 3.1A `process_throughput_basis`
+
+A versioned definition of a process-specific basis used to express facility or line throughput. It is a semantic reference, not a capacity value or output record.
+
+| Field | Required | Rule |
+|---|---:|---|
+| `throughput_basis_id` | Yes | Stable identity for the versioned basis definition |
+| `process_id` | Yes | Foreign key to the Production Process whose throughput this basis measures |
+| `basis_version` | Yes | Immutable version identifier or version number under the shared versioning convention |
+| `basis_type` | Yes | Defined output, defined input, batch, or explicit process unit |
+| `catalogue_id` | Conditional | Canonical Catalogue identity when the basis is a particular Good or Service quantity |
+| `unit_of_measure_id` | Yes | Canonical unit for the basis; compatible with the referenced Catalogue entry where applicable |
+| `basis_definition` | Yes | Explicit semantic definition of what is measured and the reference quantity/period interpretation |
+| `valid_from` | Yes | Simulation-effective start |
+| `valid_until` | No | Optional simulation-effective end |
+| `provenance` | No | Source and assumptions |
+
+The basis version is immutable once referenced by a committed capability configuration or execution. A change to its meaning, Catalogue identity, unit or reference interpretation requires a new version. Dimensional compatibility alone is insufficient: a rate of tonnes of input per day is not interchangeable with tonnes of output per day.
+
 ### 3.2 `recipe` and `recipe_version`
 
 `recipe` represents the stable logical identity. `recipe_version` stores an immutable transformation definition.
@@ -93,7 +112,10 @@ Many-to-many requirements should use association tables when independently queri
 | `version_label` | Yes | Human-readable or canonical version label |
 | `production_mode` | Yes | Batch, continuous, discrete assembly, extraction, service, construction, or other supported mode |
 | `basis_quantity` | Yes | Reference execution quantity or rate |
-| `basis_unit_id` | Yes | Foreign key to measurement unit |
+| `basis_unit_id` | Yes | Foreign key to measurement unit compatible with the declared basis |
+| `basis_type` | Yes | Controlled basis kind: target output, defined process unit, recipe input line, or recipe output line |
+| `basis_catalogue_id` | Conditional | Canonical Catalogue identity when the basis is a specific Good or Service output/input |
+| `basis_line_reference` | Conditional | Exact recipe input/output line reference when the basis is recipe-line-specific; must resolve within this recipe version |
 | `required_capabilities` | No | Validated requirements |
 | `required_equipment` | No | Normalised equipment requirements where needed |
 | `technology_requirements` | No | Research references |
@@ -157,8 +179,6 @@ This is a Production-owned extension of a canonical Facility, not a second facil
 | Field | Required | Rule |
 |---|---:|---|
 | `facility_id` | Yes | Primary key and foreign key to the canonical Facility ID; never independently generated |
-| `industry_id` | Conditional | Industry associated with this production capability, referencing Industry Data; model a separate association if one Facility serves multiple Industries |
-| `industry_area_id` | No | Reference to an Industry Area owned by Industry Data |
 | `production_eligibility_state` | Yes | Production-specific eligibility, such as eligible, restricted, suspended or ineligible; must not duplicate shared physical condition or Facility lifecycle state |
 | `production_requirements` | No | Production-specific technology, infrastructure, utility, workforce and operating prerequisites, with authoritative references |
 | `created_simulation_time` | Yes | Simulation time at which the Production extension was created |
@@ -168,7 +188,7 @@ Do not copy the canonical Facility's type, display name, location, owner, operat
 
 Production-specific throughput is represented separately in `facility_process_capability` and, where required, in `production_line`. A throughput value must identify its process or compatible process family, output or process basis, canonical unit, time basis, applicable conditions and source/version. It is not a duplicate of generic facility capacity and does not imply that output has been produced.
 
-The Industry relationship is an operational/economic association, not ownership of the canonical Facility. If a facility can serve multiple Industries, use a normalised association rather than overwriting a single authoritative relationship.
+Industry-to-Facility association is owned by Industry Data as a normalised effective-dated relationship. Production resolves that association when validating an order; the Production Facility extension does not duplicate Industry or Industry Area associations.
 
 ### 4.2 `facility_process_capability`
 
@@ -181,7 +201,7 @@ One row declares that a canonical Facility, or an independently modelled product
 | `production_line_id` | No | Optional line reference; if set, the line must belong to the same Facility |
 | `process_id` | Yes | Production Process reference |
 | `capability_state` | Yes | Configured, restricted, suspended or retired under the declared lifecycle |
-| `throughput_basis_id` | Conditional | Required when process-specific throughput is declared |
+| `throughput_basis_id` | Conditional | Foreign key to a valid immutable `process_throughput_basis` version for the same `process_id`; required when process-specific throughput is declared |
 | `configured_nominal_throughput` | Conditional | Configured process-specific nominal throughput for the stated basis and interval |
 | `throughput_unit_id` | Conditional | Canonical compatible unit |
 | `throughput_period` | Conditional | Explicit simulation interval or rate basis |
@@ -191,6 +211,8 @@ One row declares that a canonical Facility, or an independently modelled product
 
 Constraints:
 - The same capability scope and validity interval must not have conflicting duplicate rows.
+- `throughput_basis_id` must resolve to a basis version owned by the same `process_id`.
+- The configured throughput quantity, unit and period must match the referenced basis semantics.
 - Throughput values are not interchangeable across different output/process bases merely because their units share a dimension.
 - Nominal throughput is not effective capacity, allocated capacity or actual output.
 - Effective throughput is derived by Production from the configured capability and authoritative operating constraints.
@@ -433,7 +455,7 @@ The final convention for signed quantity deltas versus explicit direction and po
 
 ### 8.1 Transaction Identity
 
-A Production Execution has one stable idempotency identity. The transaction record stores a payload fingerprint that covers the order, recipe version, deterministic execution inputs, input allocations, and calculated output set.
+A Production Execution has one stable idempotency identity. The transaction record stores a payload fingerprint that covers the order, exact recipe version, throughput-basis version, relevant facility/process capability configuration versions, deterministic execution inputs, input allocations, and calculated output set.
 
 - Same key, same payload: return or resolve to the same committed outcome.
 - Same key, different payload: reject as an idempotency conflict.
@@ -445,15 +467,16 @@ A new retry is not a new Production Execution.
 
 The shared logical commit must:
 
-1. Validate the order state, exact recipe version, requested output/basis, units, facility eligibility, and execution identifier.
+1. Validate the order state, exact recipe version, requested output/basis, units, facility eligibility, referenced throughput-basis version, and execution identifier.
 2. Validate all input reservations or other explicitly supported allocation records.
 3. Revalidate available quantities and reservations against authoritative Inventory state at commit time.
 4. Validate the complete set of output lines, including each Catalogue identity, unit, quantity, and output role.
 5. Commit input stock reductions and all physical output additions as one atomic logical operation.
 6. Record Production Execution inputs/outputs and their Inventory transaction-line references.
 7. Update order progress consistently with the committed execution.
-8. Mark the execution and inventory transaction committed.
-9. Publish success events only after commitment.
+8. For extraction executions, commit or durably coordinate source depletion through the authoritative resource-source interface with stock receipt; prevent source depletion or stock registration from being committed twice or independently.
+9. Mark the execution and Inventory transaction committed only when all required physical and source-state effects are committed or durably recoverable.
+10. Publish success events only after commitment.
 
 Production owns the operational execution record. Inventory owns stock changes. Neither may claim a successful result before the shared physical outcome is committed.
 
@@ -482,6 +505,16 @@ The exact database or event-based implementation is a Technical Architecture dec
 11. Inventory never infers production completion from output stock alone.
 12. Production never mutates stock outside the Inventory transaction interface.
 
+## 10. Resource Extraction Source-to-Stock Contract
+
+The logical schema must support an auditable link between an extraction execution, the authoritative resource-source model and the Inventory transaction that registers extracted stock. This is an interface requirement, not a declaration that the resource-source entity belongs in this schema.
+
+- Do not model a natural deposit as an Inventory holding or copy its remaining quantity into Inventory.
+- An extraction result must identify the source reference, originating Production Execution or extraction operation, `catalogue_id`, quantity, compatible unit, destination holding/location, and Inventory transaction.
+- Source depletion and stock registration must be atomic or recoverable through a durable idempotent commit protocol.
+- The Inventory transaction and resulting stock lot must retain provenance to the source and extraction operation.
+- The resource-source schema, finite/renewable behaviour, regeneration and depletion parameters remain open until specified by the owning resource model.
+
 ## 10. Required Integration Tests
 
 Before this schema is considered implementation-ready, tests must demonstrate:
@@ -493,7 +526,7 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - A physical output is registered once and linked to its Production Execution.
 - A Production facility extension cannot exist without a canonical Facility, and its `facility_id` is the same primary/foreign key rather than a separately generated ID.
 - Production facility extensions do not store duplicate canonical Facility type, name, location, ownership/operator/control, shared physical condition/lifecycle or generic capacity fields.
-- Process-specific throughput is tied to an explicit process/output basis, compatible unit, time basis and configuration version; it is not treated as generic Facility capacity.
+- Process-specific throughput is tied to an immutable, explicit basis version, compatible unit, time basis and configuration version; the basis must belong to the same process and is not treated as generic Facility capacity.
 - An input reservation cannot be consumed by two competing executions beyond its reserved quantity.
 - Two simultaneous reservations cannot exceed eligible stock.
 - A retry after successful commit does not duplicate any input consumption or output.
@@ -503,16 +536,6 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - Save/load does not replay committed stock transactions.
 - Transfer and in-transit logic never makes the same quantity available at two locations.
 - A Catalogue unit change does not rewrite the unit or quantity recorded by a historical execution.
-
-## 9A. Resource Extraction Source-to-Stock Contract
-
-The logical schema must support an auditable link between an extraction execution, the authoritative resource-source model and the Inventory transaction that registers extracted stock. This is an interface requirement, not a declaration that the resource-source entity belongs in this schema.
-
-- Do not model a natural deposit as an Inventory holding or copy its remaining quantity into Inventory.
-- An extraction result must identify the source reference, originating Production Execution or extraction operation, `catalogue_id`, quantity, compatible unit, destination holding/location, and Inventory transaction.
-- Source depletion and stock registration must be atomic or recoverable through a durable idempotent commit protocol.
-- The Inventory transaction and resulting stock lot must retain provenance to the source and extraction operation.
-- The resource-source schema, finite/renewable behaviour, regeneration and depletion parameters remain open until specified by the owning resource model.
 
 ## Governing Principle
 
