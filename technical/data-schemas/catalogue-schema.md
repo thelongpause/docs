@@ -197,7 +197,9 @@ The shared unit registry should provide at least:
 | `valid_until` | Nullable simulation date/version | No | Validity end |
 | `provenance` | Text/reference | No | Source or rationale |
 
-Conversion must be rejected when dimensions are incompatible or required product properties are unavailable. Density-dependent mass/volume conversion must use the applicable product/condition value rather than an implicit universal factor.
+`unit_conversion_id` identifies one immutable conversion definition/version. A change to its formula, parameters, property dependencies, precision semantics or validity interpretation requires a new ID; historical references remain available for reproducibility.
+
+Conversion must be rejected when dimensions are incompatible or required product properties are unavailable. Density-dependent mass/volume conversion must use the applicable product/condition value rather than an implicit universal factor. Any noncanonical unit used for recipe, throughput, reservation, stock or transaction quantities must reference the exact applicable conversion when required by the owning schema.
 
 The exact precision, rounding, conversion execution, and compound-unit representation are defined by the shared measurement contract, not improvised independently by Catalogue, Recipe, Inventory, or Economy.
 
