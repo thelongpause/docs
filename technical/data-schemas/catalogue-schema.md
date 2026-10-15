@@ -227,6 +227,7 @@ The Catalogue schema must pass at least these tests:
 2. Reject an invalid primary economic class.
 3. Reject class/physical-form combinations that violate the classification framework.
 4. Reject a Service being registered as physical stock.
+4a. Require a quantitative Service to use `catalogue_entry.unit_of_measure_id` as its single canonical delivery unit, with no duplicate `service_unit_id` field in `service_definition`.
 5. Reject `Staple`, `Luxury`, or `Industrial` as a Good category for a non-Good primary class.
 6. Permit a Strategic Resource designation without changing primary economic class.
 7. Reject a unit conversion with incompatible dimensions.
