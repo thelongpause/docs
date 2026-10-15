@@ -369,22 +369,28 @@ The definition/version specifies the population denominator or eligible group, r
 
 Represents the need requirement for a declared scope and interval.
 
-Fields include stable assessment ID, scope and population denominator, need definition/version, interval start/end, required quantity/unit, requested quantity/unit, calculated shortfall, estimation method, effective state and rule version.
+Fields include stable assessment ID, scope and population denominator, need definition/version, interval start/end, required quantity/unit, requested quantity/unit, calculated shortfall, estimation method, effective state and rule version. Where the model tracks multiple fulfilment stages, each stage must retain its own quantity and source reference rather than overwriting the preceding stage's quantity.
 
-Requirement, request, reservation/allocation, dispatch, delivery, access, confirmed consumption/service receipt and shortfall are different states. Do not collapse them into one fulfilled boolean.
+Requirement, request, reservation/allocation, dispatch, delivery, access, confirmed consumption/service receipt and unmet shortfall are distinct measures or lifecycle outcomes. They must not be collapsed into one fulfilled boolean or treated as additive quantities: the same units may appear at successive stages of a delivery lifecycle.
+
+The assessment must declare how quantities are aggregated across its covered population, area, cohort or group, and must preserve the applicable Catalogue unit and assessment interval. If a group or area is only partially covered, the covered denominator must be explicit so that a delivery to one subset is not reported as fulfilment for the whole assessment.
 
 ### 11.3 Population Fulfilment Record
 
 References externally owned allocation, Inventory, Logistics, service-delivery or consumption records. It may store integration status needed to reconcile Population demand, but it does not create stock or become the authority for physical movement.
 
-Each record identifies source event/reference, need assessment, Catalogue ID where applicable, canonical unit, quantity, covered population/area, effective interval and status such as requested, allocated, dispatched, delivered, accessible, consumed/received, failed or cancelled.
+A fulfilment record identifies its stable ID, source domain and event/reference, need assessment, Catalogue ID where applicable, canonical unit, quantity, covered population/area, effective time or interval, lifecycle stage/status, and provenance. Each confirmed stage must be traceable to the system that owns that fact. A current-state projection may be maintained for efficient queries, but it must be reconcilable to the source events and must not erase the history needed to distinguish dispatch, delivery, access and consumption.
+
+The model may represent lifecycle milestones as separate immutable records or as an event history plus a derived current-state projection. That storage choice remains open. In either case, records must distinguish at least requested, allocated/reserved, dispatched, delivered, accessible, confirmed consumed/service received, failed and cancelled where those stages are enabled. Stage quantities must not be summed as if each represented additional fulfilled units.
 
 Constraints:
 - Delivery to a warehouse or market is not automatically delivery/access for all residents.
 - Confirmed consumption or service receipt is sourced from the owning interface and applied once.
-- Fulfilment cannot exceed eligible quantity after reservations, losses and competing claims.
+- Fulfilment cannot exceed eligible quantity after reservations, losses and competing claims, using a declared rule for partial coverage and competing claims.
 - Substitution is allowed only by a versioned need rule with explicit equivalence and unit conversion.
 - Population does not infer consumption from production, purchase, shipment or stock existing somewhere in the economy.
+- Repeated source events cannot advance the same quantity through a lifecycle stage twice.
+- A correction to a committed fulfilment milestone must preserve provenance and follow the source domain's correction/reversal contract.
 
 ### 11.4 Population Indicator Definition and Observation
 
@@ -519,6 +525,7 @@ These decisions concern implementation or scenario configuration, not permission
 - Which economic group statistics Economy exposes, their units, intervals, denominators and whether they are exact or estimated.
 - Which wellbeing indicators are enabled and their versioned formulas.
 - Need definitions, requirements, substitutions, priority rules and service-delivery interfaces.
+- Fulfilment lifecycle storage strategy: immutable milestone/event rows versus an event history plus current-state projection. The behavioural requirement to distinguish each stage, preserve source authority and prevent duplicate advancement is fixed regardless of the storage choice.
 - Exact Military Systems contract for recruitment/conscription, personnel transfers and settlement resident-count presentation.
 - Exact Political Systems interface for platforms, group support, political pressure and government action.
 - Handling of unassigned, nomadic, maritime and other special civilian population pools in scenario data and national reports.
