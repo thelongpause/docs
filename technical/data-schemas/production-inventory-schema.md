@@ -182,7 +182,7 @@ This is a Production-owned extension of a canonical Facility, not a second facil
 | Field | Required | Rule |
 |---|---:|---|
 | `facility_id` | Yes | Primary key and foreign key to the canonical Facility ID; never independently generated |
-| `production_eligibility_state` | Yes | Production-specific eligibility, such as eligible, restricted, suspended or ineligible; must not duplicate shared physical condition or Facility lifecycle state |
+| `production_eligibility_state` | Yes | Facility-wide Production eligibility gate using `configured`, `eligible`, `restricted`, `suspended` or `retired`; distinct from shared Facility lifecycle/condition and from process-specific capability state |
 | `production_requirements` | No | Production-specific technology, infrastructure, utility, workforce and operating prerequisites, with authoritative references |
 | `created_simulation_time` | Yes | Simulation time at which the Production extension was created |
 | `last_updated_simulation_time` | Yes | Simulation time of the latest Production-owned change |
@@ -203,7 +203,7 @@ One row declares that a canonical Facility, or an independently modelled product
 | `facility_id` | Yes | Canonical Facility ID |
 | `production_line_id` | No | Optional line reference; if set, the line must belong to the same Facility |
 | `process_id` | Yes | Production Process reference |
-| `capability_state` | Yes | Configured, restricted, suspended or retired under the declared lifecycle |
+| `capability_state` | Yes | Process-specific capability state using `configured`, `eligible`, `restricted`, `suspended` or `retired`; cannot override a more restrictive facility-wide Production eligibility state |
 | `throughput_basis_id` | Conditional | Foreign key to a valid immutable `process_throughput_basis` version for the same `process_id`; required when process-specific throughput is declared |
 | `configured_nominal_throughput` | Conditional | Configured process-specific nominal throughput for the stated basis and interval |
 | `throughput_unit_id` | Conditional | Unit used for configured nominal throughput |
@@ -212,6 +212,8 @@ One row declares that a canonical Facility, or an independently modelled product
 | `valid_from` | Yes | Simulation validity start |
 | `valid_until` | No | Optional simulation validity end |
 | `configuration_version` | Yes | Version/provenance for simulation-relevant capability configuration |
+
+The facility-wide Production eligibility state is a gating condition, not a substitute for each process capability's state. An order may execute only when both the facility-wide gate and the selected process/line capability permit execution, in addition to all shared Facility, operating, input, workforce, legal and other checks.
 
 Constraints:
 - The same capability scope and validity interval must not have conflicting duplicate rows.
