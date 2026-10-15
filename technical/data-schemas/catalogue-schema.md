@@ -237,6 +237,15 @@ The Catalogue schema must pass at least these tests:
 12. Ensure changes to Catalogue units or attributes do not silently rewrite historical Production Execution quantities.
 13. Require a quantitative Service to use `catalogue_entry.unit_of_measure_id` as its single canonical delivery unit, with no duplicate `service_unit_id` field in `service_definition`.
 
+## Cross-Domain Review Invariants
+
+- All domain foreign keys use `catalogue_id`; aliases and local product codes are never canonical references.
+- A quantitative Service's canonical delivery unit is `catalogue_entry.unit_of_measure_id`. Provider capacity may use a different unit only through a validated service-delivery conversion or relationship.
+- Unit conversion definitions must be versioned and must reject incompatible dimensions or missing product properties.
+- A Catalogue entry's unit does not determine stock eligibility. Inventory accepts only entries whose physical form and class permit physical stock.
+- Production recipe versions and committed executions preserve the Catalogue identity, unit and conversion/configuration references required to interpret historical quantities.
+- Changes to product identity or simulation-relevant measurement semantics must not silently rewrite historical Inventory, Production or Economy records.
+
 ## Governing Principle
 
 The Catalogue defines what a product is and how its quantity is canonically expressed. It does not define how much is in stock, how much it sells for, or what a production process yields.
