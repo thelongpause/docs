@@ -235,7 +235,7 @@ Some conditions are warnings rather than hard errors, such as overlapping terrai
 2. Define world and geometry records, geometry versioning, and validation.
 3. Define terrain type, feature instance, state, and asset-reference relationships.
 4. Define nation boundary, claim, territorial-control, and frontline records.
-5. Define population-centre references without duplicating Population state.
+5. Define Population Centre geographic references, then implement the separate Population domain schema according to [Population Data Schema](population-schema.md).
 6. Define installation, facility, sub-feature, capability, capacity, and ownership relationships.
 7. Implement spatial queries and representative test maps.
 8. Profile candidate grid/tile/cache storage with realistic geography.
