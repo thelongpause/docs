@@ -2,7 +2,7 @@
 
 **Status:** Draft for implementation review  
 **Scope:** Canonical relational data model and schema-generation rules  
-**Applies to:** Good and Service Catalogue, Industry Data, Production Processes and Recipes, Production, Inventory, Economy, and their system interfaces
+**Applies to:** Shared domain schemas, including the Good and Service Catalogue, Industry Data, Production Processes and Recipes, Production, Inventory, Economy, Population, and their system interfaces
 
 ## 1. Purpose
 
