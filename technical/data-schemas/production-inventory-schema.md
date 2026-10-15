@@ -24,7 +24,11 @@ production_process
             └── recipe_output ───── catalogue_entry
 
 industry_instance
-  └── production_facility
+  └── production_industry_assignment (where applicable)
+
+canonical_facility (Installations and Facilities authority)
+  └── production_facility (production capability extension; facility_id is both PK and FK)
+       ├── facility_process_capability
        └── production_line (optional)
 
 production_order
@@ -148,42 +152,68 @@ A physical Catalogue output may be marked inventory-eligible only if its Catalog
 
 ### 4.1 `production_facility`
 
+This is a Production-owned extension of a canonical Facility, not a second facility identity. The Installations and Facilities System owns the Facility record, including its stable identity, type, name, location/geometry references, ownership/operator/control relationships, shared physical condition, declared shared capabilities and common capacity definitions.
+
 | Field | Required | Rule |
 |---|---:|---|
-| `facility_id` | Yes | Stable primary identifier |
-| `industry_id` | Yes | Reference to Industry instance |
-| `facility_type_id` | Yes | Reference to facility type definition |
-| `name` | Yes | Human-readable name |
-| `location_id` | Yes | Reference to Terrain/geographic location |
-| `industry_area_id` | No | Reference to Industry Area |
-| `ownership_id` | Yes | Reference to authoritative owner |
-| `operator_id` | No | Reference to operational entity |
-| `operational_state` | Yes | Controlled state |
-| `installed_capacity` | Yes | Nominal capacity |
-| `capacity_unit_id` | Yes | Measurement unit |
-| `capacity_period` | Yes | Defined interval basis |
-| `maintenance_state` | Yes | Controlled maintenance state |
-| `commissioning_state` | Yes | Planned, construction, commissioning, operational, decommissioned, or approved lifecycle state |
-| `technology_requirements` | No | Research references |
-| `infrastructure_requirements` | No | Explicit access/utility requirements |
+| `facility_id` | Yes | Primary key and foreign key to the canonical Facility ID; never independently generated |
+| `industry_id` | Conditional | Industry associated with this production capability, referencing Industry Data; model a separate association if one Facility serves multiple Industries |
+| `industry_area_id` | No | Reference to an Industry Area owned by Industry Data |
+| `production_eligibility_state` | Yes | Production-specific eligibility, such as eligible, restricted, suspended or ineligible; must not duplicate shared physical condition or Facility lifecycle state |
+| `production_requirements` | No | Production-specific technology, infrastructure, utility, workforce and operating prerequisites, with authoritative references |
+| `created_simulation_time` | Yes | Simulation time at which the Production extension was created |
+| `last_updated_simulation_time` | Yes | Simulation time of the latest Production-owned change |
 
-Store facility capabilities in association tables, for example `facility_process_capability(facility_id, process_id)`. Capacity is not stock and does not imply that output has been produced.
+Do not copy the canonical Facility's type, display name, location, owner, operator, shared operational/condition state or generic capacity fields into this extension. Production obtains those values through the canonical Facility reference and its interface.
 
-### 4.2 `production_line`
+Production-specific throughput is represented separately in `facility_process_capability` and, where required, in `production_line`. A throughput value must identify its process or compatible process family, output or process basis, canonical unit, time basis, applicable conditions and source/version. It is not a duplicate of generic facility capacity and does not imply that output has been produced.
+
+The Industry relationship is an operational/economic association, not ownership of the canonical Facility. If a facility can serve multiple Industries, use a normalised association rather than overwriting a single authoritative relationship.
+
+### 4.2 `facility_process_capability`
+
+One row declares that a canonical Facility, or an independently modelled production line within it, is configured to perform a defined Production Process. It does not establish that the capability is currently available or that a production order can execute.
+
+| Field | Required | Rule |
+|---|---:|---|
+| `facility_process_capability_id` | Yes | Stable identifier, or a declared composite key if the implementation standardises that pattern |
+| `facility_id` | Yes | Canonical Facility ID |
+| `production_line_id` | No | Optional line reference; if set, the line must belong to the same Facility |
+| `process_id` | Yes | Production Process reference |
+| `capability_state` | Yes | Configured, restricted, suspended or retired under the declared lifecycle |
+| `throughput_basis_id` | Conditional | Required when process-specific throughput is declared |
+| `nominal_throughput` | Conditional | Production-specific throughput for the stated basis and interval |
+| `throughput_unit_id` | Conditional | Canonical compatible unit |
+| `throughput_period` | Conditional | Explicit simulation interval or rate basis |
+| `valid_from` | Yes | Simulation validity start |
+| `valid_until` | No | Optional simulation validity end |
+| `configuration_version` | Yes | Version/provenance for simulation-relevant capability configuration |
+
+Constraints:
+- The same capability scope and validity interval must not have conflicting duplicate rows.
+- Throughput values are not interchangeable across different output/process bases merely because their units share a dimension.
+- Nominal throughput is not effective capacity, allocated capacity or actual output.
+- Effective throughput is derived by Production from the configured capability and authoritative operating constraints.
+- Changes to simulation-relevant capability must be versioned so completed executions remain reproducible.
+
+### 4.3 `production_line`
 
 A production line is optional and exists only where the facility is modelled with independently scheduled lines.
 
 | Field | Required | Rule |
 |---|---:|---|
 | `production_line_id` | Yes | Stable primary identifier |
-| `facility_id` | Yes | Parent facility |
-| `name` | Yes | Human-readable name |
-| `operational_state` | Yes | Controlled state |
-| `installed_capacity` | Conditional | Only if line capacity is modelled independently |
-| `capacity_unit_id` | Conditional | Required with installed capacity |
-| `capacity_period` | Conditional | Required with installed capacity |
+| `facility_id` | Yes | Foreign key to canonical Facility ID and Production facility extension |
+| `name` | Yes | Production-line name; does not rename the canonical Facility |
+| `production_eligibility_state` | Yes | Production-line-specific operating eligibility, distinct from parent Facility condition |
+| `process_capabilities` | Conditional | Normalised relationship to supported processes; use association rows when queried or versioned independently |
+| `installed_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
+| `throughput_basis_id` | Conditional | Required with installed throughput; identifies process/output basis and compatible unit |
+| `throughput_unit_id` | Conditional | Required with installed throughput |
+| `throughput_period` | Conditional | Required with installed throughput |
+| `maintenance_reference` | No | Reference to authoritative maintenance/condition state; do not duplicate it |
 
-### 4.3 `production_order`
+### 4.4 `production_order`
 
 | Field | Required | Rule |
 |---|---:|---|
@@ -215,7 +245,7 @@ The target output or production basis must be explicit. For a target-output orde
 
 Do not sum quantities of different co-products to calculate completion. Order progress is measured against the declared target output or production basis only.
 
-### 4.4 `production_order_reservation`
+### 4.5 `production_order_reservation`
 
 Use an association table instead of treating `input_reservation_ids` as an unvalidated array.
 
