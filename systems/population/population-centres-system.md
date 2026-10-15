@@ -4,6 +4,7 @@
 **System:** Population  
 **Document Type:** Systems Specification  
 **Status:** Behavioural Specification; scenario reference data and implementation schema remain separate  
+**Related Logical Schema:** [Population Data Schema](../../technical/data-schemas/population-schema.md)  
 **Starting World Date:** 1 January 1955
 
 ---
