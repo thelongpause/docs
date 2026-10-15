@@ -256,7 +256,8 @@ A Production Order must support:
 | `created_at` | Simulation time at which the order was created |
 | `earliest_start_time` | Earliest permitted execution time |
 | `deadline` | Optional requested completion time |
-| `input_reservation_ids` | References to valid Inventory reservations, where applicable |
+| `production_order_reservation` | Normalised references to Inventory reservations associated with this order |
+| `production_order_input_reservation` | Normalised line-level allocation of each reservation to a specific input in the selected recipe version, including allocated quantity and compatible unit |
 | `allocated_throughput` | Capacity assigned to the order |
 | `completed_quantity` | Quantity successfully produced |
 | `rejected_quantity` | Quantity rejected or recorded as unusable, where quality simulation is supported |
@@ -483,9 +484,9 @@ It must be physically available and accessible under Inventory and Logistics rul
 
 ### 7.2 Input Reservations
 
-Where Inventory supports reservations, a production order must reference valid reservations for the required inputs before execution begins, except where the applicable process explicitly uses another supported input-allocation method.
+Where Inventory supports reservations, a production order references them through normalised association records, not an embedded array of reservation IDs. Where a reservation supplies a specific recipe input, a line-level allocation record identifies the exact `recipe_input_id`, allocated quantity and compatible unit from the order's immutable recipe version.
 
-A reservation establishes a claim on available stock under Inventory's rules. It does not consume that stock or create additional stock.
+A reservation establishes a claim on available stock under Inventory's rules. It does not consume that stock or create additional stock. Allocations across lines must not exceed the reservation's eligible quantity or the requirement permitted by the recipe and order rules.
 
 Production must not create a second, independent reservation system or modify authoritative quantities directly.
 
@@ -829,9 +830,10 @@ The transaction contract must cover, as applicable:
 2. Consumption of the authorised input quantities.
 3. Registration of every physical output, including primary outputs, co-products, by-products, recoverable materials and tracked waste.
 4. Recording of process losses where they affect stock or require a separately defined non-stock record.
-5. Recording of the Production Execution outcome and references to the authoritative Inventory transactions.
-6. Updating of the order's completed quantity and remaining outstanding quantity consistently with the committed execution.
-7. Publication of success events only after the physical outcome is committed.
+5. For extraction executions, coordination of source depletion with Inventory receipt through the authoritative resource-source interface, using an atomic transaction or durable prepare/commit/recovery protocol.
+6. Recording of the Production Execution outcome and references to the authoritative Inventory transactions and source-side extraction commit.
+7. Updating of the order's completed quantity and remaining outstanding quantity consistently with the committed execution.
+8. Publication of success events only after the physical outcome is committed or all required effects are durably recoverable under the declared commit protocol.
 
 All stock changes belonging to one committed execution must form one atomic logical operation. The implementation may use a database transaction, a transactional event/commit protocol, or an equivalent mechanism. This specification defines the required outcome, not a particular database or infrastructure design.
 
@@ -999,7 +1001,7 @@ Inventory owns extracted physical stock once it has been registered as an Invent
 
 The same quantity must not be simultaneously counted as unextracted deposit material and available Inventory stock.
 
-Extraction must update the resource source and register the resulting physical Goods through an atomic or equivalent reconciled operation. A failed extraction execution must not deplete the source without recording the corresponding result.
+Extraction must update the resource source and register the resulting physical Goods through one atomic logical operation or a durable prepare/commit/recovery protocol. The extraction execution must retain the authoritative source reference, source-side operation/commit reference, Catalogue identity, quantity, unit, destination and Inventory transaction provenance. A failed extraction must not leave unexplained source depletion or usable stock without corresponding source depletion. Retries must be idempotent; a reused idempotency key with a different payload is rejected.
 
 ### 13.5 Strategic Resources
 
