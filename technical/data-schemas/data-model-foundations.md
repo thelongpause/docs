@@ -116,12 +116,13 @@ A recipe version is immutable once used by a committed execution. A change to si
 ### 5.4 Production
 
 - `production_facility`: Production-owned capability extension keyed by the canonical Facility ID, with Production eligibility only; it must not duplicate Facility identity, type, location, ownership/operator/control, shared condition, generic capacity or Industry-to-Facility associations.
-- `facility_process_capability`: normalised, versioned process capability and throughput basis for a canonical Facility or an independently modelled Production Line; this is the single authoritative Production record for process-specific throughput.
-- `facility_process_capability`: normalised relationship between a canonical Facility (and optionally a Production Line) and supported Production Processes, including versioned process-specific throughput basis where modelled.
+- `process_throughput_basis`: immutable versioned definition of the process-specific measurement basis used to express facility or line throughput.
+- `facility_process_capability`: normalised relationship between a canonical Facility (and optionally a Production Line) and a supported Production Process, including the exact throughput-basis version, configured nominal throughput, compatible unit, time interval, validity and configuration version; this is the single authoritative Production record for process-specific throughput.
 - `production_line`: optional Production-owned substructure for independently scheduled lines; references the canonical Facility and owns line identity, eligibility and line-specific execution/assignment state. Process compatibility and throughput remain in `facility_process_capability`, keyed to the Facility and optional line.
 - `production_order`: requesting Industry, selected process and recipe version, target output or production basis, requested quantity and unit, priority, state, schedule constraints, and progress fields.
 - `production_order_reservation`: relationship between a Production Order and Inventory Reservations. Do not store an unvalidated list of reservation IDs as the only relationship.
-- `production_execution`: one committed or attempted execution, including stable execution identifier, order, facility, exact recipe version, simulation interval, outcome, and deterministic input/configuration references.
+- `production_order_input_reservation`: normalised allocation of a reservation to a specific input line in the exact recipe version, with allocated quantity and compatible unit.
+- `production_execution`: one committed or attempted execution, including stable execution identifier, order, facility, exact recipe and throughput-basis versions, simulation interval, outcome, deterministic input/configuration references, and source-operation provenance where extraction is involved.
 - `production_execution_input`: the execution's resolved input quantities and links to authoritative Inventory transactions.
 - `production_execution_output`: one row per output, with its own `catalogue_id`, unit, quantity, output role, and execution relationship; includes the Inventory transaction reference when a physical output is registered.
 - `production_execution_commit` or equivalent idempotency record: execution key, payload fingerprint, transaction state, and committed result reference.
