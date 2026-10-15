@@ -491,6 +491,9 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - A throughput-based order resolves its basis to an explicit recipe input or other supported basis.
 - A service output is recorded as a non-stock result and does not create an Inventory Holding or Stock Lot.
 - A physical output is registered once and linked to its Production Execution.
+- A Production facility extension cannot exist without a canonical Facility, and its `facility_id` is the same primary/foreign key rather than a separately generated ID.
+- Production facility extensions do not store duplicate canonical Facility type, name, location, ownership/operator/control, shared physical condition/lifecycle or generic capacity fields.
+- Process-specific throughput is tied to an explicit process/output basis, compatible unit, time basis and configuration version; it is not treated as generic Facility capacity.
 - An input reservation cannot be consumed by two competing executions beyond its reserved quantity.
 - Two simultaneous reservations cannot exceed eligible stock.
 - A retry after successful commit does not duplicate any input consumption or output.
