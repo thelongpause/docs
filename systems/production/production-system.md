@@ -111,7 +111,7 @@ Examples include:
 - Aircraft factories.
 - Workshops and repair installations.
 
-A facility must have a stable identifier, physical location, operational state and defined productive capability.
+A Production Facility reference must resolve to a canonical Facility with a stable identifier and physical location. Production queries its authoritative lifecycle and physical condition and associates its own defined productive capability with that identity.
 
 A facility may contain several production lines or process-capable units. Conversely, a process may require several cooperating facilities where its configuration explicitly supports that arrangement.
 
@@ -231,7 +231,7 @@ A Production Line should support:
 - `effective_capacity`
 - `last_updated_at`
 
-Effective Capacity is a derived value determined by installed capacity and applicable operating constraints. If stored for performance, it must be treated as a derived value and kept consistent with its authoritative inputs.
+Effective throughput is a derived value determined by process-specific nominal throughput and applicable operating constraints. If stored for performance, it must be treated as a derived value and kept consistent with its authoritative inputs.
 
 ### 4.3 Production Order Record
 
@@ -301,27 +301,23 @@ A derived value must not become a competing source of truth. Recalculation must 
 
 ---
 
-## 5. Production Facility Lifecycle
+## 5. Production Capability Eligibility Lifecycle
 
-A facility must pass through a controlled lifecycle.
+The Installations and Facilities System owns the canonical Facility lifecycle and shared physical condition. Production must consume those authoritative states and must not create a second facility lifecycle. This section governs the eligibility of a configured Production capability, not the existence or physical state of the Facility itself.
 
-### 5.1 Lifecycle States
+### 5.1 Production Capability States
 
 | State | Meaning |
 |---|---|
-| `planned` | The facility has been proposed or recorded but is not physically available |
-| `under_construction` | The facility is being constructed or installed |
-| `commissioning` | Construction is sufficiently complete for testing and operational preparation, but general production is not yet permitted |
-| `operational` | The facility is commissioned and eligible to produce, subject to other constraints |
-| `restricted` | The facility may operate only under specified restrictions |
-| `suspended` | Production is temporarily prohibited or inactive |
-| `damaged` | Physical damage prevents some or all normal operations |
-| `decommissioning` | The facility is being withdrawn from service |
-| `decommissioned` | The facility is no longer available for production |
+| `configured` | A production capability has been defined, but current eligibility has not necessarily been established |
+| `eligible` | The capability may be scheduled, subject to order, input, capacity and other checks |
+| `restricted` | The capability may execute only under explicit constraints |
+| `suspended` | Production through this capability is temporarily prohibited |
+| `retired` | The capability configuration is no longer available for new orders; historical executions remain valid |
 
-Transitions must be validated against the current state and the rules governing the transition.
+Transitions must be validated against the current capability state and the rules governing the transition. These states do not replace shared Facility condition, construction/commissioning state, damage, maintenance or decommissioning state.
 
-A facility cannot produce merely because its record exists. It must be in an eligible operating state and satisfy all applicable prerequisites.
+A production capability cannot execute merely because its record exists. Production must validate the canonical Facility's lifecycle and condition, the configured capability's state, and all applicable prerequisites before scheduling or committing execution.
 
 ### 5.2 Establishment and Commissioning
 
@@ -364,27 +360,27 @@ Decommissioning must not automatically delete historical execution records, fina
 
 ### 6.1 Capacity Definitions
 
-The Production System distinguishes between the following measures.
+The Production System distinguishes between the following measures. Capacity in this section means production-specific throughput for a declared process or compatible process family and a declared output/process basis. It does not redefine or duplicate the shared generic capacity definitions owned by the Installations and Facilities System.
 
-**Installed Capacity:** The nominal productive capability of a facility or line as installed.
+**Configured Nominal Throughput:** The nominal production rate configured for a particular process/output basis at a canonical Facility or Production Line, expressed in a compatible unit over an explicit interval. This is the Production-owned capacity input, not a universal capacity value for the whole Facility.
 
-**Available Capacity:** The portion of installed capacity currently available after accounting for operational state, maintenance, damage and other capacity-affecting restrictions.
+**Available Throughput:** The portion of configured nominal throughput that remains usable after applying authoritative Facility/line condition, maintenance and other applicable availability constraints.
 
-**Effective Capacity:** The productive capability usable for a specified process during a specified interval after accounting for process compatibility, workforce, utilities and applicable operating constraints.
+**Effective Throughput:** The productive rate usable for the selected process and simulation interval after accounting for process compatibility, workforce, utilities, technology and applicable operating constraints.
 
-**Allocated Capacity:** The portion of effective capacity assigned to a production order.
+**Allocated Throughput:** The portion of effective throughput assigned to a production order for the relevant interval.
 
 **Actual Output:** The quantity physically produced by a successful execution, classified according to the process's output definitions and execution results.
 
-These measures must not be treated as interchangeable.
+These measures must not be treated as interchangeable. Nominal, available, effective and allocated throughput must retain their process/output basis, unit, time basis and relevant configuration version.
 
 ### 6.2 Effective Capacity
 
-Effective Capacity is determined from Installed Capacity and all applicable constraints.
+Effective throughput is derived from the configured process-specific nominal throughput and all applicable constraints.
 
 Conceptually:
 
-`Effective Capacity = Installed Capacity × Capacity Availability × Applicable Modifiers`
+`Effective Throughput = Configured Nominal Throughput × Availability × Applicable Modifiers`
 
 This expression illustrates the relationship rather than prescribing a universal numerical algorithm. The precise treatment of simultaneous constraints, non-linear bottlenecks and process-specific operating limits must be defined by the applicable facility and process rules.
 
@@ -704,9 +700,9 @@ Production is permitted only when all mandatory operational conditions are satis
 
 ### 10.1 Facility Eligibility
 
-The facility must be in an eligible operational state, commissioned where required and compatible with the requested process.
+The canonical Facility must be in an eligible lifecycle/condition state under Installations and Facilities rules, commissioned where required, and compatible with the requested process. The Production capability must separately be eligible.
 
-A planned, uncommissioned or decommissioned facility must not produce.
+A canonical Facility that is planned, uncommissioned, decommissioned or otherwise unavailable under its owning lifecycle rules must not produce.
 
 A restricted facility may operate only within its defined restrictions.
 
@@ -1019,7 +1015,7 @@ The existence of a Strategic Resource designation does not itself prove that the
 
 Industry Scale is defined by Industry Data and represents the economic or organisational scale of an Industry according to Economy's rules.
 
-It must not be used as a direct substitute for Installed Capacity, Effective Capacity or Actual Output.
+It must not be used as a direct substitute for process-specific nominal throughput, effective throughput or Actual Output.
 
 Two Industries with the same Scale may have different Production Capacities because of differences in:
 
@@ -1074,7 +1070,7 @@ Technology may affect:
 
 - Available production processes.
 - Compatible equipment.
-- Installed capacity.
+- Configured process-specific nominal throughput.
 - Production efficiency.
 - Required input quantities.
 - Material yield.
@@ -1299,7 +1295,7 @@ Logistics and Inventory must preserve the distinction between stock at origin, s
 
 Production should expose derived measures such as:
 
-- Installed Capacity.
+- Configured Nominal Throughput.
 - Available Capacity.
 - Effective Capacity.
 - Allocated Capacity.
@@ -1365,7 +1361,7 @@ The same authoritative initial state and deterministic inputs must produce the s
 
 ### 18.10 Industry Independence
 
-Changing Industry Scale alone must not silently change a facility's Installed Capacity or generate physical output.
+Changing Industry Scale alone must not silently change a Facility's configured process-specific nominal throughput or generate physical output.
 
 ### 18.11 Ownership Integrity
 
@@ -1542,6 +1538,7 @@ The Production System depends on the following documents and interfaces:
 |---|---|
 | `docs/systems/economy/economy-system.md` | Financial and economic authority |
 | `docs/systems/economy/industry-data.md` | Industry identity, configuration, Scale, establishment, workforce requirements and starting-world Industry data |
+| `docs/systems/infrastructure/installations-and-facilities-system.md` | Canonical Facility identity, shared lifecycle/condition, ownership/operator/control, shared capabilities and generic capacity definitions |
 | `docs/systems/production/production-processes-and-recipes.md` | Transformation definitions, recipe versions, input quantities, output quantities, yields and process requirements |
 | `docs/systems/inventory/inventory-system.md` | Authoritative physical stock, reservations, consumption, output registration, transfers and delivery |
 | `docs/reference/economy/good-and-service-catalogue.md` | Canonical definitions of Goods, Services, classifications and units |
@@ -1573,7 +1570,7 @@ The following decisions require resolution during implementation or in their res
 10. **Maintenance and deterioration:** The algorithms for equipment reliability, maintenance scheduling, wear, repair and downtime.
 11. **Quality and spoilage:** The quantitative treatment of quality, defective Goods, rejected output and storage-related losses.
 12. **Multi-output processes:** The exact representation of joint outputs, by-products, waste and process-specific yield variation.
-13. **Starting-world calibration:** The initial facility configurations, Installed Capacities and operational states appropriate to the 1955 starting world.
+13. **Starting-world calibration:** The initial canonical Facility configurations, Production capability mappings, process-specific nominal throughput and applicable shared operational states appropriate to the 1955 starting world.
 14. **Service production:** The treatment of Services whose outputs are not conventional physical Inventory Goods, including their capacity and delivery semantics.
 15. **Cross-system transaction coordination:** The exact implementation used to coordinate Production, Inventory and resource-source state changes without partial commitment.
 16. **Recipe migration:** The rules for amending an order when a new recipe version becomes available but the order has not yet completed.
