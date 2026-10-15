@@ -235,10 +235,10 @@ A production line is optional and exists only where the facility is modelled wit
 | `production_line_id` | Yes | Stable primary identifier |
 | `facility_id` | Yes | Foreign key to canonical Facility ID and Production facility extension |
 | `name` | Yes | Production-line name; does not rename the canonical Facility |
-| `production_eligibility_state` | Yes | Production-line-specific operating eligibility, distinct from parent Facility condition |
+| `production_eligibility_state` | Yes | Line-level Production eligibility gate using `configured`, `eligible`, `restricted`, `suspended` or `retired`; distinct from Facility condition and process-capability state |
 | `maintenance_reference` | No | Reference to authoritative maintenance/condition state; do not duplicate it |
 
-Process compatibility and all facility- or line-specific throughput are stored in `facility_process_capability`. A line-specific capability row sets `production_line_id`; a facility-level capability row leaves it null. Do not store a second throughput value or process-capability list on the line record.
+A line may execute only when the canonical Facility, facility-wide Production eligibility gate, line-level gate and selected process capability all permit execution; the most restrictive applicable state governs. Process compatibility and all facility- or line-specific throughput are stored in `facility_process_capability`. A line-specific capability row sets `production_line_id`; a facility-level capability row leaves it null. Do not store a second throughput value or process-capability list on the line record.
 
 ### 4.4 `production_order`
 
