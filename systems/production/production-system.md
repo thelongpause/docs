@@ -204,15 +204,15 @@ The Production-owned extension and related capability associations may reference
 | Field or association | Purpose |
 |---|---|
 | `facility_id` | Canonical Facility ID; primary/foreign key, not a separately generated identity |
-| `industry_id` or normalised Industry association | Economic/operational Industry relationship where applicable; use a many-to-many association if needed |
-| `industry_area_id` | Optional Industry Area reference |
 | `production_eligibility_state` | Production-specific eligibility, distinct from shared Facility condition |
-| `facility_process_capability` | Supported Production Processes, configuration state, validity and process-specific nominal throughput basis |
+| `facility_process_capability` | Normalised process capability, immutable throughput-basis version, compatible unit, time interval and configuration version |
 | `production_requirements` | References to technology, workforce, utilities, infrastructure and operating prerequisites |
 | `created_simulation_time` | Simulation time at which the Production extension was created |
 | `last_updated_simulation_time` | Simulation time of the latest Production-owned change |
 
-A process-specific throughput definition must identify the process or compatible process family, output/process basis, canonical unit, time basis, applicable conditions and configuration version. It is not generic Facility capacity, Effective Throughput, Allocated Throughput or Actual Output. Production calculates effective throughput from the configured capability and authoritative constraints. If independently scheduled production lines are modelled, line-specific throughput and eligibility are represented on the Production Line record.
+Industry-to-Facility and Industry-to-Industry-Area relationships are owned by Industry Data as normalised associations. Production resolves those relationships when validating an order; it must not duplicate them on the Production Facility extension.
+
+A process-specific throughput definition must identify the process, immutable throughput-basis version, canonical or explicitly compatible unit, time basis, applicable conditions and capability configuration version. It is not generic Facility capacity, Effective Throughput, Allocated Throughput or Actual Output. Production calculates effective throughput from the configured capability and authoritative constraints. Facility-level and line-level capability records are both represented in `facility_process_capability`; a line-level record references `production_line_id` rather than duplicating throughput on the line record.
 
 A canonical Facility may serve more than one Industry. If that relationship is supported, represent it as a normalised association rather than overwriting a single authoritative Industry reference.
 
@@ -223,15 +223,14 @@ A Production Line should support:
 - `production_line_id`
 - `facility_id` (canonical Facility reference)
 - `production_eligibility_state`
-- `supported_processes`
-- `configured_nominal_throughput` and its process/output basis, canonical unit and time basis, only where line-level throughput is independently modelled
 - `current_process_id`, if assigned
 - `current_order_id`, if assigned
-- `maintenance_state`
-- `effective_throughput`
+- `maintenance_reference` to the authoritative maintenance/condition state
 - `last_updated_at`
 
-Effective throughput is a derived value determined by process-specific nominal throughput and applicable operating constraints. If stored for performance, it must be treated as a derived value and kept consistent with its authoritative inputs.
+Process compatibility and process-specific throughput are stored in the normalised `facility_process_capability` association. A facility-level capability leaves `production_line_id` null; an independently modelled line-level capability references the relevant `production_line_id`. The association is the single authoritative record for the process, throughput basis, unit, time interval, validity and configuration version. Do not duplicate a process-capability list or throughput value on the Production Line record.
+
+Effective throughput is derived by Production from the selected capability and applicable operating constraints. If cached for performance, it must be reconcilable to the authoritative capability and constraint inputs.
 
 ### 4.3 Production Order Record
 
