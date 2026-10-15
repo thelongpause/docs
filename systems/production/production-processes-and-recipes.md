@@ -1211,6 +1211,19 @@ Until these decisions are resolved, implementations must preserve the ownership 
 
 ---
 
+## 23A. Throughput, Units, Versioning and Execution Interface Contract
+
+A recipe's quantitative basis and a facility's throughput basis must be semantically compatible, not merely dimensionally compatible.
+
+- Each recipe version identifies a quantitative basis, basis quantity, compatible unit, execution mode and the input/output lines interpreted against that basis.
+- A process-specific facility throughput declaration must identify the process and the basis to which its rate or batch limit applies. If it measures a target output, it must identify that output's Catalogue identity and compatible unit; if it measures an input or process basis, it must reference the defined basis explicitly.
+- Rates and totals are distinct. A quantity per day cannot be compared directly with a total quantity without applying the declared time interval. Power and energy remain distinct dimensions.
+- Recipe versions are immutable once referenced by a committed execution. Simulation-relevant changes to quantities, units, yields, losses, substitutions, requirements, execution mode or basis require a new version.
+- Production selects and authorises the exact process and recipe version, validates capability and operating constraints, and coordinates execution. Processes and Recipes calculates expected transformation results without changing inventory or authorising capacity allocation.
+- Each committed execution preserves the exact recipe version, resolved input/output quantities and units, relevant process and capability configuration versions, simulation interval, and execution outcome.
+- Inventory remains the authority for reservations, consumption, receipts and physical stock changes. The shared Production Execution transaction links those changes to the execution and prevents duplicate commits.
+- Services and non-physical outcomes use explicit service-delivery or domain-event records; a quantitative service unit does not make a Service eligible for physical stock.
+
 ## 24. Governing Principle
 
 Production Processes and Recipes defines the transformations available to the industrial economy. It does not independently determine whether those transformations are affordable, schedulable, legally permitted, or physically executable.
