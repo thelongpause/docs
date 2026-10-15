@@ -278,7 +278,22 @@ Use an association table instead of treating `input_reservation_ids` as an unval
 | `purpose` | No | Explicit role of the reservation for the order |
 | `created_simulation_time` | Yes | Simulation time |
 
-Composite primary key: `(production_order_id, reservation_id)`. The reservation must refer to eligible stock and quantities appropriate to the recipe's required inputs. Exact matching may require an explicit input-allocation relation when a reservation supplies a particular recipe input line.
+Composite primary key: `(production_order_id, reservation_id)`. The reservation must refer to eligible stock and quantities appropriate to the recipe's required inputs. Where a reservation is used to satisfy a particular recipe input line, the `production_order_input_reservation` relation records the exact line-level allocation and unit.
+
+### 4.6 `production_order_input_reservation`
+
+This association allocates a specific Inventory Reservation to a specific recipe input line. It is required whenever an order reserves physical inputs against a recipe with separately identifiable input requirements.
+
+| Field | Required | Rule |
+|---|---:|---|
+| `production_order_id` | Yes | Foreign key to the Production Order |
+| `recipe_input_id` | Yes | Input line from the exact recipe version selected by the order |
+| `reservation_id` | Yes | Foreign key to an Inventory Reservation |
+| `allocated_quantity` | Yes | Quantity of the reservation allocated to this input line |
+| `unit_id` | Yes | Unit compatible with both the reservation and recipe input line |
+| `created_simulation_time` | Yes | Simulation time |
+
+Composite key: `(production_order_id, recipe_input_id, reservation_id)`. The input line must belong to the order's selected `recipe_version_id`. Allocations across all association rows must not exceed the eligible reserved quantity or the input requirement under the declared substitution and over-reservation rules. One reservation may be split across input lines only through explicit allocation rows; the same reserved quantity cannot be consumed twice.
 
 ## 5. Production Execution Records
 
@@ -306,6 +321,9 @@ One row represents one attempted logical execution. The record must distinguish 
 | `failure_reason_code` | No | Structured failure |
 | `committed_simulation_time` | No | Set only when committed |
 | `payload_fingerprint` | Yes | Stable fingerprint of the execution request/inputs for idempotency checks |
+| `resource_source_reference` | Conditional | Required for extraction executions; stable reference to the authoritative resource-source record, without duplicating its state |
+| `resource_source_operation_reference` | Conditional | Stable identity of the source-side extraction operation or reservation, as defined by the owning resource model |
+| `source_depletion_commit_reference` | Conditional | Source-model commit/prepare reference needed to reconcile depletion with the Inventory receipt; exact source schema remains externally owned |
 
 The execution record is not itself a stock ledger. Authoritative stock effects are recorded in Inventory transactions and referenced by execution input/output rows.
 
@@ -344,6 +362,7 @@ One row per calculated output, regardless of whether it becomes physical stock.
 | `quantity_committed` | Yes | Quantity committed to its authoritative destination |
 | `unit_id` | Yes | Unit for output |
 | `inventory_transaction_line_id` | Conditional | Required for a physical stock output |
+| `resource_source_reference` | Conditional | Source provenance for extracted material; resolves to the authoritative resource-source model |
 | `result_state` | Yes | Calculated, committed, rejected, non-stock result, or approved state |
 
 Each output keeps its own Catalogue identity, unit, quantity, role, and execution link. The requested order quantity does not overwrite the quantities of co-products or by-products.
