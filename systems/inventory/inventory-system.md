@@ -261,6 +261,8 @@ A Reservation should contain:
 
 Reservations must be traceable to their purpose and the authority that created them.
 
+`quantity_reserved` and `fulfilled_quantity` use the stock's canonical Catalogue unit unless an explicit compatible unit conversion is recorded. A reservation must not silently mix units or product identities. Where a reservation is allocated across multiple Production recipe input lines, Production owns the line-level allocation records; Inventory remains authoritative for the reservation's total quantity, eligible stock and fulfilment state.
+
 A reservation does not replace the physical stock record or the initiating system's order record.
 
 ### 4.4 Inventory Transaction Record
