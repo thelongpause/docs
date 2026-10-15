@@ -19,6 +19,7 @@ It is a navigation and integration reference. It does not replace the canonical 
 | Shared geographic model, coordinates, spatial queries and Movement Grid | `systems/world/world-map-system.md` |
 | Terrain Object model, attributes, states and initial type catalogue | `systems/world/terrain-objects.md` |
 | Population Centre geography, civilian demographics, cohort accounting, migration and population state | `systems/population/population-centres-system.md` |
+| Population assignments, event ledger, composition, spatial distribution, labour/education, needs and interest-profile schema | `technical/data-schemas/population-schema.md` |
 | Map authoring architecture and Godot integration | `technical/map-authoring/mapmaker-specification.md` |
 | Financial state and transactions | `systems/economy/economy-system.md` |
 | Industry Types and establishment configuration | `systems/economy/industry-data.md` |
