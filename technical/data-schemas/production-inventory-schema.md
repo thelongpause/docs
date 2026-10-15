@@ -80,7 +80,7 @@ A versioned definition of a process-specific basis used to express facility or l
 | `throughput_basis_id` | Yes | Primary key identifying one immutable version of the basis definition; a changed basis receives a new ID |
 | `process_id` | Yes | Foreign key to the Production Process whose throughput this basis measures |
 | `basis_version` | Yes | Human-readable or canonical version label; `throughput_basis_id` remains the immutable version identity |
-| `basis_type` | Yes | Defined output, defined input, batch, or explicit process unit |
+| `basis_type` | Yes | Controlled process-level basis: defined output, defined input, batch, or explicit process unit |
 | `catalogue_id` | Conditional | Canonical Catalogue identity when the basis is a particular Good or Service quantity |
 | `unit_of_measure_id` | Yes | Canonical unit for the basis; compatible with the referenced Catalogue entry where applicable |
 | `basis_definition` | Yes | Explicit semantic definition of what is measured and the reference quantity/period interpretation |
@@ -447,6 +447,8 @@ A single inventory transaction may change several products, lots, or stock locat
 | `production_execution_id` | Conditional | Shared Production Execution reference for production commits |
 | `idempotency_key` | Yes for retriable commands | Unique within the declared scope |
 | `payload_fingerprint` | Yes for idempotent commits | Detects key reuse with different payload |
+| `resource_source_reference` | Conditional | Required for extraction receipts; resolves to the authoritative resource-source model |
+| `source_depletion_commit_reference` | Conditional | Source-model operation/commit reference used to reconcile depletion with this Inventory transaction |
 | `created_simulation_time` | Yes | Simulation time |
 | `committed_simulation_time` | Conditional | Present only after commitment |
 | `failure_reason_code` | No | Structured failure reason |
