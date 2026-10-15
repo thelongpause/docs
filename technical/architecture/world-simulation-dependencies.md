@@ -173,7 +173,7 @@ The World Map System owns canonical coordinates, geometry, spatial indexing, and
 
 ### Installation and Facility State
 
-The World Map System owns the spatial location and footprint geometry of installations and their sub-features. The Installations and Facilities System owns the common facility identity, composition, capabilities, capacity, ownership/operator/control references, and physical condition. Production, Inventory, Logistics, Military Systems, Movement, and specialised infrastructure systems own their respective unit state, positions and traversal, runway, port, repair, and operational calculations. An installation record must not duplicate those systems' authoritative state.
+The World Map System owns the spatial location and footprint geometry of installations and their sub-features. The Installations and Facilities System owns canonical Facility identity, composition, shared declared capabilities and generic capacity definitions, ownership/operator/control references, and shared physical condition/lifecycle. Production references the canonical Facility ID and owns production-specific process capability mappings, process/output-basis throughput definitions and calculations, production-line scheduling, capacity allocation, orders and execution state. Production must not duplicate the Facility identity or its shared generic capacity and physical state. Inventory, Logistics, Military Systems, Movement, and specialised infrastructure systems own their respective stock, transport, unit state/positions and traversal, runway/port operations, repair and other domain calculations.
 
 ### Rendering Contracts
 
