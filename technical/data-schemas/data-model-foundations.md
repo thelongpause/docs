@@ -115,7 +115,8 @@ A recipe version is immutable once used by a committed execution. A change to si
 
 ### 5.4 Production
 
-- `production_facility`: Production-owned capability extension keyed by the canonical Facility ID, with Production eligibility and relevant Industry associations; it must not duplicate Facility identity, type, location, ownership/operator/control, shared condition or generic capacity definitions.
+- `production_facility`: Production-owned capability extension keyed by the canonical Facility ID, with Production eligibility only; it must not duplicate Facility identity, type, location, ownership/operator/control, shared condition, generic capacity or Industry-to-Facility associations.
+- `facility_process_capability`: normalised, versioned process capability and throughput basis for a canonical Facility or an independently modelled Production Line; this is the single authoritative Production record for process-specific throughput.
 - `facility_process_capability`: normalised relationship between a canonical Facility (and optionally a Production Line) and supported Production Processes, including versioned process-specific throughput basis where modelled.
 - `production_line`: optional Production-owned substructure for independently scheduled lines; references the canonical Facility and owns only line-specific process capability, throughput, allocation and execution-related state.
 - `production_order`: requesting Industry, selected process and recipe version, target output or production basis, requested quantity and unit, priority, state, schedule constraints, and progress fields.
