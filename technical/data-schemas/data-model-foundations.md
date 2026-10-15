@@ -132,10 +132,10 @@ For a multi-output recipe, the order's requested quantity applies to its explici
 ### 5.5 Inventory
 
 - `inventory_holding`: a product's physical stock context at a location and under ownership/custody.
-- `stock_lot`: a quantity of a Catalogue product with shared location, ownership, condition, quality, origin, and restrictions.
+- `stock_lot`: a quantity of a Catalogue product with shared location, ownership, condition, quality, origin, restrictions, explicit unit and any required versioned unit-conversion reference.
 - `inventory_reservation`: a claim against eligible stock with purpose, quantity, status, and lifecycle.
 - `inventory_transaction`: auditable transaction header, including transaction type, simulation time, initiating authority/reference, idempotency key, and commit state.
-- `inventory_transaction_line`: one row per product/lot/quantity/unit movement within a transaction, allowing multi-input and multi-output production commits.
+- `inventory_transaction_line`: one row per product/lot/quantity/unit movement within a transaction, allowing multi-input and multi-output production commits and retaining the exact versioned unit conversion where a noncanonical unit is used.
 - `inventory_transit` or equivalent movement state: explicit in-transit representation where a shipment is not yet received at its destination.
 
 Inventory fields use `catalogue_id`, not `good_id`. Only eligible physical products may be held as stock. Services and non-physical deliverables must use appropriate service-delivery records instead. On-hand, reserved, and available quantities must be derivable and reconcilable from authoritative lots and active reservations.
