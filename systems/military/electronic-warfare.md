@@ -402,7 +402,9 @@ Deception must not directly rewrite the authoritative position or identity of th
 
 Radio communications may be affected by compatible interference, jamming, or other EW effects. The Communications System owns message delivery and communication availability.
 
-Electronic Warfare provides the interference input and its applicable strength, domain and duration. Communications determines whether a message is delayed, degraded or lost according to its own rules.
+Electronic Warfare provides the interference input and its applicable strength, domain and duration. Communications determines whether a message is delayed, degraded or lost according to its own rules. Communication capability data must distinguish low probability of intercept/detection (which affects how difficult an emission is to detect or locate) from jam resistance (which affects the link's ability to continue conveying information under interference). These properties are related but not interchangeable. Directionality, operating band, latency, quality, security and available relay paths may also affect the outcome.
+
+Radar OECM must not automatically disrupt all radio links, and a communications jammer must not automatically degrade radar detection. Each effect requires a compatible target domain, method, geometry and effect model. A communication link that is hard for ESM to detect is not thereby immune to jamming, and a jam-resistant link is not thereby undetectable.
 
 A communications disruption must not automatically erase information already received, and it must not affect unrelated communications unless the applicable system and geometry support that effect.
 
@@ -564,6 +566,8 @@ The audited DB3K dashboard exposes CMO-specific sensor roles and fields. These a
 | ECMBandwidth and frequency-band associations | supported_bands / band_compatibility | Use as a hard compatibility gate only where the source definition supports it |
 | ECMNumberOfTargets | maximum_simultaneous_targets | Treat as a capacity limit; target selection beyond capacity must follow Project Sovereign's documented deterministic policy |
 | ECMPoKReduction | Candidate input to a DECM effect model | Preserve as source-specific evidence; validate semantics before interpreting it as a probability or direct effect modifier |
+| Communication capability: LPI/LPD | emission_detection_profile | Model detectability/locatability of the emission; do not treat this as jamming resistance |
+| Communication capability: jam-resistant | communication_protection_profile | Model resistance to compatible communication interference; do not treat this as emission invisibility |
 
 The CMO manual describes DECM as a probabilistic weapon-endgame interaction whose success depends on random chance and the relative generations of countermeasure and seeker. The dashboard's simplified chart presents ECMPoKReduction as a flat effect modifier; that presentation must not override the manual's generation-dependent description or be copied as the entire Project Sovereign resolution model.
 
