@@ -1459,6 +1459,18 @@ Until these decisions are resolved, implementation must preserve the ownership b
 
 ---
 
+## 23A. Resource Extraction and Source-to-Stock Transaction Contract
+
+A natural resource source or deposit and extracted Inventory stock are distinct authoritative states.
+
+- The owning resource-source model defines source identity, resource type, remaining quantity where finite, regeneration where applicable, extraction constraints, environmental conditions and validity/versioning. Inventory must not maintain a second authoritative deposit balance.
+- Production authorises and executes an extraction operation against a valid source, process/recipe, facility capability and operating constraints. A deposit's existence does not create an Industry, extraction capability, delivered input or Inventory stock.
+- Inventory records extracted material only when the extraction result is committed as an authorised physical receipt or stock-creation transaction. The transaction must identify the source, extraction operation/execution, Catalogue identity, quantity, unit, destination holding/location and provenance.
+- Source depletion and Inventory receipt must commit as one atomic logical operation, or through a durable prepare/commit/recovery protocol that prevents either duplicate stock or unexplained source depletion. A retry with the same idempotency key and payload returns the original result; reuse of that key with a different payload is rejected.
+- If extraction fails before commit, neither source depletion nor usable output stock may be committed. If a failure occurs during a multi-step implementation, recovery must resolve the operation deterministically before reporting success.
+- Finite depletion, renewable regeneration, extraction efficiency, environmental impact and the exact source-state schema remain owned by the resource-source and Production specifications. This contract deliberately does not invent their algorithms or parameters.
+- The resulting stock is ordinary Inventory stock subject to stock-lot, quality, ownership, location, reservation, transfer and consumption rules. The source deposit is not an Inventory holding, and extracted stock must not remain available at the source and in Inventory simultaneously.
+
 ## 24. Governing Principle
 
 Inventory represents the physical reality of the simulated economy.
