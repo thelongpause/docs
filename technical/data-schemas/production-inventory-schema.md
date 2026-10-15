@@ -23,18 +23,18 @@ production_process
             ├── recipe_input ────── catalogue_entry
             └── recipe_output ───── catalogue_entry
 
-industry_instance
-  └── production_industry_assignment (where applicable)
-
-canonical_facility (Installations and Facilities authority)
-  └── production_facility (production capability extension; facility_id is both PK and FK)
-       ├── facility_process_capability
-       └── production_line (optional)
+industry_instance (Industry Data authority)
+  └── industry_facility_association (Industry Data authority)
+       └── canonical_facility (Installations and Facilities authority)
+            └── production_facility (Production capability extension; facility_id is both PK and FK)
+                 ├── facility_process_capability (facility- or line-level capability)
+                 └── production_line (optional)
 
 production_order
   ├── references recipe_version
   ├── references target Catalogue entry or explicit production basis
   ├── production_order_reservation ─── inventory_reservation
+  ├── production_order_input_reservation ─── recipe_input + inventory_reservation
   └── production_execution
        ├── production_execution_input ── inventory_transaction_line
        ├── production_execution_output ─ inventory_transaction_line
