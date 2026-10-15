@@ -280,9 +280,9 @@ Religion should be represented as a distribution across defined religious affili
 
 Religious affiliation may influence social institutions, political interests, cultural practice and migration where those relationships are defined. Religion must not automatically determine political ideology or behaviour.
 
-### 9.3 Population Interest Groups
+### 9.3 Population Types and Social/Economic Groups
 
-Population Types in the original draft are better modelled as **Population Interest Groups**: social or economic groupings with shared material interests, occupational position, education, identity or policy preferences. They are not necessarily innate population classes, and a person may belong to several dimensions at once.
+Population Types are best modelled as aggregate **social and economic groupings** with shared material conditions, occupational position, education or social role. Their membership is distinct from their Interest Profile: a group can contain a distribution of views across multiple Interest Axes. Population Types are not necessarily innate or mutually exclusive classes, and a person may belong to several dimensions at once.
 
 Illustrative mid-twentieth-century or Cold War-era group labels may include:
 
@@ -303,13 +303,8 @@ Illustrative mid-twentieth-century or Cold War-era group labels may include:
 - Organised Labour
 - Rural Traditionalists
 - Urban Reformists
-- Social Democrats
-- Communists and Revolutionary Socialists
-- Nationalists
-- Liberal Constitutionalists
-- Conservative Traditionalists
 
-These are candidate classifications, not a mandatory flat enum. Some are economic or occupational groups, while others are political tendencies. The implementation should separate **social/economic groups**, **cultural affiliations** and **political ideologies** into different taxonomies, then model relationships between them. Names and political alignments must be configurable and context-sensitive.
+These are candidate classifications, not a mandatory flat enum. They are illustrative social/economic groups, not a universal taxonomy. Cultural affiliations are represented separately. Political ideologies, organised political movements, parties and platforms belong to Political Systems; they must not be collapsed into Population Type definitions. Interest Axes and the distribution of preferences across those axes are specified in Section 9.5.
 
 A population group's size, interests and political effects should be calculated from defined membership and influence rules. Do not assume that all wealthy, educated or urban inhabitants share the same ideology or cultural traits.
 
