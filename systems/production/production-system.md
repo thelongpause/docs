@@ -189,6 +189,14 @@ The Good and Service Catalogue determines product classification and physical fo
 
 ---
 
+### 3.10 Process Throughput Basis
+
+A Process Throughput Basis is an immutable, versioned definition of the quantity a Production capability measures over a stated interval. It may define a specific Catalogue output, a defined input, a batch basis, or an explicitly defined process unit. It identifies the owning process, semantic meaning, canonical unit, validity and provenance.
+
+Production capability records reference one exact `throughput_basis_id` version. A change to the meaning, Catalogue identity, unit or reference interpretation creates a new basis identity; it must not reinterpret historical capability configurations or executions. A throughput basis is a measurement definition, not a capacity quantity, allocated throughput or actual output.
+
+The selected recipe version has its own execution basis. Production must validate that the recipe basis is semantically compatible with the facility/line throughput basis, applying only an explicit, valid conversion or basis-mapping rule. Matching dimensions alone is insufficient, and no basis may be inferred from a process or recipe name.
+
 ## 4. Production System Data Model
 
 All persistent production entities must have stable identifiers. Relationships must use identifiers rather than display names.
