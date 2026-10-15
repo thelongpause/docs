@@ -218,11 +218,11 @@ Required concepts:
 - `first_observed_time`
 - `last_observed_time`
 - `last_updated_time`
-- `estimated_position)
+- `estimated_position`, if available
 - `position_uncertainty`
-- `estimated_movement), if supported
-- `estimated_target_class)
-- `estimated_identity), if supported
+- `estimated_movement`, if supported
+- `estimated_target_class`
+- `estimated_identity`, if supported
 - `classification_confidence`
 - `identification_confidence`
 - `track_quality`
@@ -238,16 +238,16 @@ Required concepts:
 
 - `report_id`
 - `recipient_side_id`
-- `recipient_entity_id), if applicable
+- `recipient_entity_id`, if applicable
 - `report_time`
 - `source_time`
 - `report_type`
-- `reported_position), if available
-- `reported_uncertainty), if available
-- `reported_classification), if available
+- `reported_position`, if available
+- `reported_uncertainty`, if available
+- `reported_classification`, if available
 - `reliability`
 - `source_provenance`
-- `delivery_status)
+- `delivery_status`
 
 A report's delivery time must not replace its original observation time.
 
