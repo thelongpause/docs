@@ -1971,6 +1971,7 @@ Industry Data is ready for implementation when the following conditions are sati
 - [ ] Every Industry references its relevant Nation.
 - [ ] Every Industry has a valid geographic representation or approved alternative.
 - [ ] Required configuration and system references resolve.
+- [ ] Industry-to-Facility relationships use a normalised association to canonical Facility IDs; the Industry instance does not carry a denormalised `facility_ids` array.
 
 ### 19.3 Industry Scale
 
