@@ -507,27 +507,24 @@ At minimum, schema/application validation enforces:
 1. Every Population Centre references a canonical World Map Area feature.
 2. Population counts are non-negative integer persons.
 3. Cohort counts reconcile to assignment totals at the same effective time.
-4. Resident stock-flow accounting reconciles births, deaths, arrivals, departures and authorised adjustments; transit/unassigned pools have explicit accounting rules.
+4. Resident stock-flow accounting reconciles births, deaths, arrivals, departures and authorised adjustments; transit and unassigned pools have explicit accounting rules.
 5. Cohort ageing advances once per configured annual boundary and conserves Population Total.
 6. Fractional demographic flows retain deterministic remainder state or reproducible prior-state inputs.
-7. Cohort counts reconcile to assignment totals at the same effective time.
-4. A group is in exactly one authoritative population assignment at a time.
-5. Internal movements conserve total population; boundary crossings alter world totals only under explicit scenario rules.
-6. Every committed population-changing event is idempotent and has provenance.
-7. Event effects reconcile to declared event quantities.
-8. Cohort ageing and education/composition reclassification conserve totals.
-9. Mutually exclusive composition dimensions reconcile to declared denominators; overlapping dimensions do not use that constraint.
-10. Spatial partitions reconcile to centre totals at the represented resolution.
-11. Estimated intersections and spatial fallbacks retain estimation method/provenance.
-12. Labour classifications reconcile and do not double-allocate the same aggregate workforce.
-13. Employment status is derived from committed employment assignments, not inferred solely from wages or vacancies.
-14. Need quantities use canonical Catalogue IDs and compatible units.
-15. Fulfilment references authoritative external events and is not counted twice.
-16. Economic financial state and military personnel state are not duplicated in Population.
-17. Interest values reference a valid axis version and respect its declared scale/type.
-18. Derived national aggregates state their aggregation dimension and weighting rule.
-19. Effective-dated taxonomy, policy and rule changes preserve historical interpretation.
-20. Results are deterministic under save/load, replay and event retry.
+7. Each aggregate group has exactly one authoritative assignment at a time, except during atomic split/merge transitions that reconcile exactly.
+8. Internal movements conserve total population; boundary crossings alter world totals only under explicit scenario rules.
+9. Every committed population-changing event is idempotent, has provenance and has effects that reconcile to declared event quantities.
+10. Cohort ageing and education/composition reclassification conserve totals.
+11. Mutually exclusive composition dimensions reconcile to declared denominators; overlapping dimensions do not use that constraint.
+12. Spatial partitions reconcile to centre totals at the represented resolution; estimated intersections and spatial fallbacks retain method and provenance.
+13. Labour classifications reconcile and do not double-allocate the same aggregate workforce.
+14. Employment status is derived from committed employment assignments, not inferred solely from wages or vacancies.
+15. Need quantities use canonical Catalogue IDs and compatible units.
+16. Fulfilment references authoritative external events and is not counted twice.
+17. Economic financial state and military personnel state are not duplicated in Population.
+18. Interest values reference a valid axis version and respect its declared scale/type.
+19. Derived national aggregates state their aggregation dimension and weighting rule.
+20. Effective-dated taxonomy, policy and rule changes preserve historical interpretation.
+21. Results are deterministic under save/load, replay and event retry.
 
 ## 17. Implementation Sequence
 
@@ -575,20 +572,19 @@ The Population schema is conformant when:
 5. It encodes the resident stock-flow equation, transit accounting and authorised adjustments.
 6. It defines annual cohort transitions without confusing age with policy eligibility.
 7. It preserves fractional flow remainder state or deterministic reproducibility.
-8. It reconciles totals, age cohorts, events and movements.
-5. It prevents duplicate event application and duplicate population assignment.
-6. It represents composition dimensions according to declared overlap semantics.
-7. It supports estimated spatial/group intersections without presenting them as exact.
-8. It distinguishes labour eligibility, participation, availability and committed employment.
-9. It preserves education and composition totals during reclassification.
-10. It integrates need fulfilment without duplicating Catalogue, Inventory, Logistics or Economy authority.
-11. It supports versioned, bounded interest axes and explicit condition-response rules without hard-coded stereotypes.
-12. It keeps political organisations, platforms and support outcomes within Political Systems.
-13. It keeps earnings, savings, wages, taxes, transfers, wealth and financial transactions within Economy.
-14. It receives civilian-harm events from Combat and Weapons and applies demographic consequences once.
-15. It supports national aggregation by explicitly declared dimensions.
-16. It preserves historical validity and deterministic replay.
-17. It can be implemented incrementally without requiring dense 100 m population data or unsupported cross-tab precision.
+8. It prevents duplicate event application and duplicate population assignment.
+9. It represents composition dimensions according to declared overlap semantics.
+10. It supports estimated spatial/group intersections without presenting them as exact.
+11. It distinguishes labour eligibility, participation, availability and committed employment.
+12. It preserves education and composition totals during reclassification.
+13. It integrates need fulfilment without duplicating Catalogue, Inventory, Logistics or Economy authority.
+14. It supports versioned, bounded interest axes and explicit condition-response rules without hard-coded stereotypes.
+15. It keeps political organisations, platforms and support outcomes within Political Systems.
+16. It keeps earnings, savings, wages, taxes, transfers, wealth and financial transactions within Economy.
+17. It receives civilian-harm events from Combat and Weapons and applies demographic consequences once.
+18. It supports national aggregation by explicitly declared dimensions.
+19. It preserves historical validity and deterministic replay.
+20. It can be implemented incrementally without requiring dense 100 m population data or unsupported cross-tab precision.
 
 ## Governing Principle
 
