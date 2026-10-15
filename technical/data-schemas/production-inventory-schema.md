@@ -1,6 +1,6 @@
 # Project Sovereign: Production and Inventory Schema
 
-**Status:** Draft logical schema  
+**Status:** Draft logical schema; cross-domain contract review completed; not a migration  
 **Authorities:** `systems/production/production-system.md`, `systems/production/production-processes-and-recipes.md`, and `systems/inventory/inventory-system.md`  
 **Depends on:** Catalogue schema and shared measurement contract
 
