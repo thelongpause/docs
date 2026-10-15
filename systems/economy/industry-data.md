@@ -1633,8 +1633,6 @@ operational_state: constrained
 
 industry_scale: null
 
-
-
 created_at_simulation_date: null
 ```
 
