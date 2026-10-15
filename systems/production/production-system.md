@@ -1465,7 +1465,7 @@ These features must extend the established interfaces rather than introduce comp
 
 - The canonical Facility record is resolved through Installations and Facilities; Production stores only its capability extension and Production-owned state.
 - A facility process capability references a valid `process_id` and declares the basis to which its throughput applies. The basis must be explicit enough to distinguish target output, input throughput, batch capacity, or another defined process basis.
-- Throughput quantity, unit and time interval must be compatible with the selected basis and the shared measurement contract. A compatible dimension alone does not establish semantic compatibility.
+- Throughput quantity, unit and time interval must be compatible with the selected basis and the shared measurement contract. If the throughput unit differs from the basis unit, the capability must reference the exact valid versioned conversion. A compatible dimension alone does not establish semantic compatibility.
 - Configured nominal throughput, effective throughput, allocated throughput and actual output are distinct values. Actual output is recorded only by a committed Production Execution.
 - A line-level throughput value is permitted only when the line is independently modelled and the value is not a duplicate of facility-level process capability.
 - Capability changes that affect execution are versioned. Each committed execution retains the exact process/recipe version and capability/configuration references used to resolve its outcome.
