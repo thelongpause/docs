@@ -551,6 +551,26 @@ EWEffect
 11. Communications owns message delivery outcomes.
 12. EW effects have explicit timing and cannot persist indefinitely by accident.
 
+### 16.2 CMO reference-data mapping (import guidance)
+
+The audited DB3K dashboard exposes CMO-specific sensor roles and fields. These are source-data mappings, not Project Sovereign runtime identifiers.
+
+| CMO source field or role | Project Sovereign mapping | Import rule |
+|---|---|---|
+| Sensor role 4001 (OECM in this dashboard) | jamming_method / jammer_definition | Preserve the source role in provenance; validate the source enum before mapping |
+| Sensor role 4011 (DECM in this dashboard) | countermeasure_type: defensive_self_protection | Resolve through Combat's weapon-endgame interface |
+| ECMPeakPower | effective_output_characteristics | Preserve the source unit and model context; do not treat power alone as jamming effectiveness |
+| ECMGain | antenna_and_directionality | Map with its units and any source assumptions |
+| ECMBandwidth and frequency-band associations | supported_bands / band_compatibility | Use as a hard compatibility gate only where the source definition supports it |
+| ECMNumberOfTargets | maximum_simultaneous_targets | Treat as a capacity limit; target selection beyond capacity must follow Project Sovereign's documented deterministic policy |
+| ECMPoKReduction | Candidate input to a DECM effect model | Preserve as source-specific evidence; validate semantics before interpreting it as a probability or direct effect modifier |
+
+The CMO manual describes DECM as a probabilistic weapon-endgame interaction whose success depends on random chance and the relative generations of countermeasure and seeker. The dashboard's simplified chart presents ECMPoKReduction as a flat effect modifier; that presentation must not override the manual's generation-dependent description or be copied as the entire Project Sovereign resolution model.
+
+The manual describes OECM as noise jamming that can affect multiple units, can itself be detected by ESM, and depends materially on geometry, positioning and technology generation. It does not document the engine's target-priority order when eligible emitters exceed capacity. Project Sovereign therefore defines its own deterministic and testable priority policy rather than reproducing an undocumented internal behaviour.
+
+Dashboard annotations marked inferred or speculative remain hypotheses until independently validated. In particular, do not infer universal frequency agility from a PESA/AESA label, universal immunity from OECM, or a mandatory hard line-of-sight rule for every jammer method without an explicit model definition.
+
 ## 17. Scheduling and Resolution
 
 EW should be resolved on defined simulation intervals and relevant events, not every rendered frame.
