@@ -323,6 +323,24 @@ Composition changes through explicit events or versioned transition rules, inclu
 
 Where demographic cohorts and composition dimensions are not stored as a full cross-tab, queries that require their intersection must use a declared allocation method and report the result as estimated. The system must not assume every age cohort has the same religious, cultural or political distribution unless scenario data or the model explicitly says so.
 
+### 9.5 Population Interest Axes and Profiles
+
+Where the simulation models public preferences, Population Interest Axes represent bounded, versioned dimensions of policy preference or social attitude. They are not the same thing as political ideologies, organised movements, parties or party support. An axis must have a defined meaning, scale type, endpoint interpretation, valid range, effective version and provenance. A 0–100 scale may be useful for some axes, but it is not a universal requirement; ordinal or categorical concepts must not be forced into a misleading numeric continuum.
+
+Potential axes include economic regulation, welfare, labour protection, immigration, trade, taxation, military posture, social change, religion in the state, political authority, nationalism, civil liberties, industrialisation and environmental regulation. These are examples for later reference-data selection, not a fixed canonical list. The initial game should enable only axes that can be defined consistently and used by an actual simulation system.
+
+Population Interest Profiles describe the distribution of preferences for a defined Population Type or population scope. A Population Type may contain a range of views rather than one uniform opinion. Profiles are aggregate statistical state, not individually managed values and not direct player-assigned sliders. If the model cannot resolve the intersection of age, occupation, culture, education or other dimensions, the result must use a declared estimation method and be labelled estimated.
+
+Interest values may change in response to material conditions, public policy, cultural experience, security, education or other modelled inputs, but only through explicit, versioned transition rules. Each rule must define the input measures and their owning systems, affected group, denominator, direction, response function, bounds, time interval, lag, missing-data behaviour and rule version. This allows emergent changes without hard-coded stereotypes: an economic or demographic condition does not automatically determine a group's political beliefs unless a specific rule explicitly encodes that relationship.
+
+### 9.6 Political Systems Interface
+
+Population publishes aggregate interest profiles and population-group distributions. Political Systems own political organisations, ideologies as organised political doctrines, party platforms, support, membership, elections, mobilisation and political pressure. Political support may be calculated by Political Systems from compatibility between a versioned platform and Population Interest Profiles, but the compatibility model and resulting support are not Population-owned facts.
+
+A Population Type does not support only one political group by default. Political Systems may represent support as a distribution across competing groups, including uncertainty or undecided support, where that feature is enabled. Population does not own or update that distribution unless a later ownership decision explicitly assigns it to Population. A change in interests is an input to political calculations, not an automatic change in party support or government policy.
+
+The intended high-level feedback is: world and policy conditions influence population conditions; population conditions may change interest profiles through explicit rules; Political Systems translate profiles and other inputs into support and political pressure; Government chooses or enacts policy; the resulting world and economic conditions feed back into Population. Each transition has an explicit owner and update order.
+
 ## 10. Local Economic Indicators
 
 Population Centres may display local economic indicators where a canonical system can calculate them. Examples include employment, unemployment, local income, consumption, business activity, tax contribution and local or attributed GDP.
@@ -334,6 +352,14 @@ Every indicator must declare its owning system and calculation method.
 - **Tax:** Government and Economy own assessment, liability, payment and receipts. A Population Centre may display taxes attributable to residents or local activity only when the attribution rule is explicit.
 - **Industries:** A centre may link to nearby or contained Industry establishments. The link is geographic or administrative and does not imply ownership of the Industry.
 - **Standard of Living and Wealth:** These are calculated from defined economic and demographic inputs and must not become independent financial ledgers.
+
+### 10.1 Economic Statistics by Population Group
+
+Population may display or consume aggregate economic statistics by Population Type or other declared group, including average earnings, consumption, savings, wealth, employment rate, tax contribution, government transfer receipt and disposable income, but only through Economy-owned outputs. These values are not Population-owned financial state and must not be written as a parallel financial ledger.
+
+Each statistic must declare its source, scope, period, currency and unit where applicable, denominator, population-group definition/version, weighting method, treatment of missing data and whether the value is measured, allocated or estimated. If Economy cannot provide a defensible mapping from economic accounts to a population group, the value must remain unavailable or explicitly estimated rather than presented as exact.
+
+A plausible causal chain such as falling real earnings reducing savings and living standards, which then affects economic-security interests, must be represented as separate owned facts and explicit transition rules. Population must not infer earnings or savings from Industry Scale, output, nominal wages, tax receipts or national averages without an approved calculation and attribution method. Economy owns earnings, expenditure, savings, wealth, wages, taxes, transfers and disposable income; Population owns only the derived demographic/social classifications and any interest transition state assigned to it by this specification.
 
 Missing data must be represented explicitly. The absence of a local indicator must not be interpreted as zero economic activity.
 
@@ -439,7 +465,10 @@ The following items require explicit values or a documented model before Populat
 - Versioned scenario and policy parameters for labour-force participation, eligibility, availability, retirement, caregiving and education progression. Rules remain separate from demographic facts and use the labour and education accounting contracts in Section 7.
 - Versioned need definitions, per-capita or cohort-specific requirements, assessment intervals, priority rules and substitution eligibility. Cross-system records must implement the requirement/fulfilment distinctions and stable references in Section 8.
 - The configured definitions, input variables, weights, scales and update intervals for Standard of Living and Population Happiness. The causal boundary in Section 8.2 is mandatory regardless of selected values.
-- The reference taxonomies and membership rules for cultural affiliation, religion, social/economic groups and political ideologies, including whether each distribution is exclusive or overlapping.
+- The reference taxonomies and membership rules for cultural affiliation, religion and social/economic Population Types, including whether each distribution is exclusive or overlapping. Political ideologies, party platforms and organised political groups must be defined by Political Systems, not collapsed into Population Type taxonomies.
+- The initial Population Interest Axis catalogue, scale semantics, endpoint definitions, baseline profiles and versioned condition-response rules. The conceptual axes in Section 9.5 are examples, not canonical data.
+- The interface through which Economy exposes defensible group-level earnings, consumption, savings, wealth, employment, tax, transfer and disposable-income statistics, including denominators, time intervals and estimation flags.
+- The interface through which Political Systems consume Population Interest Profiles and calculate platform compatibility, political-group support and political pressure.
 - The rules by which migration responds to safety, employment, living conditions, policy, routes, capacity, family or community ties, and border restrictions.
 - Scenario-specific initial representation for unassigned, nomadic, maritime, displaced and in-transit civilian populations. Their mutually exclusive accounting and reporting rules are defined in Sections 6 and 12.
 - The configured spatial and temporal exposure model connecting population distribution to committed civilian-harm events. The event ownership and idempotency contract in Section 11.1 is mandatory and must not duplicate Combat and Weapons calculations.
