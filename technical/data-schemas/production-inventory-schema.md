@@ -182,7 +182,7 @@ One row declares that a canonical Facility, or an independently modelled product
 | `process_id` | Yes | Production Process reference |
 | `capability_state` | Yes | Configured, restricted, suspended or retired under the declared lifecycle |
 | `throughput_basis_id` | Conditional | Required when process-specific throughput is declared |
-| `nominal_throughput` | Conditional | Production-specific throughput for the stated basis and interval |
+| `configured_nominal_throughput` | Conditional | Configured process-specific nominal throughput for the stated basis and interval |
 | `throughput_unit_id` | Conditional | Canonical compatible unit |
 | `throughput_period` | Conditional | Explicit simulation interval or rate basis |
 | `valid_from` | Yes | Simulation validity start |
@@ -209,8 +209,8 @@ A production line is optional and exists only where the facility is modelled wit
 | `process_capabilities` | Conditional | Normalised relationship to supported processes; use association rows when queried or versioned independently |
 | `configured_nominal_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
 | `throughput_basis_id` | Conditional | Required with configured nominal throughput; identifies the explicit process/output or input basis and its compatible unit |
-| `throughput_unit_id` | Conditional | Required with installed throughput |
-| `throughput_period` | Conditional | Required with installed throughput |
+| `throughput_unit_id` | Conditional | Required with configured nominal throughput |
+| `throughput_period` | Conditional | Required with configured nominal throughput |
 | `maintenance_reference` | No | Reference to authoritative maintenance/condition state; do not duplicate it |
 
 ### 4.4 `production_order`
