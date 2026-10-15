@@ -203,6 +203,7 @@ An Inventory Holding should contain:
 | `quantity_reserved` | Quantity committed to active reservations |
 | `quantity_available` | Quantity available for eligible new commitments |
 | `unit` | Canonical or compatible unit of measurement |
+| `unit_conversion_id` | Exact versioned conversion when the holding unit differs from the Catalogue's canonical unit |
 | `status` | Operational status of the holding |
 | `created_at` | Simulation time at which the holding was created |
 | `updated_at` | Simulation time of the latest relevant update |
@@ -223,6 +224,7 @@ A Stock Lot should contain:
 | `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `quantity` | Physical quantity represented by the lot |
 | `unit` | Unit of measurement |
+| `unit_conversion_id` | Exact versioned conversion when the lot unit differs from the Catalogue or holding unit |
 | `location_id` | Current inventory location |
 | `owner_id` | Current owner, where applicable |
 | `custodian_id` | Current custodian, where applicable |
@@ -250,6 +252,8 @@ A Reservation should contain:
 | `stock_lot_id` | Referenced lot, where reservation is lot-specific |
 | `inventory_holding_id` | Referenced holding |
 | `quantity_reserved` | Reserved quantity |
+| `unit` | Unit of the reserved quantity, normally the Catalogue's canonical unit |
+| `unit_conversion_id` | Exact versioned conversion when the reservation unit differs from the canonical Catalogue or stock unit |
 | `requesting_entity_id` | Entity requesting the reservation |
 | `purpose_type` | Production, shipment, military supply, customer order, or another supported purpose |
 | `purpose_reference` | Reference to the initiating order or requirement |
@@ -267,36 +271,46 @@ A reservation does not replace the physical stock record or the initiating syste
 
 ### 4.4 Inventory Transaction Record
 
-Every committed stock-changing transaction must produce an auditable record.
+Every committed stock-changing transaction must produce an auditable transaction header and one or more movement lines. The logical schema uses separate `inventory_transaction` and `inventory_transaction_line` records so one transaction can affect multiple Catalogue products, lots or locations without collapsing them into one quantity.
 
-The conceptual transaction record should include:
+**Transaction header**
 
 | Field | Description |
 |---|---|
-| `transaction_id` | Stable, unique transaction identifier |
-| `transaction_type` | Receipt, consumption, transfer, output, loss, adjustment, or another supported type |
-| `catalogue_id` | Canonical good identifier |
-| `quantity` | Transaction quantity |
-| `unit` | Unit of measurement |
+| `inventory_transaction_id` | Stable, unique transaction identifier |
+| `transaction_type` | Receipt, consumption, transfer, output, loss, adjustment, transit dispatch/receipt, or another supported type |
+| `transaction_state` | Prepared, committed, rejected, failed, or another approved lifecycle state |
+| `initiating_domain` | System authorised to initiate the transaction |
+| `initiating_reference` | Stable reference to the originating order, shipment, purchase or operation |
+| `production_execution_id` | Production Execution reference where applicable |
+| `resource_source_reference` | Authoritative resource-source reference for extraction receipts |
+| `source_depletion_commit_reference` | Source-side operation/commit reference used to reconcile extraction depletion and stock receipt |
+| `idempotency_key` | Identifier used to prevent duplicate execution |
+| `payload_fingerprint` | Detects reuse of an idempotency key with a different payload |
+| `created_at` | Simulation time at transaction creation |
+| `committed_at` | Simulation time at commitment, where committed |
+| `reason_code` | Structured reason for the operation |
+
+**Transaction line**
+
+| Field | Description |
+|---|---|
+| `inventory_transaction_line_id` | Stable, unique movement-line identifier |
+| `inventory_transaction_id` | Parent transaction |
+| `catalogue_id` | Canonical Good and Service Catalogue identity |
+| `quantity` | Quantity moved, consumed, received or otherwise adjusted |
+| `unit` | Measurement unit for the quantity |
+| `unit_conversion_id` | Exact versioned conversion when the line unit differs from the canonical Catalogue or affected stock-lot unit |
 | `source_location_id` | Source location, where applicable |
 | `destination_location_id` | Destination location, where applicable |
 | `source_owner_id` | Source owner, where applicable |
 | `destination_owner_id` | Destination owner, where applicable |
-| `stock_lot_id` | Relevant lot or lots |
-| `reservation_id` | Related reservation, where applicable |
-| `initiating_system` | System authorised to initiate the transaction |
-| `initiating_reference` | Production order, shipment, purchase, or other originating reference |
-| `simulation_time` | Simulation time at which the transaction was committed |
-| `reason_code` | Structured reason for the operation |
-| `idempotency_key` | Identifier used to prevent duplicate execution |
-| `metadata` | Additional relevant transaction information |
+| `stock_lot_id` | Existing or newly created affected lot |
+| `reservation_id` | Reservation fulfilled or released, where applicable |
+| `line_role` | Input consumption, primary output, co-product, by-product, recovery, waste, transfer out/in, or approved role |
+| `related_line_id` | Related line for paired movements or lineage |
 
-A transaction may affect more than one holding or lot. In such cases, the transaction must record the complete set of stock movements needed to represent the operation consistently.
-
-The implementation may separate the transaction header from individual stock movements.
-
----
-
+A transaction must record the complete set of stock movements needed to represent the operation consistently. The implementation must use one consistent quantity-direction convention for all transaction types. Extraction transactions retain source provenance in the header and resulting lot, and the transaction must reconcile to the source-side depletion operation. Source depletion and stock registration are committed atomically or through a durable idempotent prepare/commit/recovery protocol.
 ## 5. Quantity Semantics
 
 Inventory must distinguish between physical stock, reserved stock, and stock available for additional commitments.
