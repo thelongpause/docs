@@ -1,6 +1,6 @@
 # Project Sovereign: Catalogue Schema
 
-**Status:** Draft logical schema  
+**Status:** Draft logical schema; cross-domain identity and unit review completed; not frozen for migration  
 **Authority:** `reference/economy/good-and-service-catalogue.md`  
 **Depends on:** Shared measurement and unit-conversion contract
 
