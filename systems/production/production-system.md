@@ -212,7 +212,7 @@ The Production-owned extension and related capability associations may reference
 | `created_simulation_time` | Simulation time at which the Production extension was created |
 | `last_updated_simulation_time` | Simulation time of the latest Production-owned change |
 
-A process-specific throughput definition must identify the process or compatible process family, output/process basis, canonical unit, time basis, applicable conditions and configuration version. It is not generic Facility capacity, Effective Capacity, Allocated Capacity or Actual Output. Production calculates effective throughput from the configured capability and authoritative constraints. If independently scheduled production lines are modelled, line-specific throughput and eligibility are represented on the Production Line record.
+A process-specific throughput definition must identify the process or compatible process family, output/process basis, canonical unit, time basis, applicable conditions and configuration version. It is not generic Facility capacity, Effective Throughput, Allocated Throughput or Actual Output. Production calculates effective throughput from the configured capability and authoritative constraints. If independently scheduled production lines are modelled, line-specific throughput and eligibility are represented on the Production Line record.
 
 A canonical Facility may serve more than one Industry. If that relationship is supported, represent it as a normalised association rather than overwriting a single authoritative Industry reference.
 
@@ -228,7 +228,7 @@ A Production Line should support:
 - `current_process_id`, if assigned
 - `current_order_id`, if assigned
 - `maintenance_state`
-- `effective_capacity`
+- `effective_throughput`
 - `last_updated_at`
 
 Effective throughput is a derived value determined by process-specific nominal throughput and applicable operating constraints. If stored for performance, it must be treated as a derived value and kept consistent with its authoritative inputs.
@@ -257,7 +257,7 @@ A Production Order must support:
 | `earliest_start_time` | Earliest permitted execution time |
 | `deadline` | Optional requested completion time |
 | `input_reservation_ids` | References to valid Inventory reservations, where applicable |
-| `allocated_capacity` | Capacity assigned to the order |
+| `allocated_throughput` | Capacity assigned to the order |
 | `completed_quantity` | Quantity successfully produced |
 | `rejected_quantity` | Quantity rejected or recorded as unusable, where quality simulation is supported |
 | `cancelled_quantity` | Outstanding quantity cancelled |
@@ -295,7 +295,7 @@ Execution records must allow the simulation to distinguish an order being schedu
 
 Persistent records may store derived values for performance, but must identify their authoritative source.
 
-Examples include Effective Capacity, utilisation, remaining order quantity and derived production statistics.
+Examples include Effective Throughput, utilisation, remaining order quantity and derived production statistics.
 
 A derived value must not become a competing source of truth. Recalculation must follow the owning specification's rules and must not change completed historical outcomes.
 
@@ -374,7 +374,7 @@ The Production System distinguishes between the following measures. Capacity in 
 
 These measures must not be treated as interchangeable. Nominal, available, effective and allocated throughput must retain their process/output basis, unit, time basis and relevant configuration version.
 
-### 6.2 Effective Capacity
+### 6.2 Effective Throughput
 
 Effective throughput is derived from the configured process-specific nominal throughput and all applicable constraints.
 
@@ -399,7 +399,7 @@ Capacity modifiers may include:
 
 The same constraint must not be applied twice when it is already reflected in another authoritative capacity value.
 
-For example, if maintenance has already reduced Available Capacity, a separate maintenance penalty must not be applied again to the same calculation.
+For example, if maintenance has already reduced Available Throughput, a separate maintenance penalty must not be applied again to the same calculation.
 
 ### 6.3 Capacity Units
 
@@ -446,7 +446,7 @@ Utilisation describes the degree to which available productive capacity is used.
 
 It is a derived operational statistic, not a substitute for capacity or output.
 
-A facility may have low utilisation because it lacks orders, inputs, workforce or demand. A facility may also operate at high utilisation while producing less than nominal capacity because Effective Capacity has been reduced.
+A facility may have low utilisation because it lacks orders, inputs, workforce or demand. A facility may also operate at high utilisation while producing less than nominal capacity because Effective Throughput has been reduced.
 
 Utilisation must be calculated using compatible capacity and time units, with explicit handling of intervals in which available capacity is zero.
 
@@ -570,7 +570,7 @@ Population and Economy retain authority over population, labour availability and
 
 ### 8.2 Workforce Shortages
 
-A workforce shortage may reduce Effective Capacity or prevent a process from operating.
+A workforce shortage may reduce Effective Throughput or prevent a process from operating.
 
 The effect depends on process requirements. A process requiring a minimum number of qualified operators may not be executable below that threshold, even when machine capacity remains available.
 
@@ -596,7 +596,7 @@ Maintenance can reduce capacity or make equipment temporarily unavailable.
 
 Where maintenance consumes spare parts, fuel, tools or other Goods, the relevant quantities must be accounted for through Inventory.
 
-Maintenance scheduling, deterioration, repair mechanics and equipment-specific reliability are extensible operational features. They must integrate with the core capacity model rather than introduce a competing definition of Available Capacity.
+Maintenance scheduling, deterioration, repair mechanics and equipment-specific reliability are extensible operational features. They must integrate with the core capacity model rather than introduce a competing definition of Available Throughput.
 
 ---
 
@@ -716,7 +716,7 @@ Substitution is permitted only where explicitly supported by the selected recipe
 
 ### 10.3 Capacity
 
-The requested execution must fit within Effective Capacity available during the selected interval.
+The requested execution must fit within Effective Throughput available during the selected interval.
 
 An order cannot exceed the capacity of its assigned productive units.
 
@@ -783,7 +783,7 @@ Before an execution begins, the system must verify:
 3. The facility is operational or otherwise eligible under its explicit restrictions.
 4. The process and recipe versions are valid.
 5. Required technology and equipment are available.
-6. Sufficient Effective Capacity has been allocated.
+6. Sufficient Effective Throughput has been allocated.
 7. Required inputs are physically available and validly reserved where reservations are required.
 8. Workforce and mandatory utilities are sufficient.
 9. Applicable permissions and restrictions permit execution.
@@ -801,7 +801,7 @@ The system should record a structured blocking reason so that the relevant syste
 A Production Execution follows this logical sequence:
 
 1. **Resolve the order.** Identify the order, Industry, facility, production line, process, recipe version and outstanding quantity.
-2. **Evaluate constraints.** Determine eligibility, Effective Capacity, workforce, utilities, permissions and other operating restrictions.
+2. **Evaluate constraints.** Determine eligibility, Effective Throughput, workforce, utilities, permissions and other operating restrictions.
 3. **Determine executable quantity.** Establish the quantity that can be produced during the execution interval.
 4. **Resolve recipe quantities.** Calculate the required inputs, outputs, by-products and losses using the selected immutable recipe version and applicable execution conditions.
 5. **Validate inputs.** Validate input availability and reservations through Inventory.
@@ -886,7 +886,7 @@ Within that interval, Production must perform its logical responsibilities:
 1. Consume the authoritative facility states and externally supplied constraints for the interval.
 2. Resolve workforce, utility and infrastructure availability.
 3. Revalidate eligible orders and outstanding input requirements.
-4. Determine Available and Effective Capacity.
+4. Determine Available and Effective Throughput.
 5. Schedule eligible orders using the documented scheduling policy.
 6. Resolve executable quantities.
 7. Execute production using valid input stock and selected process and recipe versions.
@@ -1143,7 +1143,7 @@ The order may return to an eligible state when the relevant condition changes. T
 
 ### 16.3 Equipment Failure and Damage
 
-Equipment failure may reduce Effective Capacity or make a facility ineligible for a process.
+Equipment failure may reduce Effective Throughput or make a facility ineligible for a process.
 
 The equipment, maintenance and damage systems determine authoritative condition and recovery requirements. Production applies the resulting constraints.
 
@@ -1296,9 +1296,9 @@ Logistics and Inventory must preserve the distinction between stock at origin, s
 Production should expose derived measures such as:
 
 - Configured Nominal Throughput.
-- Available Capacity.
-- Effective Capacity.
-- Allocated Capacity.
+- Available Throughput.
+- Effective Throughput.
+- Allocated Throughput.
 - Actual Output.
 - Capacity utilisation.
 - Facility operational status.
@@ -1337,7 +1337,7 @@ Production must not independently modify authoritative stock quantities, ownersh
 
 ### 18.4 Capacity
 
-Total capacity allocated to simultaneous executions must not exceed the applicable Effective Capacity of the relevant facility or production line.
+Total capacity allocated to simultaneous executions must not exceed the applicable Effective Throughput of the relevant facility or production line.
 
 ### 18.5 Order Quantities
 
@@ -1408,7 +1408,7 @@ The initial implementation must support:
 - Stable Industry and facility identifiers.
 - Facilities associated with Industry instances.
 - Facility lifecycle and operational states.
-- Installed and Effective Capacity.
+- Installed and Effective Throughput.
 - A basic production-line abstraction or equivalent facility-level execution.
 - Production orders and deterministic scheduling.
 - Process compatibility validation.
