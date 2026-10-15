@@ -212,7 +212,7 @@ The Production-owned extension and related capability associations may reference
 | Field or association | Purpose |
 |---|---|
 | `facility_id` | Canonical Facility ID; primary/foreign key, not a separately generated identity |
-| `production_eligibility_state` | Production-specific eligibility, distinct from shared Facility condition |
+| `production_eligibility_state` | Facility-wide Production eligibility gate using the capability states defined in Section 5.1; distinct from shared Facility condition and narrower process/line capability state |
 | `facility_process_capability` | Normalised process capability, immutable throughput-basis version, compatible unit, time interval and configuration version |
 | `production_requirements` | References to technology, workforce, utilities, infrastructure and operating prerequisites |
 | `created_simulation_time` | Simulation time at which the Production extension was created |
@@ -235,6 +235,8 @@ A Production Line should support:
 - `current_order_id`, if assigned
 - `maintenance_reference` to the authoritative maintenance/condition state
 - `last_updated_at`
+
+The line's `production_eligibility_state` uses the capability states defined in Section 5.1 and acts as a line-level gate. A line may execute only when the canonical Facility, facility-wide Production extension, line-level gate and selected process capability all permit execution; the most restrictive applicable state governs.
 
 Process compatibility and process-specific throughput are stored in the normalised `facility_process_capability` association. A facility-level capability leaves `production_line_id` null; an independently modelled line-level capability references the relevant `production_line_id`. The association is the single authoritative record for the process, throughput basis, unit, time interval, validity and configuration version. Do not duplicate a process-capability list or throughput value on the Production Line record.
 
