@@ -1608,6 +1608,17 @@ Until these decisions are resolved, implementations must preserve the identity, 
 
 ---
 
+## Cross-Domain Identity, Units and Delivery Contract
+
+- Every Good or Service used by simulation systems has one stable `catalogue_id`. Names, aliases, Industry Type IDs, recipe-local codes, military designations and company-specific SKUs are not substitutes for Catalogue identity.
+- A simulation-relevant change to product identity or measurement semantics must be versioned or represented as a new Catalogue entry according to the identity rules. It must not silently reinterpret historical stock, prices, recipe lines, or completed executions.
+- Each quantitative Catalogue entry has one canonical unit convention. A quantitative Service uses the unit defined by its Catalogue entry; a provider's capacity unit may differ only where an explicit, validated relation maps capacity to delivered service quantity.
+- Every stored or exchanged quantity must be compatible with the canonical unit or converted using the shared measurement contract. Conversion must preserve product identity, dimensional validity, required product properties, precision and provenance.
+- A canonical unit defines how quantity is expressed, not whether a product can be physically stocked. Only eligible physical Goods may be registered as Inventory stock. Services and other non-physical results require explicit delivery, access, or domain-result records.
+- Recipe inputs and outputs, Production Orders and Executions, Inventory transactions, Population needs, and Economy prices/transactions must reference `catalogue_id` and explicit compatible quantity/price denominators. Consumption intervals, service-capacity rates, and production throughput are not replacement product units.
+- Product aliases are for search and presentation only. They must not be used as foreign keys or treated as separate products.
+- Retiring a Catalogue entry prevents new use where policy requires it but does not erase historical references. Existing stock and execution records must remain interpretable.
+
 ## 23. Governing Principle
 
 The Good and Service Catalogue is the common reference layer for the simulated economy.
