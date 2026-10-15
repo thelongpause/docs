@@ -140,6 +140,9 @@ Required concepts:
 - `detection_model_id`
 - `supported_modes[]`
 - `supported_signature_domains[]`
+- `sensor_capabilities[]`
+- `sensor_geometry_and_coverage`
+- `search_and_track_precision_model_id`
 - `operating_requirements`
 - `emission_profile`
 - `classification_capabilities`
@@ -263,9 +266,13 @@ Magnification can improve observation and classification within optical and atmo
 
 ### 6.2 Radar
 
-Radar emits electromagnetic energy and processes returns. Relevant factors include operating frequency, transmitter and receiver characteristics, antenna gain, target radar signature, aspect, range, geometry, clutter, terrain masking, interference, processing, technology and electronic warfare.
+Radar emits electromagnetic energy and processes returns. Relevant factors include operating frequency and band, transmitter and receiver characteristics, antenna gain and orientation, target radar signature and aspect, range, propagation, clutter, terrain masking, interference, processing, technology and electronic warfare.
 
-Detection, track formation and identification are separate outcomes. A radar return must not automatically reveal exact platform identity.
+Radar definitions must explicitly model applicable horizontal and vertical coverage limits, sensor height, minimum and maximum range, target-altitude envelope, scan or revisit interval, and whether the sensor is searching, maintaining a track, or illuminating a target. Mechanically scanned systems may need to trade search coverage against sustained tracking or illumination; a continuous-wave illumination channel can be occupied by an engagement. Track-while-scan, moving-target indication, look-down/shoot-down, frequency agility, non-cooperative target recognition, and phased-array properties are distinct capabilities, not universal properties of all radars.
+
+Search detection and cued tracking may have different performance envelopes. A sensor that can maintain a track after another source provides a cue must not automatically receive that same range when searching an un-cued volume. Radar altitude limits, antenna field of view, land/sea clutter, target motion, frequency band and sensor geometry may impose hard limits or calibrated modifiers.
+
+Detection, track formation, fire-control-quality data and identification are separate outcomes. A radar return must not automatically reveal exact platform identity, and a contact that is detected is not necessarily precise enough to support a weapon engagement. Phased arrays and modern processing may improve tracking or resistance to particular jamming methods, but must not be treated as universally immune to clutter, deception or EW.
 
 ### 6.3 Acoustic
 
@@ -281,9 +288,11 @@ Active sonar can reveal the source to an opposing receiver. Passive sonar receiv
 
 ### 6.5 Electronic Support Measures
 
-ESM detects, intercepts or analyses electromagnetic emissions. Relevant factors include whether the target emits, frequency coverage, signal characteristics, receiver sensitivity, geometry, terrain and propagation, signal processing, interference and technology.
+ESM detects, intercepts or analyses electromagnetic emissions, including radar and active jamming emissions. Relevant factors include whether the target emits, frequency coverage, signal characteristics, receiver sensitivity, geometry, terrain and propagation, signal processing, interference and technology.
 
-ESM may detect an emission without identifying its platform. Position estimation may require directional information, multiple receivers or repeated observations.
+An ESM result may range from a warning that an emitter is present, through emitter classification and a bearing, to a position estimate. Detection does not guarantee emitter or platform identification. A single bearing is not a point location; geolocation may require multiple suitably placed receivers, intersecting bearings, repeated observations or other independent evidence. Even a well-classified emitter may have poorer location precision than an active sensor tracking the platform directly.
+
+Passive coherent location is a distinct passive method: it relies on suitable external illuminators and receiver geometry, and an initial detection should not automatically be treated as a fire-control-quality track. Magnetic anomaly detection is also a specialised case: a detection can indicate a nearby submarine without providing a useful range estimate.
 
 ESM detection belongs to this system. Jamming, electronic deception and countermeasures belong to Electronic Warfare and must use explicit interfaces.
 
@@ -316,7 +325,9 @@ A sensor cannot attempt detection if its operating mode, power, damage, domain c
 
 Use canonical World and Terrain services. Do not create a contradictory terrain model inside Sensors and Detection.
 
-For visual sensing, evaluate the relevant observation points, elevation and terrain profile. Other domains must apply their appropriate propagation rules. A straight-line geometry test is a useful baseline, not a universal physical model.
+For visual, infrared and radar sensing, evaluate the sensor's own elevation and local skyline, target-side land cover, and relevant obstruction along the observation path. Terrain and land cover can reduce effective range even where a simple endpoint-to-endpoint line appears open. Sensor height and target altitude must be evaluated separately from a weapon's engagement envelope. Radar, ESM and optical/infrared propagation may use different horizon models; do not apply one universal horizon multiplier to all sensor families.
+
+For radar, geometry also includes antenna field of view, vertical coverage, scan/revisit timing, target altitude, range limits and applicable clutter or look-down effects. Moving ground targets may be easier to detect than halted targets when the radar relies on Doppler discrimination; specialised MTI/GMTI and frequency-band capabilities must be represented explicitly. For optical/infrared sensors, account for limited field of view and background clutter, and allow a detection to have meaningful range ambiguity when the sensor cannot estimate distance precisely. Other domains must apply their appropriate propagation rules. A straight-line geometry test is a useful baseline, not a universal physical model.
 
 ### 7.3 Initial detection model
 
@@ -410,6 +421,8 @@ A contact may report a point estimate, bearing, bounded area, uncertainty region
 The initial implementation may use a coordinate plus an uncertainty radius in metres. The schema should permit future extension to non-circular regions or covariance representations.
 
 The uncertainty radius is not the sensor's maximum range. Movement estimates must be inferred from observations rather than copied from hidden target velocity. When observations become stale or contradictory, movement estimates degrade or become unavailable.
+
+The observation schema must support bearing-only, imprecise-position and area-of-uncertainty results as first-class outcomes. A sensor-specific precision model should determine when a detection can provide a point estimate and when it must provide a bounded or ambiguous location. Examples include long-range visual/infrared detections with poor range estimation, ESM bearings without triangulation, and MAD detections without a usable range component. Do not convert these observations into artificially precise coordinates merely to fit a point-based UI.
 
 ## 12. Intelligence Ageing
 
