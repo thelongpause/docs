@@ -2000,7 +2000,7 @@ Industry Data is ready for implementation when the following conditions are sati
 
 - [ ] Economy owns live Industry economic state and Company accounting.
 - [ ] Government owns Treasury state and public financial authority.
-- [ ] Production owns physical production capacity and actual output.
+- [ ] Installations and Facilities owns canonical Facility identity, shared physical state and generic capacity definitions; Production owns process-specific capability, throughput, allocation, orders, execution and actual output.
 - [ ] Production Processes and Recipes own input-to-output transformations.
 - [ ] Inventory owns physical stock, reservations, transfers, delivery and consumption.
 - [ ] The Good and Service Catalogue owns product definitions and canonical units.
