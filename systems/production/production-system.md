@@ -147,7 +147,7 @@ Orders must reference valid Industries, facilities, processes and output definit
 
 ### 3.6 Productive Capacity
 
-Productive Capacity represents the maximum throughput a facility, production line or other explicitly defined productive unit can achieve over a specified interval under stated operating conditions.
+Productive Capacity represents the maximum throughput a facility, production line or other explicitly defined productive unit can achieve over a specified interval under stated operating conditions. Any configured nominal throughput must be process-specific and tied to an explicit output or process basis, compatible unit, time interval, validity period and configuration version. It must not be treated as a generic Facility capacity field.
 
 Capacity must be associated with:
 
@@ -1451,6 +1451,16 @@ The architecture should permit later implementation of:
 These features must extend the established interfaces rather than introduce competing ownership of capacity, inventory, Industry identity or physical output.
 
 ---
+
+## 19A. Cross-Domain Throughput and Capability Contract
+
+- The canonical Facility record is resolved through Installations and Facilities; Production stores only its capability extension and Production-owned state.
+- A facility process capability references a valid `process_id` and declares the basis to which its throughput applies. The basis must be explicit enough to distinguish target output, input throughput, batch capacity, or another defined process basis.
+- Throughput quantity, unit and time interval must be compatible with the selected basis and the shared measurement contract. A compatible dimension alone does not establish semantic compatibility.
+- Configured nominal throughput, effective throughput, allocated throughput and actual output are distinct values. Actual output is recorded only by a committed Production Execution.
+- A line-level throughput value is permitted only when the line is independently modelled and the value is not a duplicate of facility-level process capability.
+- Capability changes that affect execution are versioned. Each committed execution retains the exact process/recipe version and capability/configuration references used to resolve its outcome.
+- An Industry reference, valid recipe, or configured facility capability does not independently authorise execution. Production must evaluate facility condition/lifecycle, capability eligibility, throughput, inputs, workforce, technology, utilities, access and legal constraints through their authoritative interfaces.
 
 ## 20. Validation and Acceptance Criteria
 
