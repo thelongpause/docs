@@ -148,6 +148,7 @@ Constraints:
 Population Total is a derived value for a declared assignment scope and effective time. It should normally be computed from authoritative cohort counts or assignment effects, not stored as independent competing truth.
 
 A cached total is permitted for performance only if it is transactionally or deterministically reconcilable to cohort and event records. A mismatch is a validation failure, not a reason to silently overwrite source counts.
+
 ### 6.5 Population Representation and Stock-Flow Accounting
 
 Population is represented as aggregate integer person counts. A one-record-per-civilian model is not required. At each declared scope and effective time, the canonical accounting relationship is:
@@ -442,6 +443,18 @@ The intended feedback loop is:
 Interest axes and group profiles are Population-owned aggregate preference state where modelled. Political organisations, platforms and political support outcomes remain owned by Political Systems. Economic conditions such as earnings, savings, employment, prices, taxes and transfers remain Economy-owned facts. Population can consume those conditions as inputs to explicit transition rules and publish derived interest profiles, but must not own the financial values.
 
 A transition rule specifies source measure, population group, exposure denominator, time interval, direction, response function, lag, bounds, version and missing-data behaviour. For example, declining real earnings might contribute to a defined economic-security interest over time, but must not automatically and universally produce a particular view on immigration or labour policy. Each causal link is explicit, testable and versioned.
+
+### 12.1 Economy-Owned Population-Group Statistics Interface
+
+Population may consume group-level economic indicators only as a versioned output or snapshot from Economy. Each received statistic must identify the source measure, Economy source/version, population-group definition and version, scope, effective period, denominator, currency and unit where applicable, weighting/attribution method, missing-data treatment, and whether the value is measured, allocated or estimated. Examples include average earnings, consumption, savings, wealth, employment rate, tax contribution, transfer receipt and disposable income.
+
+These interface records are observations or references to Economy-owned outputs, not Population-owned financial balances. Population must not infer a missing value as zero or reconstruct financial state from Industry Scale, nominal wages, production output or national averages without an approved attribution rule.
+
+### 12.2 Political Systems Interest-Profile Interface
+
+Population publishes versioned interest-axis definitions and aggregate interest profiles with their scope, denominator, effective time, derivation method and estimation status. Political Systems owns political organisations, ideologies as organised doctrines, platforms, membership, elections, mobilisation, compatibility calculations, support and political pressure. Interest changes are inputs to political calculations, not automatic changes in support or Government policy.
+
+A receiving Political Systems model must reference the profile and axis versions it consumed. Missing or estimated profiles must be handled under an explicit receiving-system rule rather than silently treated as exact or neutral.
 
 National interest values are derived from local/group profiles using declared weights and scope. The aggregation method specifies whether weights are population counts, eligible group counts or another relevant denominator. Missing or estimated local values are handled explicitly and do not silently disappear from the national result.
 
