@@ -121,7 +121,7 @@ The map may simplify an installation to a symbol at strategic zoom and expose it
 - **Inventory:** physical stock, reservations, stock movements.
 - **Logistics:** routes, cargo, loading, transit, unloading, delivery.
 - **Economy:** legal ownership, operating costs, purchases, settlement, corporate control.
-- **Production and Industry Data:** establishment and production capabilities.
+- **Production and Industry Data:** establishment and production capabilities. This system remains authoritative for canonical Facility identity, shared condition/lifecycle, generic declared capabilities and shared capacity definitions. Production references the canonical Facility ID and owns process-specific capability mappings, production throughput bases/calculations, production-line scheduling, capacity allocation, orders and execution. Production must not copy the Facility's identity, generic capacity or shared physical state into a parallel facility record.
 - **Combat and Weapons:** attacks and damage events.
 - **Engineering and Repair:** repair tasks and restoration.
 - **MapMaker and Renderer:** facility footprints, condition, ownership, operator, operational state.
@@ -132,6 +132,7 @@ Consumers should query the owning system rather than copy authoritative stock, c
 
 - One installation can combine multiple facility types.
 - Capabilities and capacities are explicit.
+- Production references the canonical Facility ID and does not create a competing facility identity or duplicate shared condition, lifecycle or generic capacity state.
 - Legal owner, operator, territorial sovereign, and effective controller can differ.
 - A unit cannot use services without capability, capacity, access, and required stock.
 - Recovery, rearming, repair, replenishment, and preparation consume appropriate time and resources.
