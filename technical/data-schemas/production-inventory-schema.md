@@ -77,9 +77,9 @@ A versioned definition of a process-specific basis used to express facility or l
 
 | Field | Required | Rule |
 |---|---:|---|
-| `throughput_basis_id` | Yes | Stable identity for the versioned basis definition |
+| `throughput_basis_id` | Yes | Primary key identifying one immutable version of the basis definition; a changed basis receives a new ID |
 | `process_id` | Yes | Foreign key to the Production Process whose throughput this basis measures |
-| `basis_version` | Yes | Immutable version identifier or version number under the shared versioning convention |
+| `basis_version` | Yes | Human-readable or canonical version label; `throughput_basis_id` remains the immutable version identity |
 | `basis_type` | Yes | Defined output, defined input, batch, or explicit process unit |
 | `catalogue_id` | Conditional | Canonical Catalogue identity when the basis is a particular Good or Service quantity |
 | `unit_of_measure_id` | Yes | Canonical unit for the basis; compatible with the referenced Catalogue entry where applicable |
@@ -211,7 +211,8 @@ One row declares that a canonical Facility, or an independently modelled product
 
 Constraints:
 - The same capability scope and validity interval must not have conflicting duplicate rows.
-- `throughput_basis_id` must resolve to a basis version owned by the same `process_id`.
+- `throughput_basis_id` must resolve to one immutable basis version owned by the same `process_id`.
+- If `configured_nominal_throughput` is present, `throughput_basis_id`, `throughput_unit_id` and `throughput_period` are all required.
 - The configured throughput quantity, unit and period must match the referenced basis semantics.
 - Throughput values are not interchangeable across different output/process bases merely because their units share a dimension.
 - Nominal throughput is not effective capacity, allocated capacity or actual output.
@@ -230,7 +231,7 @@ A production line is optional and exists only where the facility is modelled wit
 | `production_eligibility_state` | Yes | Production-line-specific operating eligibility, distinct from parent Facility condition |
 | `process_capabilities` | Conditional | Normalised relationship to supported processes; use association rows when queried or versioned independently |
 | `configured_nominal_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
-| `throughput_basis_id` | Conditional | Required with configured nominal throughput; identifies the explicit process/output or input basis and its compatible unit |
+| `throughput_basis_id` | Conditional | Foreign key to an immutable `process_throughput_basis` version for the same process; required with configured nominal throughput |
 | `throughput_unit_id` | Conditional | Required with configured nominal throughput |
 | `throughput_period` | Conditional | Required with configured nominal throughput |
 | `maintenance_reference` | No | Reference to authoritative maintenance/condition state; do not duplicate it |
