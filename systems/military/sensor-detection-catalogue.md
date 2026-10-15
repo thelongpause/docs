@@ -183,6 +183,24 @@ The initial capability vocabulary should support the following independent dimen
 
 These are separate flags or model references, not one cumulative sensor-quality score. A sensor can support several measurement outputs while lacking the processing, geometry or precision needed for a fire-control solution. In particular, detection, emitter classification, precise location, continuous tracking and engagement-quality data must remain distinct.
 
+### 3.4 CMO Dashboard Reference Audit
+
+**Source reviewed:** `DB3K_510_dashboard.html`, repository commit `3e5663f28bc7409d54880e67a6b1315cdd020369`. The dashboard is a database browser and reference aid, not the CMO simulation engine or a complete executable specification of its internal mechanics.
+
+The embedded Feature / Capability / Guidance Glossary contains 302 authored explanations across its enumerated categories. Its own epistemic tags classify 175 as `OBSERVED`, 125 as `INFERRED`, and 2 as `SPECULATIVE`. These labels are source-level confidence annotations, not Project Sovereign validation states. The dashboard states that its terms are enumerated from the database, while also noting that authored explanations are still being filled in; enum coverage must not be mistaken for complete explanatory coverage.
+
+The audit establishes the following source-handling rules:
+
+- **Preserve provenance.** Retain source enum IDs and source wording as imported-reference metadata only. Map them to stable Project Sovereign identifiers and domain-specific properties.
+- **Separate data from interpretation.** Fields such as sensor type, frequency bands, generation, ECM gain, peak power, bandwidth, simultaneous-target count and PoK reduction can inform candidate data mappings. Their exact runtime meaning must be validated before being adopted.
+- **Do not treat the EW matchup display as a physical-effect calculation.** Its radar-by-radar status is principally a frequency-band overlap check, with additional generation and ESM-band comparisons. The dashboard itself says the engine's jamming effect size is not exposed. A status such as full or partial band coverage is therefore not a jamming probability, a guaranteed track loss, or a weapon defeat result.
+- **Treat capacity as an explicit design property.** `ECMNumberOfTargets` is presented as simultaneous-target capacity. The dashboard describes the original engine's over-capacity priority as undocumented. Project Sovereign's deterministic selection policy is a deliberate, testable design decision, not a claim to reproduce a known CMO priority algorithm.
+- **Model ECCM as explicit properties.** Do not grant universal jamming resistance or immunity solely because a radar is labelled PESA, AESA, frequency-agile or a later generation. Model the relevant waveform, receiver, processing, antenna, geometry, jammer technique and counter-countermeasure properties separately.
+- **Keep era and research separate from catalogue presence.** The reference database includes capabilities associated with later periods, including feature flags described as 1980+ or 2000+. Their presence in the dashboard does not make them available in the 1955 starting scenario; Project Sovereign must gate them through research, design, production and fielding.
+- **Keep inferred and speculative claims provisional.** In particular, glossary explanations that explicitly use `INFERRED` or `SPECULATIVE` tags must not become authoritative simulation rules without corroboration or a documented Project Sovereign design decision.
+
+This audit is a vocabulary and data-contract review. It does not establish undocumented CMO engine internals, independently validate every named equipment record, or replace historical validation of model-specific performance values.
+
 ## 4. Sensor Families
 
 The first playable catalogue should cover these families.
