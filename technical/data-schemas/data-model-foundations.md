@@ -258,7 +258,7 @@ The following invariants apply across Industry Data, Production, Production Proc
 
 - Installations and Facilities owns canonical Facility identity, shared physical condition/lifecycle, and generic capability/capacity definitions.
 - Production references canonical Facility IDs and owns process-specific capability mappings, throughput basis/calculation, capacity allocation, orders and execution.
-- A process-specific throughput declaration carries an explicit process/basis, compatible unit, time interval, validity and configuration version. It is not generic Facility capacity or actual output.
+- A process-specific throughput declaration carries an explicit process/basis, compatible unit, time interval, validity and configuration version. If a noncanonical unit is used, the exact valid versioned conversion is referenced. It is not generic Facility capacity or actual output.
 - Recipe versions are immutable once used by committed executions. Execution records retain the exact recipe and relevant capability/configuration versions.
 - Inventory owns all physical stock mutations. Extraction links source depletion and stock registration through an atomic or durably recoverable idempotent contract.
 - Catalogue identity is canonical across domains, and every quantity has an explicit unit or a versioned definition from which its unit is unambiguously inherited.
