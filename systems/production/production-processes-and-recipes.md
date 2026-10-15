@@ -252,7 +252,7 @@ Each recipe must identify its process, version, execution mode, quantitative bas
 | `basis_unit` | Canonical unit associated with the basis |
 | `basis_type` | Explicit basis kind: target output, defined process unit, recipe input line, or recipe output line |
 | `basis_catalogue_id` | Canonical Catalogue identity when the basis measures a specific Good or Service |
-| `basis_line_reference` | Exact input/output line reference when the basis is recipe-line-specific; must resolve within this recipe version |
+| `basis_line_reference` | Exact `recipe_input_id` or `recipe_output_id` when the basis is recipe-line-specific; must resolve within this immutable recipe version |
 | `inputs` | Defined input requirements |
 | `outputs` | Defined output results |
 | `required_capabilities` | Additional technical capabilities required |
@@ -297,7 +297,7 @@ Each input must identify the resource, quantity, unit, functional role, and cons
 
 | Field | Description |
 |---|---|
-| `input_id` | Identifier unique within the recipe version |
+| `recipe_input_id` | Identifier unique within the recipe version |
 | `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `quantity` | Required quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
@@ -365,7 +365,7 @@ A recipe must identify its primary output and any represented secondary products
 
 | Field | Description |
 |---|---|
-| `output_id` | Identifier unique within the recipe version |
+| `recipe_output_id` | Identifier unique within the recipe version |
 | `catalogue_id` | Canonical catalogue identifier, where applicable |
 | `quantity` | Expected quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
