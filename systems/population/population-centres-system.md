@@ -501,3 +501,6 @@ The Population System is conformant when:
 18. Civilian-harm events update demographic state once; injuries and displacement do not automatically reduce world population.
 19. National reporting distinguishes residence, citizenship, jurisdiction, sovereignty, effective control and displacement/transit assignment.
 20. The Population-local update contract is deterministic and compatible with the shared scheduler.
+21. Population Interest Axes have explicit meanings, scales, versions and bounded transition rules; they are not hard-coded ideologies or player-assigned national sliders.
+22. Population publishes interest profiles to Political Systems, while organised political groups, platforms, support and political pressure remain under Political Systems ownership.
+23. Earnings, consumption, savings, wealth, taxes, transfers and disposable income remain Economy-owned; Population consumes only explicitly defined group-level outputs and uses explicit rules for any resulting interest changes.
