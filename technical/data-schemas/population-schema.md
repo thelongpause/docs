@@ -148,6 +148,27 @@ Constraints:
 Population Total is a derived value for a declared assignment scope and effective time. It should normally be computed from authoritative cohort counts or assignment effects, not stored as independent competing truth.
 
 A cached total is permitted for performance only if it is transactionally or deterministically reconcilable to cohort and event records. A mismatch is a validation failure, not a reason to silently overwrite source counts.
+### 6.5 Population Representation and Stock-Flow Accounting
+
+Population is represented as aggregate integer person counts. A one-record-per-civilian model is not required. At each declared scope and effective time, the canonical accounting relationship is:
+
+`Closing Residents = Opening Residents + Births + Arrivals - Deaths - Departures + Authorised Adjustments`
+
+The equation applies to resident totals under the declared residence scope. Transit and unassigned pools are reconciled separately; internal movements cancel at world scale. Displacement changes assignment or status, not world population by itself. Each adjustment must have an authorised source, reason, effective time, provenance and event identity.
+
+- Counts are non-negative integer persons at committed boundaries.
+- Fractional expected flows are calculation intermediates, not committed people. Their deterministic remainder must be persisted or reproducibly derived from versioned inputs and prior state.
+- Mutually exclusive age cohorts reconcile to the same assignment total. Overlapping composition dimensions are not summed to derive that total.
+- Every population-changing effect is applied once. A duplicate event cannot repeat births, deaths, transfers or adjustments.
+- Split/merge transitions conserve the relevant total and reconcile the affected group, assignment, cohort and composition state under their declared rules.
+
+### 6.6 Cohort Ageing and Eligibility
+
+The canonical age cohorts are single-year ages 0 through 99 plus an open-ended 100+ cohort. Births enter age 0. At each configured annual demographic boundary, each cohort advances by one year and the age-99 cohort enters 100+. Ageing changes cohort distribution, not total population.
+
+The exact calendar boundary convention and shared simulation-time encoding must be configured once in the shared scheduler/reference-data contract before migration implementation. Save/load and replay must preserve the same boundary decision and must not age a cohort twice for one demographic year. Age alone does not establish eligibility for employment, education, military service, voting or any other policy-defined activity; the owning system applies its explicit age, legal and other eligibility rules.
+
+
 
 ## 7. Population Events and Demographic Flows
 
@@ -202,6 +223,10 @@ Fields:
 - Departure and arrival event references.
 - Controlled status: planned, departing, in transit, arrived, interrupted, returned, cancelled, or another defined state.
 - Cause code, optional Logistics movement reference, and effective interval.
+
+Constraints:
+- Planned movement does not change residence totals.
+Movement quantities are represented by committed departure/arrival Population Event Effects, resolved by aggregate group and age cohort where that resolution exists. If composition or cohort intersections are not stored directly, the applicable deterministic allocation rule and estimation status must be retained.
 
 Constraints:
 - Planned movement does not change residence totals.
@@ -327,6 +352,9 @@ Constraints:
 - Missing spatial detail uses a declared fallback and is marked estimated where it materially affects exposure or other outcomes.
 - A raster/tile implementation supports sparse storage and does not require a record for every 100 m Movement Grid location.
 - The schema does not mandate one row per Movement Grid cell.
+Spatial population counts, spatial density estimates and built-up intensity remain distinct measures. A density record must identify its spatial support and area unit; a count record must identify the represented partition and population scope.
+
+The schema does not mandate one row per Movement Grid cell.
 
 ## 10. Labour, Dependants and Education
 
@@ -479,6 +507,10 @@ At minimum, schema/application validation enforces:
 1. Every Population Centre references a canonical World Map Area feature.
 2. Population counts are non-negative integer persons.
 3. Cohort counts reconcile to assignment totals at the same effective time.
+4. Resident stock-flow accounting reconciles births, deaths, arrivals, departures and authorised adjustments; transit/unassigned pools have explicit accounting rules.
+5. Cohort ageing advances once per configured annual boundary and conserves Population Total.
+6. Fractional demographic flows retain deterministic remainder state or reproducible prior-state inputs.
+7. Cohort counts reconcile to assignment totals at the same effective time.
 4. A group is in exactly one authoritative population assignment at a time.
 5. Internal movements conserve total population; boundary crossings alter world totals only under explicit scenario rules.
 6. Every committed population-changing event is idempotent and has provenance.
@@ -540,6 +572,10 @@ The Population schema is conformant when:
 2. It models aggregate population without requiring one record per civilian.
 3. It provides unambiguous assignments for residents, transit and unassigned groups.
 4. It reconciles totals, age cohorts, events and movements.
+5. It encodes the resident stock-flow equation, transit accounting and authorised adjustments.
+6. It defines annual cohort transitions without confusing age with policy eligibility.
+7. It preserves fractional flow remainder state or deterministic reproducibility.
+8. It reconciles totals, age cohorts, events and movements.
 5. It prevents duplicate event application and duplicate population assignment.
 6. It represents composition dimensions according to declared overlap semantics.
 7. It supports estimated spatial/group intersections without presenting them as exact.
