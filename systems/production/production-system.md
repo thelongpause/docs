@@ -258,6 +258,7 @@ A Production Order must support:
 | `output_specification` | Required output specification, including the target output or production basis and any applicable constraints; it does not replace the recipe's complete output calculation |
 | `requested_quantity` | Requested quantity expressed in the unit belonging to the explicitly identified target output or production basis |
 | `requested_quantity_unit` | Canonical unit compatible with the Catalogue entry for the target output or the defined production basis |
+| `requested_unit_conversion_id` | Exact versioned conversion when the requested unit differs from the selected basis unit |
 | `priority` | Order priority under the applicable scheduling policy |
 | `order_state` | Current execution state |
 | `created_at` | Simulation time at which the order was created |
@@ -1468,7 +1469,7 @@ These features must extend the established interfaces rather than introduce comp
 - Throughput quantity, unit and time interval must be compatible with the selected basis and the shared measurement contract. If the throughput unit differs from the basis unit, the capability must reference the exact valid versioned conversion. A compatible dimension alone does not establish semantic compatibility.
 - Configured nominal throughput, effective throughput, allocated throughput and actual output are distinct values. Actual output is recorded only by a committed Production Execution.
 - A line-level throughput value is permitted only when the line is independently modelled and the value is not a duplicate of facility-level process capability.
-- Capability changes that affect execution are versioned. Each committed execution retains the exact process/recipe version and capability/configuration references used to resolve its outcome.
+- Capability changes that affect execution are versioned. Each committed execution retains the exact recipe version, throughput-basis version, capability/configuration references and unit-conversion references used to resolve its outcome.
 - An Industry reference, valid recipe, or configured facility capability does not independently authorise execution. Production must evaluate facility condition/lifecycle, capability eligibility, throughput, inputs, workforce, technology, utilities, access and legal constraints through their authoritative interfaces.
 
 ## 20. Validation and Acceptance Criteria
