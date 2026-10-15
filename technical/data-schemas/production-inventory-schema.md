@@ -555,6 +555,7 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - A throughput-based order resolves its basis to an explicit recipe input or other supported basis.
 - A recipe basis identifies its basis type and, where relevant, its canonical Catalogue identity or exact input/output line within the immutable recipe version.
 - A facility or line capability references an immutable throughput-basis version belonging to the same process and supplies compatible throughput unit and time interval.
+- Every noncanonical quantity unit references the exact valid versioned conversion; incompatible dimensions or missing product-dependent conversion properties are rejected.
 - A Production Line does not duplicate process capability or throughput already represented by `facility_process_capability`.
 - A Production Order reservation is allocated to the exact recipe input line through `production_order_input_reservation`; aggregate allocations cannot exceed eligible reservation quantity.
 - A service output is recorded as a non-stock result and does not create an Inventory Holding or Stock Lot.
