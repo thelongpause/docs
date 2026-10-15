@@ -1634,7 +1634,6 @@ operational_state: constrained
 industry_scale: null
 
 production_configuration_ids: []
-facility_ids: []
 inventory_location_ids: []
 resource_deposit_ids: []
 
@@ -1644,6 +1643,22 @@ created_at_simulation_date: null
 This is an illustrative schema, not valid starting-world data. A committed instance must have a valid Industry Scale, required references and valid operational state.
 
 Optional lists may be empty only where the applicable configuration permits them.
+
+### 15.3A Industry-to-Facility Association
+
+Store Industry-to-Facility relationships as normalised association records rather than a `facility_ids` array on the Industry instance. This permits one Industry to use multiple Facilities and one Facility to serve multiple Industries where the applicable legal and operational rules permit it.
+
+```yaml
+industry_facility_association_id: industry_facility_assoc_example_001
+industry_id: industry_example_001
+facility_id: facility_example_001
+association_role: primary_production_site
+valid_from_simulation_date: null
+valid_until_simulation_date: null
+configuration_version: 1
+```
+
+The association references canonical Industry and Facility identities. It does not copy Facility condition, lifecycle, ownership, operator, generic capacity or Production capability. The association role must use a defined vocabulary; validity and configuration fields must follow shared simulation-time and versioning conventions. Both foreign keys must resolve. Overlapping associations must not conflict for the same declared scope. Association alone does not establish Production eligibility or available throughput.
 
 ### 15.4 Industry Establishment Configuration
 
