@@ -224,7 +224,7 @@ A Production Line should support:
 - `facility_id` (canonical Facility reference)
 - `production_eligibility_state`
 - `supported_processes`
-- `installed_throughput` and its process/output basis, canonical unit and time basis, only where line-level throughput is independently modelled
+- `configured_nominal_throughput` and its process/output basis, canonical unit and time basis, only where line-level throughput is independently modelled
 - `current_process_id`, if assigned
 - `current_order_id`, if assigned
 - `maintenance_state`
