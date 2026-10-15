@@ -1633,16 +1633,14 @@ operational_state: constrained
 
 industry_scale: null
 
-production_configuration_ids: []
-inventory_location_ids: []
-resource_deposit_ids: []
+
 
 created_at_simulation_date: null
 ```
 
 This is an illustrative schema, not valid starting-world data. A committed instance must have a valid Industry Scale, required references and valid operational state.
 
-Optional lists may be empty only where the applicable configuration permits them.
+Relationships to Facilities, Production capability configurations, Inventory locations and resource sources are not stored as unvalidated ID arrays on the Industry instance. Each relationship must use the relevant domain's canonical identity and an explicit normalised association or interface. Industry Data owns the Industry-to-Facility association only; Production owns process capability, Inventory owns stock locations, and the resource-source model owns deposit/source identity and state.
 
 ### 15.3A Industry-to-Facility Association
 
