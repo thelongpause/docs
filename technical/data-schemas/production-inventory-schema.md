@@ -565,6 +565,7 @@ Before this schema is considered implementation-ready, tests must demonstrate:
 - A physical output is registered once and linked to its Production Execution.
 - A Production facility extension cannot exist without a canonical Facility, and its `facility_id` is the same primary/foreign key rather than a separately generated ID.
 - Production facility extensions do not store duplicate canonical Facility type, name, location, ownership/operator/control, shared physical condition/lifecycle or generic capacity fields.
+- Execution is rejected unless the canonical Facility, facility-wide Production eligibility gate, line-level gate when applicable, and selected process capability all permit execution; a less restrictive state cannot override a more restrictive gate.
 - Process-specific throughput is tied to an immutable, explicit basis version, compatible unit, time basis and configuration version; the basis must belong to the same process and is not treated as generic Facility capacity.
 - An input reservation cannot be consumed by two competing executions beyond its reserved quantity.
 - Two simultaneous reservations cannot exceed eligible stock.
