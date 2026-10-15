@@ -1,6 +1,6 @@
 # Project Sovereign: Population Data Schema
 
-**Status:** Draft logical schema for review  
+**Status:** Draft logical schema; behavioural cross-validation completed; not frozen for database migration  
 **Authority:** Population System behavioural specification  
 **Implementation target:** PostgreSQL logical model; not a migration script  
 **Canonical system specification:** [Population System: Population Centres and Demographics](../../systems/population/population-centres-system.md)
