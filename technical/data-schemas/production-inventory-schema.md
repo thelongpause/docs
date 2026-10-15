@@ -207,7 +207,7 @@ A production line is optional and exists only where the facility is modelled wit
 | `name` | Yes | Production-line name; does not rename the canonical Facility |
 | `production_eligibility_state` | Yes | Production-line-specific operating eligibility, distinct from parent Facility condition |
 | `process_capabilities` | Conditional | Normalised relationship to supported processes; use association rows when queried or versioned independently |
-| `installed_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
+| `configured_nominal_throughput` | Conditional | Process-specific nominal throughput, only where line-level throughput is modelled independently |
 | `throughput_basis_id` | Conditional | Required with installed throughput; identifies process/output basis and compatible unit |
 | `throughput_unit_id` | Conditional | Required with installed throughput |
 | `throughput_period` | Conditional | Required with installed throughput |
