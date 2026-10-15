@@ -250,6 +250,7 @@ Each recipe must identify its process, version, execution mode, quantitative bas
 | `production_mode` | Batch, continuous, discrete assembly, extraction, service, or construction |
 | `basis_quantity` | Reference execution quantity or rate |
 | `basis_unit` | Canonical unit associated with the basis |
+| `basis_unit_conversion_id` | Exact versioned conversion when the basis unit differs from the canonical Catalogue or recipe-line unit |
 | `basis_type` | Explicit basis kind: target output, defined process unit, recipe input line, or recipe output line |
 | `basis_catalogue_id` | Canonical Catalogue identity when the basis measures a specific Good or Service |
 | `basis_line_reference` | Exact `recipe_input_id` or `recipe_output_id` when the basis is recipe-line-specific; must resolve within this immutable recipe version |
@@ -301,6 +302,7 @@ Each input must identify the resource, quantity, unit, functional role, and cons
 | `catalogue_id` | Canonical Good and Service Catalogue identifier |
 | `quantity` | Required quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
+| `unit_conversion_id` | Exact versioned conversion when the quantity is expressed in a compatible noncanonical unit |
 | `input_role` | Functional role of the input |
 | `consumption_mode` | How the input is consumed, incorporated, retained, or otherwise handled |
 | `substitution_group` | Optional identifier for explicitly permitted alternatives |
@@ -369,6 +371,7 @@ A recipe must identify its primary output and any represented secondary products
 | `catalogue_id` | Canonical catalogue identifier, where applicable |
 | `quantity` | Expected quantity relative to the recipe basis |
 | `unit` | Canonical unit of measurement |
+| `unit_conversion_id` | Exact versioned conversion when the quantity is expressed in a compatible noncanonical unit |
 | `output_role` | Primary product, co-product, by-product, recovered material, or other supported result |
 | `output_condition` | Expected grade, quality, or condition |
 | `yield_rule` | Rule used to calculate the result |
