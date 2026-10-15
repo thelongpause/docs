@@ -1,6 +1,6 @@
 # Project Sovereign: Population Data Schema
 
-**Status:** Draft logical schema; behavioural cross-validation completed; not frozen for database migration  
+**Status:** Draft logical schema; cross-validated against the Population behavioural specification and shared schema foundations; not frozen for database migration  
 **Authority:** Population System behavioural specification  
 **Implementation target:** PostgreSQL logical model; not a migration script  
 **Canonical system specification:** [Population System: Population Centres and Demographics](../../systems/population/population-centres-system.md)
@@ -225,8 +225,6 @@ Fields:
 - Controlled status: planned, departing, in transit, arrived, interrupted, returned, cancelled, or another defined state.
 - Cause code, optional Logistics movement reference, and effective interval.
 
-Constraints:
-- Planned movement does not change residence totals.
 Movement quantities are represented by committed departure/arrival Population Event Effects, resolved by aggregate group and age cohort where that resolution exists. If composition or cohort intersections are not stored directly, the applicable deterministic allocation rule and estimation status must be retained.
 
 Constraints:
@@ -352,10 +350,7 @@ Constraints:
 - Density is not interchangeable with built-up intensity.
 - Missing spatial detail uses a declared fallback and is marked estimated where it materially affects exposure or other outcomes.
 - A raster/tile implementation supports sparse storage and does not require a record for every 100 m Movement Grid location.
-- The schema does not mandate one row per Movement Grid cell.
-Spatial population counts, spatial density estimates and built-up intensity remain distinct measures. A density record must identify its spatial support and area unit; a count record must identify the represented partition and population scope.
-
-The schema does not mandate one row per Movement Grid cell.
+- Spatial population counts, spatial density estimates and built-up intensity remain distinct measures. A density record must identify its spatial support and area unit; a count record must identify the represented partition and population scope. The schema does not mandate one row per Movement Grid cell.
 
 ## 10. Labour, Dependants and Education
 
