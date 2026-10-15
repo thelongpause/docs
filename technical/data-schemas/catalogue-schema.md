@@ -27,7 +27,7 @@ catalogue_entry
 measurement_unit
   ├── catalogue_entry.unit_of_measure_id
   ├── good_definition physical property units
-  └── service_definition.service_unit_id
+  └── service_definition (uses catalogue_entry.unit_of_measure_id)
 
 unit_conversion
   ├── source_unit_id
@@ -49,7 +49,7 @@ One row represents one canonical product or service definition.
 | `primary_economic_class` | Controlled value | Yes | `Good`, `Service`, `Designed Component`, or `Armament` |
 | `category` | Controlled reference/value | Yes | Valid for the primary class |
 | `status` | Controlled value | Yes | Catalogue lifecycle state |
-| `unit_of_measure_id` | Foreign key | Yes for quantitative entries | References canonical unit or defined service-delivery unit |
+| `unit_of_measure_id` | Foreign key | Yes for quantitative entries | The single canonical unit for the Catalogue entry, including quantitative Services |
 | `introduced_date` | Simulation date | Conditional | First date the definition is valid |
 | `retired_date` | Nullable simulation date | No | Must not precede introduction |
 | `parent_entry_id` | Nullable self-reference | No | Parent product/family where applicable |
@@ -137,7 +137,6 @@ Do not require mass, volume, density, or individual-instance tracking for every 
 | Field | Logical type | Required | Notes |
 |---|---|---:|---|
 | `catalogue_id` | Primary/foreign key | Yes | One-to-one with a Service Catalogue entry |
-| `service_unit_id` | Foreign key | Yes | Defined service-delivery unit |
 | `delivery_mode` | Controlled value/reference | Conditional | Where delivery mode matters |
 | `duration_basis` | Defined time basis | No | For duration-dependent services |
 | `capacity_basis_unit_id` | Foreign key | No | Unit for relevant provider capacity |
@@ -145,6 +144,8 @@ Do not require mass, volume, density, or individual-instance tracking for every 
 | `location_constraints` | Structured references | No | Geographic requirements |
 | `provider_capabilities` | Structured references | No | Capability requirements |
 | `consumption_semantics` | Controlled/validated definition | No | How service delivery/consumption is represented |
+
+The canonical unit for a quantitative Service is `catalogue_entry.unit_of_measure_id`. Do not add a second authoritative service-unit field to `service_definition`. Service provider capacity may use a different unit where appropriate, but that capacity unit belongs to the provider/capacity model and must be explicitly related to the service-delivery basis through a validated rule or conversion; it does not replace the Catalogue entry's canonical unit.
 
 A Service must never be assigned physical stock merely because it has a quantitative service unit. A transport service quantity, for example, is distinct from the cargo transported.
 
