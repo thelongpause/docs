@@ -55,9 +55,9 @@ The schema must not treat a consumer Good Unit or consumption interval as the ph
 ## 4. Domain Ownership and Schema Boundaries
 
 | Domain | Authoritative entities and state | Must not own |
+|---|---|---|
 | World Map | Geographic feature identity, geometry, spatial queries and spatial reference | Population totals, demographic state, economic or political control state |
 | Population | Civilian assignments, demographic cohorts and flows, composition, needs/fulfilment state, derived labour availability, wellbeing and interest profiles | Geometry, financial ledgers, employment contracts, physical stock, military personnel, political organisations/platforms |
-|---|---|---|
 | Good and Service Catalogue | Product identities, classification, canonical units, product attributes, lifecycle validity | Market prices, stock quantities, production outcomes |
 | Industry Data | Industry Types, reusable Industry configurations, establishment profiles and prerequisites | Live Company finances, physical capacity, actual production, stock |
 | Economy | Companies' financial state, economic transactions, prices, obligations, Industry Scale | Nation Treasury authority, physical stock quantities, production execution |
@@ -218,18 +218,17 @@ This contract defines required outcomes, not a prescribed database transaction t
 
 Build and validate schemas in dependency order, respecting the agreed project workflow:
 
-1. **Shared schema conventions and world references.** Confirm identifiers, simulation time, units, canonical World Map feature references and spatial identity.
+1. **Shared conventions, World Map references and existing Catalogue foundations.** Confirm identifiers, simulation time, units, canonical World Map feature references, spatial identity, and the existing Catalogue identity/unit contract.
 2. **Population schema.** Assignments, cohort state, event ledger, migration/displacement, composition, spatial distribution, labour/education interfaces, needs/indicators and interest-profile contracts. Validate its boundaries against the Population System specification.
-3. **Shared measurement and Catalogue schema.** Canonical product identity, class constraints, unit references, conversions, product attributes and lifecycle validity.
-4. **Industry and Company identity schema.** Industry Types/configuration, Companies, Industry instances, establishment profiles, and the separation between Company Capital and Treasury.
-5. **Process and recipe schema.** Processes, immutable recipe versions, input/output lines, units, yields and constraints.
-6. **Production schema.** Facilities, lines, capabilities, orders, target output/basis, executions and per-output execution records.
-7. **Inventory schema.** Holdings, lots, reservations, transaction headers and multi-line stock movements.
-8. **Shared Production Execution transaction contract.** Idempotency, atomic commit, failure recovery, output registration and execution linkage across Production and Inventory.
-9. **Economy transaction schema.** Accounts, financial transactions, prices, obligations, establishment postings, and links to commercial/operational references.
-10. **Cross-domain integrity and migration tests.** Referential integrity, unit compatibility, duplicate retries, save/load recovery, multi-output production, starting-world initialisation, and deterministic replay.
+3. **Industry and Company identity schema.** Industry Types/configuration, Companies, Industry instances, establishment profiles, and the separation between Company Capital and Treasury.
+4. **Process and recipe schema.** Processes, immutable recipe versions, input/output lines, units, yields and constraints.
+5. **Production schema.** Facilities, lines, capabilities, orders, target output/basis, executions and per-output execution records.
+6. **Inventory schema.** Holdings, lots, reservations, transaction headers and multi-line stock movements.
+7. **Shared Production Execution transaction contract.** Idempotency, atomic commit, failure recovery, output registration and execution linkage across Production and Inventory.
+8. **Economy transaction schema.** Accounts, financial transactions, prices, obligations, establishment postings, and links to commercial/operational references.
+9. **Cross-domain integrity and migration tests.** Referential integrity, unit compatibility, duplicate retries, save/load recovery, multi-output production, starting-world initialisation, and deterministic replay.
 
-The detailed Population schema is maintained in [population-schema.md](population-schema.md). The sequence above records the current project dependency order; economic/resource schema reconciliation remains subsequent to Population review.
+The detailed Population schema is maintained in [population-schema.md](population-schema.md). The Catalogue schema already exists as a shared foundation; reconciliation of the economic/resource system specifications remains subsequent to Population review.
 
 Each schema stage must include constraints, indexes, lifecycle rules, and validation tests before it is treated as implementation-ready.
 
