@@ -98,12 +98,12 @@ Constraints:
 - Settlement class is descriptive reference data, not a hard-coded population threshold or political authority.
 - Names, label positions, localisation and historical names are not identity.
 
-### 6.2 Population Assignment
+### 6.2 Population Aggregate Group and Assignment
 
-Represents an aggregate group of civilians assigned to one accounting location/state at a given simulation time. Assignment is the authoritative answer to where a counted group currently resides for Population accounting.
+A Population Aggregate Group is a stable identity for an aggregate set of civilians that the simulation can track through residence changes, movement, displacement and demographic events without creating one record per person. It is not a socioeconomic Population Type. A group may be split into child groups when only part of its count moves or experiences an event; the split/merge relationship and counts must be recorded explicitly. Groups may be merged only when their relevant demographic and composition state can be reconciled under a declared rule. The record contains a stable group ID, creation/provenance reference and optional parent group reference for a split. It does not require individual identities.\n\nA Population Assignment represents that aggregate group assigned to one accounting location/state at a given simulation time. Assignment is the authoritative answer to where the group's counted population currently resides for Population accounting.
 
 Fields:
-- Stable assignment ID.
+- Stable assignment ID.\n- Stable Population Aggregate Group ID.
 - Assignment kind: resident, in transit, unassigned, or another explicitly modelled kind.
 - Population Centre ID, required for resident assignments and otherwise nullable only where permitted by the assignment kind.
 - Movement ID, required for in-transit assignments.
@@ -114,7 +114,7 @@ Fields:
 Assignments should be effective-dated or retained as immutable transition history, not silently overwritten. A current-state projection is permitted if it can be reconstructed from committed transitions.
 
 Constraints:
-- A population quantity is counted in one authoritative assignment at a time.
+- A population quantity is counted in one authoritative assignment at a time.\n- Each active aggregate group has one authoritative assignment at a time, except during an atomic split/merge transition whose effects reconcile exactly.
 - A group cannot be resident at origin and simultaneously counted in transit or at destination.
 - In-transit assignment requires a valid movement record.
 - Assignment intervals for the same aggregate group must not overlap incompatibly.
