@@ -295,6 +295,7 @@ This association allocates a specific Inventory Reservation to a specific recipe
 | `reservation_id` | Yes | Foreign key to an Inventory Reservation |
 | `allocated_quantity` | Yes | Quantity of the reservation allocated to this input line |
 | `unit_id` | Yes | Unit compatible with both the reservation and recipe input line |
+| `unit_conversion_id` | Conditional | Exact versioned conversion when the allocation unit differs from the reservation or recipe input unit |
 | `created_simulation_time` | Yes | Simulation time |
 
 Composite key: `(production_order_id, recipe_input_id, reservation_id)`. The input line must belong to the order's selected `recipe_version_id`. Allocations across all association rows must not exceed the eligible reserved quantity or the input requirement under the declared substitution and over-reservation rules. One reservation may be split across input lines only through explicit allocation rows; the same reserved quantity cannot be consumed twice.
