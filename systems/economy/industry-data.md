@@ -1649,7 +1649,7 @@ industry_facility_association_id: industry_facility_assoc_example_001
 industry_id: industry_example_001
 facility_id: facility_example_001
 association_role: primary_production_site
-valid_from_simulation_date: null
+valid_from_simulation_date: 1955-01-01
 valid_until_simulation_date: null
 configuration_version: 1
 ```
