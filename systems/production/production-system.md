@@ -1420,7 +1420,7 @@ The initial implementation must support:
 - Stable Industry and facility identifiers.
 - Facilities associated with Industry instances.
 - Facility lifecycle and operational states.
-- Installed and Effective Throughput.
+- Configured Nominal Throughput, Available Throughput, Effective Throughput, Allocated Throughput and Actual Output, with explicit process/output basis, compatible unit, time interval and configuration version.
 - A basic production-line abstraction or equivalent facility-level execution.
 - Production orders and deterministic scheduling.
 - Process compatibility validation.
