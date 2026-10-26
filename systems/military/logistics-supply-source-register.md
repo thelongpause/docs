@@ -127,6 +127,35 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Limitations:** This is a 1941 US source and is not a valid 1955 baseline by itself. Any figures must be treated as historical comparison only unless an independent source establishes continued applicability. The document's own unit, formation, purpose and assumptions must be preserved.
 - **Status:** Discovered; not approved for initial simulation values.
 
+### SRC-011 — British Army ration scale, Canal Zone, 1955
+
+- **Title:** *British Army, Canal Zone (Ration Scale)*
+- **Publisher:** UK Parliamentary Hansard, House of Commons written answer
+- **Date:** 1 April 1955
+- **Public record:** https://api.parliament.uk/historic-hansard/written-answers/1955/apr/01/british-army-canal-zone-ration-scale-1
+- **Potential use:** Contemporary evidence that the overseas-garrison ration comprised a basic scale plus a supplement for strenuous work, and that exceptional local supplements could be added or withdrawn. This supports context-dependent ration profiles rather than a universal food quantity.
+- **Limitations:** The page excerpt does not provide a complete item-by-item physical scale or potable-water requirement. It is not sufficient by itself to populate physical food conversion records.
+- **Status:** Discovered; full parliamentary context and underlying official ration tables required.
+
+### SRC-012 — British Army instructional film on depot materials handling, 1956
+
+- **Title:** *An Introduction to Materials Handling*
+- **Publisher/collection:** Imperial War Museums; Army Kinema Corporation production
+- **Production date:** 1956
+- **Public record:** https://film.iwmcollections.org.uk/record/4499/media_id/13234
+- **Potential use:** Evidence of period British Army depot handling methods and equipment, including manual/mechanical handling, forklifts, pallet trucks, tractors, cranes, conveyors and loading/unloading operations.
+- **Limitations:** A film description does not supply measured tonnes-per-hour throughput. It can inform equipment and process identification but cannot establish a numeric handling rate without measured or doctrinal data.
+- **Status:** Discovered; film inspection and separate quantitative source required.
+
+### SRC-013 — National Army Museum Bedford QL truck collection record
+
+- **Title:** *Bedford 3 ton QL truck, 1942 (c)*
+- **Publisher:** National Army Museum, London
+- **Public record:** https://collection.nam.ac.uk/detail.php?acc=1989-07-69-1
+- **Potential use:** Museum record for identifying a British military transport vehicle family and distinguishing body/variant-specific roles. The record notes variant-specific fuel tank arrangements for the QLT troop-carrier variant.
+- **Limitations:** The record is not a complete technical manual and does not establish payload limits for every QL variant, fuel consumption, or a generic Supply Column capacity. The vehicle's nominal class label must not substitute for verified variant specifications.
+- **Status:** Discovered; variant identification and primary technical manual required.
+
 ## 4. What this first pass establishes
 
 - There are identifiable period-adjacent sources for ammunition-supply doctrine, ration practice, Quartermaster reference data and supply-unit organisation.
