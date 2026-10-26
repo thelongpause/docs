@@ -48,9 +48,8 @@ The architecture separates geographic truth, mutable simulation state, and deriv
 | Production state | Production | Facility, capacity, order, execution |
 | Physical stock | Inventory | Stock lot, quantity, location, reservation, movement |
 | Product identity and units | Good and Service Catalogue | `catalogue_id`, class, canonical unit |
-| Physical unit/platform/carrier position and route traversal | Movement/Transportation (canonical specification pending) | Current position, movement mode, traversal progress, arrival and interruption events |
+| Physical unit/platform/carrier position and route traversal | `systems/world/movement-and-transportation-system.md` | Current position, movement mode, traversal progress, arrival and interruption events |
 | Supply demand, shipment coordination and delivery reconciliation | Logistics | Demand, allocation, cargo manifest, shipment lifecycle and delivery status |
-| Physical stock and stock movement | Inventory | Holdings, reservations, transfers, receipts, consumption and losses |
 | Rendering and derived caches | Runtime/build pipeline | Meshes, visual layers, cell samples, spatial indexes |
 
 A system may cache another system's data for performance, but cached copies must be invalidatable and must not become authoritative.
