@@ -17,7 +17,7 @@ This document records the repository-wide interface audit required to complete M
 
 The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from conversation but has no canonical repository source, it is recorded as provisional and must not be misrepresented as a verified canonical rule.
 
-**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are Government procurement authority, Weather/Environment and Research specifications. Movement and Transportation, Character, Communications and Intelligence now have canonical initial behavioural specifications; their detailed schemas and conformance tests remain open. Government procurement authority also lacks a dedicated canonical system specification in the current repository. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
+**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are Government procurement authority and Research. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment now have canonical initial behavioural specifications; their detailed schemas, calibration and conformance tests remain open. Government procurement authority also lacks a dedicated canonical system specification in the current repository. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
 
 ## 2. Audit Method and Scope
 
@@ -63,7 +63,7 @@ The following canonical specifications were not present in the repository tree a
 | Character System | `systems/characters/character-system.md` (CHAR-001) | Canonical initial specification now exists; general attribute catalogue, schemas and conformance tests remain open |
 | Communications | Message transport, latency, delivery, disruption, priority, acknowledgement, relay and information access | Author the shared communications contract used by Command, Sensors, EW, Intelligence and AI |
 | Intelligence | `systems/intelligence/intelligence-system.md` (INTEL-001) | Canonical initial specification exists; source catalogue, assessment calibration, schemas and conformance tests remain open |
-| Weather and Environment | Environmental state, temporal/spatial variation, uncertainty and effects consumed by movement, sensors, equipment, combat and logistics | Author or recover the Environment specification; World geometry remains separate |
+| Weather and Environment | `systems/world/weather-and-environment-system.md` (ENV-001) | Canonical initial specification exists; variable catalogue, historical data, numerical calibration and conformance tests remain open |
 | Government and Political authority | Treasury/budget authority, procurement permissions, mobilisation and reserve-release decisions, regulation and policy | Confirm whether a dedicated Government specification exists outside the current tree; otherwise author the minimum Government authority contract needed by procurement and mobilisation |
 | Research | Technology/knowledge progression, discovery and unlock authority | Equipment design references Research, but no canonical Research specification was found in the current tree; locate or author before technology-dependent equipment implementation |
 | Medical/health | Personnel health, medical treatment and physiological consequences | Define the owner and interface scope before implementing Basics, hydration and medical-supply effects; do not duplicate health state in Logistics |
@@ -300,7 +300,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 | IF-MIL-03 | Communications schemas and channel model incomplete | Critical | Initial specification authored at `systems/communications/communications-system.md` (COMM-001); finalise endpoint/channel schemas, historical catalogue and integrated tests | Specification authored; schema/tests open |
 | IF-MIL-04 | Intelligence schemas and assessment calibration incomplete | Critical | Initial specification authored at `systems/intelligence/intelligence-system.md` (INTEL-001); finalise source/assessment schemas, confidence calibration and integrated tests | Specification authored; schema/tests open |
 | IF-MIL-05 | Government authority specification missing/unverified | High | Confirm canonical owner for budgets, procurement, mobilisation and reserve-release authority | Open |
-| IF-MIL-06 | Weather/Environment specification missing | High | Define environmental state and domain-consumer contracts | Open |
+| IF-MIL-06 | Weather/Environment catalogue and calibration incomplete | High | Initial specification authored at `systems/world/weather-and-environment-system.md` (ENV-001); finalise variables, historical data, calibration and domain-consumer tests | Specification authored; calibration/tests open |
 | IF-MIL-07 | Research specification missing/unverified | High | Confirm knowledge/progression owner and equipment design unlock interface | Open |
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit with Supply capability; distinguish it from fixed Supply Base | Resolved in Logistics specification |
 | IF-MIL-09 | Supply capacity values and exact baseline conversion remain incomplete | High | Standard Stock per Unit Size per Day factors and emergency thresholds have been recovered from the user's prior design; define category-specific physical conversion, threshold denominator, reserved/in-transit treatment, and numeric Handling/Payload/Bulk Fuel capacity data | Partially resolved; configuration/data open |
@@ -315,7 +315,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 1. Complete Movement/Transportation schemas, detailed mode calibration and conformance tests; align the World dependency map and canonical register.
 2. Complete the Character general-attribute catalogue and schemas, and validate the Military Officer extension against the Character System.
 3. Complete Communications and Intelligence schemas/catalogues and integrate them with Sensors, EW, Command and AI.
-4. Confirm Government procurement/budget authority and author or recover Weather/Environment and Research specifications.
+4. Confirm Government procurement/budget authority and author or recover the Research specification; complete Weather/Environment variable catalogue and calibration.
 5. Resolve the original Supply/Base Unit capacity and emergency-threshold rules from their source.
 6. Freeze common event, transaction and lifecycle schemas.
 7. Execute the company-to-unit and command-to-intelligence vertical slices and the additional Military integration tests.
