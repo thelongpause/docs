@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-reference-data.md  
 **Document ID:** MIL-LOG-DATA-001  
 **Document Type:** Military logistics reference-data specification  
-**Status:** Required data model and sourcing rules established; numeric capacity values and physical conversion records remain unpopulated pending sourced evidence  
+**Status:** Required data model established; source discovery is recorded in MIL-LOG-SRC-001; numeric capacity values and physical conversion records remain unpopulated pending extraction, applicability review and approval  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
@@ -235,6 +235,7 @@ These are data acquisition and approval tasks, not permission to substitute arbi
 ## 10. Related specifications
 
 - [Logistics and Sustainment](logistics-and-sustainment.md)
+- [Logistics Supply Source Register](logistics-supply-source-register.md)
 - [Military Cross-System Interface Contracts](../../technical/data-schemas/military-interface-contracts.md)
 - [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md)
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md)
