@@ -203,7 +203,7 @@ The former **Standard Stock per Unit Size per Day** factors (Brigade 4, Battalio
 
 Physical requirements are derived directly from the receiving Unit's actual personnel, equipment, authorised holdings, task, activity and approved requirement profiles. Demand profiles identify the physical products or eligible product classes and the required quantity or mass over the applicable interval. Product-level requirements must respect weapon/ammunition compatibility, fuel compatibility, and applicable Basics suitability.
 
-When a Player or AI requests a bulk category quantity, the receiving Unit's eligible shortages and the source's actual compatible inventory determine how the bulk cargo is allocated to physical products. The allocation must not create goods, transform one product into another, or allocate products the source does not possess. See [Logistics Supply Reference Data](logistics-supply-reference-data.md) for the bulk-to-physical allocation rules, item mass data and validation requirements.
+When a Player or AI requests a bulk category quantity, the receiving Unit's eligible shortages and the source's actual compatible inventory determine how the bulk order is allocated to physical products. The simulation resolves the physical cargo manifest during shipment preparation/loading, no later than dispatch, so carrier mass and compatibility are known during transit. Receipt then adds the manifested physical products to the destination Inventory. The allocation must not create goods, transform one product into another, or allocate products the source does not possess. See [Logistics Supply Reference Data](logistics-supply-reference-data.md) for the bulk-to-physical allocation rules, item mass data and validation requirements.
 
 Physical product quantities and their canonical units remain authoritative in Inventory. Where a product has an approved unit mass, the system can calculate its contribution to cargo mass. Bulk category mass is reconciled against the physical products allocated to it. Food and potable water remain distinguishable physical products even when the Player manages both under Basics.
 
@@ -736,7 +736,7 @@ The following tests are mandatory for the initial implementation and integration
 The following details should be settled in data contracts and integration work rather than improvised separately by each subsystem:
 
 - Exact schema and units for demand, request, allocation, shipment, cargo manifest, and delivery events.
-- Define and populate approved physical requirement profiles, product unit masses, and category-to-product allocation rules. These support bulk-to-physical allocation at delivery; the retired Standard Stock factors are not an operational conversion layer.
+- Define and populate approved physical requirement profiles, product unit masses, and category-to-product allocation rules. These support bulk-to-physical allocation during shipment preparation/loading, no later than dispatch; the retired Standard Stock factors are not an operational conversion layer.
 - Populate source-backed Supply Base Unit Handling throughput and operation-specific loading/unloading rates, Payload capacity with its physical basis, Bulk Fuel capacity with canonical units, and Supply Column carrying-capacity constraints. Do not invent values; see [Logistics Supply Reference Data](logistics-supply-reference-data.md).
 - Establish canonical product eligibility/compatibility, product unit-mass records, category membership, and explicit substitution/allocation priorities. Missing mappings or source stock must produce an unresolved/partial result, never invented cargo.
 - Which branch-specific consumption profiles and transport modes are initially supported.
@@ -765,7 +765,7 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 - [Industry Data](../economy/industry-data.md) — canonical Industry Types and company/industry configuration.
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — canonical goods, services, specifications, and units.
 - [Military Cross-System Interface Contracts](../../technical/data-schemas/military-interface-contracts.md) — demand, procurement, shipment, inventory and movement interface contracts.
-- [Logistics Supply Reference Data](logistics-supply-reference-data.md) — approved conversion basis, emergency-threshold semantics, capacity schemas and evidence requirements.
+- [Logistics Supply Reference Data](logistics-supply-reference-data.md) — bulk-to-physical allocation, product-mass reconciliation, emergency-threshold semantics, capacity schemas and evidence requirements.
 - [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — movement task and transport/cargo integration contracts.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — integration gap register and company-to-unit/command-to-intelligence acceptance scenarios.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — shared interfaces, decision architecture, AI parity, and integration testing.
