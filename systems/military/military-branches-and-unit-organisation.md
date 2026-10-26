@@ -724,6 +724,7 @@ This specification is ready to inform the next architecture and schema stages wh
 - [Population System](../population/population-centres-system.md)
 - [World Simulation Dependency Map](../../technical/architecture/world-simulation-dependencies.md)
 - [Equipment and Material System](equipment-and-material-system.md)
+- [Logistics and Sustainment System](logistics-and-sustainment.md)
 - [Equipment Design, Research & Production](equipment-design-research-and-production.md)
 - [Doctrine, Command & Operations](doctrine-command-and-operations.md)
 - [Sensors and Detection System](sensors-and-detection.md)
