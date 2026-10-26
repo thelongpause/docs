@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-source-register.md  
 **Document ID:** MIL-LOG-SRC-001  
 **Document Type:** Supporting research-source register  
-**Status:** Initial source discovery complete; extraction and value approval remain in progress  
+**Status:** Scope-control rules established; source extraction continues; no physical conversion or capacity values are approved  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
@@ -155,6 +155,36 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Potential use:** Museum record for identifying a British military transport vehicle family and distinguishing body/variant-specific roles. The record notes variant-specific fuel tank arrangements for the QLT troop-carrier variant.
 - **Limitations:** The record is not a complete technical manual and does not establish payload limits for every QL variant, fuel consumption, or a generic Supply Column capacity. The vehicle's nominal class label must not substitute for verified variant specifications.
 - **Status:** Discovered; variant identification and primary technical manual required.
+
+
+### SRC-014 — US Army Quartermaster depot company, 1954
+
+- **Title:** *FM 10-52, Headquarters and Headquarters Company Quartermaster Depot*
+- **Issuing authority:** US Department of the Army
+- **Date:** 26 February 1954 (catalogued edition)
+- **Public index:** https://generalstab.org/library/field-manuals/us-army-field-manuals-1939-1999/?hsb_dir=10_quartermaster
+- **Potential use:** Establish depot organisation, personnel/equipment composition, operating functions and any explicitly stated handling or storage assumptions.
+- **Limitations:** The archive download currently redirects unsuccessfully through the web retrieval path. The index confirms a catalogue entry, not the manual's contents. No throughput or storage value may be inferred from the title or unit organisation.
+- **Status:** Discovered; primary document extraction required.
+
+### SRC-015 — US Army Quartermaster reference data, 1950
+
+- **Title:** *FM 10-13, Quartermaster Reference Data*
+- **Issuing authority:** US Department of the Army
+- **Date:** 1950
+- **Public index:** https://generalstab.org/library/field-manuals/us-army-field-manuals-1939-1999/?hsb_dir=10_quartermaster
+- **Potential use:** Reference tables for material characteristics, units, packaging, transport or supply planning, if those topics are present in the manual.
+- **Limitations:** US-specific; the archive download currently redirects unsuccessfully through the web retrieval path. Only exact extracted tables with page references can support data records.
+- **Status:** Discovered; primary document extraction required.
+
+### SRC-016 — US Army 2½-ton cargo truck technical manual
+
+- **Title:** *TM 9-801, Truck, 2½-Ton, 6 x 6 (GMC CCKW-352 and 353) and Truck, 2½-Ton, 6 x 4 (GMC CCW-353)*, including Change 1 dated 12 September 1950
+- **Issuing authority:** US Department of the Army / War Department technical-manual series
+- **Public record:** https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-801.pdf
+- **Potential use:** Variant-specific technical data for an established US truck family, potentially including cargo dimensions, operating limits, tank capacity and maintenance requirements.
+- **Limitations:** The manual covers named variants, not every nominally similar truck. A 2½-ton designation is not sufficient by itself to define operationally usable cargo capacity; variant, road/terrain conditions, body fit and load restrictions must be preserved. The PDF is too large for the current web text extractor, so no numerical table has been transcribed here.
+- **Status:** Discovered; manual extraction and variant-specific table review required.
 
 ## 4. Extracted evidence records
 
