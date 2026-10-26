@@ -80,7 +80,7 @@ Missing full-system specifications must not be replaced by vague references or s
 - Military defines how general Character attributes and military-owned traits affect judgement, planning, delegation, command latency, leadership and execution.
 - A general character statistic must not be copied into a second authoritative Military field. Derived military evaluations may cache inputs but must retain provenance and be rebuildable.
 - Officer appointments are explicit, time-bounded relationships. Appointment loss does not delete the person.
-- The Character specification is missing from the current repository, so the conceptual boundary is agreed but the schema and lifecycle event contract remain open.
+- The Character System now has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001); its schema, general attribute catalogue and lifecycle event contract remain open.
 
 ### 5.2 Combat Base Units and Supply Bases
 
