@@ -45,7 +45,7 @@ It does not replace domain specifications. A system specification owns its rules
 | Communications and message delivery | `systems/communications/communications-system.md` | COMM-001 | Canonical initial behavioural specification. Owns message transport, routing, latency, delivery, acknowledgement and communication access state; source domains retain payload meaning. Schemas, channel catalogue and conformance tests remain open. |
 | Intelligence | `systems/intelligence/intelligence-system.md` | INTEL-001 | Canonical initial behavioural specification. Owns intelligence requirements, source evaluation, assessments, confidence, dissemination decisions and actor-specific knowledge state; Sensors owns observations/tracks and Communications owns delivery. Schemas, calibration and conformance tests remain open. |
 | Weather and Environment | `systems/world/weather-and-environment-system.md` | ENV-001 | Canonical initial behavioural specification. Owns actual weather/climate state, environmental events and forecasts; consuming domains own their effects. Variable catalogue, climate data, numerical models and conformance tests remain open. |
-| Government and Political Authority | No dedicated canonical Government specification found in the repository tree | TBD | **Missing dependency for procurement and mobilisation.** Define budget authority, procurement permissions, mobilisation and reserve-release rules, while Economy retains financial transaction state. |
+| Government procurement and mobilisation interface | `technical/architecture/government-procurement-and-mobilisation-interface.md` | GOV-IF-001 | Supporting interface contract defines Government authority decisions required by Military Logistics. Full Government System specification remains missing; Economy owns financial/commercial transactions and Inventory owns physical stock. |
 | Research and Technology Progression | No canonical Research specification found in the repository tree | TBD | **Missing dependency for equipment progression.** Define research knowledge/progress and unlock authority; design, Production and fielding remain separate states. |
 | Military training and course catalogue | Training concepts are included in the organisation specification; no separate canonical course catalogue found | TBD | Decide whether the initial course framework remains in the organisation system or requires a supporting catalogue. Do not create a duplicate training-state owner. |
 
@@ -125,7 +125,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 
 ### High
 
-- **Government procurement and mobilisation authority is not specified in the current repository tree.** Economy owns commercial/financial transaction state; the authority to approve defence expenditure, procurement and reserve release must be separately defined.
+- **Government procurement authority now has a supporting interface contract** at `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001). The full Government System specification remains missing; Treasury/policy schemas and integration tests remain open.
 - **Weather/Environment now has a canonical initial specification at `systems/world/weather-and-environment-system.md` (ENV-001).** Its variable catalogue, calibration and conformance tests remain open. Research/Technology Progression remains missing.
 - **No single Military interface schema is frozen.** Stable IDs, event envelopes, lifecycle statuses, quantity/unit rules, provenance, idempotency and replay behaviour require shared contracts.
 - **Supply Base nomenclature is reconciled; capacity and baseline conversion data remain open.** A Supply Base Unit is a Combat Base Unit configured with a Supply Depot. Prior user design specifies Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) and emergency thresholds below 50% of baseline for Ammunition/Fuel and below 30% for Basics. Category-specific physical conversion, threshold denominator, reserved/in-transit treatment and numeric Handling/Payload/Bulk Fuel capacities still require explicit data contracts.
@@ -179,7 +179,9 @@ Military should not be declared complete until:
 - [ ] General attribute catalogue, lifecycle schemas and shared person/Officer conformance tests are complete.
 - [x] Communications and Intelligence ownership boundaries are specified.
 - [ ] Communications and Intelligence schemas, calibration and integrated conformance tests are complete.
-- [ ] Government procurement/mobilisation authority and Research dependencies are confirmed or specified.
+- [x] Minimum Government procurement/mobilisation authority interface contract is documented.
+- [ ] Full Government System specification, Treasury/policy schemas and conformance tests are complete.
+- [ ] Research/Technology Progression specification or interface is confirmed.
 - [x] Weather/Environment behavioural ownership boundary is canonical.
 - [ ] Weather/Environment variable catalogue, calibration and conformance tests are complete.
 - [ ] Shared military interface contracts and lifecycle/event rules are documented in implementation-ready schemas.
@@ -197,4 +199,4 @@ Military should not be declared complete until:
 
 Initial canonical behavioural specifications now exist for Movement and Transportation (MOV-TRANS-001), Character (CHAR-001), Communications (COMM-001) and Intelligence (INTEL-001). Their schemas, calibration, domain integration and conformance tests remain open.
 
-Next, confirm or author the Government procurement/budget authority contract and Research specification. Then freeze the shared event/transaction contracts, complete Weather/Environment calibration, recover the numeric supply capacity data and category conversion rules, and execute the company-to-unit and command-to-intelligence vertical slices. Do not move to the next top-level game system until the Military completion checklist is satisfied.
+Next, author or recover the Research/Technology Progression specification or interface. The Government procurement authority contract is documented, but the full Government System remains outside scope until Military is complete. Then freeze the shared event/transaction contracts, complete Weather/Environment calibration, recover the numeric supply capacity data and category conversion rules, and execute the company-to-unit and command-to-intelligence vertical slices. Do not move to the next top-level game system until the Military completion checklist is satisfied.
