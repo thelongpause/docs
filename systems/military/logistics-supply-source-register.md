@@ -199,20 +199,25 @@ The following findings have been transcribed from accessible source text. They r
 
 ## 5. What this first pass establishes
 
-- There are identifiable period-adjacent sources for ammunition-supply doctrine, ration practice, Quartermaster reference data and supply-unit organisation.
+- Period-adjacent sources exist for ration types and operating contexts, Quartermaster organisation, and military supply practice, but the current source set does not yet establish approved physical conversion or capacity values.
+- The ration evidence supports distinguishing broad ration types and condition-dependent profiles. It does not justify modelling calories, nutrient composition, individual meals, or a universal food-mass conversion.
+- The reported calorific figures in EXT-001 are retained solely as source-transcription context. They are not required simulation data, are not conversion factors, and must not become fields in the canonical Logistics model.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
-- The current findings are source-discovery results, not completed data extraction. No physical conversion or capacity values have been approved by this register.
+- No physical conversion or capacity values have been approved by this register. The research queue must not delay implementation of the already-defined abstract planning model; unresolved physical values remain explicitly unsupported until sourced and reviewed.
 
 ## 6. Data extraction queue
 
-Extract and review in this order:
+Continue only where the result supports a meaningful operational rule or physical constraint. Do not expand the model merely because a source contains additional detail.
 
 1. **Formation/personnel baseline:** Identify official establishment tables for one explicitly scoped 1955 formation, with authorised personnel, equipment and transport establishment.
-2. **Basics:** Identify official ration scales and potable-water requirements with units, environmental/operational conditions, packaging and substitutions.
-3. **Fuel:** Identify exact vehicle/equipment variants, fuel types, tank capacities and consumption basis. Separate tank capacity from daily consumption and from depot bulk storage.
+2. **Basics:** Seek a usable authorised ration/profile and potable-water requirement for a scoped formation and condition. Capture ration type, applicable personnel/time basis, physical units and relevant conditions only. Do not transcribe calorie or nutrient detail into simulation data.
+3. **Fuel:** Identify exact vehicle/equipment variants, fuel types, tank capacities and consumption basis. Separate tank capacity from operating consumption and depot bulk storage.
 4. **Ammunition:** Identify weapon-specific authorised load and consumption/allowance tables, with ammunition nature, unit of issue, packaging and operational conditions. Do not infer daily combat expenditure from basic load.
-5. **Supply Column:** Identify actual vehicle types and their payload/volume constraints, then derive column capacity from the verified composition rather than assigning a generic unit-size factor.
+5. **Supply Column:** Identify actual vehicle types and their payload/volume constraints, then derive column capacity from verified composition rather than assigning a generic unit-size factor.
+6. **Supply Base:** Seek source-backed handling throughput, payload/storage limits and bulk-fuel capacity, keeping each capacity dimension separate and recording the source's exact operating assumptions.
+
+If source access, applicability or units cannot be verified, retain the item as a research lead and leave the canonical numeric value unpopulated.
 6. **Supply Base handling:** Locate establishment/equipment tables and measured or doctrinal throughput for a specific depot configuration. A personnel count or nominal facility label alone is insufficient.
 7. **Supply Base storage:** Locate explicit storage capacities and distinguish usable storage, physical capacity, bulk fuel tankage and handling throughput.
 8. **Validation:** Cross-check source dates, units, historical applicability, duplicate values and contradictions; submit candidate records for approval before marking them canonical.
