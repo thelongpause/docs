@@ -84,6 +84,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 | Shared relational data conventions | `technical/data-schemas/data-model-foundations.md` | Domain schemas must follow common identity, time, history, validation and transaction conventions. |
 | Military cross-system interface contracts | `technical/data-schemas/military-interface-contracts.md` | SCHEMA-MIL-001 defines the initial shared event envelope and logical contracts for supply demand, procurement, shipment, movement, Inventory, communications, intelligence and Character extensions; implementation schemas remain open. |
 | World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Dependency map is aligned to MOV-TRANS-001 and MIL-LOG-001; detailed movement schemas and conformance tests remain open. |
+| World and command interface contracts | `technical/data-schemas/world-and-command-interface-contracts.md` | SCHEMA-WORLD-CMD-001 defines implementation-facing logical record shapes and events for Movement/Transportation, Character, Communications, Intelligence, and Weather/Environment. Numeric model calibration and executable conformance tests remain open. |
 
 ## 6. Military interface ownership matrix
 
@@ -133,7 +134,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 
 - **Government procurement authority now has a supporting interface contract** at `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001). The full Government System specification remains missing; Treasury/policy schemas and integration tests remain open.
 - **Weather/Environment now has a canonical initial specification at `systems/world/weather-and-environment-system.md` (ENV-001).** Its variable catalogue, calibration and conformance tests remain open. A supporting Research/Technology Progression interface exists at `technical/architecture/research-technology-progression-interface.md` (RES-IF-001); the full Research System remains missing.
-- **A draft Military interface schema now exists** at `technical/data-schemas/military-interface-contracts.md` (SCHEMA-MIL-001). Stable ID primitives, physical table schemas, lifecycle constraints and cross-system conformance tests still require implementation review.
+- **Military interface contracts are now split across two implementation-facing logical schema documents:** `technical/data-schemas/military-interface-contracts.md` (SCHEMA-MIL-001) and `technical/data-schemas/world-and-command-interface-contracts.md` (SCHEMA-WORLD-CMD-001). They specify logical fields, event semantics, ownership boundaries and minimum conformance cases. The repository-wide ID/time primitives, database-specific DDL, numerical calibration, migrations and executable runtime tests still require a deliberate implementation decision; the documents do not imply runtime implementation exists.
 - **Supply Base nomenclature is reconciled; capacity and baseline conversion data remain open.** A Supply Base Unit is a Combat Base Unit configured with a Supply Depot. Prior user design specifies Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) and emergency thresholds below 50% of baseline for Ammunition/Fuel and below 30% for Basics. Category-specific physical conversion, threshold denominator, reserved/in-transit treatment and numeric Handling/Payload/Bulk Fuel capacities still require explicit data contracts.
 - **Movement/Transportation implementation contracts remain open.** Movement owns physical unit/platform/carrier traversal; Logistics owns supply planning, shipment coordination and delivery reconciliation. The canonical movement specification exists, but detailed transport asset/network capacity schemas and conformance tests remain incomplete.
 
@@ -180,11 +181,12 @@ Military should not be declared complete until:
 - [x] Canonical and legacy Military files are reconciled and clearly marked.
 - [x] Logistics & Sustainment specification is authored, registered and linked.
 - [x] Movement/Transportation behavioural specification and target route/traversal ownership contract are canonical.
-- [ ] Movement/Transportation schemas, detailed mode calibration and conformance tests are complete.
+- [x] Initial implementation-facing logical schemas for Movement/Transportation, Character, Communications, Intelligence and Weather/Environment are documented in SCHEMA-WORLD-CMD-001.
+- [ ] Database-specific schema types/constraints, numerical model calibration and executable conformance tests are complete.
 - [x] Character System path and shared person/Officer ownership boundary are canonical.
-- [ ] General attribute catalogue, lifecycle schemas and shared person/Officer conformance tests are complete.
+- [ ] General Character attribute catalogue/scales are approved and Character/Officer extension conformance tests pass.
 - [x] Communications and Intelligence ownership boundaries are specified.
-- [ ] Communications and Intelligence schemas, calibration and integrated conformance tests are complete.
+- [ ] Communications channel/catalogue calibration and Intelligence source/confidence calibration are approved; integrated delivery and knowledge-boundary tests pass.
 - [x] Minimum Government procurement/mobilisation authority interface contract is documented.
 - [ ] Full Government System specification, Treasury/policy schemas and conformance tests are complete.
 - [x] Minimum Research/Technology Progression interface contract is documented.
@@ -192,7 +194,8 @@ Military should not be declared complete until:
 - [x] Weather/Environment behavioural ownership boundary is canonical.
 - [ ] Weather/Environment variable catalogue, calibration and conformance tests are complete.
 - [x] Shared military interface contracts and lifecycle/event rules are documented in a draft logical schema.
-- [ ] Implementation-ready schemas, constraints and cross-system conformance tests are complete.
+- [x] Logical implementation contracts for Military and the five shared dependencies are documented.
+- [ ] Physical database schemas, constraints, migrations and executable cross-system conformance tests are complete.
 - [ ] Equipment, Inventory, Production, Economy, Government and Military ownership is reconciled for ammunition, spares, procurement and fielding.
 - [ ] The company-to-unit sustainment vertical slice passes, including failure branches.
 - [ ] Doctrine, command, sensors, EW and combat pass integrated acceptance tests.
