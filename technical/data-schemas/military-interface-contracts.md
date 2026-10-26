@@ -355,7 +355,7 @@ The following invariants are mandatory:
 ## 14. Minimum Schema Conformance Tests
 
 1. Every product line references a valid Catalogue ID and explicit/inherited unit.
-2. Standard Stock per Unit Size per Day factors are represented as generic planning units and are not mislabelled as physical quantities.
+2. Legacy Standard Stock factors do not affect authoritative demand, physical inventory, bulk orders, replenishment or emergency baselines.
 3. Bulk category allocation is resolved to compatible physical Catalogue products using approved requirement profiles, source stock, unit-mass data and explicit priorities; the category abstraction is not counted as additional physical stock.
 4. Emergency thresholds use the configured unit/category baseline and an explicit definition of available stock.
 5. Government approval, Economy order, Production execution, Inventory receipt, Movement, Logistics delivery and final consumption have separate IDs/statuses.
@@ -411,7 +411,7 @@ This contract is ready for implementation when:
 
 1. The shared event envelope and ID conventions are accepted by all relevant domain owners.
 2. Supply demand, procurement, shipment/cargo, movement task, Inventory transaction, message, intelligence assessment and Character extension schemas are versioned and validated.
-3. The conversion basis and emergency-threshold semantics are explicit, and all physical conversions used by simulation are backed by approved versioned records.
+3. Bulk-to-physical allocation, product-mass reconciliation and emergency-threshold semantics are explicit; physical manifests are resolved no later than dispatch and all used requirement profiles, product unit masses and allocation priorities are versioned and approved.
 4. Inventory, Economy, Production, Government, Movement/Transportation and Logistics transaction boundaries are tested.
 5. Save/load and retries preserve stock conservation, movement state, message delivery and actor knowledge.
 6. The company-to-unit sustainment and command-to-intelligence vertical slices pass with Player/AI parity.
