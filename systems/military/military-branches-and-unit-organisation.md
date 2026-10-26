@@ -127,7 +127,20 @@ A Combat Base Unit is a mobile or deployable military support formation organise
 
 Combat Base Units remain military units: they have identity, command, personnel, equipment, movement and deployment state, and may have defensive or other weapons where their configuration permits. They are not merely inventory containers or abstract service counters.
 
-A unit may carry or operate multiple support capabilities if the configuration permits. The precise depot taxonomy and whether capabilities are combined in one unit or split among several units remain reference-data and logistics-design decisions.
+A unit may carry or operate multiple support capabilities if the configuration permits. The precise depot taxonomy and whether capabilities are combined in one unit or split among several units remain reference-data and logistics-design decisions, subject to the following established definition:
+
+#### 4.7.1 Supply Base Unit
+
+A **Supply Base Unit** is a Combat Base Unit configured with a **Supply Depot**. It remains a Combat Base Unit for organisational identity, command, personnel, equipment, movement and lifecycle. The Supply Depot is the unit's configured supply capability, not a separate unit identity.
+
+The Supply Depot supports the military-facing stock categories **Ammunition**, **Basics (Food & Hydration)** and **Fuel**. These categories are planning/issue abstractions; actual physical goods and quantities must be mapped to canonical Good and Service Catalogue products and Inventory holdings.
+
+A Supply Base Unit's logistics capacity must distinguish:
+- **Handling:** tonnes loaded or unloaded per hour.
+- **Payload:** capacity for Ammunition and Basics.
+- **Bulk Fuel:** separate capacity for Fuel.
+
+The lower applicable Handling rate governs the total handling completion time where both loading and unloading are required. Exact numeric capacities are Logistics/reference data, not inherent values granted by the unit label. The Logistics and Sustainment specification defines demand, allocation, shipment, delivery and consumption interfaces.
 
 ## 5. Unit Classification Framework
 
