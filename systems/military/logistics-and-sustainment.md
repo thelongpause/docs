@@ -724,6 +724,8 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 - [Electronic Warfare](electronic-warfare.md) — relevant electronic effects on communications and operations.
 - [Movement and Transportation System](../world/movement-and-transportation-system.md) — physical carrier/unit traversal, route feasibility, movement progress and arrival/interruption events.
 - [Weather and Environment System](../world/weather-and-environment-system.md) — actual environmental conditions and forecast interfaces.
+- [Economy System](../economy/economy-system.md) — commercial orders, prices, financial obligations and settlement.
+- [Government Procurement and Mobilisation Interface](../../technical/architecture/government-procurement-and-mobilisation-interface.md) — public authority, budget approval, mobilisation and reserve-release decisions.
 - [Inventory System](../inventory/inventory-system.md) — authoritative physical stock and stock transactions.
 - [Industry Data](../economy/industry-data.md) — canonical Industry Types and company/industry configuration.
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — canonical goods, services, specifications, and units.
