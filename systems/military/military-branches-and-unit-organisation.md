@@ -712,8 +712,6 @@ This specification is ready to inform the next architecture and schema stages wh
 - [National Territory and Control System](../world/national-territory-and-control-system.md)
 - [Population System](../population/population-centres-system.md)
 - [World Simulation Dependency Map](../../technical/architecture/world-simulation-dependencies.md)
-## Related Specifications
-
 - [Equipment and Material System](equipment-and-material-system.md)
 - [Equipment Design, Research & Production](equipment-design-research-and-production.md)
 - [Doctrine, Command & Operations](doctrine-command-and-operations.md)
