@@ -59,7 +59,7 @@ The following canonical specifications were not present in the repository tree a
 
 | Missing or incomplete domain | Required purpose | Recommended action |
 |---|---|---|
-| Movement and Transportation | Continuous positions, route traversal, carrier movement, movement modes, travel time, route feasibility, access, capacity interfaces, interruptions and loss | Author a canonical Movement and Transportation specification or clearly separated paired specifications before implementing logistics movement |
+| Movement and Transportation | Continuous positions, route traversal, carrier movement, movement modes, travel time, route feasibility, access, capacity interfaces, interruptions and loss | `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001) now defines the canonical initial behavioural contract; detailed schemas, calibration and conformance tests remain open |
 | Character System | Persistent person identity, general statistics, personality/relationships and global character lifecycle | Author or recover the shared Character specification; Military must extend the Character ID, not create duplicate people or general stats |
 | Communications | Message transport, latency, delivery, disruption, priority, acknowledgement, relay and information access | Author the shared communications contract used by Command, Sensors, EW, Intelligence and AI |
 | Intelligence | Intelligence records, source reliability, assessment, confidence, dissemination and knowledge-state boundaries | Author the Intelligence specification and its interface with Sensors and Communications |
@@ -305,7 +305,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit with Supply capability; distinguish it from fixed Supply Base | Resolved in Logistics specification |
 | IF-MIL-09 | Emergency thresholds and capacity table not found in repository | High | Recover source rules; confirm denominator, units and configuration ownership | Open |
 | IF-MIL-10 | Shared event envelope and cross-system schema not frozen | Critical | Extend data-model foundations and define stable IDs, time, provenance, idempotency and outcomes | Open |
-| IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; detailed movement interfaces remain open until the missing Movement/Transportation specification is authored | Resolved at architecture-text level; system contract open |
+| IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; complete detailed movement interfaces through schemas and conformance tests | Resolved at architecture-text level; detailed contract tests open |
 | IF-MIL-12 | End-to-end vertical slice not yet executed | Critical | Implement/run baseline and failure scenarios with deterministic state reconciliation | Open |
 | IF-MIL-13 | Medical/personnel effects of Basics and medical supplies lack confirmed owner interface | High | Confirm Character/Personnel/Medical authority; Logistics only publishes shortage/availability facts | Open |
 | IF-MIL-14 | Course catalogue scope unresolved | Medium | Keep within Military Organisation initially or define a supporting catalogue without duplicate course state | Open |
