@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-source-register.md  
 **Document ID:** MIL-LOG-SRC-001  
 **Document Type:** Supporting research-source register  
-**Status:** Initial source research pass completed; scoped evidence extracted; approval and remaining data acquisition are still open. No generic physical conversion, depot throughput/capacity or Supply Column capacity values are approved  
+**Status:** Initial source research pass completed; scoped evidence extracted; approval and remaining data acquisition are still open. Bulk-to-physical allocation is the canonical design; physical requirement profiles, product unit masses, Handling Rate coefficients and depot/carrier capacity values remain unapproved  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
@@ -269,7 +269,7 @@ The following findings have been transcribed from accessible source text. They r
 - The reported calorific figures in EXT-001 are retained solely as source-transcription context. They are not required simulation data, are not conversion factors, and must not become fields in the canonical Logistics model.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
-- No numeric physical requirement profiles, product unit masses, Handling Rate coefficients or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities, and EXT-005 records two cargo-truck payload ratings, as scoped historical evidence only. They are not generic logistics constants and remain pending scan-level verification and applicability review. The accepted design uses bulk category orders allocated to physical products at delivery; the retired Standard Stock factors are not an operational conversion layer. Unresolved physical values remain explicitly unsupported until sourced and reviewed.
+- No numeric physical requirement profiles, product unit masses, Handling Rate coefficients or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities, and EXT-005 records two cargo-truck payload ratings, as scoped historical evidence only. They are not generic logistics constants and remain pending scan-level verification and applicability review. The accepted design uses bulk category orders resolved into physical manifests during shipment preparation/loading, no later than dispatch; receipt adds the manifested products to destination Inventory. The retired Standard Stock factors are not an operational conversion layer. Unresolved physical values remain explicitly unsupported until sourced and reviewed.
 
 ## 6. Data extraction queue
 
