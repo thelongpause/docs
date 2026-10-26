@@ -50,12 +50,12 @@ The repository contains two shorter files that duplicate the domains covered by 
 
 | Retained legacy path | Canonical path | Resolution |
 |---|---|---|
-| `systems/military/branches-and-unit-organisation.md` | `systems/military/military-branches-and-unit-organisation.md` | Legacy / superseded as an implementation authority. Preserve it for history and comparison. Any unique requirements should be merged into the canonical document before archival or deletion is considered. |
-| `systems/military/equipment-and-materiel-system.md` | `systems/military/equipment-and-material-system.md` | Legacy / superseded as an implementation authority. Preserve it for history and comparison. Any unique requirements should be merged into the canonical document before archival or deletion is considered. |
+| `systems/military/branches-and-unit-organisation.md` | `systems/military/military-branches-and-unit-organisation.md` | Legacy / superseded as an implementation authority. Semantic delta review is complete for the known distinctive requirements: cross-branch/joint applicability and shared organisational concepts were consolidated into the canonical document. The file remains retained for history and comparison. |
+| `systems/military/equipment-and-materiel-system.md` | `systems/military/equipment-and-material-system.md` | Legacy / superseded as an implementation authority. Semantic delta review is complete for the known distinctive requirements: equipment lots/batches, operational availability, custody, capture/transfer and disposal were reconciled into the canonical document. The file remains retained for history and comparison. |
 
 The canonical choice favours the more comprehensive documents because they include broader domain coverage, explicit scope boundaries, dependencies, acceptance criteria and related-specification links. This is a documentation authority decision, not a claim that the shorter files contain no unique value.
 
-**Do not delete the legacy files yet.** First complete a semantic delta review and merge any unique, valid requirements into the canonical files. After that, either move them to a clearly marked archive or retain a short deprecation notice at their existing paths. No implementation agent should treat them as current authority.
+**Legacy status is now explicit and the known semantic deltas have been reconciled.** Keep these files read-only as deprecated references until a separate repository-housekeeping decision archives or removes them. No implementation agent should treat them as current authority.
 
 ## 5. Non-military authorities used by Military
 
