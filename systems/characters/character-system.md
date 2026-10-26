@@ -458,6 +458,7 @@ Until resolved, implementations must not invent incompatible general attributes 
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — bounded Officer Character and AI decision model.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — cross-system contracts and remaining dependencies.
 - [Data Model Foundations](../../technical/data-schemas/data-model-foundations.md) — shared identity, history, time and validation conventions.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — Character, relationship, attribute-history and Officer-extension logical contracts.
 
 ---
 
@@ -474,4 +475,4 @@ The Character System is ready for implementation when:
 7. Save/load, duplicate-event and lifecycle-conflict acceptance tests pass.
 8. The Military Officer Character integration tests pass without a parallel military general-stat system.
 
-This specification establishes the shared Character ownership boundary. It does not claim that Character runtime simulation or all domain extensions have been implemented.
+The Character and Military Officer logical record contracts are defined in SCHEMA-WORLD-CMD-001. The general attribute catalogue/scales, physical schema constraints and executable lifecycle/extension tests remain open. This specification establishes the shared Character ownership boundary; it does not claim that Character runtime simulation or all domain extensions have been implemented.
