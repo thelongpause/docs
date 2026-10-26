@@ -7,6 +7,8 @@
 **Historical baseline:** 1 January 1955  
 **Technology horizon:** At least 2026
 
+> **Legacy / superseded specification:** This concise draft is retained for historical comparison and is not the implementation authority. Use [`military-branches-and-unit-organisation.md`](military-branches-and-unit-organisation.md) as the canonical specification. Any unique requirements in this file must be reconciled into the canonical document before this file is archived or removed. See [`canonical-specification-register.md`](../../technical/architecture/canonical-specification-register.md).
+
 ## 1. Purpose and scope
 
 This specification defines the shared organisational model for national armed forces: branches, commands, formations, units, installations, command appointments, organic structures, temporary attachments, unit condition, training frameworks, and force construction.
