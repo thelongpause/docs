@@ -405,11 +405,20 @@ Each consumption event must identify the product, quantity, source holding, cons
 
 ### 9.2 Basics: Food and Hydration
 
-Basics support the routine sustainment of military personnel. Where the Military Organisation model uses a generic Basics stock, Logistics must preserve that unit-facing abstraction while allowing its economic and physical supply to be backed by the relevant canonical goods.
+Basics support the routine sustainment of military personnel. Preserve the existing generic Basics planning/issue abstraction while backing physical supply with canonical Catalogue products and Inventory stock.
 
-The model must not assume all Basics are interchangeable without limit. Potable water, food, packaged rations, fresh food, and other products may have different quantities, storage needs, spoilage, transport costs, and suitability. The system may aggregate them for high-level planning while retaining product-level stock and transaction detail beneath that view.
+The model should distinguish only the properties that can change an operational decision:
 
-Personnel sustainment requirements should depend on the authoritative personnel count and configured profile, duration, operating conditions, and other explicitly modelled factors. Logistics supplies shortage state to the relevant personnel or medical systems; it does not itself duplicate individual health or physiological state.
+- **Quantity/sufficiency:** available Basics compared with the authorised requirement for the recipient and period.
+- **Ration type:** a small, extensible set of broad types where suitability matters, such as standard provision, field/operational ration, or a genuinely specialised ration for particular conditions.
+- **Quality grade:** optionally distinguish degraded, standard and superior provision when the scenario or source data supports a consequential difference. Quality effects should be modest, gradual and routed to the owning personnel/readiness/morale system; superior supply is not a direct combat-stat bonus.
+- **Operating conditions:** use relevant conditions and task intensity to select an approved requirement profile or modifier where evidence supports it.
+
+These are lightweight requirement/suitability properties, not a separate nutrition simulator. Do not model calories, macronutrients, vitamins, individual meals, food preparation, or item-level dietary composition as part of the core Logistics model. Do not add a ration type or modifier unless it changes suitability, demand, handling, or a meaningful downstream outcome.
+
+Food and potable water remain distinct physical products where their units, availability, handling or operational consequences differ. They may be grouped under Basics for high-level planning, but must not be treated as physically interchangeable. A missing or unsupported requirement profile must be reported as unknown/unsupported rather than filled with an invented quantity.
+
+Personnel sustainment requirements derive from the authoritative personnel count, approved profile, relevant duration, task and operating conditions. Logistics reports sufficiency or shortfall; the owning personnel, medical or readiness systems resolve health, fatigue, morale and other human effects.
 
 ### 9.3 Fuel
 
