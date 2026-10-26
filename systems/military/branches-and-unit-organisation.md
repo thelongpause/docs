@@ -2,7 +2,7 @@
 
 **Project:** Project Sovereign  
 **System:** Military Simulation  
-**Document ID:** MIL-ORG-001  
+**Legacy document ID (retired):** MIL-ORG-001 (reassigned to `military-branches-and-unit-organisation.md`)  
 **Status:** System specification, draft 1  
 **Historical baseline:** 1 January 1955  
 **Technology horizon:** At least 2026
