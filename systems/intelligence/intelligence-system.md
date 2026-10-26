@@ -457,6 +457,7 @@ Until these are resolved, the system must keep uncertainty explicit and avoid a 
 - [Combat and Engagement Systems](../military/combat-and-engagement-systems.md) — actual engagements and outcomes.
 - [Movement and Transportation System](../world/movement-and-transportation-system.md) — physical movement and reconnaissance execution.
 - [Character System](../characters/character-system.md) — persistent person identity and general attributes.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — report, evidence, assessment, actor-knowledge and event contracts.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — actor-specific knowledge and AI decision boundaries.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — cross-system interface and acceptance plan.
 
@@ -475,4 +476,4 @@ The Intelligence System is ready for implementation when:
 7. At least one sensor-to-assessment-to-command decision scenario passes with realistic uncertainty.
 8. Player and AI use the same intelligence rules and information boundaries.
 
-The existence of this specification does not prove that intelligence simulation has been implemented.
+The logical report, evidence, assessment and actor-knowledge contracts are defined in SCHEMA-WORLD-CMD-001. Source taxonomy, confidence/reliability calibration, physical schema constraints and executable provenance/access tests remain open. The existence of this specification does not prove that intelligence simulation has been implemented.
