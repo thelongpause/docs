@@ -187,6 +187,18 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Limitations:** The manual covers named variants, not every nominally similar truck. These are nominal body capacities as transcribed, not proof of usable fill, safe operational capacity, or 1955 adoption by any particular nation/formation. Confirm against the scanned page before approving data. Do not derive a generic Supply Column capacity from these figures.
 - **Status:** Partial extraction; variant-specific evidence only, not approved for canonical use.
 
+
+### SRC-017 — US Army Quartermaster subsistence depot company, 1951
+
+- **Title:** *FM 10-30, Quartermaster Subsistence Depot Company*
+- **Issuing authority:** US Department of the Army
+- **Date:** 10 October 1951 (catalogued date)
+- **Public catalogue:** https://generalstab.org/library/field-manuals/us-army-field-manuals-1939-1999/?hsb_dir=10_quartermaster
+- **Bibliographic cross-check:** Library of Congress, Series 10 Quartermaster field-manual guide: https://guides.loc.gov/us-army-field-manuals/series-1-20-series-10
+- **Potential use:** Organisation, equipment, duties and any explicit planning/capacity statements for a subsistence depot company. This is more directly relevant to Basics storage and handling than a general Quartermaster manual.
+- **Limitations:** The catalogue confirms the manual's title/date, not its numeric contents. The available download path was not extractable in this research pass. Do not infer throughput or storage capacity from the unit's name, personnel or equipment list alone.
+- **Status:** Discovered; full manual extraction and applicability review required.
+
 ## 4. Extracted evidence records
 
 The following findings have been transcribed from accessible source text. They remain **research evidence**, not approved universal conversion factors. Their source scope and limitations must travel with any derived record.
@@ -257,7 +269,7 @@ Continue only where the result supports a meaningful operational rule or physica
 3. **Fuel:** Identify exact vehicle/equipment variants, fuel types, tank capacities and consumption basis. Separate tank capacity from operating consumption and depot bulk storage.
 4. **Ammunition:** Identify weapon-specific authorised load and consumption/allowance tables, with ammunition nature, unit of issue, packaging and operational conditions. Do not infer daily combat expenditure from basic load.
 5. **Supply Column:** Identify actual vehicle types and their payload/volume constraints, then derive column capacity from verified composition rather than assigning a generic unit-size factor.
-6. **Supply Base:** Seek source-backed handling throughput, payload/storage limits and bulk-fuel capacity, keeping each capacity dimension separate and recording the source's exact operating assumptions.
+6. **Supply Base:** Prioritise FM 10-30 (1951) for subsistence-depot organisation and FM 10-52 (1954) for depot organisation. Seek explicit source-backed handling throughput, payload/storage limits and bulk-fuel capacity, keeping each capacity dimension separate and recording exact operating assumptions. Catalogue records alone do not establish numeric capacity.
 
 If source access, applicability or units cannot be verified, retain the item as a research lead and leave the canonical numeric value unpopulated.
 6. **Supply Base handling:** Locate establishment/equipment tables and measured or doctrinal throughput for a specific depot configuration. A personnel count or nominal facility label alone is insufficient.
