@@ -2,7 +2,7 @@
 
 **Project:** Project Sovereign  
 **System:** Military Simulation  
-**Document ID:** MIL-EQM-001  
+**Legacy document ID (retired):** MIL-EQM-001 (reassigned to `equipment-and-material-system.md`)  
 **Status:** System specification, draft 1  
 **Historical baseline:** 1 January 1955  
 **Technology horizon:** At least 2026
