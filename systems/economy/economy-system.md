@@ -247,6 +247,10 @@ Economy may use research-derived information to assess eligible commercial oppor
 
 Production determines whether available technology can be realised as physical capability under its facilities, equipment and process rules.
 
+### 3.7.1 Government procurement authority interface
+
+Government owns Treasury authority, public policy and procurement authorisation. The minimum Government-facing contract required by Military Logistics is documented in [Government Procurement and Mobilisation Interface](../../technical/architecture/government-procurement-and-mobilisation-interface.md) (GOV-IF-001). Economy remains authoritative for commercial orders, transaction prices, payment obligations and financial settlement.
+
 ### 3.8 Economy and Military
 
 Military owns military requirements, procurement priorities, operational use and military acceptance of equipment.
