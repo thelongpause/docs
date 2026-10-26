@@ -72,6 +72,10 @@ The schema must not treat a consumer Good Unit or consumption interval as the ph
 
 These are ownership boundaries, not requirements for separate database servers. The first implementation may store multiple domains in one PostgreSQL database while preserving logical ownership through schema namespaces, foreign keys, service interfaces, and transaction contracts.
 
+## 4.1 Military Cross-System Contracts
+
+The initial shared event envelope and logical interface contracts for Military supply, movement, inventory, communications, intelligence and Character extensions are defined in [Military Cross-System Interface Contracts](military-interface-contracts.md) (SCHEMA-MIL-001). This supporting schema extends the common conventions in this document; it does not replace domain ownership or domain-specific schemas.
+
 ## 5. Core Entity Map
 
 The following is the initial logical entity inventory. It is not yet a complete SQL migration. Field-level schemas and constraints are defined in the domain schema documents that follow.
