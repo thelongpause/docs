@@ -15,7 +15,7 @@
 
 This document records the repository-wide interface audit required to complete Military Systems, resolves currently identifiable ownership conflicts, defines the minimum cross-system contracts, and specifies an end-to-end vertical slice for procurement, production or stock sourcing, delivery, unit consumption, and operational consequences.
 
-The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from conversation but has no canonical repository source, it is recorded as provisional and must not be misrepresented as a verified canonical rule.
+The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from the user's earlier design but has no canonical repository source, the established value is recorded separately from unresolved implementation details such as denominator, units, data mapping or calibration.
 
 **Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are the full Government System and full Research System specifications. Supporting Government procurement/mobilisation and Research/Technology Progression interface contracts now exist. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment have canonical initial behavioural specifications; their detailed schemas, calibration and conformance tests remain open. The Government procurement/mobilisation interface is documented; the full Government System specification remains outside this dependency audit. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
 
@@ -100,7 +100,7 @@ The canonical Military Organisation specification defines a **Combat Base Unit**
 - Basics may aggregate food and hydration for military planning while preserving the actual product-level records beneath that category.
 - Fuel must be product-specific and compatible with the consuming equipment. An Industry Type of Oil is not proof that a company supplies the required refined fuel.
 - Ammunition expenditure is triggered by a Combat event, recorded once through Inventory, and reconciled with Logistics demand. Logistics must not deduct ammunition independently from the Combat event.
-- The available design context records intended emergency thresholds of 50% below baseline for ammunition and fuel, and 30% below baseline for Basics. The repository audit did not find a canonical source defining the thresholds, their denominator or scope. They remain provisional until the original rule is recovered and then must be defined once in canonical configuration.
+- The established emergency thresholds are below 50% of baseline for Ammunition and Fuel, and below 30% of baseline for Basics (Food & Hydration). Their exact denominator and treatment of reserved/in-transit stock remain open and must be defined once in canonical configuration.
 - The prior design specifies generic Standard Stock per Unit Size per Day factors: Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1. These are generic planning units; category-specific physical conversion remains open. Numeric Supply Base Unit and Supply Column capacity values were not recovered.
 
 ### 5.4 Logistics Versus Movement and Transportation
@@ -318,7 +318,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 2. Complete the Character general-attribute catalogue and schemas, and validate the Military Officer extension against the Character System.
 3. Complete Communications and Intelligence schemas/catalogues and integrate them with Sensors, EW, Command and AI.
 4. Complete the Government interface's exact policy/Treasury schema as needed for the vertical slice; define the minimum Research unlock data needed by equipment design; complete Weather/Environment variable catalogue and calibration.
-5. Resolve the original Supply/Base Unit capacity and emergency-threshold rules from their source.
+5. Define the category-specific generic-to-physical stock conversion, emergency-threshold denominator and reserved/in-transit treatment; recover the numeric Supply Base Unit Handling/Payload/Bulk Fuel and Supply Column capacity values.
 6. Freeze common event, transaction and lifecycle schemas.
 7. Execute the company-to-unit and command-to-intelligence vertical slices and the additional Military integration tests.
 8. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
