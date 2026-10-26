@@ -55,21 +55,21 @@ The following specifications exist and provide usable foundations:
 
 ## 4. Missing Specifications and Required Decisions
 
-The following canonical specifications were not present in the repository tree at audit time:
+The following full system specifications or implementation-level contracts remain missing/incomplete. The initial behavioural specifications and supporting contracts already authored are listed so the register does not imply they are absent.
 
-| Missing or incomplete domain | Required purpose | Recommended action |
+| Domain | Current canonical reference | Remaining requirement |
 |---|---|---|
-| Movement and Transportation | Continuous positions, route traversal, carrier movement, movement modes, travel time, route feasibility, access, capacity interfaces, interruptions and loss | `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001) now defines the canonical initial behavioural contract; detailed schemas, calibration and conformance tests remain open |
-| Character System | `systems/characters/character-system.md` (CHAR-001) | Canonical initial specification now exists; general attribute catalogue, schemas and conformance tests remain open |
-| Communications | Message transport, latency, delivery, disruption, priority, acknowledgement, relay and information access | Author the shared communications contract used by Command, Sensors, EW, Intelligence and AI |
-| Intelligence | `systems/intelligence/intelligence-system.md` (INTEL-001) | Canonical initial specification exists; source catalogue, assessment calibration, schemas and conformance tests remain open |
-| Weather and Environment | `systems/world/weather-and-environment-system.md` (ENV-001) | Canonical initial specification exists; variable catalogue, historical data, numerical calibration and conformance tests remain open |
-| Government and Political authority | `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001) | Minimum procurement/mobilisation interface is documented; full Government System specification, Treasury schema and policy rules remain open |
-| Research | Technology/knowledge progression, discovery and unlock authority | Equipment design references Research, but no canonical Research specification was found in the current tree; locate or author before technology-dependent equipment implementation |
-| Medical/health | Personnel health, medical treatment and physiological consequences | Define the owner and interface scope before implementing Basics, hydration and medical-supply effects; do not duplicate health state in Logistics |
-| Course catalogue | Reusable course definitions, prerequisites, duration, cost, qualification and historical availability | Current training concepts remain inside Military Organisation; decide whether a supporting catalogue is necessary before duplicating course data |
+| Movement and Transportation | `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001) | Canonical initial behavioural specification exists; detailed schemas, calibration and conformance tests remain open |
+| Character System | `systems/characters/character-system.md` (CHAR-001) | General attribute catalogue, lifecycle schemas and Military extension conformance tests remain open |
+| Communications | `systems/communications/communications-system.md` (COMM-001) | Channel catalogue, endpoint/message schemas and integrated delivery tests remain open |
+| Intelligence | `systems/intelligence/intelligence-system.md` (INTEL-001) | Source catalogue, assessment calibration, knowledge-state schema and integrated tests remain open |
+| Weather and Environment | `systems/world/weather-and-environment-system.md` (ENV-001) | Variable catalogue, historical data, numerical calibration and domain-consumer tests remain open |
+| Government and Political authority | `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001) | Minimum procurement/mobilisation interface exists; full Government System, Treasury schema and policy rules remain open |
+| Research and Technology Progression | `technical/architecture/research-technology-progression-interface.md` (RES-IF-001) | Minimum technology availability interface exists; full Research System, progression rules and technology catalogue remain open |
+| Medical/health | No canonical specification found in repository tree | Define owner and minimum interface for Basics/hydration and medical-supply effects; Logistics must not duplicate health state |
+| Course catalogue | Course concepts remain in Military Organisation | Decide whether the initial course framework remains inside Military Organisation or needs a supporting catalogue; do not create a duplicate training-state owner |
 
-Missing specifications should not be replaced by vague references or silently embedded into whichever system is currently being written. A missing domain may initially be represented by a narrow interface contract, but its authoritative state and future extension path must be explicit.
+Missing full-system specifications must not be replaced by vague references or silently embedded into whichever system is currently being written. A narrow supporting interface may unblock a specific integration path, but the full domain remains separately owned and must be completed at the appropriate point in the project plan.
 
 ## 5. Resolved Ownership Rules
 
