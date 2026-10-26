@@ -740,7 +740,7 @@ The Logistics and Sustainment specification is ready for implementation when:
 1. Its state ownership boundaries are accepted by the related canonical systems.
 2. Product-level procurement is connected to company capabilities, Economy, Production, Inventory, and the canonical Good and Service Catalogue.
 3. Demand, reservation, shipment, receipt, issue, consumption, and loss interfaces have stable contracts.
-4. Combat Base Unit/Supply capability nomenclature is reconciled; Supply Column details, numeric payload capacities, stock/day baselines, and emergency-threshold denominators are confirmed from their canonical source.
+4. Combat Base Unit/Supply Depot nomenclature and generic Standard Stock per Unit Size per Day factors are recorded; category-specific physical conversion, the emergency-threshold denominator and treatment of reserved/in-transit stock, Supply Column details, and numeric Handling/Payload/Bulk Fuel capacities are defined in canonical data.
 5. The required acceptance tests can be executed in an end-to-end scenario.
 6. Player and AI logistics use the same authoritative rules.
 7. Save/load and transaction retries preserve stock conservation and event idempotency.
