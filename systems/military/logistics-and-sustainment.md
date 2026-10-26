@@ -152,17 +152,19 @@ A shipment can be planned, approved, reserved, prepared, loaded, dispatched, in 
 
 ### 4.8 Supply Unit and Supply Column
 
-A Supply Unit is a military organisational entity tasked with supply handling or distribution. A Supply Column is a mobile logistics formation that transports cargo and may have its own personnel, equipment, capacity, command relationships, and operational constraints.
+A Supply Unit is a military organisational entity tasked with supply handling or distribution. A Supply Column is a physical mobile military unit tasked to carry supplies to drawing units and then return to its originating or assigned supply base according to its task.
 
-These are military entities, not abstract teleportation services. Their equipment, personnel, fuel, load, movement, protection, command, and vulnerability must be represented through existing Military systems.
+Supply Columns travel through the world as actual map units. Their dispatch, route, loading, travel, delivery/unloading, return, suspension and abort states must be explicit. They require valid personnel, equipment, fuel, carrying capacity, command/tasking and a feasible route. They may be delayed, rerouted, interrupted, attacked, damaged, captured or destroyed.
 
-### 4.9 Supply Capability, Combat Base Units, and Supply Bases
+A Supply Column is not a teleportation service. Cargo remains Inventory-backed and must be reconciled through loading, in-transit custody, delivery/receipt, loss or return. The carrier's arrival does not itself complete delivery or issue goods to the drawing unit.
 
-The canonical Military Branches and Unit Organisation specification defines a **Combat Base Unit** as a mobile or deployable military support formation whose configured capability classes initially include Medical, Maintenance, and Supply. Logistics must use that canonical unit identity rather than creating a competing organisational entity called a Supply Base Unit.
+### 4.9 Supply Base Units and Supply Depots
 
-A **Supply-capable Combat Base Unit** is a Combat Base Unit with a configured Supply capability. A **Supply Base** is the operational logistics function or site provided by a fixed installation, depot, or configured support formation. A fixed depot or installation can provide supply-base functions without being a mobile formation.
+A **Supply Base Unit** is a Combat Base Unit configured with a **Supply Depot**. This is a specialised configuration of the canonical Combat Base Unit, not a separate unit identity or parallel organisational class. The Combat Base Unit remains a military formation with identity, command, personnel, equipment, movement and deployment state; the Supply Depot is the configured supply-handling capability it provides.
 
-A Supply-capable Combat Base Unit and a fixed Supply Base are therefore different kinds of entities that can provide overlapping logistics functions. They must not be conflated. Their distinct capacities for storing, handling, loading, unloading, issuing, and transferring different cargo classes must be represented separately where relevant. Capacity must not be represented as one universal number when product handling differs materially.
+A **Supply Base** may refer to the operational supply function at a site. A Supply Base Unit is mobile/deployable; a fixed depot or installation may provide supply-base functions without being a mobile formation. The model must preserve the distinction between a unit, its depot capability, the site/facility, and the physical Inventory holdings stored there.
+
+A Supply Base Unit's handling, payload and bulk-fuel capacities are distinct. The model must not collapse them into one universal cargo-capacity field. Handling throughput is measured in tonnes loaded/unloaded per hour; Payload capacity applies to Ammunition and Basics; Bulk Fuel capacity applies to Fuel. The lower applicable handling rate governs the total loading/unloading completion time where the operation requires both stages.
 
 ## 5. Demand Generation and Forecasting
 
@@ -187,7 +189,19 @@ Each source must identify the owning system and its demand interface. Logistics 
 
 Baseline requirements cover the configured routine sustainment of a unit or installation. Activity-based requirements cover additional or different consumption caused by operating tempo, mission, equipment use, environmental conditions, or other explicitly modelled factors.
 
-A unit's projected requirement should be calculated from its actual personnel, equipment, tasking, and relevant profiles. Unit class may provide defaults, but must not override the actual composition and operating state without an explicit rule.
+The current design defines the following **Standard Stock per Unit Size per Day** values as generic military supply planning units:
+
+| Unit Size | Standard Stock per Day |
+|---|---:|
+| Brigade | 4 |
+| Battalion | 2 |
+| Company | 2 |
+| Platoon | 1 |
+| Section | 1 |
+
+These are generic planning values, not physical units such as tonnes, litres, rounds, or individual rations. They must be converted to product-level quantities through the configured requirements for the drawing unit and the relevant supply category. The current canonical source does not yet specify whether every category uses the same factor or the exact category-specific conversion; the data contract must preserve the values above and make each conversion explicit rather than inventing a universal physical unit.
+
+A unit's projected requirement should be calculated from its actual personnel, equipment, tasking, unit size and relevant profiles. Unit size supplies the stated default factor, but must not override actual composition or operating state where an explicit rule defines a more precise requirement. Activity-based demand is calculated separately and reconciled with the baseline without double-counting.
 
 ### 5.3 Forecast Horizons
 
@@ -293,7 +307,7 @@ No single universal priority score should erase explicit authority, hard constra
 
 The system must distinguish routine requests from emergency requests. Emergency requests indicate that delay may cause immediate loss of capability, unacceptable risk to personnel, mission failure, or another defined severe consequence.
 
-The currently available conversation context records intended emergency thresholds of **50% below baseline for ammunition and fuel** and **30% below baseline for Basics**. However, the repository-wide specification audit did not locate a canonical source defining these values, their denominator, or their scope. Treat them as provisional design inputs pending recovery of the original rule, not as verified canonical constants. Once confirmed, define them once in the authoritative supply-demand configuration and reference them from all consumers.
+The established design rule is that an emergency request triggers when a unit's available stock falls **below 50% of its baseline for Ammunition or Fuel**, or **below 30% of its baseline for Basics (Food & Hydration)**. These are the intended threshold values. The implementation must define the denominator precisely against the relevant unit/category baseline and the quantity that counts as available stock, including the treatment of reserved stock and in-transit deliveries. Store the thresholds once in the authoritative supply-demand configuration and reference them from all consumers; do not duplicate the constants in separate systems.
 
 Emergency classification does not guarantee delivery or permit the system to create stock. It changes the request's urgency and allocation consideration, subject to authority, physical feasibility, and competing emergencies.
 
@@ -341,7 +355,7 @@ Capacity must be represented in the appropriate units for the operation being co
 
 A supply base may have abundant stock but insufficient unloading capacity. A route may have adequate throughput but lack a suitable vehicle. A depot may have space but lack the equipment or permission to handle a hazardous product. Each constraint must be evaluated separately.
 
-Where the canonical or scenario data defines separate payload capacities for ammunition, Basics, and bulk fuel, those separate capacities must be retained. The repository audit did not find an authoritative numeric capacity table for these classes. Do not invent or collapse such values into a single universal cargo-capacity field unless a lower-level equipment model explicitly supports that abstraction.
+Separate Supply Base Unit capacity dimensions are required: Handling in tonnes loaded/unloaded per hour; Payload capacity for Ammunition and Basics; and Bulk Fuel capacity for Fuel. The exact numeric values are scenario/reference data and were not recovered in the current repository audit. The lower applicable handling rate governs loading/unloading completion time. Do not invent numeric capacity values or collapse these dimensions into a single universal cargo-capacity field.
 
 ### 8.3 Supply Bases and Depots
 
@@ -686,8 +700,9 @@ The following tests are mandatory for the initial implementation and integration
 The following details should be settled in data contracts and integration work rather than improvised separately by each subsystem:
 
 - Exact schema and units for demand, request, allocation, shipment, cargo manifest, and delivery events.
-- Exact definition of the existing ammunition, Basics, and Fuel stock/day baselines and emergency-threshold denominators.
-- Authoritative capacity values and unit conventions for Supply-capable Combat Base Units, fixed Supply Bases, and Supply Columns.
+- Exact category-specific conversion from the generic Standard Stock per Unit Size per Day factors into physical product quantities, including whether all supply categories use the same factor.
+- Exact denominator and available-stock treatment for emergency thresholds, including reserved stock and in-transit deliveries.
+- Authoritative numeric capacity values for Supply Base Unit Handling, Payload (Ammunition/Basics), Bulk Fuel, and Supply Column cargo capacity.
 - Canonical mapping between generic military supply categories and product-level catalogue entries.
 - Which branch-specific consumption profiles and transport modes are initially supported.
 - The exact set of national procurement authorities, delegated purchasing permissions, contract types, and reserve-release rules.
