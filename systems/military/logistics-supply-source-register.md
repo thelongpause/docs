@@ -10,7 +10,7 @@
 
 ## 1. Purpose
 
-This register tracks candidate primary and secondary sources for the physical supply-conversion and logistics-capacity data required by `MIL-LOG-DATA-001`. It distinguishes a source that is useful for locating evidence from a source whose contents have actually been extracted, checked and approved for simulation use.
+This register tracks candidate primary and secondary sources for physical requirement profiles, product unit masses/transport masses, Depot Handling Rate inputs and logistics-capacity data required by `MIL-LOG-DATA-001`. It distinguishes a source that is useful for locating evidence from a source whose contents have actually been extracted, checked and approved for simulation use.
 
 **No numeric value becomes canonical merely because a source has been discovered or cited here.** Values must be transcribed from the source, checked against the relevant page/table and units, assigned a national/service/equipment/time scope, and reviewed before use.
 
@@ -134,7 +134,7 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Date:** 1 April 1955
 - **Public record:** https://api.parliament.uk/historic-hansard/written-answers/1955/apr/01/british-army-canal-zone-ration-scale-1
 - **Potential use:** Contemporary evidence that the overseas-garrison ration comprised a basic scale plus a supplement for strenuous work, and that exceptional local supplements could be added or withdrawn. This supports context-dependent ration profiles rather than a universal food quantity.
-- **Limitations:** The page excerpt does not provide a complete item-by-item physical scale or potable-water requirement. It is not sufficient by itself to populate physical food conversion records.
+- **Limitations:** The page excerpt does not provide a complete item-by-item physical scale or potable-water requirement. It is not sufficient by itself to populate a physical Basics requirement or product-mass profile.
 - **Status:** Discovered; full parliamentary context and underlying official ration tables required.
 
 ### SRC-012 — British Army instructional film on depot materials handling, 1956
