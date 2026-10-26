@@ -17,7 +17,7 @@ This document records the repository-wide interface audit required to complete M
 
 The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from conversation but has no canonical repository source, it is recorded as provisional and must not be misrepresented as a verified canonical rule.
 
-**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are the full Government System and Research/Technology Progression specification. A supporting Government procurement and mobilisation interface contract now exists. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment have canonical initial behavioural specifications; their detailed schemas, calibration and conformance tests remain open. The Government procurement/mobilisation interface is documented; the full Government System specification remains outside this dependency audit. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
+**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are the full Government System and full Research System specifications. Supporting Government procurement/mobilisation and Research/Technology Progression interface contracts now exist. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment have canonical initial behavioural specifications; their detailed schemas, calibration and conformance tests remain open. The Government procurement/mobilisation interface is documented; the full Government System specification remains outside this dependency audit. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
 
 ## 2. Audit Method and Scope
 
@@ -315,7 +315,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 1. Complete Movement/Transportation schemas, detailed mode calibration and conformance tests; align the World dependency map and canonical register.
 2. Complete the Character general-attribute catalogue and schemas, and validate the Military Officer extension against the Character System.
 3. Complete Communications and Intelligence schemas/catalogues and integrate them with Sensors, EW, Command and AI.
-4. Complete the Government interface's exact policy/Treasury schema as needed for the vertical slice; author or recover the Research/Technology Progression interface; complete Weather/Environment variable catalogue and calibration.
+4. Complete the Government interface's exact policy/Treasury schema as needed for the vertical slice; define the minimum Research unlock data needed by equipment design; complete Weather/Environment variable catalogue and calibration.
 5. Resolve the original Supply/Base Unit capacity and emergency-threshold rules from their source.
 6. Freeze common event, transaction and lifecycle schemas.
 7. Execute the company-to-unit and command-to-intelligence vertical slices and the additional Military integration tests.
