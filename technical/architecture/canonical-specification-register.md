@@ -42,8 +42,8 @@ It does not replace domain specifications. A system specification owns its rules
 | Military logistics and sustainment | `systems/military/logistics-and-sustainment.md` | MIL-LOG-001 | Canonical behavioural specification. Owns military supply demand, allocation, procurement coordination, shipment planning and delivery coordination. Inventory, Economy, Production, Infrastructure, Movement/Transportation and other systems retain their authoritative state. Interface audit and vertical-slice plan are documented; executable tests remain open. |
 | Movement and Transportation | `systems/world/movement-and-transportation-system.md` | MOV-TRANS-001 | Canonical behavioural specification, initial draft. Owns physical movement execution, route feasibility, carrier traversal and arrival/interruption events. Detailed mode calibration, schemas and end-to-end conformance tests remain open. |
 | Character System | `systems/characters/character-system.md` | CHAR-001 | Canonical initial behavioural specification. Owns persistent person identity, general attributes, personality, relationships, biography and global lifecycle. General attribute catalogue, schemas and domain-extension contracts remain open. |
-| Communications and message delivery | No canonical Communications specification found in the repository tree | TBD | **Missing critical dependency.** Must define message identity, sender/recipient, delivery state, latency, disruption, acknowledgement, relay and access rules for Command, Sensors, EW, Intelligence and AI. |
-| Intelligence | No canonical Intelligence specification found in the repository tree | TBD | **Missing critical dependency.** Must define assessment, source reliability, confidence, dissemination and actor-specific knowledge state; Sensors remains authoritative for observations and tracks. |
+| Communications and message delivery | `systems/communications/communications-system.md` | COMM-001 | Canonical initial behavioural specification. Owns message transport, routing, latency, delivery, acknowledgement and communication access state; source domains retain payload meaning. Schemas, channel catalogue and conformance tests remain open. |
+| Intelligence | `systems/intelligence/intelligence-system.md` | INTEL-001 | Canonical initial behavioural specification. Owns intelligence requirements, source evaluation, assessments, confidence, dissemination decisions and actor-specific knowledge state; Sensors owns observations/tracks and Communications owns delivery. Schemas, calibration and conformance tests remain open. |
 | Weather and Environment | No canonical Weather/Environment specification found in the repository tree | TBD | **Missing dependency.** Must define environmental state, time/space scope, uncertainty and interfaces to Movement, Sensors, Equipment, Combat and Logistics. |
 | Government and Political Authority | No dedicated canonical Government specification found in the repository tree | TBD | **Missing dependency for procurement and mobilisation.** Define budget authority, procurement permissions, mobilisation and reserve-release rules, while Economy retains financial transaction state. |
 | Research and Technology Progression | No canonical Research specification found in the repository tree | TBD | **Missing dependency for equipment progression.** Define research knowledge/progress and unlock authority; design, Production and fielding remain separate states. |
@@ -120,7 +120,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 
 - **Movement/Transportation specification now exists as `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001).** Its schemas, detailed mode calibration and conformance tests remain open.
 - **Character System now has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001).** Its general attribute catalogue, schemas, and integration tests remain open.
-- **Communications and Intelligence specifications are missing.** Command, Sensors, EW and AI need one authoritative message-delivery and intelligence-assessment contract.
+- **Communications and Intelligence now have canonical initial specifications** at `systems/communications/communications-system.md` (COMM-001) and `systems/intelligence/intelligence-system.md` (INTEL-001). Their schemas, catalogues, calibration and conformance tests remain open.
 - **The end-to-end vertical slice has not yet been executed.** A documented plan exists, but runtime behaviour, transaction reconciliation and save/load idempotency remain unproven.
 
 ### High
@@ -177,7 +177,8 @@ Military should not be declared complete until:
 - [ ] Movement/Transportation schemas, detailed mode calibration and conformance tests are complete.
 - [x] Character System path and shared person/Officer ownership boundary are canonical.
 - [ ] General attribute catalogue, lifecycle schemas and shared person/Officer conformance tests are complete.
-- [ ] Communications and Intelligence owners are specified.
+- [x] Communications and Intelligence ownership boundaries are specified.
+- [ ] Communications and Intelligence schemas, calibration and integrated conformance tests are complete.
 - [ ] Government procurement/mobilisation authority, Weather/Environment and Research dependencies are confirmed or specified.
 - [ ] Shared military interface contracts and lifecycle/event rules are documented in implementation-ready schemas.
 - [ ] Equipment, Inventory, Production, Economy, Government and Military ownership is reconciled for ammunition, spares, procurement and fielding.
@@ -190,8 +191,8 @@ Military should not be declared complete until:
 
 ## 11. Recommended next system
 
-**Next dependencies to author: Communications and Intelligence.**
+**Next dependencies to resolve: Government procurement authority, Weather/Environment and Research.**
 
-Movement and Transportation now has a canonical initial behavioural specification at `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001), and Character has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001). Their implementation-ready schemas, detailed calibration/attribute catalogues and conformance tests remain open.
+Initial canonical behavioural specifications now exist for Movement and Transportation (MOV-TRANS-001), Character (CHAR-001), Communications (COMM-001) and Intelligence (INTEL-001). Their schemas, calibration, domain integration and conformance tests remain open.
 
-Next, author Communications and Intelligence specifications, then resolve Government procurement authority, Weather/Environment and Research. Use the vertical-slice plan in [Military Interface Audit and End-to-End Vertical Slice](military-interface-audit-and-vertical-slice.md) to test the shared contracts. Do not move to the next top-level game system until the Military completion checklist is satisfied.
+Next, confirm or author Government procurement/budget authority, Weather/Environment and Research specifications. Then freeze the shared event/transaction contracts, recover the original supply capacity and emergency-threshold rules, and execute the company-to-unit and command-to-intelligence vertical slices. Do not move to the next top-level game system until the Military completion checklist is satisfied.
