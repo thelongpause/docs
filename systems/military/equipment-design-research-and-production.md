@@ -511,6 +511,8 @@ The design and production interface should support the following workflows.
 
 ### 16.1 Research overview
 
+The shared knowledge/unlock boundary is specified in [Research and Technology Progression Interface](../../technical/architecture/research-technology-progression-interface.md) (RES-IF-001). That interface is supporting architecture only; the full Research System remains to be authored after Military integration dependencies are closed.
+
 Show available research topics, prerequisites, progress, cost, expected completion, responsible institutions, and potential applications. Clearly distinguish research that is complete from capabilities that are actually available for use.
 
 ### 16.2 Component designer
