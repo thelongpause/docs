@@ -143,7 +143,7 @@ These factors are not tonnes, litres, rounds, kilograms or individual rations. T
 
 On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities are mapped to the specific ammunition and Basics requirements appropriate to that Unit's formation and standard requirement. This mapping must not create physical goods or transform one physical product into another without an authorised Production/Inventory transformation. Fuel remains a separate category and must map to compatible fuel products under explicit fuel quantity/compatibility rules.
 
-The exact conversion table remains open. Until it exists, the system must expose generic planning quantity separately from physical product quantities and must not infer a physical conversion.
+The approved conversion basis is formation-specific and derives physical quantities from personnel, equipment, task and category requirements through versioned product mappings. The actual mapping records and their sourced numeric factors remain to be populated. Until an approved compatible mapping exists, the system must expose generic planning quantity separately from physical product quantities and must not infer a physical conversion. See MIL-LOG-DATA-001.
 
 ### 5.3 Available Stock
 
@@ -156,7 +156,7 @@ Available stock must be derived from Inventory's authoritative holdings and must
 - Compatibility with the requested use.
 - Valid in-transit representation and expected arrival, without counting it as physically received stock.
 
-The precise rules for whether reserved or in-transit stock contributes to a military emergency threshold or forecast must be explicitly configured. It must never be counted simultaneously as available at origin and destination.
+For emergency-threshold evaluation, the denominator is the receiving Unit's authorised one-day requirement for the relevant category, derived from applicable formation, personnel, equipment, task and standard-profile definitions. Reserved or otherwise committed stock is unavailable and excluded from immediately available stock. In-transit stock counts as available at the receiving Unit only after Inventory confirms receipt. The threshold is strictly below 50% for Ammunition/Fuel and below 30% for Basics; equality does not trigger. Forecasts may represent expected in-transit stock separately, but must not count it as physically received or available at both ends.
 
 ## 6. Supply Demand Contract
 
@@ -383,9 +383,8 @@ The following invariants are mandatory:
 
 - Exact identifier primitive and schema namespace conventions for all new domains.
 - Exact physical schemas for demand, procurement, shipment, movement task, message, intelligence report/assessment and Character extension.
-- Exact generic-to-physical stock conversion for Ammunition, Basics and Fuel.
-- Exact emergency-threshold denominator and whether reserved/in-transit stock counts as available.
-- Numeric Supply Base Unit Handling, Payload and Bulk Fuel capacities and Supply Column carrying capacity.
+- Actual versioned conversion records and sourced numeric factors mapping Ammunition, Basics and Fuel demand to compatible physical Catalogue products, using the approved formation/personnel/equipment/task-specific basis.
+- Source-backed numeric Supply Base Unit Handling, Payload and Bulk Fuel capacities and Supply Column carrying capacity, including their canonical units and constraints. Requirements are specified in MIL-LOG-DATA-001; unsupported values must remain unset rather than invented.
 - Detailed movement-mode capacity and route feasibility schemas.
 - Communications channel catalogue and Intelligence confidence/source calibration.
 - Character general-attribute catalogue and scales.
@@ -398,6 +397,7 @@ These decisions remain open until the authoritative owner supplies them. They mu
 ## 16. Related Specifications
 
 - [Data Model Foundations](data-model-foundations.md) — shared identifiers, units, time, history and idempotency.
+- [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) — approved supply conversion basis, emergency-threshold semantics, capacity record requirements and sourcing policy.
 - [Military Interface Audit and End-to-End Vertical Slice](../architecture/military-interface-audit-and-vertical-slice.md) — integration gaps and test scenario.
 - [Logistics and Sustainment](../../systems/military/logistics-and-sustainment.md) — supply demand, procurement coordination, shipments and delivery.
 - [Movement and Transportation](../../systems/world/movement-and-transportation-system.md) — physical movement and route execution.
