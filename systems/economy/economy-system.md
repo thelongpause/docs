@@ -241,7 +241,7 @@ Economy must not create population or independently change educational attainmen
 
 ### 3.7 Economy and Research
 
-Research owns technology development, scientific knowledge, design research and technology prerequisites.
+Research owns technology development, scientific knowledge, research progression and technology prerequisites. The equipment design system owns candidate equipment designs, engineering integration, prototypes and design validation.
 
 Economy may use research-derived information to assess eligible commercial opportunities, input demand and investment decisions. It does not discover technologies or make a technology available independently.
 
