@@ -686,6 +686,7 @@ The following details should be settled in data contracts and integration work r
 
 - Exact schema and units for demand, request, allocation, shipment, cargo manifest, and delivery events.
 - Exact definition of the existing ammunition, Basics, and Fuel stock/day baselines and emergency-threshold denominators.
+- Authoritative capacity values and unit conventions for Supply-capable Combat Base Units, fixed Supply Bases, and Supply Columns.
 - Canonical mapping between generic military supply categories and product-level catalogue entries.
 - Which branch-specific consumption profiles and transport modes are initially supported.
 - The exact set of national procurement authorities, delegated purchasing permissions, contract types, and reserve-release rules.
@@ -719,7 +720,7 @@ The Logistics and Sustainment specification is ready for implementation when:
 1. Its state ownership boundaries are accepted by the related canonical systems.
 2. Product-level procurement is connected to company capabilities, Economy, Production, Inventory, and the canonical Good and Service Catalogue.
 3. Demand, reservation, shipment, receipt, issue, consumption, and loss interfaces have stable contracts.
-4. Existing Supply Unit, Supply Base Unit, Supply Column, generic stock, baseline consumption, and emergency request rules have been reconciled against this specification.
+4. Combat Base Unit/Supply capability nomenclature is reconciled; Supply Column details, numeric payload capacities, stock/day baselines, and emergency-threshold denominators are confirmed from their canonical source.
 5. The required acceptance tests can be executed in an end-to-end scenario.
 6. Player and AI logistics use the same authoritative rules.
 7. Save/load and transaction retries preserve stock conservation and event idempotency.
