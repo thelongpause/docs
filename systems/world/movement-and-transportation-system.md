@@ -450,6 +450,7 @@ Until these are defined, implementation must preserve the explicit ownership bou
 
 - [World Map System](world-map-system.md) — authoritative geometry, coordinates, spatial indexing and spatial queries.
 - [Terrain Objects](terrain-objects.md) — terrain feature identity, geometry and terrain state.
+- [Weather and Environment](weather-and-environment-system.md) — actual environmental conditions, forecasts and event state.
 - [National Territory and Control](national-territory-and-control-system.md) — sovereignty, control, occupation and territorial permissions.
 - [Installations and Facilities](../infrastructure/installations-and-facilities-system.md) — facilities, physical condition, access and capacity definitions.
 - [Military Branches and Unit Organisation](../military/military-branches-and-unit-organisation.md) — unit identity, command organisation and military movement intent.
