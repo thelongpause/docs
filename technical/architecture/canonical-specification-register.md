@@ -30,8 +30,8 @@ It does not replace domain specifications. A system specification owns its rules
 
 | Domain | Canonical path | Document ID | Status and authority |
 |---|---|---|---|
-| Branches, unit organisation, academies, Officer Character appointments, training profiles, unit lifecycle | `systems/military/military-branches-and-unit-organisation.md` | Existing document ID requires normalisation | Canonical behavioural specification. It contains the broader academy and career model and should be the base document for consolidation. |
-| Equipment, materiel, equipment instances, configuration, condition, serviceability, inventory allocation | `systems/military/equipment-and-material-system.md` | Existing document ID requires normalisation | Canonical equipment/materiel behavioural specification. Inventory owns authoritative stock quantities and stock movements; Military owns equipment identity/configuration and military allocation semantics. |
+| Branches, unit organisation, academies, Officer Character appointments, training profiles, unit lifecycle | `systems/military/military-branches-and-unit-organisation.md` | MIL-ORG-001 | Canonical behavioural specification. It contains the broader academy and career model and should be the base document for consolidation. |
+| Equipment, materiel, equipment instances, configuration, condition, serviceability, inventory allocation | `systems/military/equipment-and-material-system.md` | MIL-EQM-001 | Canonical equipment/materiel behavioural specification. Inventory owns authoritative stock quantities and stock movements; Military owns equipment identity/configuration and military allocation semantics. |
 | Component design, equipment design, research integration, prototypes, tests, qualification, manufacturing and fielding lifecycle | `systems/military/equipment-design-research-and-production.md` | No formal ID found in header | Canonical design and development lifecycle specification. Production owns execution and capacity; Inventory owns physical stock. |
 | Doctrine, command relationships, headquarters, orders, command delay, operational planning, mission execution | `systems/military/doctrine-command-and-operations.md` | MIL-OPS-001 | Canonical command and operations specification. |
 | Combat and engagements across domains | `systems/military/combat-and-engagement-systems.md` | MIL-CBT-001 | Canonical combat and engagement specification. |
@@ -133,7 +133,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 - Domain-specific combat/art presentation must be separated from authoritative simulation state.
 - Acceptance tests need to exercise combined systems, not only isolated subsystem behaviour.
 
-## 9. Officer Characters: explicit ownership decision
+## 9. Officer Characters and Military AI: explicit ownership decision
 
 The intended boundary is:
 
@@ -158,7 +158,7 @@ The intended boundary is:
 
 Military references the Character ID and consumes permitted general attributes. Military does not duplicate those attributes as independent state. Military-specific traits should be stored in military-owned extensions or linked military records, with clear provenance and progression rules.
 
-The exact “Military Art” scope is not a Character System responsibility. Visual portrait, uniform, rank insignia, equipment depiction and character illustration belong to art/content presentation specifications. Military owns the semantic requirements for rank, branch, uniform rules, insignia, equipment and historical plausibility. A separate Character Art / Military Visual Reference catalogue may be warranted when visual production begins, but it must not own simulation rules.
+If “Military Art” means visual art, it is not a Character System simulation responsibility. Visual portraits, uniform depiction, rank insignia, equipment illustration and military visual assets belong to art/content presentation specifications. Military owns the semantic requirements for rank, branch, uniform rules, insignia, equipment and historical plausibility. A separate Character Art / Military Visual Reference catalogue may be warranted when visual production begins, but it must not own simulation rules. If the intended term was “Military AI,” it should not become a single standalone magic-brain system: national strategy belongs to National AI; command and operational planning belong to Doctrine, Command & Operations; engagement decisions belong to Combat; local execution belongs to units/platforms; and Officer Character judgement belongs at the Character/Military boundary. The common decision interface and information boundaries are already established conceptually in INT-AI-001 and should be implemented through these domain owners.
 
 ## 10. Military completion checklist
 
