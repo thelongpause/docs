@@ -256,3 +256,10 @@ Grid resolution is an implementation parameter and must not become a gameplay as
 The map renderer may display national flags, political borders, frontlines, contested areas, military units, active transport, installations, and company control of economic facilities. These are presentation layers driven by the authoritative systems that own each fact.
 
 The renderer must support layer visibility, filtering, and zoom-dependent simplification. Displaying a symbol or line must never create or modify the underlying political, military, economic, or logistics state.
+
+
+## Related Specifications
+
+- [Movement and Transportation System](movement-and-transportation-system.md) — physical movement and route traversal use World Map geometry and spatial queries.
+- [Weather and Environment System](weather-and-environment-system.md) — environmental state is spatially referenced through the World Map.
+- [Terrain Objects](terrain-objects.md) — terrain features and persistent terrain state.
