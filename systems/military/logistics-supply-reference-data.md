@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-reference-data.md  
 **Document ID:** MIL-LOG-DATA-001  
 **Document Type:** Military logistics reference-data specification  
-**Status:** Required data model established; ration and variant-specific vehicle evidence is recorded in MIL-LOG-SRC-001 but remains unapproved. No generic physical conversion, depot throughput, depot capacity or Supply Column capacity values are approved; source-specific evidence requires scan-level verification and applicability review before use  
+**Status:** Bulk-to-physical allocation model established; physical requirement profiles, product unit masses, Handling Rate coefficients and depot/carrier capacity values remain unapproved. Source-specific evidence requires scan-level verification and applicability review before use  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
@@ -60,7 +60,7 @@ The comparison is strictly **below** the configured percentage; equality does no
 
 The Player manages three broad supply categories: Ammunition, Fuel and Basics (Food & Hydration). Bulk category quantities are normally expressed by mass for ordering, transport and allocation. They are a management abstraction, not an additional physical stock item.
 
-At the source and destination, Inventory records actual canonical Catalogue products and quantities. Supply allocation distributes a bulk category delivery across eligible physical products according to the receiving Unit's shortages, authorised holdings, demand profile, explicit priorities and source availability. This is the retained purpose of Supply Conversion: **bulk-to-physical allocation at delivery**, not conversion of an abstract Standard Stock factor into invented goods.
+At the source and destination, Inventory records actual canonical Catalogue products and quantities. Supply allocation resolves a bulk category order into eligible physical products according to the receiving Unit's shortages, authorised holdings, demand profile, explicit priorities and source availability. The physical manifest is resolved during shipment preparation/loading, no later than dispatch, so carrier payload and compatibility can be checked. Receipt adds those manifested products to destination Inventory. This is the retained purpose of Supply Conversion: **bulk-to-physical allocation**, not conversion of an abstract Standard Stock factor into invented goods.
 
 The allocation process must:
 1. Resolve the receiving Unit's approved requirement profile and current eligible shortages for the category.
