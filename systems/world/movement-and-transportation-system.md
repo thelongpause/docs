@@ -461,6 +461,8 @@ Until these are defined, implementation must preserve the explicit ownership bou
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — product identity, units, transport properties and compatibility.
 - [Economy System](../economy/economy-system.md) — transport-service contracts, prices and financial settlement.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — shared decision and information boundaries.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — implementation-facing logical movement, route, transport assignment, cargo manifest and event contracts.
+- [Military Cross-System Interface Contracts](../../technical/data-schemas/military-interface-contracts.md) — shared supply/shipment interfaces and common event conventions.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — cross-system contract and end-to-end acceptance plan.
 
 ---
@@ -477,4 +479,4 @@ Movement and Transportation is ready for implementation when:
 6. The company-to-unit sustainment vertical slice can use this system for actual cargo transport and delivery.
 7. Open mode-specific decisions are tracked explicitly and are not silently replaced by arbitrary defaults.
 
-The existence of this specification does not prove that movement has been implemented. Military integration remains open until the required shared dependencies and end-to-end tests pass.
+The logical movement and transport schemas are defined in SCHEMA-WORLD-CMD-001. Database-specific constraints, movement-mode calibration, carrier/network capacity data and executable tests remain open. The existence of a specification or schema does not prove runtime movement has been implemented. Military integration remains open until the required shared dependencies and end-to-end tests pass.
