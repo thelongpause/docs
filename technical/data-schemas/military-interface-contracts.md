@@ -67,7 +67,7 @@ Use the shared simulation calendar and ordering convention. Do not infer event o
 
 ### 3.3 Versioned Definitions
 
-References to configurable definitions must include a stable definition ID and, where changes can affect outcomes, a version/configuration reference. This includes unit standard requirements, product conversion mappings, movement modes, capacity definitions, message channels, intelligence confidence rules and technology prerequisites.
+References to configurable definitions must include a stable definition ID and, where changes can affect outcomes, a version/configuration reference. This includes unit standard requirements, physical supply requirement/allocation profiles, product unit-mass and transport-mass definitions, movement modes, capacity definitions, message channels, intelligence confidence rules and technology prerequisites.
 
 Updating a current definition must not silently rewrite prior transactions or historical outcomes.
 
