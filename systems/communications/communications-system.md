@@ -392,6 +392,7 @@ These decisions must be resolved in data schemas, reference catalogues or explic
 - [Intelligence System](../intelligence/intelligence-system.md) — assessment and dissemination contract, to be authored.
 - [Character System](../characters/character-system.md) — stable person identity and domain extension boundary.
 - [Movement and Transportation System](../world/movement-and-transportation-system.md) — physical movement and relay/courier travel where applicable.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — message, endpoint, link, delivery-attempt and event contracts.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — shared decision and information boundaries.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — cross-system acceptance plan.
 
@@ -409,4 +410,4 @@ The Communications System is ready for implementation when:
 6. At least one command-delivery scenario and one sensor/intelligence-report delivery scenario pass.
 7. Player and AI use the same communication rules and information boundaries.
 
-The existence of this specification does not prove that communications simulation has been implemented.
+The logical message, endpoint, link and delivery contracts are defined in SCHEMA-WORLD-CMD-001. Channel taxonomy, historical availability, numerical latency/reliability calibration, physical schema constraints and executable delivery tests remain open. The existence of this specification does not prove that communications simulation has been implemented.
