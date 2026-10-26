@@ -147,6 +147,14 @@ Each physical material must use canonical Catalogue identity and the appropriate
 
 A broad category such as "Basics" may be used by a logistics abstraction only if its meaning, accounting basis, and relationship to actual physical goods are explicitly defined. It must not be treated as a physical item with an undefined quantity unit.
 
+### 4.9 Equipment Lot or Batch
+
+An Equipment Lot or Batch groups multiple materially equivalent items that share relevant provenance, production or acquisition history, configuration/version, condition history, or other accounting attributes. Lot identity is useful for ammunition, spare parts, consumables, and equipment categories where individual tracking is unnecessary or too expensive.
+
+A lot is not itself a design, an individual equipment instance, or a stock quantity. Equipment definitions describe what an item is; equipment instances represent individually tracked assets where required; lot records group items for tracking; Inventory owns physical quantity, location, custody, reservations, transfers, and stock-changing transactions. A lot may be split, merged, reclassified, transferred, consumed, captured, or disposed of only through explicit, auditable state transitions that preserve provenance and quantity conservation.
+
+The chosen tracking granularity is category-specific and data-driven. It must not imply that all members of a lot have identical operational condition if the model permits within-lot variation. When condition or provenance diverges beyond the defined threshold, the system may split the affected quantity into a new lot or individually tracked instances.
+
 ## 5. Equipment Categories and Data Profiles
 
 The following categories organise technical data. They are not mutually exclusive taxonomic labels and do not determine how detailed each item must be.
