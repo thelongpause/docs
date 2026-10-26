@@ -66,7 +66,8 @@ The schema must not treat a consumer Good Unit or consumption interval as the ph
 | Installations and Facilities | Canonical Facility identity, shared physical condition/lifecycle, ownership/operator/control, generic capabilities and capacity definitions | Production-specific throughput, production orders and execution state |
 | Production | Facility capability extensions keyed by canonical Facility ID, process-specific throughput and allocation, Production Orders, Production Executions and outcomes | Canonical Facility identity or shared Facility state, physical stock ledger, canonical product definitions, Company accounts |
 | Inventory | Stock holdings, lots, reservations, stock transactions and in-transit stock representation | Recipe calculations, production scheduling, financial balances |
-| Logistics and Transportation | Transport capacity, route and movement execution, shipment and delivery state | Product identity, Company accounts, duplicate stock ledger |
+| Movement and Transportation | Physical unit/platform/carrier positions, route traversal, transport execution, movement progress and arrival/interruption events | Supply demand, procurement, shipment priorities, duplicate stock ledger |
+| Logistics and Sustainment | Military supply demand, sourcing coordination, allocation, shipment/cargo lifecycle coordination and delivery reconciliation | Physical traversal state, product identity, Company accounts, duplicate stock ledger |
 | Shared simulation engine | Deterministic phase order, command execution coordination, save/load and simulation-time progression | Domain-owned rules or duplicate domain state |
 
 These are ownership boundaries, not requirements for separate database servers. The first implementation may store multiple domains in one PostgreSQL database while preserving logical ownership through schema namespaces, foreign keys, service interfaces, and transaction contracts.
