@@ -90,7 +90,7 @@ The canonical Military Organisation specification defines a **Combat Base Unit**
 - A **Supply Base** is a site or operational logistics function, which may be provided by a fixed depot, installation or configured support formation.
 - Do not create a separate organisational entity called Supply Base Unit unless a future explicit design decision requires it.
 - Unit identity, command, personnel, equipment and movement belong to Military and its related owners. Product stock belongs to Inventory. Facility identity and shared capacity belong to Installations and Facilities. Logistics coordinates supply functions and shipments.
-- The repository does not contain a canonical numeric table for separate ammunition, Basics and bulk-fuel payload capacities. Such values must come from the original design notes or explicit user decision, not be invented by the integration layer.
+- The prior user design specifies Standard Stock per Unit Size per Day as Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1 generic planning units. These are not physical units; category-specific conversion to actual product quantities remains to be formalised. Emergency requests trigger below 50% of baseline for Ammunition and Fuel, and below 30% for Basics (Food & Hydration). The precise denominator and whether reserved/in-transit stock counts as available remain open. Numeric Supply Base Unit and Supply Column capacity values were not recovered and must not be invented.
 
 ### 5.3 Basics, Fuel, Ammunition and Emergency Thresholds
 
@@ -303,7 +303,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 | IF-MIL-06 | Weather/Environment specification missing | High | Define environmental state and domain-consumer contracts | Open |
 | IF-MIL-07 | Research specification missing/unverified | High | Confirm knowledge/progression owner and equipment design unlock interface | Open |
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit with Supply capability; distinguish it from fixed Supply Base | Resolved in Logistics specification |
-| IF-MIL-09 | Emergency thresholds and capacity table not found in repository | High | Recover source rules; confirm denominator, units and configuration ownership | Open |
+| IF-MIL-09 | Supply capacity values and exact baseline conversion remain incomplete | High | Standard Stock per Unit Size per Day factors and emergency thresholds have been recovered from the user's prior design; define category-specific physical conversion, threshold denominator, reserved/in-transit treatment, and numeric Handling/Payload/Bulk Fuel capacity data | Partially resolved; configuration/data open |
 | IF-MIL-10 | Shared event envelope and cross-system schema not frozen | Critical | Extend data-model foundations and define stable IDs, time, provenance, idempotency and outcomes | Open |
 | IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; complete detailed movement interfaces through schemas and conformance tests | Resolved at architecture-text level; detailed contract tests open |
 | IF-MIL-12 | End-to-end vertical slice not yet executed | Critical | Implement/run baseline and failure scenarios with deterministic state reconciliation | Open |
