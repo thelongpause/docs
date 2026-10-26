@@ -431,6 +431,22 @@ Substitution between equipment, ammunition, fuel, or material types is permitted
 
 Substitution rules must identify the allowed source and destination items, conversion or quantity basis, capability restrictions, required approvals, and any effects on performance, training, safety, or maintenance. Inventory records the actual item transferred or consumed.
 
+### 11.6 Operational Availability
+
+Operational availability is derived for a defined task, time, and unit or installation. It is not synonymous with authorised establishment, physical inventory, assignment, serviceability, or generic readiness.
+
+An item can exist in stock but be unavailable because it is not issued, installed, compatible, crewed, qualified, fuelled, armed, serviced, located within reach, or permitted for the intended task. Conversely, an assigned item may be temporarily unavailable because of repair, rearming, refuelling, movement, or another active commitment. The system must return the reason and source state for unavailability rather than applying an unexplained universal penalty.
+
+Availability checks consume authoritative state from Equipment, Inventory, Personnel/Character, Training, Logistics, World/Movement, and Command where relevant. They must not copy those states into a competing equipment availability ledger.
+
+### 11.7 Loss, Capture, Transfer, and Disposal
+
+Equipment can be lost, destroyed, abandoned, captured, transferred between units or nations, returned to inventory, cannibalised, scrapped, or otherwise disposed of. Each transition records the affected instance or lot, quantity, previous and resulting custody/ownership, location where known, simulation time, cause, authority, provenance, and related event IDs.
+
+Combat owns the event that causes combat damage or destruction; Military records the resulting unit/equipment relationship changes; Inventory owns physical stock and custody transactions; Logistics owns transport where an item is moved through a supply network. Capture does not automatically make an item serviceable, compatible, understood, or immediately usable. Captured materiel may require inspection, repair, reconfiguration, training, translation of technical information, or formal adoption before operational use.
+
+Disposal removes an item from active availability only through a valid, recorded transition. Historical records and references required for after-action analysis, intelligence, maintenance history, and save/load must remain auditable. Quantity conservation must hold for lot splits, merges, transfers, captures, consumption, and disposal.
+
 ## 12. Equipment Definitions, Provenance, and Data Quality
 
 ### 12.1 Required Metadata
