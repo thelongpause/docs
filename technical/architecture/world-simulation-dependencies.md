@@ -124,9 +124,9 @@ Industry Data defines establishment configuration. Economy owns establishment co
 
 ### 5.6 Physical Infrastructure and Logistics
 
-Roads, railways, rivers and crossings provide geographic features for transport-network construction and traversal. The World Map owns geometry; Terrain and Environment provide relevant physical state; Infrastructure owns shared facility identity, condition, capabilities and generic capacity definitions; Movement/Transportation must own actual unit, platform and carrier traversal, movement progress, route feasibility and arrival/interruption events; Logistics owns supply route choice, shipment/cargo lifecycle coordination and delivery reconciliation; Inventory owns physical cargo quantities and stock transitions.
+Roads, railways, rivers and crossings provide geographic features for transport-network construction and traversal. The World Map owns geometry; Terrain and Environment provide relevant physical state; Infrastructure owns shared facility identity, condition, capabilities and generic capacity definitions; Movement/Transportation owns actual unit, platform and carrier traversal, movement progress, route feasibility and arrival/interruption events under `systems/world/movement-and-transportation-system.md`; Logistics owns supply route choice, shipment/cargo lifecycle coordination and delivery reconciliation; Inventory owns physical cargo quantities and stock transitions.
 
-The canonical Movement/Transportation specification is not yet present in the repository and must be authored before implementation contracts are frozen. Until then, these boundaries are the target architecture, not a claim that the movement simulation is implemented.
+The Movement and Transportation behavioural specification is now canonical, but detailed schemas, mode calibration and conformance tests remain open. The specification's existence is not a claim that movement simulation is implemented.
 
 The existence of a road line does not guarantee that it is connected, passable, maintained, available to a particular transport mode or operational in its current state.
 
@@ -173,7 +173,7 @@ The following specifications extend the world and simulation ownership model:
 
 ### Political and Military Spatial State
 
-The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Movement/Transportation is intended to provide authoritative continuous unit/platform/carrier positions, route traversal and movement events; its canonical specification remains a required dependency. Logistics coordinates supply route choice, shipments and delivery but does not duplicate physical traversal state. Military Systems provide unit identity, formations, orders, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
+The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Movement/Transportation provides authoritative continuous unit/platform/carrier positions, route traversal and movement events under `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001); implementation and conformance remain open. Logistics coordinates supply route choice, shipments and delivery but does not duplicate physical traversal state. Military Systems provide unit identity, formations, orders, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
 
 ### Installation and Facility State
 
