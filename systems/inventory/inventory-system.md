@@ -46,8 +46,8 @@ It does not independently determine the economic, productive, or logistical deci
 | Production System | Production facilities, production orders, scheduling, execution, and coordination of input consumption and output registration |
 | Production Processes and Recipes | Transformation definitions, input requirements, expected outputs, yields, by-products, and process losses |
 | Good and Service Catalogue | Canonical product identifiers, classifications, attributes, and measurement conventions |
-| Movement and Transportation | Physical movement, route traversal, carrier progress and arrival/interruption events | Movement state and transport execution; Inventory remains authoritative for stock transitions |
-| Logistics and Sustainment | Supply demand, sourcing, allocation, shipment coordination and delivery reconciliation | Physical stock quantity and duplicate stock ledger |
+| Movement and Transportation | Physical movement, route traversal, carrier progress and arrival/interruption events; Inventory remains authoritative for stock transitions |
+| Logistics and Sustainment | Supply demand, sourcing, allocation, shipment coordination and delivery reconciliation; does not own physical stock quantity or a duplicate stock ledger |
 | Terrain and Geography | Physical locations, geographic features, and infrastructure geography |
 | Government System | Legal restrictions, seizures, requisitions, embargoes, and other authorised interventions |
 | Military System | Military supply requirements, allocation priorities, acceptance criteria, and authorised consumption requests |
