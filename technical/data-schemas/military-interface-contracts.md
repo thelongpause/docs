@@ -127,23 +127,17 @@ Every physical goods line must reference:
 
 A military-facing category such as Basics, Fuel or Ammunition is not a substitute for a Catalogue ID.
 
-### 5.2 Generic Military Supply Quantity
+### 5.2 Bulk Category Quantity and Physical Allocation
 
-The current Military design defines the following **Standard Stock per Unit Size per Day** generic planning factors:
+The Player-facing categories are Ammunition, Fuel and Basics (Food & Hydration). A bulk category order or shipment quantity is normally expressed as mass and is a management/allocation abstraction, not an additional physical Catalogue product.
 
-| Unit Size | Standard Stock per Day |
-|---|---:|
-| Brigade | 4 |
-| Battalion | 2 |
-| Company | 2 |
-| Platoon | 1 |
-| Section | 1 |
+Legacy Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) are retired from authoritative demand, inventory, replenishment and emergency-baseline calculations. They must not be used as a physical conversion layer.
 
-These factors are not tonnes, litres, rounds, kilograms or individual rations. They are generic military planning quantities used to calculate standard demand. The implementation must reference a versioned mapping that converts generic category/quantity into product-level physical quantities for the receiving formation and its standard requirement.
+The receiving Unit's approved physical requirement profile, eligible shortages, explicit allocation priorities and source inventory determine how a bulk category delivery is allocated to canonical Catalogue products. Each physical product line retains its Catalogue ID, canonical inventory unit, quantity, product variant and applicable unit-mass reference. Missing mappings, missing mass data or incompatible products produce an explicit unsupported/partial result; they must not generate stock.
 
-On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities are mapped to the specific ammunition and Basics requirements appropriate to that Unit's formation and standard requirement. This mapping must not create physical goods or transform one physical product into another without an authorised Production/Inventory transformation. Fuel remains a separate category and must map to compatible fuel products under explicit fuel quantity/compatibility rules.
+The physical products allocated must not exceed source availability or the delivered bulk mass. The mass of allocated products is reconciled to the category shipment, with any unallocated remainder represented explicitly. Food and potable water remain separate physical products under the high-level Basics category. Fuel must be compatible with receiving equipment. Ammunition must be compatible with weapons actually carried by the Unit.
 
-The approved conversion basis is formation-specific and derives physical quantities from personnel, equipment, task and category requirements through versioned product mappings. The actual mapping records and their sourced numeric factors remain to be populated. Until an approved compatible mapping exists, the system must expose generic planning quantity separately from physical product quantities and must not infer a physical conversion. See MIL-LOG-DATA-001.
+Product unit mass supports cargo and payload calculations without changing the Catalogue product's canonical Inventory unit. Where packaging affects transport mass, the applicable gross transport mass must be distinguished from net product mass. The exact profiles, unit masses and priority data remain reference-data work under MIL-LOG-DATA-001.
 
 ### 5.3 Available Stock
 
@@ -362,7 +356,7 @@ The following invariants are mandatory:
 
 1. Every product line references a valid Catalogue ID and explicit/inherited unit.
 2. Standard Stock per Unit Size per Day factors are represented as generic planning units and are not mislabelled as physical quantities.
-3. The generic-to-physical mapping is versioned and required before physical procurement/transport quantities are generated.
+3. Bulk category allocation is resolved to compatible physical Catalogue products using approved requirement profiles, source stock, unit-mass data and explicit priorities; the category abstraction is not counted as additional physical stock.
 4. Emergency thresholds use the configured unit/category baseline and an explicit definition of available stock.
 5. Government approval, Economy order, Production execution, Inventory receipt, Movement, Logistics delivery and final consumption have separate IDs/statuses.
 6. A retry of any committed transaction returns the prior result and does not duplicate its side effect.
@@ -383,7 +377,7 @@ The following invariants are mandatory:
 
 - Exact identifier primitive and schema namespace conventions for all new domains.
 - Exact physical schemas for demand, procurement, shipment, movement task, message, intelligence report/assessment and Character extension.
-- Actual versioned conversion records and sourced numeric factors mapping Ammunition, Basics and Fuel demand to compatible physical Catalogue products, using the approved formation/personnel/equipment/task-specific basis.
+- Approved physical requirement profiles, category-to-product eligibility and allocation-priority data, and canonical product unit-mass/transport-mass records needed for demand-driven bulk-to-physical allocation.
 - Source-backed numeric Supply Base Unit Handling, Payload and Bulk Fuel capacities and Supply Column carrying capacity, including their canonical units and constraints. Requirements are specified in MIL-LOG-DATA-001; unsupported values must remain unset rather than invented.
 - Detailed movement-mode capacity and route feasibility schemas.
 - Communications channel catalogue and Intelligence confidence/source calibration.
@@ -397,7 +391,7 @@ These decisions remain open until the authoritative owner supplies them. They mu
 ## 16. Related Specifications
 
 - [Data Model Foundations](data-model-foundations.md) — shared identifiers, units, time, history and idempotency.
-- [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) — approved supply conversion basis, emergency-threshold semantics, capacity record requirements and sourcing policy.
+- [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) — bulk-to-physical allocation, product-mass reconciliation, emergency-threshold semantics, capacity record requirements and sourcing policy.
 - [Military Interface Audit and End-to-End Vertical Slice](../architecture/military-interface-audit-and-vertical-slice.md) — integration gaps and test scenario.
 - [Logistics and Sustainment](../../systems/military/logistics-and-sustainment.md) — supply demand, procurement coordination, shipments and delivery.
 - [Movement and Transportation](../../systems/world/movement-and-transportation-system.md) — physical movement and route execution.
