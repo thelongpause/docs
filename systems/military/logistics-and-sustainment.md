@@ -109,20 +109,17 @@ Demand aggregation must preserve its underlying source and urgency. Combining re
 
 ### 4.3 Supply Category
 
-Supply Categories group requirements for planning and user-interface purposes. A category is not a substitute for the canonical product identifier. A category may contain multiple products with different units, specifications, suppliers, storage requirements, and permitted uses.
+The Player-facing bulk supply model has exactly three top-level categories:
 
-The initial Military-facing categories must support at least:
+- **Ammunition:** compatible ammunition products, including distinct natures, calibres, charges, fuzes and grenades where represented as ammunition products.
+- **Fuel:** specific fuel products compatible with the receiving equipment and intended use.
+- **Basics (Food & Hydration):** food and potable water, which remain distinguishable physical Catalogue products beneath the shared Player-facing category.
 
-- **Basics (Food & Hydration):** food, potable water, and any separately modelled nutrition or hydration goods. If the existing military model uses a generic Basics stock abstraction for standard supply calculations, preserve that abstraction as a planning/issue category while mapping actual economic goods and inventory products beneath it.
-- **Fuel:** specific fuel products or compatibility classes. A generic Fuel planning category must not imply that every fuel is compatible with every engine, vessel, aircraft, heater, or generator.
-- **Ammunition:** product and calibre/type-specific ammunition where compatibility affects use. Generic ammunition stock may be retained for high-level planning only where the underlying model explicitly supports it.
-- **Medical supplies:** medical consumables and supplies, subject to medical-system requirements.
-- **Spare parts and maintenance materials:** parts and materials compatible with the equipment or maintenance process that needs them.
-- **Clothing, personal equipment, and general stores.**
-- **Engineering, construction, fortification, and recovery materials.**
-- **Specialist supplies:** mission-specific, branch-specific, hazardous, refrigerated, controlled, or otherwise constrained products.
+These categories simplify routine bulk ordering, transport and replenishment. A category is not a physical product and is not a substitute for a Catalogue ID. Bulk category quantities are resolved into actual physical products and a cargo manifest during shipment preparation/loading, no later than dispatch. Inventory retains the authoritative physical quantities.
 
-The canonical catalogue determines product identity, unit of measure, and product classification. Logistics may define military use categories and mappings but must not create duplicate goods.
+Other goods, including clothing such as field jackets, medical supplies, spare parts, engineering materials and specialist equipment, remain valid physical Catalogue products and may be stocked, procured, transported and issued through product-specific workflows. They are **not automatically forced into Ammunition, Fuel or Basics** merely to fit the three-category bulk model. The existence of such goods does not create additional top-level bulk categories unless a later explicit design decision adds one.
+
+The Catalogue determines product identity, canonical unit and product classification. Equipment and Combat determine compatibility and use. Logistics may group eligible products into the three bulk categories for supply allocation, but must not create duplicate goods, make incompatible products interchangeable or treat the category abstraction as extra physical stock.
 
 ### 4.4 Supply Holding
 
