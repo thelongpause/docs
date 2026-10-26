@@ -291,7 +291,7 @@ No single universal priority score should erase explicit authority, hard constra
 
 The system must distinguish routine requests from emergency requests. Emergency requests indicate that delay may cause immediate loss of capability, unacceptable risk to personnel, mission failure, or another defined severe consequence.
 
-The existing Military Organisation design references emergency thresholds of **50% below baseline for ammunition and fuel** and **30% below baseline for Basics**. These values must be preserved as the current intended defaults wherever that model is authoritative. They should be represented as configurable thresholds, not duplicated as unrelated constants in several systems. Before implementation, the precise denominator and scope of each threshold must be checked against the existing unit-level stock model.
+The current Project Sovereign design notes available for this work specify emergency thresholds of **50% below baseline for ammunition and fuel** and **30% below baseline for Basics**. Preserve these as the intended defaults unless the user or canonical data explicitly revises them. They should be represented as configurable thresholds, not duplicated as unrelated constants in several systems. The canonical Military Organisation file does not currently define these thresholds, so their authoritative home, precise denominator, and scope must be confirmed against the original supply/unit-level design before implementation.
 
 Emergency classification does not guarantee delivery or permit the system to create stock. It changes the request's urgency and allocation consideration, subject to authority, physical feasibility, and competing emergencies.
 
