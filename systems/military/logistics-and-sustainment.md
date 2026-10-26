@@ -205,7 +205,7 @@ These are generic military stock-planning units, not physical units such as tonn
 
 The established design specifies that generic stock is mapped to actual physical goods through explicit product/category conversion data. On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities are converted or allocated to the specific ammunition and Basics requirements appropriate to that Unit's formation and standard requirement. This is a mapping of stock quantity to the recipient's requirement, not permission to create physical goods or change one product into another without an authorised transformation. The physical goods remain canonical Catalogue products and Inventory-backed quantities throughout procurement, transport and receipt. Fuel remains a separate Fuel stock category and must be mapped to compatible fuel products under its own explicit unit/conversion rules.
 
-The exact conversion table from generic planning units to product-level physical quantities is not present in the current canonical data and remains an implementation/reference-data requirement. Do not assume that the same physical conversion applies to every formation, ammunition type, food/hydration product or fuel. The data contract must preserve the factors above and make each conversion explicit rather than inventing a universal physical unit.
+The exact product-level conversion records remain a reference-data acquisition requirement. The approved conversion basis is formation-specific and derives physical quantities from personnel, equipment, task and category requirements through versioned product mappings. Do not assume a universal physical conversion across formations, ammunition types, food/hydration products or fuel. See [Logistics Supply Reference Data](logistics-supply-reference-data.md) for the required record schema, validation and evidence policy.
 
 A unit's projected requirement should be calculated from its actual personnel, equipment, tasking, unit size and relevant profiles. Unit size supplies the stated default factor, but must not override actual composition or operating state where an explicit rule defines a more precise requirement. Activity-based demand is calculated separately and reconciled with the baseline without double-counting.
 
@@ -313,7 +313,7 @@ No single universal priority score should erase explicit authority, hard constra
 
 The system must distinguish routine requests from emergency requests. Emergency requests indicate that delay may cause immediate loss of capability, unacceptable risk to personnel, mission failure, or another defined severe consequence.
 
-The established design rule is that an emergency request triggers when a unit's available stock falls **below 50% of its baseline for Ammunition or Fuel**, or **below 30% of its baseline for Basics (Food & Hydration)**. These are the intended threshold values. The implementation must define the denominator precisely against the relevant unit/category baseline and the quantity that counts as available stock, including the treatment of reserved stock and in-transit deliveries. Store the thresholds once in the authoritative supply-demand configuration and reference them from all consumers; do not duplicate the constants in separate systems.
+The established design rule is that an emergency request triggers when a Unit's immediately available stock falls **below 50% of its authorised one-day category baseline for Ammunition or Fuel**, or **below 30% of that baseline for Basics (Food & Hydration)**. The denominator is derived from the applicable formation, personnel, equipment, task and approved standard profile. Reserved or otherwise committed stock is unavailable and excluded. In-transit stock does not count as available at the receiving Unit until Inventory confirms receipt. The comparison is strictly below, so equality does not trigger. Store these rules once in the authoritative supply-demand configuration; the versioned data contract is defined in [Logistics Supply Reference Data](logistics-supply-reference-data.md).
 
 Emergency classification does not guarantee delivery or permit the system to create stock. It changes the request's urgency and allocation consideration, subject to authority, physical feasibility, and competing emergencies.
 
@@ -706,10 +706,9 @@ The following tests are mandatory for the initial implementation and integration
 The following details should be settled in data contracts and integration work rather than improvised separately by each subsystem:
 
 - Exact schema and units for demand, request, allocation, shipment, cargo manifest, and delivery events.
-- Exact category-specific conversion from the generic Standard Stock per Unit Size per Day factors into physical product quantities, including whether all supply categories use the same factor.
-- Exact denominator and available-stock treatment for emergency thresholds, including reserved stock and in-transit deliveries.
-- Authoritative numeric capacity values for Supply Base Unit Handling, Payload (Ammunition/Basics), Bulk Fuel, and Supply Column cargo capacity.
-- Canonical mapping between generic military supply categories and product-level catalogue entries.
+- Populate the versioned formation/personnel/equipment/task-specific conversion records mapping generic supply demand to compatible physical Catalogue products; numeric conversion records require traceable source evidence or explicitly approved scenario estimates.
+- Populate source-backed Supply Base Unit Handling throughput and operation-specific loading/unloading rates, Payload capacity with its physical basis, Bulk Fuel capacity with canonical units, and Supply Column carrying-capacity constraints. Do not invent values; see [Logistics Supply Reference Data](logistics-supply-reference-data.md).
+- Establish the canonical product mappings and product-specific compatibility, dimensional conversion and substitution records.
 - Which branch-specific consumption profiles and transport modes are initially supported.
 - The exact set of national procurement authorities, delegated purchasing permissions, contract types, and reserve-release rules.
 - Which storage degradation, spoilage, contamination, and loss mechanisms are modelled at launch.
@@ -736,6 +735,7 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 - [Industry Data](../economy/industry-data.md) — canonical Industry Types and company/industry configuration.
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — canonical goods, services, specifications, and units.
 - [Military Cross-System Interface Contracts](../../technical/data-schemas/military-interface-contracts.md) — demand, procurement, shipment, inventory and movement interface contracts.
+- [Logistics Supply Reference Data](logistics-supply-reference-data.md) — approved conversion basis, emergency-threshold semantics, capacity schemas and evidence requirements.
 - [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — movement task and transport/cargo integration contracts.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — integration gap register and company-to-unit/command-to-intelligence acceptance scenarios.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — shared interfaces, decision architecture, AI parity, and integration testing.
@@ -749,7 +749,7 @@ The Logistics and Sustainment specification is ready for implementation when:
 1. Its state ownership boundaries are accepted by the related canonical systems.
 2. Product-level procurement is connected to company capabilities, Economy, Production, Inventory, and the canonical Good and Service Catalogue.
 3. Demand, reservation, shipment, receipt, issue, consumption, and loss interfaces have stable contracts.
-4. Combat Base Unit/Supply Depot nomenclature and generic Standard Stock per Unit Size per Day factors are recorded; category-specific physical conversion, the emergency-threshold denominator and treatment of reserved/in-transit stock, Supply Column details, and numeric Handling/Payload/Bulk Fuel capacities are defined in canonical data.
+4. Combat Base Unit/Supply Depot nomenclature and Standard Stock factors are recorded. The approved conversion basis, one-day emergency denominator, reserved-stock exclusion and receipt-only treatment of in-transit stock are defined in [Logistics Supply Reference Data](logistics-supply-reference-data.md); the corresponding versioned physical conversion records and source-backed numeric depot/carrier capacities must still be populated before this criterion is complete.
 5. The required acceptance tests can be executed in an end-to-end scenario.
 6. Player and AI logistics use the same authoritative rules.
 7. Save/load and transaction retries preserve stock conservation and event idempotency.
