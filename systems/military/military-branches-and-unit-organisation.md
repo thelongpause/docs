@@ -169,6 +169,17 @@ Installations are fixed entities rather than mobile combat formations. They are 
 
 An Installation can be unique in its physical and technical design. A fixed early-warning radar, signals-intelligence site, and undersea surveillance system may all be Installations but use different specialist capability definitions. The shared Installation concept must not force these systems into identical sensor, crew, or operating models.
 
+### 5.7 Cross-Branch and Joint Applicability
+
+The organisational model must represent land, naval, air, joint, strategic, and specialised forces without assuming that every branch uses the same echelon names, establishment patterns, or operational procedures.
+
+- **Land forces** may include infantry, armour, mechanised forces, reconnaissance, artillery, engineers, air defence, signals, intelligence, logistics, military police, special forces, and other historically appropriate organisations.
+- **Naval forces** may include vessels, shore establishments, naval bases, fleets, task forces, task groups, squadrons, flotillas, and nation-specific command arrangements. A vessel's identity, equipment and condition remain distinct from the task group commanding it.
+- **Air forces** may include aircraft and operating elements, flights, squadrons, wings, groups, air commands, and airbases. Aircraft inventory remains distinct from the organisation operating the aircraft; crew proficiency, maintenance, weapons, training, and sortie generation are owned by the relevant systems.
+- **Joint and specialised commands** may command units from multiple branches without erasing their organic identity or administrative affiliation. Joint operations must account for doctrine, communications, procedures, legal authority, and inter-service familiarity.
+
+These are examples, not a closed global taxonomy. Historical and national organisational conventions should be data-driven. The common unit, command, appointment, training, readiness, and lifecycle model should be reused where meaningful, while branch-specific structures and capabilities remain explicit.
+
 ## 6. Nation Branch Activation and Military Administration
 
 ### 6.1 Branch Activation
