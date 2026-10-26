@@ -251,6 +251,17 @@ The following findings have been transcribed from accessible source text. They r
 - **Confidence:** Exact wording is present in accessible indexed/OCR text; original scan-level page verification remains outstanding.
 - **Status:** Partially extracted; not corroborated or approved.
 
+
+### EXT-005 — US Army CCKW cargo-truck payload ratings, 1944 Ordnance catalogue
+
+- **Source:** *Standard Ordnance Items Catalog*, Office of the Chief of Ordnance, 1 March 1944, Vol. I, entry “2½-ton, 6x6 (4DT) Trucks,” citing TM 9-801 as the vehicle reference.
+- **Public records:** https://www.90thidpg.us/Reference/Manuals/Standard%20Ordnance%20Items%20Catalog%2C%201944%2C%20Vol%201.pdf ; https://www.ibiblio.org/hyperwar/NHC/NewPDFs/USArmy/US%20military%20Technical%20and%20Field%20manuals/Standard.Ordnance.Items.Catalog.Vol.1.1944.pdf
+- **Extracted facts:** The entry describes the standard 164-inch-wheelbase CCKW-353 cargo truck with approximately 80 × 144-inch internal body dimensions and a stated payload of 5,000 lb. It separately describes the 145-inch-wheelbase short-body configuration with approximately 80 × 108-inch internal dimensions and a stated payload of 5,350 lb.
+- **Interpretation:** This is a source-backed example of variant-specific mass payload data. It reinforces that even within a vehicle family, cargo body and wheelbase must be part of the capacity key. Cargo volume cannot be calculated from the cited footprint alone because internal body height and any loading restrictions must also be verified.
+- **Limitations:** This is a 1944 US Ordnance reference, not a universal 1955 payload rule. Confirm exact vehicle/body identity, scan-level wording, operational terrain/load restrictions and continued applicability before approval. Payload ratings do not establish depot handling throughput, cargo volume, or a Supply Column's total capacity.
+- **Confidence:** Source text and catalogue date are accessible; the entry itself cites TM 9-801. Scan-level review and historical applicability approval remain outstanding.
+- **Status:** Extracted as scoped candidate data; not approved for canonical use.
+
 ## 5. What this first pass establishes
 
 - Period-adjacent sources exist for ration types and operating contexts, Quartermaster organisation, and military supply practice, but the current source set does not yet establish approved physical conversion or capacity values.
@@ -258,7 +269,7 @@ The following findings have been transcribed from accessible source text. They r
 - The reported calorific figures in EXT-001 are retained solely as source-transcription context. They are not required simulation data, are not conversion factors, and must not become fields in the canonical Logistics model.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
-- No generic physical conversion or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities as scoped historical evidence only; they are not generic logistics constants and remain pending scan-level verification and applicability review. The research queue must not delay implementation of the already-defined abstract planning model; unresolved physical values remain explicitly unsupported until sourced and reviewed.
+- No generic physical conversion or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities, and EXT-005 records two cargo-truck payload ratings, as scoped historical evidence only. They are not generic logistics constants and remain pending scan-level verification and applicability review. The research queue must not delay implementation of the already-defined abstract planning model; unresolved physical values remain explicitly unsupported until sourced and reviewed.
 
 ## 6. Data extraction queue
 
@@ -268,7 +279,7 @@ Continue only where the result supports a meaningful operational rule or physica
 2. **Basics:** Seek a usable authorised ration/profile and potable-water requirement for a scoped formation and condition. Capture ration type, applicable personnel/time basis, physical units and relevant conditions only. Do not transcribe calorie or nutrient detail into simulation data.
 3. **Fuel:** Identify exact vehicle/equipment variants, fuel types, tank capacities and consumption basis. Separate tank capacity from operating consumption and depot bulk storage.
 4. **Ammunition:** Identify weapon-specific authorised load and consumption/allowance tables, with ammunition nature, unit of issue, packaging and operational conditions. Do not infer daily combat expenditure from basic load.
-5. **Supply Column:** Identify actual vehicle types and their payload/volume constraints, then derive column capacity from verified composition rather than assigning a generic unit-size factor.
+5. **Supply Column:** Identify actual vehicle types and their payload/volume constraints. EXT-005 provides candidate mass payload ratings for two CCKW cargo variants, but does not establish cargo volume or a complete column capacity. Derive column capacity from verified assigned composition rather than assigning a generic unit-size factor.
 6. **Supply Base:** Prioritise FM 10-30 (1951) for subsistence-depot organisation and FM 10-52 (1954) for depot organisation. Seek explicit source-backed handling throughput, payload/storage limits and bulk-fuel capacity, keeping each capacity dimension separate and recording exact operating assumptions. Catalogue records alone do not establish numeric capacity.
 
 If source access, applicability or units cannot be verified, retain the item as a research lead and leave the canonical numeric value unpopulated.
