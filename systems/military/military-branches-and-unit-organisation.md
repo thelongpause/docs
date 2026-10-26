@@ -3,7 +3,8 @@
 **Canonical Path:** \`systems/military/military-branches-and-unit-organisation.md\`  
 **System:** Military Systems  
 **Document Type:** Behavioural Specification  
-**Status:** Initial behavioural specification; cross-system architecture, reference data, balance values, and logical schema remain subject to review  
+**Document ID:** MIL-ORG-001  
+**Status:** Canonical behavioural specification; cross-system interfaces and logical schema remain subject to review  
 **Starting World Date:** 1 January 1955
 
 ---
