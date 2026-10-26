@@ -82,15 +82,17 @@ Missing full-system specifications must not be replaced by vague references or s
 - Officer appointments are explicit, time-bounded relationships. Appointment loss does not delete the person.
 - The Character System now has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001); its schema, general attribute catalogue and lifecycle event contract remain open.
 
-### 5.2 Combat Base Units and Supply Bases
+### 5.2 Combat Base Units, Supply Base Units and Supply Columns
 
-The canonical Military Organisation specification defines a **Combat Base Unit** as a mobile or deployable support formation whose initial core capability classes include Medical, Maintenance and Supply. The Logistics specification has been aligned to this model.
+The canonical Military Organisation specification defines a **Combat Base Unit** as a mobile or deployable support formation whose initial core capability classes include Medical, Maintenance and Supply.
 
-- A **Supply-capable Combat Base Unit** is a military unit with a configured Supply capability.
-- A **Supply Base** is a site or operational logistics function, which may be provided by a fixed depot, installation or configured support formation.
-- Do not create a separate organisational entity called Supply Base Unit unless a future explicit design decision requires it.
-- Unit identity, command, personnel, equipment and movement belong to Military and its related owners. Product stock belongs to Inventory. Facility identity and shared capacity belong to Installations and Facilities. Logistics coordinates supply functions and shipments.
-- The prior user design specifies Standard Stock per Unit Size per Day as Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1 generic planning units. These are not physical units; category-specific conversion to actual product quantities remains to be formalised. Emergency requests trigger below 50% of baseline for Ammunition and Fuel, and below 30% for Basics (Food & Hydration). The precise denominator and whether reserved/in-transit stock counts as available remain open. Numeric Supply Base Unit and Supply Column capacity values were not recovered and must not be invented.
+- A **Supply Unit** is an organisational military combat-support formation that holds and distributes supplies.
+- A **Supply Base Unit** is a Combat Base Unit configured with a **Supply Depot**. It is not a separate unit identity. The Depot holds the military-facing categories Ammunition, Basics (Food & Hydration), and Fuel.
+- A **Supply Base** may be a fixed site/depot or a supply function provided by a configured formation. Unit identity, depot capability, facility/site identity and physical Inventory holdings remain distinct.
+- A **Supply Column** is a separate physical transport Unit dispatched from a Supply Base to a drawing Unit, delivers and unloads supplies, then returns. Its movement, loading, delivery, return, suspension and abort states must be explicit.
+- Supply Base Unit capacity must distinguish Handling (tonnes loaded/unloaded per hour), Payload (Ammunition and Basics), and Bulk Fuel (Fuel). The lower applicable Handling rate governs loading/unloading completion time where both stages apply. Numeric capacities were not recovered and must not be invented.
+- The prior user design specifies Standard Stock per Unit Size per Day factors: Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1 generic planning units. On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities map to the specific requirements of that Unit's formation and standard requirement. These are not physical units; category-specific conversion to actual Catalogue products remains open.
+- Emergency requests trigger below 50% of baseline for Ammunition and Fuel, and below 30% for Basics (Food & Hydration). The exact denominator and treatment of reserved/in-transit stock remain open.
 
 ### 5.3 Basics, Fuel, Ammunition and Emergency Thresholds
 
