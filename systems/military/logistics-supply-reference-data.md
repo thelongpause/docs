@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-reference-data.md  
 **Document ID:** MIL-LOG-DATA-001  
 **Document Type:** Military logistics reference-data specification  
-**Status:** Required data model established; initial ration evidence is extracted in MIL-LOG-SRC-001 but remains unapproved; physical conversion records and numeric capacity values remain unpopulated pending corroboration, applicability review and approval  
+**Status:** Required data model established; ration and special-purpose vehicle-body evidence is recorded in MIL-LOG-SRC-001 but remains unapproved. No generic physical conversion, depot throughput, depot capacity or Supply Column capacity values are approved; source-specific evidence requires scan-level verification and applicability review before use  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
@@ -240,7 +240,7 @@ The following records are deliberately not populated with invented numbers:
 - Supply Depot Handling throughput values and operation-specific rates.
 - Payload capacity values and approved mass/volume basis.
 - Bulk Fuel capacity values, units and applicable density/unit conversions.
-- Supply Column carrying-capacity values and the capacity dimensions supported by actual carrier/equipment definitions.
+- Supply Column carrying-capacity values and the capacity dimensions supported by actual carrier/equipment definitions. EXT-004 in MIL-LOG-SRC-001 contains candidate capacities for special-purpose US CCKW-353 tank bodies only; these are not general cargo or column capacities.
 - Initial source dataset and value-by-value historical applicability/confidence review.
 
 These are data acquisition and approval tasks, not permission to substitute arbitrary defaults.
