@@ -135,6 +135,8 @@ A **Supply Base Unit** is a Combat Base Unit configured with a **Supply Depot**.
 
 The Supply Depot supports the military-facing stock categories **Ammunition**, **Basics (Food & Hydration)** and **Fuel**. These categories are planning/issue abstractions; actual physical goods and quantities must be mapped to canonical Good and Service Catalogue products and Inventory holdings.
 
+Generic Supply stock is measured in standard planning quantities using the configured Standard Stock per Unit Size per Day factors. When stock is received/issued to a drawing Unit, generic Ammunition and Basics quantities are mapped to the specific ammunition and Basics requirements of that Unit's formed standard requirement. This mapping must not create physical goods or replace Inventory's product-level quantities; actual products remain canonical Catalogue entries and Inventory-backed stock. Fuel remains a separate category with its own explicit product compatibility and quantity mapping.
+
 A Supply Base Unit's logistics capacity must distinguish:
 - **Handling:** tonnes loaded or unloaded per hour.
 - **Payload:** capacity for Ammunition and Basics.
