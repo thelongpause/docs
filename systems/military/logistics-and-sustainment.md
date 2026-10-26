@@ -371,7 +371,7 @@ The optimal route is context-dependent. A faster route may be more vulnerable; a
 
 ### 8.7 Infrastructure and Access
 
-Transportation and Infrastructure own transport networks and physical infrastructure. Logistics requests feasible routes and capacity, then coordinates shipment movement. It must not independently invent road, rail, port, airfield, pipeline, or waterway capacity.
+Movement and Transportation owns physical route traversal, movement progress and arrival/interruption events. Infrastructure owns shared physical facility state and capacity definitions. Logistics chooses supply routes and coordinates shipment/cargo state, then requests movement and reconciles confirmed arrival. It must not independently invent road, rail, port, airfield, pipeline, or waterway capacity.
 
 Border permissions, transit rights, territorial control, port access, neutral-country rules, and other access constraints are resolved by the relevant political, legal, diplomatic, and transportation systems. Military control of an area does not automatically make every route safe or operational.
 
@@ -517,7 +517,8 @@ Not every request must pass through every state. For example, issuing already-he
 | Stock ownership and custody | Inventory and applicable legal/economic systems | Use authorised stock; request valid ownership/custody changes |
 | Military unit identity, organisation, task and command relationship | Military Organisation / Command | Resolve demand recipients and destinations |
 | Equipment identity, compatibility, condition and serviceability | Equipment and Materiel | Request compatible goods and expose supply constraints |
-| Transport networks, carrier capability, movement and route state | Transportation / Infrastructure | Plan and coordinate shipments against returned feasibility |
+| Physical movement, route traversal, progress and arrival events | Movement and Transportation | Plan supply routes, issue movement requests and reconcile confirmed arrival
+| Facility identity, physical condition and shared capacity definitions | Infrastructure / Installations and Facilities | Check relevant facility and handling constraints |
 | Combat engagement, damage, interdiction and combat expenditure event | Combat | Expose logistics assets/cargo to the combat interfaces and reconcile outcomes |
 | Observation, track, intelligence assessment and uncertainty | Sensors / Intelligence | Use authorised information to estimate route and supply risk |
 | Personnel numbers, health and individual state | Character / Personnel / Medical systems | Forecast configured requirements and report shortages |
@@ -706,6 +707,7 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 - [Combat and Engagement Systems](combat-and-engagement-systems.md) — combat expenditure, interdiction, damage, and operational effects.
 - [Sensors and Detection](sensors-and-detection.md) — detection and observation of logistics assets and threats.
 - [Electronic Warfare](electronic-warfare.md) — relevant electronic effects on communications and operations.
+- [Movement and Transportation System](../world/movement-and-transportation-system.md) — physical carrier/unit traversal, route feasibility, movement progress and arrival/interruption events.
 - [Inventory System](../inventory/inventory-system.md) — authoritative physical stock and stock transactions.
 - [Industry Data](../economy/industry-data.md) — canonical Industry Types and company/industry configuration.
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — canonical goods, services, specifications, and units.
