@@ -729,6 +729,7 @@ This specification is ready to inform the next architecture and schema stages wh
 - [Character System](../characters/character-system.md)
 - [Communications System](../communications/communications-system.md)
 - [Intelligence System](../intelligence/intelligence-system.md)
+- [Weather and Environment System](../world/weather-and-environment-system.md)
 - [Equipment Design, Research & Production](equipment-design-research-and-production.md)
 - [Doctrine, Command & Operations](doctrine-command-and-operations.md)
 - [Sensors and Detection System](sensors-and-detection.md)
