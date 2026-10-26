@@ -241,4 +241,4 @@ These are data acquisition and approval tasks, not permission to substitute arbi
 - [Equipment and Materiel System](equipment-and-material-system.md)
 - [Inventory System](../inventory/inventory-system.md)
 - [Movement and Transportation](../world/movement-and-transportation-system.md)
-- [Goods and Services Catalogue](../catalogue/goods-and-services-catalogue.md)
+- [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md)
