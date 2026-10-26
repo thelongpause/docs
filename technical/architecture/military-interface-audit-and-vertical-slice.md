@@ -293,6 +293,31 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 7. **Capture and recovery:** capture, loss, repair, recovery and reconstitution reconcile unit, equipment, personnel, stock and shipment state across their respective owners.
 8. **Historical availability:** a product, equipment design, doctrine, communications method or transport capability is not usable before its configured historical/technical prerequisites, except where a scenario explicitly supplies it.
 
+### 8.1 End-to-End Vertical Slice: Command-to-Intelligence
+
+**Objective:** prove that an order, observation, intelligence assessment and resulting decision move through their authoritative systems without bypassing delivery, authority, uncertainty or actor-specific knowledge boundaries.
+
+**Deterministic fixture:** one issuing headquarters and subordinate unit; one Officer Character with a valid appointment; at least two Communications endpoints and a configured channel; a command order with expiry and authority scope; one sensor/observation source; one Intelligence assessment with evidence provenance and uncertainty; and two recipient actors with different dissemination permissions. Use fixed simulation times and stable IDs. Fixture numbers are test values only, not historical catalogue values.
+
+**Baseline path:**
+
+1. Command creates an order and validates issuer authority, recipient scope, current order state and expiry.
+2. Communications creates a message referencing the Command-owned order; the message does not duplicate or become the order's authority record.
+3. The channel applies its configured queue, latency, availability and disruption rules. Before delivery, the recipient's command state must not show the order as received.
+4. The recipient endpoint receives the message. Command revalidates order expiry, cancellation, authority and recipient eligibility before acknowledging receipt or making it actionable.
+5. Sensors produce an observation/track through the Sensors-owned contract. Intelligence references that evidence, records provenance, source reliability/independence, uncertainty, alternatives and assessment version.
+6. Dissemination policy evaluates classification, recipient permissions and need-to-know. Intelligence authorises the information product; Communications transports it to each recipient separately.
+7. Only a recipient with confirmed delivery and permission receives an actor-specific knowledge item. A recipient without access must not gain the assessment through shared global state or an AI prompt/context shortcut.
+8. Command/Operations may consider the assessment only if the decision actor's knowledge state supports access to it. The assessment remains uncertain evidence, not guaranteed truth.
+9. The actor produces a bounded decision under its valid authority, available resources, current order state and information. Execution remains owned by the relevant domain and must not occur twice.
+10. All events preserve source references, effective simulation times, causation/correlation IDs, schema versions and idempotency keys.
+
+**Required failure branches:** message delayed beyond order expiry; message loss and retry; recipient lacks classification access; two recipients receive at different times; contradictory or stale evidence changes a later assessment version; an unreliable or dependent source is double-counted; Intelligence assessment exists but is not disseminated; save/load occurs between send and delivery; a replayed delivery event arrives twice; a command is cancelled before delivery; and Player/AI actors have different knowledge because their valid observation/dissemination histories differ.
+
+**Acceptance criteria:** order creation is distinct from message delivery and execution; no recipient acts before valid receipt; expired/cancelled orders are not executed merely because a message arrives; assessment evidence and history remain auditable; confidence and source reliability remain distinct; access rules are enforced per actor; actor knowledge is updated only after valid dissemination and delivery; a repeated event does not duplicate command execution or knowledge effects; AI does not receive hidden information through a global state leak; and Player/AI follow identical rules when their authoritative information and permissions are equivalent.
+
+These are executable acceptance requirements, not a claim that the repository currently contains a running simulation. Runtime integration tests remain open until implementation code exists.
+
 ## 9. Interface Gap Register
 
 | ID | Gap | Severity | Required resolution | Status |
