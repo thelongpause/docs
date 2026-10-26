@@ -366,6 +366,7 @@ Until these are resolved, the implementation must expose only supported variable
 - [Logistics and Sustainment](../military/logistics-and-sustainment.md) — supply planning, delivery and cargo handling.
 - [Character System](../characters/character-system.md) — persistent person identity and general attributes.
 - [Intelligence System](../intelligence/intelligence-system.md) — assessment and actor-specific knowledge.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — environmental state, variable, forecast, observation and event contracts.
 - [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — cross-system integration plan.
 
 ---
@@ -383,4 +384,4 @@ Weather and Environment is ready for implementation when:
 7. At least one land-movement, sensor-detection and logistics scenario passes under changing weather.
 8. Player and AI use the same environmental truth and forecast-access rules.
 
-The existence of this specification does not prove that weather or environmental simulation has been implemented.
+The logical environmental state, variable, forecast, observation and event contracts are defined in SCHEMA-WORLD-CMD-001. The initial variable catalogue, units, spatial/temporal resolution, climate/weather model, calibration and executable downstream-effect tests remain open. The existence of this specification does not prove that weather or environmental simulation has been implemented.
