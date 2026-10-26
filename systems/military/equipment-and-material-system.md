@@ -3,7 +3,8 @@
 **Canonical Path:** \`systems/military/equipment-and-material-system.md\`  
 **System:** Military Systems  
 **Document Type:** Behavioural Specification  
-**Status:** Initial behavioural specification; detailed reference catalogues, numerical parameters, cross-system architecture, and logical schema remain subject to review  
+**Document ID:** MIL-EQM-001  
+**Status:** Canonical behavioural specification; detailed reference catalogues, numerical parameters, cross-system interfaces, and logical schema remain subject to review  
 **Starting World Date:** 1 January 1955
 
 ---
