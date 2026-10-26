@@ -342,27 +342,31 @@ These are executable acceptance requirements, not a claim that the repository cu
 1. Review SCHEMA-MIL-001 and SCHEMA-WORLD-CMD-001 together; select shared ID/time primitives and translate logical contracts into database-specific schemas, constraints and migrations.
 2. Approve the Character general-attribute catalogue and scales; validate the Military Officer extension against Character without duplicating general state.
 3. Approve Communications channel definitions and Intelligence source/confidence representations; integrate message delivery, actor-specific knowledge, Sensors, EW, Command and AI.
-4. Define the initial Weather/Environment variable catalogue, canonical units, spatial/temporal resolution, uncertainty representation and terrain-transition handoff; calibrate movement-mode and carrier-capacity data.
-5. Define the category-specific generic-to-physical stock conversion, emergency-threshold denominator and reserved/in-transit treatment; recover the numeric Supply Base Unit Handling/Payload/Bulk Fuel and Supply Column capacity values.
-6. Resolve the user-owned supply conversion, threshold-denominator and capacity decisions recorded in Section 11; publish them as versioned reference data rather than hard-coded constants.
+4. Define the initial Weather/Environment variable catalogue, canonical units, spatial/temporal resolution, uncertainty representation and terrain-transition handoff; calibrate movement-mode data.
+5. Populate source-backed supply conversion records and Supply Base Unit/Supply Column capacity values under MIL-LOG-DATA-001; preserve unknown values where evidence is not yet available.
 7. Implement and execute the company-to-unit sustainment and command-to-intelligence vertical slices, including save/load, retries, partial delivery, interruption, stale/contradictory intelligence, message loss and Player/AI parity.
 8. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
 
 ---
 
-## 11. Decisions Required to Close Supply Data
+## 11. Supply Configuration Decisions and Remaining Data Work
 
-The repository contains the established Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) and emergency triggers (below 50% of baseline for Ammunition/Fuel; below 30% for Basics). It does not contain the physical conversion or numeric capacity values needed to instantiate these rules without inventing data.
+The following user decisions are now canonical and recorded in MIL-LOG-DATA-001 and the Logistics/Interface specifications:
 
-The following require user confirmation before they can be frozen as canonical configuration:
+1. **Generic-to-physical conversion basis:** derive physical quantities from formation-specific personnel, equipment, task and category requirements through versioned product mappings. Do not use universal physical conversion factors.
+2. **Emergency denominator:** the authorised one-day requirement for the relevant Unit and category, derived from applicable formation, personnel, equipment, task and approved standard-profile data.
+3. **Reserved stock:** reserved or otherwise committed stock is unavailable and excluded from emergency-threshold available stock.
+4. **In-transit stock:** it does not count as available to the receiving Unit until Inventory confirms receipt. Forecasted/in-transit quantities may be shown separately, never as received stock or available simultaneously at source and destination.
+5. **Capacity basis:** define capacity per Supply Depot/Unit and per Supply Column configuration, deriving carrier capacity from actual assigned equipment/vehicle composition where possible.
+6. **Threshold comparison:** strictly below 50% for Ammunition/Fuel and below 30% for Basics; equality does not trigger.
 
-1. **Physical conversion basis:** should each formation/category map generic Standard Stock to explicit physical product quantities through its equipment/personnel/task profile, or do you have fixed category-specific conversion factors already intended?
-2. **Emergency denominator:** should the baseline be the unit's authorised standard requirement for the relevant category over one day, adjusted for current personnel/equipment/task, or a different defined period/profile? Should reserved stock count as unavailable, and should in-transit stock count only after confirmed receipt (recommended for immediately available stock)?
-3. **Supply Base Unit capacities:** provide the intended Handling throughput (tonnes/hour), Payload capacity (Ammunition + Basics, with the chosen mass/volume basis), and Bulk Fuel capacity (litres or tonnes, with product density/unit handling defined if mass-based).
-4. **Supply Column capacity:** provide cargo capacity and whether it is measured by mass, volume, pallet/standard load units, or multiple simultaneous constraints. If capacity varies by vehicle/formation class, provide the intended class-level table or confirm that it should derive from actual vehicle/equipment composition.
-5. **Initial scope:** should baseline capacity values be universal defaults for an abstract prototype, or should they be defined per Supply Depot/Unit and Supply Column configuration? The architecture supports per-configuration values; universal defaults should only be used if that is the intended abstraction.
+The numeric physical conversion records and capacities are deliberately not populated because the user requested sourced values rather than unsupported estimates. The canonical data requirements and evidence policy are specified in [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) (MIL-LOG-DATA-001). Remaining data acquisition work is:
 
-Do not supply estimates if you want these derived from historical doctrine/equipment data; in that case the next task is to establish a sourced, versioned reference-data table, with any uncertain values marked as estimates rather than canon.
+- Populate formation/personnel/equipment/task-specific conversion mappings to compatible Catalogue products, with explicit units, time basis, compatibility, version and source provenance.
+- Source Supply Depot Handling throughput (including loading/unloading rates where distinct), Payload capacity and its mass/volume constraints, and Bulk Fuel capacity with canonical units and any required product density conversion.
+- Source Supply Column carrying-capacity data from actual vehicle/equipment definitions, preserving every supported mass, volume, vehicle-space and cargo-compatibility constraint.
+- Label each value as verified, estimated, provisional, disputed or unsupported. Any scenario estimate must be explicitly approved and must not be presented as verified historical canon.
+- Keep missing or unsupported values explicit; never substitute zero, unlimited capacity, or a fabricated conversion.
 
 ## 12. Completion Rule
 
