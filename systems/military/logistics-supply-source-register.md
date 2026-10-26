@@ -177,14 +177,15 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Limitations:** US-specific; the archive download currently redirects unsuccessfully through the web retrieval path. Only exact extracted tables with page references can support data records.
 - **Status:** Discovered; primary document extraction required.
 
-### SRC-016 — US Army 2½-ton cargo truck technical manual
+### SRC-016 — US Army 2½-ton truck technical manual
 
 - **Title:** *TM 9-801, Truck, 2½-Ton, 6 x 6 (GMC CCKW-352 and 353) and Truck, 2½-Ton, 6 x 4 (GMC CCW-353)*, including Change 1 dated 12 September 1950
 - **Issuing authority:** US Department of the Army / War Department technical-manual series
-- **Public record:** https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-801.pdf
-- **Potential use:** Variant-specific technical data for an established US truck family, potentially including cargo dimensions, operating limits, tank capacity and maintenance requirements.
-- **Limitations:** The manual covers named variants, not every nominally similar truck. A 2½-ton designation is not sufficient by itself to define operationally usable cargo capacity; variant, road/terrain conditions, body fit and load restrictions must be preserved. The PDF is too large for the current web text extractor, so no numerical table has been transcribed here.
-- **Status:** Discovered; manual extraction and variant-specific table review required.
+- **Public records:** https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-801.pdf ; https://www.steelsoldiers.com/upload/WW/TM9-801.pdf
+- **Potential use:** Variant-specific technical data for an established US truck family, including special-purpose body capacities and potentially cargo dimensions, operating limits and vehicle tank capacity.
+- **Extracted evidence:** Accessible OCR/search text from the manual identifies a CCKW-353 gasoline-tank body with two 375-US-gallon tanks and a CCKW-353 water-tank body with 700-US-gallon capacity. These are special-purpose bodies; the gasoline-tank body is not the standard truck fuel tank, and the water-tank body is not a general cargo payload rating.
+- **Limitations:** The manual covers named variants, not every nominally similar truck. These are nominal body capacities as transcribed, not proof of usable fill, safe operational capacity, or 1955 adoption by any particular nation/formation. Confirm against the scanned page before approving data. Do not derive a generic Supply Column capacity from these figures.
+- **Status:** Partial extraction; variant-specific evidence only, not approved for canonical use.
 
 ## 4. Extracted evidence records
 
@@ -227,6 +228,17 @@ The following findings have been transcribed from accessible source text. They r
 - **Limitations:** The parliamentary speech is not, by itself, an official technical specification; the weight and composition must be corroborated with a formal specification before operational use.
 - **Status:** Extracted as a later historical lead; not applicable to the initial 1955 baseline without further evidence.
 
+
+### EXT-004 — US CCKW-353 special-purpose tank bodies, TM 9-801
+
+- **Source:** *TM 9-801, Truck, 2½-Ton, 6 x 6 (GMC CCKW-352 and 353)*, War Department, 24 April 1944, with Change 1 dated 12 September 1950.
+- **Source URLs:** https://www.ibiblio.org/hyperwar/USA/ref/TM/pdfs/TM9-801.pdf ; https://www.steelsoldiers.com/upload/WW/TM9-801.pdf
+- **Extracted facts:** Accessible text describes a gasoline-tank body fitted only to the long-wheelbase CCKW-353, consisting of two 375-US-gallon tanks (nominal aggregate tank volume 750 US gallons), and a separate water-tank body fitted only to the CCKW-353 with a stated 700-US-gallon capacity. The water-tank body includes an auxiliary gasoline engine and pump.
+- **Interpretation:** These are configuration-specific capacities for special-purpose tank bodies. They demonstrate why vehicle capacity must be keyed to exact vehicle/body variant and cargo role rather than inferred from a general truck class.
+- **Limitations:** These figures are not the standard vehicle's own fuel-tank capacity, not the cargo payload rating of a general cargo truck, and not a generic Supply Column capacity. The scanned page must be checked before canonical approval; nominal capacity is not necessarily usable operating capacity. US-specific equipment and 1944/1950 documentation do not establish applicability to another nation's 1 January 1955 equipment inventory.
+- **Confidence:** Exact wording is present in accessible indexed/OCR text; original scan-level page verification remains outstanding.
+- **Status:** Partially extracted; not corroborated or approved.
+
 ## 5. What this first pass establishes
 
 - Period-adjacent sources exist for ration types and operating contexts, Quartermaster organisation, and military supply practice, but the current source set does not yet establish approved physical conversion or capacity values.
@@ -234,7 +246,7 @@ The following findings have been transcribed from accessible source text. They r
 - The reported calorific figures in EXT-001 are retained solely as source-transcription context. They are not required simulation data, are not conversion factors, and must not become fields in the canonical Logistics model.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
-- No physical conversion or capacity values have been approved by this register. The research queue must not delay implementation of the already-defined abstract planning model; unresolved physical values remain explicitly unsupported until sourced and reviewed.
+- No generic physical conversion or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities as scoped historical evidence only; they are not generic logistics constants and remain pending scan-level verification and applicability review. The research queue must not delay implementation of the already-defined abstract planning model; unresolved physical values remain explicitly unsupported until sourced and reviewed.
 
 ## 6. Data extraction queue
 
