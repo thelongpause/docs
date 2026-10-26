@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-reference-data.md  
 **Document ID:** MIL-LOG-DATA-001  
 **Document Type:** Military logistics reference-data specification  
-**Status:** Required data model established; source discovery is recorded in MIL-LOG-SRC-001; numeric capacity values and physical conversion records remain unpopulated pending extraction, applicability review and approval  
+**Status:** Required data model established; initial ration evidence is extracted in MIL-LOG-SRC-001 but remains unapproved; physical conversion records and numeric capacity values remain unpopulated pending corroboration, applicability review and approval  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
