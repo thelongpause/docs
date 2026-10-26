@@ -67,17 +67,22 @@ The canonical choice favours the more comprehensive documents because they inclu
 | Domain | Canonical path | Interface rule |
 |---|---|---|
 | World geometry, coordinates, spatial queries and Movement Grid | `systems/world/world-map-system.md` | Owns spatial truth; Military must not maintain duplicate geometry. |
-| Terrain objects and terrain state | `systems/world/terrain-objects.md` | Owns terrain features and their simulation properties; movement, sensors and combat consume them. |
+| Terrain objects and terrain state | `systems/world/terrain-objects.md` | Owns terrain features and persistent terrain state; Movement, Sensors and Combat consume them. |
+| Movement and transportation | `systems/world/movement-and-transportation-system.md` | MOV-TRANS-001 owns physical movement execution and route traversal; detailed schemas and conformance tests remain open. |
+| Weather and environment | `systems/world/weather-and-environment-system.md` | ENV-001 owns actual weather/climate state, environmental events and forecasts; consuming domains own their effects. |
 | Territorial claims, sovereignty, control, occupation and frontlines | `systems/world/national-territory-and-control-system.md` | Military presence does not automatically change legal sovereignty or control. |
-| Weather/environment | `systems/world/weather-and-environment-system.md` | ENV-001 | Canonical initial specification; actual weather/climate state and forecasts are distinct, consuming domains own effects; calibration and tests remain open. |
-| Characters | No canonical Character specification found in repository tree | Missing | Character owns persistent person identity and general character stats. Military owns officer role, rank, branch, appointment, service record, military qualifications, military-specific traits and military decision behaviour. |
+| Characters | `systems/characters/character-system.md` | CHAR-001 owns persistent person identity and general attributes; Military owns officer role, rank, branch, appointments, service record, qualifications, military-specific traits and military decision behaviour. |
+| Communications | `systems/communications/communications-system.md` | COMM-001 owns message delivery, latency, disruption and acknowledgement; source domains own payload meaning. |
+| Intelligence | `systems/intelligence/intelligence-system.md` | INTEL-001 owns assessments, confidence, dissemination and actor-specific knowledge; Sensors owns observations/tracks and Communications owns delivery. |
+| Government procurement and mobilisation authority | `technical/architecture/government-procurement-and-mobilisation-interface.md` | GOV-IF-001 defines the minimum authority contract for procurement/mobilisation; the full Government System remains missing. |
+| Research and technology progression | `technical/architecture/research-technology-progression-interface.md` | RES-IF-001 defines the minimum technology-availability boundary; the full Research System remains missing. |
 | Facilities and installations | `systems/infrastructure/installations-and-facilities-system.md` | Owns common facility identity, location/footprint, shared capacity, physical condition and lifecycle. Military owns specialised military functions and requirements. |
 | Industry and economic capacity | `systems/economy/industry-data.md`, `systems/economy/economy-system.md` | Industry defines establishment types/configuration; Economy owns financial state and transactions. |
 | Production processes and execution | `systems/production/production-processes-and-recipes.md`, `systems/production/production-system.md` | Recipe definitions and production execution remain separate from equipment design and military procurement intent. |
 | Physical stock and movements | `systems/inventory/inventory-system.md` | Inventory owns stock quantities, reservations, transfers and stock-changing transactions. Military must not create a parallel ammunition or equipment stock ledger. |
 | Population and labour | `systems/population/population-centres-system.md`, `technical/data-schemas/population-schema.md` | Population, demographic state and labour availability remain owned outside Military. |
 | Shared relational data conventions | `technical/data-schemas/data-model-foundations.md` | Domain schemas must follow common identity, time, history, validation and transaction conventions. |
-| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Existing architecture reference, now aligned to MOV-TRANS-001 and MIL-LOG-001; detailed movement schemas and conformance tests remain open. |
+| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Dependency map is aligned to MOV-TRANS-001 and MIL-LOG-001; detailed movement schemas and conformance tests remain open. |
 
 ## 6. Military interface ownership matrix
 
