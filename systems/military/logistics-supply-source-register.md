@@ -4,7 +4,7 @@
 **Canonical Path:** systems/military/logistics-supply-source-register.md  
 **Document ID:** MIL-LOG-SRC-001  
 **Document Type:** Supporting research-source register  
-**Status:** Scope-control rules established; source extraction continues; no physical conversion or capacity values are approved  
+**Status:** Initial source research pass completed; scoped evidence extracted; approval and remaining data acquisition are still open. No generic physical conversion, depot throughput/capacity or Supply Column capacity values are approved  
 **Historical Baseline:** 1 January 1955  
 **Technology Horizon:** At least 2026, extensible beyond
 
