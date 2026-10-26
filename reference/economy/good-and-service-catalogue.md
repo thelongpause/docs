@@ -1015,7 +1015,7 @@ A product identifier must remain consistent across the financial transaction, an
 
 ## 14. Logistics and Transportation Integration
 
-Products must expose sufficient information for Logistics to determine handling and transportation requirements where those requirements are simulated.
+Products must expose sufficient information for Movement and Transportation to evaluate physical cargo compatibility and for Logistics to plan and coordinate shipments where those requirements are simulated.
 
 ### 14.1 Cargo Properties
 
@@ -1031,13 +1031,13 @@ Relevant physical products may define:
 - Loading or unloading requirements.
 - Other supported transport attributes.
 
-Logistics uses these properties alongside transport capacity, route constraints, infrastructure, and operating rules.
+Movement and Transportation evaluates these properties alongside carrier capability, route constraints, infrastructure and operating rules. Logistics uses the resulting feasibility and capacity information to plan supply shipments and coordinate delivery.
 
 ### 14.2 Transport Compatibility
 
 The Catalogue may define transport restrictions or handling requirements.
 
-Logistics determines whether a particular vehicle, ship, aircraft, railway, or other transport asset can carry a product under current conditions.
+Movement and Transportation determines whether a particular vehicle, ship, aircraft, railway, or other transport asset can physically carry a product under current conditions. Logistics selects and coordinates the shipment using that result.
 
 A product's existence in the Catalogue does not imply that every transport mode can carry it.
 
@@ -1053,7 +1053,7 @@ The Service represents the economic activity of transportation. The cargo repres
 
 The Catalogue does not track goods in transit.
 
-Inventory and Logistics must ensure that physical stock remains accounted for during transport without being simultaneously available as stock at both the origin and destination.
+Inventory remains authoritative for physical stock and in-transit holdings. Movement and Transportation reports carrier progress and arrival; Logistics coordinates the shipment lifecycle and delivery; the systems must ensure cargo is not simultaneously available at origin and destination.
 
 The product's canonical identity must remain unchanged during the transfer unless an explicitly defined, authorised transformation occurs.
 
