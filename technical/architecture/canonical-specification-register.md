@@ -195,7 +195,7 @@ Military should not be declared complete until:
 
 ## 11. Recommended next system
 
-**Next dependencies to resolve: Government procurement authority, Weather/Environment and Research.**
+**Next dependencies to resolve: Research/Technology Progression and remaining implementation schemas.**
 
 Initial canonical behavioural specifications now exist for Movement and Transportation (MOV-TRANS-001), Character (CHAR-001), Communications (COMM-001) and Intelligence (INTEL-001). Their schemas, calibration, domain integration and conformance tests remain open.
 
