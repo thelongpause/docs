@@ -39,10 +39,14 @@ It does not replace domain specifications. A system specification owns its rules
 | Sensor definitions, initial historical examples, signatures, calibration and technology progression | `systems/military/sensor-detection-catalogue.md` | MIL-SENS-DATA-001 | Supporting reference-data catalogue, not a second detection rules engine. |
 | Electronic warfare, emissions, electronic attack/protection, jamming, countermeasures and EW effects | `systems/military/electronic-warfare.md` | MIL-EW-001 | Canonical EW behaviour specification. |
 | Cross-system decision architecture, AI observations/actions, integration risks and tests | `systems/integration/simulation-integration-and-ai-decision-architecture.md` | INT-AI-001 | Canonical cross-system integration reference; domain rules remain with domain owners. |
-| Military logistics and sustainment | `systems/military/logistics-and-sustainment.md` | MIL-LOG-001 | Canonical behavioural specification. Owns military supply demand, allocation, procurement coordination, shipment planning and delivery coordination; Inventory, Economy, Production, Transportation, Infrastructure and other systems retain their authoritative state. Initial interface conformance and end-to-end tests remain open. |
-| Transportation and cargo movement | No canonical Transportation System specification found in the audited `systems/` directories | TBD | **Missing dependency.** Logistics requires authoritative transport mode, carrier movement, route feasibility, capacity, travel time, access, and disruption interfaces. Determine whether an existing specification lives elsewhere; otherwise author the Transportation System before freezing implementation contracts. |
-| Communications and command-message delivery | No dedicated canonical system specification found in audited Military folder | TBD | External dependency required by command, sensors and EW. Determine whether a general Communications System exists elsewhere or author the missing system. |
-| Military intelligence and intelligence operations | No dedicated canonical system specification found in audited Military folder | TBD | External dependency for national AI, command and contact/report interpretation. Must be located or scoped explicitly. |
+| Military logistics and sustainment | `systems/military/logistics-and-sustainment.md` | MIL-LOG-001 | Canonical behavioural specification. Owns military supply demand, allocation, procurement coordination, shipment planning and delivery coordination. Inventory, Economy, Production, Infrastructure, Movement/Transportation and other systems retain their authoritative state. Interface audit and vertical-slice plan are documented; executable tests remain open. |
+| Movement and Transportation | No canonical Movement/Transportation specification found in the repository tree | TBD | **Missing critical dependency.** Must define authoritative unit/platform/carrier position and traversal, route feasibility, transport modes, movement progress, access, interruption and event contracts. Logistics owns supply demand, route choice, shipment coordination and delivery reconciliation, not physical movement execution. |
+| Character System | No canonical Character specification found in the repository tree | TBD | **Missing critical dependency.** Character owns persistent person identity and general attributes; Military owns the officer extension, service record, rank, appointments, qualifications and military-specific traits. |
+| Communications and message delivery | No canonical Communications specification found in the repository tree | TBD | **Missing critical dependency.** Must define message identity, sender/recipient, delivery state, latency, disruption, acknowledgement, relay and access rules for Command, Sensors, EW, Intelligence and AI. |
+| Intelligence | No canonical Intelligence specification found in the repository tree | TBD | **Missing critical dependency.** Must define assessment, source reliability, confidence, dissemination and actor-specific knowledge state; Sensors remains authoritative for observations and tracks. |
+| Weather and Environment | No canonical Weather/Environment specification found in the repository tree | TBD | **Missing dependency.** Must define environmental state, time/space scope, uncertainty and interfaces to Movement, Sensors, Equipment, Combat and Logistics. |
+| Government and Political Authority | No dedicated canonical Government specification found in the repository tree | TBD | **Missing dependency for procurement and mobilisation.** Define budget authority, procurement permissions, mobilisation and reserve-release rules, while Economy retains financial transaction state. |
+| Research and Technology Progression | No canonical Research specification found in the repository tree | TBD | **Missing dependency for equipment progression.** Define research knowledge/progress and unlock authority; design, Production and fielding remain separate states. |
 | Military training and course catalogue | Training concepts are included in the organisation specification; no separate canonical course catalogue found | TBD | Decide whether the initial course framework remains in the organisation system or requires a supporting catalogue. Do not create a duplicate training-state owner. |
 
 ## 4. Duplicate and legacy document resolution
@@ -65,15 +69,15 @@ The canonical choice favours the more comprehensive documents because they inclu
 | World geometry, coordinates, spatial queries and Movement Grid | `systems/world/world-map-system.md` | Owns spatial truth; Military must not maintain duplicate geometry. |
 | Terrain objects and terrain state | `systems/world/terrain-objects.md` | Owns terrain features and their simulation properties; movement, sensors and combat consume them. |
 | Territorial claims, sovereignty, control, occupation and frontlines | `systems/world/national-territory-and-control-system.md` | Military presence does not automatically change legal sovereignty or control. |
-| Weather/environment | Dedicated canonical path not verified in this audit | Must be located or explicitly specified; relevant to movement, sensors, aviation, naval operations and combat. |
-| Characters | Dedicated canonical Character System path not verified in this audit | Owns persistent person identity and general character stats. Military owns officer role, rank, branch, appointment, service record, military qualification, military-specific traits and command behaviour. |
+| Weather/environment | No canonical specification found in repository tree | Missing | Relevant to movement, sensors, aviation, naval operations, combat and logistics. |
+| Characters | No canonical Character specification found in repository tree | Missing | Character owns persistent person identity and general character stats. Military owns officer role, rank, branch, appointment, service record, military qualifications, military-specific traits and military decision behaviour. |
 | Facilities and installations | `systems/infrastructure/installations-and-facilities-system.md` | Owns common facility identity, location/footprint, shared capacity, physical condition and lifecycle. Military owns specialised military functions and requirements. |
 | Industry and economic capacity | `systems/economy/industry-data.md`, `systems/economy/economy-system.md` | Industry defines establishment types/configuration; Economy owns financial state and transactions. |
 | Production processes and execution | `systems/production/production-processes-and-recipes.md`, `systems/production/production-system.md` | Recipe definitions and production execution remain separate from equipment design and military procurement intent. |
 | Physical stock and movements | `systems/inventory/inventory-system.md` | Inventory owns stock quantities, reservations, transfers and stock-changing transactions. Military must not create a parallel ammunition or equipment stock ledger. |
 | Population and labour | `systems/population/population-centres-system.md`, `technical/data-schemas/population-schema.md` | Population, demographic state and labour availability remain owned outside Military. |
 | Shared relational data conventions | `technical/data-schemas/data-model-foundations.md` | Domain schemas must follow common identity, time, history, validation and transaction conventions. |
-| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Existing architecture reference is authoritative for its stated World/Population/Infrastructure/Production scope; extend it or add a Military dependency map rather than duplicating its ownership rules. |
+| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Existing architecture reference remains authoritative for its stated scope; update its Movement/Transportation versus Logistics wording to align with `technical/architecture/military-interface-audit-and-vertical-slice.md`. |
 
 ## 6. Military interface ownership matrix
 
@@ -114,25 +118,27 @@ The canonical choice favours the more comprehensive documents because they inclu
 
 ### Critical
 
-- **Military Logistics & Sustainment is missing as a canonical system specification.** Doctrine and Combat refer to logistics, supply, ammunition, fuel, maintenance, transport and readiness, but the dependency is not yet backed by a dedicated owner specification.
-- **Character System authority is unresolved in the repository index.** Prior design decisions require general character stats and person identity to remain in Character System, while military role, branch-specific traits, career and command behaviour belong to Military. The Character System's actual path and contract must be linked before schemas are frozen.
-- **Communications and Intelligence ownership need to be located or specified.** Sensors, EW, Command and AI depend on report delivery and intelligence assessment. Do not embed those systems independently in each military document.
-- **Duplicate Military specifications can produce contradictory implementation instructions.** The two shorter files must be explicitly marked legacy and their unique requirements reconciled.
+- **Movement/Transportation specification is missing.** Logistics requires actual movement, route traversal, carrier state, route feasibility and delivery-time interfaces.
+- **Character System specification is missing.** The conceptual Officer Character boundary is agreed, but the shared person schema and lifecycle contract are not canonicalised.
+- **Communications and Intelligence specifications are missing.** Command, Sensors, EW and AI need one authoritative message-delivery and intelligence-assessment contract.
+- **The end-to-end vertical slice has not yet been executed.** A documented plan exists, but runtime behaviour, transaction reconciliation and save/load idempotency remain unproven.
 
 ### High
 
-- **No single Military interface contract/schema is established.** Existing documents contain conceptual entities and acceptance criteria, but stable cross-system identifiers, event envelopes, lifecycle enums and transaction conventions need a shared contract.
-- **Ammunition and combat expenditure require an idempotent transaction boundary.** A firing event must not consume ammunition twice after save/load, retries or event replay.
-- **Order and engagement state must remain separate.** Command acceptance, order execution, weapon release, impact and mission effect are separate transitions.
-- **Military course definitions need a clear data owner.** Organisation may own assigned course profiles and training state; the course catalogue should define course identity, prerequisites, duration, costs and outcomes if this needs to scale.
-- **The 1955-to-2026 equipment and doctrine horizon needs data-driven progression.** Calendar dates must not directly grant technology or upgrade existing formations.
+- **Government procurement and mobilisation authority is not specified in the current repository tree.** Economy owns commercial/financial transaction state; the authority to approve defence expenditure, procurement and reserve release must be separately defined.
+- **Weather/Environment and Research specifications are missing.** They are required for environmental effects and technology-dependent equipment progression.
+- **No single Military interface schema is frozen.** Stable IDs, event envelopes, lifecycle statuses, quantity/unit rules, provenance, idempotency and replay behaviour require shared contracts.
+- **Supply Base nomenclature and capacity data required reconciliation.** The canonical organisation specification defines Combat Base Units with Medical, Maintenance and Supply capability classes; the Logistics specification now uses that identity. Numeric capacity tables and exact emergency-threshold denominators were not found in the repository.
+- **World dependency wording needs alignment.** Movement owns physical unit/platform traversal; Logistics owns supply planning, shipment coordination and delivery reconciliation. The precise transport asset/network capacity interfaces must be established in the missing Movement/Transportation specification.
 
 ### Medium / pending detailed review
 
-- Canonical IDs and versioning for branch, unit class, formation, course, officer appointment, equipment design/instance, sensor, EW installation, order, contact, engagement, damage event and supply transaction.
+- Canonical IDs and versioning for branch, unit class, formation, course, officer appointment, equipment design/instance, sensor, EW installation, order, contact, engagement, damage event, supply demand, shipment and inventory transaction.
 - Common simulation time and event ordering across movement, command, detection, EW, combat and logistics.
 - Domain-specific combat/art presentation must be separated from authoritative simulation state.
-- Acceptance tests need to exercise combined systems, not only isolated subsystem behaviour.
+- Acceptance tests must exercise combined systems, not only isolated subsystem behaviour.
+
+See [Military Interface Audit and End-to-End Vertical Slice](military-interface-audit-and-vertical-slice.md) for the detailed gap register, state boundaries, shared contract minimum, scenario fixture, failure branches and completion order.
 
 ## 9. Officer Characters and Military AI: explicit ownership decision
 
@@ -165,23 +171,25 @@ If “Military Art” means visual art, it is not a Character System simulation 
 
 Military should not be declared complete until:
 
-- [ ] Canonical and legacy files are reconciled and clearly marked.
-- [ ] Logistics & Sustainment specification is authored and linked.
-- [ ] Character System path and shared person/Officer contract are confirmed.
-- [ ] Communications and Intelligence owners are identified or specified.
-- [ ] Shared military interface contracts and lifecycle/event rules are documented.
-- [ ] Equipment, Inventory, Production and Military ownership is reconciled for ammunition, spares, procurement and fielding.
-- [ ] Doctrine, command, sensors, EW and combat pass an end-to-end vertical-slice test.
-- [ ] AI nations can request, allocate and sustain forces without bypassing production, stock, transport or readiness.
-- [ ] Character stats remain in Character System; military appointments and branch-specific traits remain in Military.
-- [ ] A Military Art / visual-reference scope is recorded as presentation-only and does not duplicate character or simulation data.
+- [x] Canonical and legacy Military files are reconciled and clearly marked.
+- [x] Logistics & Sustainment specification is authored, registered and linked.
+- [ ] Movement/Transportation specification and route/traversal contract are canonical.
+- [ ] Character System path and shared person/Officer contract are canonical.
+- [ ] Communications and Intelligence owners are specified.
+- [ ] Government procurement/mobilisation authority, Weather/Environment and Research dependencies are confirmed or specified.
+- [ ] Shared military interface contracts and lifecycle/event rules are documented in implementation-ready schemas.
+- [ ] Equipment, Inventory, Production, Economy, Government and Military ownership is reconciled for ammunition, spares, procurement and fielding.
+- [ ] The company-to-unit sustainment vertical slice passes, including failure branches.
+- [ ] Doctrine, command, sensors, EW and combat pass integrated acceptance tests.
+- [ ] AI nations can request, allocate and sustain forces without bypassing production, stock, movement or readiness.
+- [x] Character stats remain in Character System; military appointments and branch-specific traits remain in Military as the agreed ownership decision.
+- [x] Military visual/art scope is presentation-only and does not duplicate character or simulation data.
 - [ ] Cross-system tests cover save/load, event replay, idempotency, information boundaries and Player/AI parity.
 
 ## 11. Recommended next system
 
-**Next Military system to author: Logistics & Sustainment.**
+**Next dependency to author: Movement and Transportation.**
 
-This is the largest missing military domain because command, operations and combat already rely on supply, transport, fuel, ammunition, maintenance, recovery, replacement, medical support and operational reach. Its specification must integrate with Inventory, Production, Infrastructure, World/Movement, Equipment, Military organisation, Command and Combat without duplicating any of their state.
+Logistics now has a canonical behavioural specification, but cannot be validated end-to-end without an authoritative contract for carrier and unit traversal, route feasibility, movement progress, transport modes, access, capacity interfaces, interruption and arrival. Keep physical movement execution separate from Logistics' supply planning, shipment coordination and delivery reconciliation.
 
-After Logistics & Sustainment, complete the remaining Military interfaces and the end-to-end vertical slice. Do not move to the next top-level game system until the Military completion checklist is satisfied.
-
+After Movement/Transportation, author or recover the Character, Communications and Intelligence specifications, then resolve Government procurement authority, Weather/Environment and Research. Use the vertical-slice plan in [Military Interface Audit and End-to-End Vertical Slice](military-interface-audit-and-vertical-slice.md) to test the shared contracts. Do not move to the next top-level game system until the Military completion checklist is satisfied.
