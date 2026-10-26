@@ -417,7 +417,7 @@ This contract is ready for implementation when:
 
 1. The shared event envelope and ID conventions are accepted by all relevant domain owners.
 2. Supply demand, procurement, shipment/cargo, movement task, Inventory transaction, message, intelligence assessment and Character extension schemas are versioned and validated.
-3. Generic stock conversion and emergency-threshold semantics are explicit.
+3. The conversion basis and emergency-threshold semantics are explicit, and all physical conversions used by simulation are backed by approved versioned records.
 4. Inventory, Economy, Production, Government, Movement/Transportation and Logistics transaction boundaries are tested.
 5. Save/load and retries preserve stock conservation, movement state, message delivery and actor knowledge.
 6. The company-to-unit sustainment and command-to-intelligence vertical slices pass with Player/AI parity.
