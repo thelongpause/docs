@@ -156,11 +156,13 @@ A Supply Unit is a military organisational entity tasked with supply handling or
 
 These are military entities, not abstract teleportation services. Their equipment, personnel, fuel, load, movement, protection, command, and vulnerability must be represented through existing Military systems.
 
-### 4.9 Supply Base Unit and Supply Base
+### 4.9 Supply Capability, Combat Base Units, and Supply Bases
 
-A Supply Base Unit is a military support formation or unit organised around a configured supply-base capability. A Supply Base is the operational logistics function or site it provides. A fixed depot or installation can also provide supply-base functions if configured to do so; the model must not require every depot to be a mobile formation.
+The canonical Military Branches and Unit Organisation specification defines a **Combat Base Unit** as a mobile or deployable military support formation whose configured capability classes initially include Medical, Maintenance, and Supply. Logistics must use that canonical unit identity rather than creating a competing organisational entity called a Supply Base Unit.
 
-Supply Base Units and fixed supply sites may have distinct capacities for storing, handling, loading, unloading, issuing, and transferring different cargo classes. Capacity must not be represented as one universal number when product handling differs materially.
+A **Supply-capable Combat Base Unit** is a Combat Base Unit with a configured Supply capability. A **Supply Base** is the operational logistics function or site provided by a fixed installation, depot, or configured support formation. A fixed depot or installation can provide supply-base functions without being a mobile formation.
+
+A Supply-capable Combat Base Unit and a fixed Supply Base are therefore different kinds of entities that can provide overlapping logistics functions. They must not be conflated. Their distinct capacities for storing, handling, loading, unloading, issuing, and transferring different cargo classes must be represented separately where relevant. Capacity must not be represented as one universal number when product handling differs materially.
 
 ## 5. Demand Generation and Forecasting
 
@@ -291,7 +293,7 @@ No single universal priority score should erase explicit authority, hard constra
 
 The system must distinguish routine requests from emergency requests. Emergency requests indicate that delay may cause immediate loss of capability, unacceptable risk to personnel, mission failure, or another defined severe consequence.
 
-The current Project Sovereign design notes available for this work specify emergency thresholds of **50% below baseline for ammunition and fuel** and **30% below baseline for Basics**. Preserve these as the intended defaults unless the user or canonical data explicitly revises them. They should be represented as configurable thresholds, not duplicated as unrelated constants in several systems. The canonical Military Organisation file does not currently define these thresholds, so their authoritative home, precise denominator, and scope must be confirmed against the original supply/unit-level design before implementation.
+The currently available conversation context records intended emergency thresholds of **50% below baseline for ammunition and fuel** and **30% below baseline for Basics**. However, the repository-wide specification audit did not locate a canonical source defining these values, their denominator, or their scope. Treat them as provisional design inputs pending recovery of the original rule, not as verified canonical constants. Once confirmed, define them once in the authoritative supply-demand configuration and reference them from all consumers.
 
 Emergency classification does not guarantee delivery or permit the system to create stock. It changes the request's urgency and allocation consideration, subject to authority, physical feasibility, and competing emergencies.
 
@@ -339,7 +341,7 @@ Capacity must be represented in the appropriate units for the operation being co
 
 A supply base may have abundant stock but insufficient unloading capacity. A route may have adequate throughput but lack a suitable vehicle. A depot may have space but lack the equipment or permission to handle a hazardous product. Each constraint must be evaluated separately.
 
-Where the existing Supply Base Unit model defines payload capacities for ammunition and Basics and bulk fuel capacity, those separate capacities must be retained. Do not collapse them into a single universal cargo-capacity field unless a lower-level equipment model explicitly supports that abstraction.
+Where the canonical or scenario data defines separate payload capacities for ammunition, Basics, and bulk fuel, those separate capacities must be retained. The repository audit did not find an authoritative numeric capacity table for these classes. Do not invent or collapse such values into a single universal cargo-capacity field unless a lower-level equipment model explicitly supports that abstraction.
 
 ### 8.3 Supply Bases and Depots
 
