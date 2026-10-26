@@ -46,7 +46,9 @@ The architecture separates geographic truth, mutable simulation state, and deriv
 | Production state | Production | Facility, capacity, order, execution |
 | Physical stock | Inventory | Stock lot, quantity, location, reservation, movement |
 | Product identity and units | Good and Service Catalogue | `catalogue_id`, class, canonical unit |
-| Transport and delivery | Logistics | Network use, shipment, in-transit state, delivery |
+| Physical unit/platform/carrier position and route traversal | Movement/Transportation (canonical specification pending) | Current position, movement mode, traversal progress, arrival and interruption events |
+| Supply demand, shipment coordination and delivery reconciliation | Logistics | Demand, allocation, cargo manifest, shipment lifecycle and delivery status |
+| Physical stock and stock movement | Inventory | Holdings, reservations, transfers, receipts, consumption and losses |
 | Rendering and derived caches | Runtime/build pipeline | Meshes, visual layers, cell samples, spatial indexes |
 
 A system may cache another system's data for performance, but cached copies must be invalidatable and must not become authoritative.
@@ -122,7 +124,9 @@ Industry Data defines establishment configuration. Economy owns establishment co
 
 ### 5.6 Physical Infrastructure and Logistics
 
-Roads, railways, rivers and crossings provide geographic features for transport-network construction and traversal. Logistics owns network interpretation, transport capacity, shipment state and delivery. Movement owns Unit traversal rules.
+Roads, railways, rivers and crossings provide geographic features for transport-network construction and traversal. The World Map owns geometry; Terrain and Environment provide relevant physical state; Infrastructure owns shared facility identity, condition, capabilities and generic capacity definitions; Movement/Transportation must own actual unit, platform and carrier traversal, movement progress, route feasibility and arrival/interruption events; Logistics owns supply route choice, shipment/cargo lifecycle coordination and delivery reconciliation; Inventory owns physical cargo quantities and stock transitions.
+
+The canonical Movement/Transportation specification is not yet present in the repository and must be authored before implementation contracts are frozen. Until then, these boundaries are the target architecture, not a claim that the movement simulation is implemented.
 
 The existence of a road line does not guarantee that it is connected, passable, maintained, available to a particular transport mode or operational in its current state.
 
@@ -169,7 +173,7 @@ The following specifications extend the world and simulation ownership model:
 
 ### Political and Military Spatial State
 
-The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Movement provides authoritative continuous unit/platform positions and route traversal. Military Systems provide unit identity, formations, orders, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
+The World Map System owns canonical coordinates, geometry, spatial indexing, and spatial queries. The National Territory and Control System owns political meaning and territorial control state. Movement/Transportation is intended to provide authoritative continuous unit/platform/carrier positions, route traversal and movement events; its canonical specification remains a required dependency. Logistics coordinates supply route choice, shipments and delivery but does not duplicate physical traversal state. Military Systems provide unit identity, formations, orders, and operational presence; the territory system derives or records control using explicit rules. National borders must not be treated as frontlines, and a frontline must not automatically change legal sovereignty.
 
 ### Installation and Facility State
 
