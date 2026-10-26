@@ -735,6 +735,9 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 - [Inventory System](../inventory/inventory-system.md) — authoritative physical stock and stock transactions.
 - [Industry Data](../economy/industry-data.md) — canonical Industry Types and company/industry configuration.
 - [Good and Service Catalogue](../../reference/economy/good-and-service-catalogue.md) — canonical goods, services, specifications, and units.
+- [Military Cross-System Interface Contracts](../../technical/data-schemas/military-interface-contracts.md) — demand, procurement, shipment, inventory and movement interface contracts.
+- [World and Command Interface Contracts](../../technical/data-schemas/world-and-command-interface-contracts.md) — movement task and transport/cargo integration contracts.
+- [Military Interface Audit and End-to-End Vertical Slice](../../technical/architecture/military-interface-audit-and-vertical-slice.md) — integration gap register and company-to-unit/command-to-intelligence acceptance scenarios.
 - [Simulation Integration and AI Decision Architecture](../integration/simulation-integration-and-ai-decision-architecture.md) — shared interfaces, decision architecture, AI parity, and integration testing.
 
 ---
