@@ -152,7 +152,9 @@ A shipment can be planned, approved, reserved, prepared, loaded, dispatched, in 
 
 ### 4.8 Supply Unit and Supply Column
 
-A Supply Unit is a military organisational entity tasked with supply handling or distribution. A Supply Column is a physical mobile military unit tasked to carry supplies to drawing units and then return to its originating or assigned supply base according to its task.
+A **Supply Unit** is an organisational military combat-support formation, trained, equipped, staffed and commanded like other military Units, whose role includes holding and distributing supplies. When configured with a Supply Depot, the Supply Unit is a **Supply Base Unit**. Its Depot holds the military-facing stock categories Ammunition, Basics (Food & Hydration), and Fuel. It is distinct from the physical stock records that Inventory owns.
+
+A **Supply Column** is a separate, physical mobile transport Unit tasked to carry supplies from a Supply Base to a drawing Unit, deliver and unload the supplies, then return to its originating or assigned supply base according to its task. A Supply Column is not the Supply Base Unit and does not replace the base's stored stock.
 
 Supply Columns travel through the world as actual map units. Their dispatch, route, loading, travel, delivery/unloading, return, suspension and abort states must be explicit. They require valid personnel, equipment, fuel, carrying capacity, command/tasking and a feasible route. They may be delayed, rerouted, interrupted, attacked, damaged, captured or destroyed.
 
@@ -199,7 +201,11 @@ The current design defines the following **Standard Stock per Unit Size per Day*
 | Platoon | 1 |
 | Section | 1 |
 
-These are generic planning values, not physical units such as tonnes, litres, rounds, or individual rations. They must be converted to product-level quantities through the configured requirements for the drawing unit and the relevant supply category. The current canonical source does not yet specify whether every category uses the same factor or the exact category-specific conversion; the data contract must preserve the values above and make each conversion explicit rather than inventing a universal physical unit.
+These are generic military stock-planning units, not physical units such as tonnes, litres, rounds, or individual rations. They provide the standard per-day baseline by formed Unit Size.
+
+The established design specifies that generic stock is mapped to actual physical goods through explicit product/category conversion data. On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities are converted or allocated to the specific ammunition and Basics requirements appropriate to that Unit's formation and standard requirement. This is a mapping of stock quantity to the recipient's requirement, not permission to create physical goods or change one product into another without an authorised transformation. The physical goods remain canonical Catalogue products and Inventory-backed quantities throughout procurement, transport and receipt. Fuel remains a separate Fuel stock category and must be mapped to compatible fuel products under its own explicit unit/conversion rules.
+
+The exact conversion table from generic planning units to product-level physical quantities is not present in the current canonical data and remains an implementation/reference-data requirement. Do not assume that the same physical conversion applies to every formation, ammunition type, food/hydration product or fuel. The data contract must preserve the factors above and make each conversion explicit rather than inventing a universal physical unit.
 
 A unit's projected requirement should be calculated from its actual personnel, equipment, tasking, unit size and relevant profiles. Unit size supplies the stated default factor, but must not override actual composition or operating state where an explicit rule defines a more precise requirement. Activity-based demand is calculated separately and reconciled with the baseline without double-counting.
 
