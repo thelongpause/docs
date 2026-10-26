@@ -48,7 +48,8 @@ It is not the authority for every economic, geographic, logistical or organisati
 | Terrain and Geography | Physical locations, terrain, elevation, infrastructure geography and spatial relationships | Supplies location and environmental context |
 | Government and Law | Permissions, policy, regulation, restrictions and mandates | Determines whether activities are legally permitted |
 | Workforce and Population | Population, labour availability, skills, employment and labour allocation, where implemented | Supplies workforce availability and constraints |
-| Logistics and Transportation | Goods movement, transportation capacity, routes, dispatch and delivery | Determines whether inputs and outputs can be transported |
+| Movement and Transportation | Physical carrier movement, route feasibility, transport execution and arrival events | Executes physical movement and returns route/transport feasibility |
+| Logistics and Sustainment | Shipment planning, cargo coordination, delivery scheduling and reconciliation | Coordinates supply/delivery plans without owning physical movement or stock |
 | Military and Organisations | Military requirements, procurement, acceptance and operational demand | May originate production requirements or receive outputs |
 | Construction and Infrastructure | Construction projects, infrastructure assets, commissioning and upgrades | Supplies the rules for creating or modifying physical productive assets |
 
