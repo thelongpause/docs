@@ -794,18 +794,13 @@ This integration specification is ready to guide implementation when:
 
 ---
 
-## 18. Repository specification governance gap
+## 18. Repository specification governance: audit result
 
-The current military directory contains multiple similarly named specifications that may represent earlier drafts, alternate versions, or overlapping canonical documents:
+The canonical register is now maintained at [`technical/architecture/canonical-specification-register.md`](../../technical/architecture/canonical-specification-register.md). It designates the authoritative Military specifications, normalises the organisation and equipment document IDs, records legacy duplicates, defines the system ownership matrix, and tracks missing dependencies.
 
-- `systems/military/branches-and-unit-organisation.md`
-- `systems/military/military-branches-and-unit-organisation.md`
-- `systems/military/equipment-and-material-system.md`
-- `systems/military/equipment-and-materiel-system.md`
+The two shorter duplicate specifications have been marked as legacy/superseded, their retired document IDs reassigned to the canonical files, and their known unique requirements reconciled into the canonical specifications. They remain in the repository as read-only historical references until a separate housekeeping decision. Implementation agents should use only the canonical paths listed in the register.
 
-These paths differ in content size and must not be assumed to be byte-for-byte duplicates or interchangeable. Before implementation planning, establish a canonical document manifest that records each system's authoritative path, document ID, status, supersession relationship, and dependencies. Mark superseded specifications clearly or archive them through an intentional repository change. Do not delete or merge them based only on filename similarity.
-
-This is a documentation-governance risk because implementation agents may otherwise consume conflicting requirements, duplicate entities, or inconsistent interface definitions. The new integration specification is canonical at `systems/integration/simulation-integration-and-ai-decision-architecture.md`; it does not silently designate either similarly named military document as superseded.
+The audit also identifies Military Logistics & Sustainment as the next missing Military system specification, and flags Character System, Communications, Intelligence, and Environment ownership for confirmation before the Military interface contract is frozen.
 
 ## References
 
