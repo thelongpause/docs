@@ -44,7 +44,7 @@ It is not the authority for every economic, geographic, logistical or organisati
 | Production Processes and Recipes | Transformation definitions, recipe versions, input/output quantities, yields, by-products, waste and process-level requirements | Defines the transformation executed by Production |
 | Inventory | Physical stock, quantities, locations, condition, ownership, reservations, transfers, delivery and consumption | Supplies inputs and records resulting physical stock changes |
 | Good and Service Catalogue | Canonical product identities, classifications, attributes and units | Defines the Goods and Services referenced by Production |
-| Research | Technologies, designs, research progression and technology availability | Defines technological prerequisites and available knowledge |
+| Research / Technology Progression | Technology knowledge, research progression and technology availability | Defines technological prerequisites and available knowledge; equipment design owns candidate designs and engineering integration |
 | Terrain and Geography | Physical locations, terrain, elevation, infrastructure geography and spatial relationships | Supplies location and environmental context |
 | Government and Law | Permissions, policy, regulation, restrictions and mandates | Determines whether activities are legally permitted |
 | Workforce and Population | Population, labour availability, skills, employment and labour allocation, where implemented | Supplies workforce availability and constraints |
