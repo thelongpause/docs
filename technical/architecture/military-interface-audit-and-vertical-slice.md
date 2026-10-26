@@ -17,7 +17,7 @@ This document records the repository-wide interface audit required to complete M
 
 The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from conversation but has no canonical repository source, it is recorded as provisional and must not be misrepresented as a verified canonical rule.
 
-**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant missing dependencies are Movement/Transportation, Character, Communications, Intelligence, and Weather/Environment specifications. Government procurement authority also lacks a dedicated canonical system specification in the current repository. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
+**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are Character, Communications, Intelligence, and Weather/Environment specifications. Movement and Transportation now has a canonical initial behavioural specification; its detailed schemas and conformance tests remain open. Government procurement authority also lacks a dedicated canonical system specification in the current repository. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
 
 ## 2. Audit Method and Scope
 
@@ -118,7 +118,7 @@ Adopt the following target boundary:
 
 A Logistics route plan is not the same as actual movement execution. A shipment is not received merely because a carrier's route ends at the destination. Movement reports progress and arrival; Logistics coordinates unloading and delivery; Inventory confirms receipt.
 
-The existing `world-simulation-dependencies.md` has been revised to separate physical movement traversal from Logistics shipment planning and delivery reconciliation. The canonical Movement/Transportation specification is still missing, so detailed carrier/network capacity interfaces remain open.
+The existing `world-simulation-dependencies.md` has been revised to separate physical movement traversal from Logistics shipment planning and delivery reconciliation. The canonical Movement/Transportation specification now exists, but detailed carrier/network capacity interfaces remain open until schemas and conformance tests are completed.
 
 ### 5.5 Company Procurement and Economic Supply
 
@@ -295,7 +295,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 
 | ID | Gap | Severity | Required resolution | Status |
 |---|---|---|---|---|
-| IF-MIL-01 | Movement/Transportation system specification missing | Critical | Author canonical movement and transportation contract; reconcile World, Terrain, Infrastructure, Equipment and Logistics | Open |
+| IF-MIL-01 | Movement/Transportation implementation contract incomplete | Critical | Initial canonical specification authored; freeze schemas and test route/traversal/capacity contracts across World, Terrain, Infrastructure, Equipment and Logistics | Specification authored; conformance open |
 | IF-MIL-02 | Character System specification missing | Critical | Recover or author canonical person/general-stat contract; preserve Military extension boundary | Open |
 | IF-MIL-03 | Communications specification missing | Critical | Define message delivery, latency, disruption, acknowledgement and information access | Open |
 | IF-MIL-04 | Intelligence specification missing | Critical | Define assessments, source reliability, confidence, dissemination and knowledge boundaries | Open |
@@ -312,15 +312,14 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 
 ## 10. Recommended Completion Order
 
-1. Align the World dependency map and canonical register with the current Logistics specification.
-2. Author **Movement and Transportation** as the next missing shared dependency, because Logistics cannot be executed or tested without a canonical physical-movement contract.
-3. Recover or author the Character System contract and link it from Military Organisation and the canonical register.
-4. Author Communications and Intelligence contracts, ensuring Sensor, EW, Command and AI dependencies converge on one owner per state.
-5. Confirm Government procurement/budget authority and Weather/Environment and Research specifications.
-6. Resolve the original Supply/Base Unit capacity and emergency-threshold rules from their source.
-7. Freeze common event, transaction and lifecycle schemas.
-8. Execute the company-to-unit vertical slice and the additional Military integration tests.
-9. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
+1. Complete Movement/Transportation schemas, detailed mode calibration and conformance tests; align the World dependency map and canonical register.
+2. Author or recover the Character System contract and link it from Military Organisation and the canonical register.
+3. Author Communications and Intelligence contracts, ensuring Sensor, EW, Command and AI dependencies converge on one owner per state.
+4. Confirm Government procurement/budget authority and Weather/Environment and Research specifications.
+5. Resolve the original Supply/Base Unit capacity and emergency-threshold rules from their source.
+6. Freeze common event, transaction and lifecycle schemas.
+7. Execute the company-to-unit vertical slice and the additional Military integration tests.
+8. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
 
 ---
 
