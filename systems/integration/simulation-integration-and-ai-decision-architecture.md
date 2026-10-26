@@ -794,6 +794,19 @@ This integration specification is ready to guide implementation when:
 
 ---
 
+## 18. Repository specification governance gap
+
+The current military directory contains multiple similarly named specifications that may represent earlier drafts, alternate versions, or overlapping canonical documents:
+
+- `systems/military/branches-and-unit-organisation.md`
+- `systems/military/military-branches-and-unit-organisation.md`
+- `systems/military/equipment-and-material-system.md`
+- `systems/military/equipment-and-materiel-system.md`
+
+These paths differ in content size and must not be assumed to be byte-for-byte duplicates or interchangeable. Before implementation planning, establish a canonical document manifest that records each system's authoritative path, document ID, status, supersession relationship, and dependencies. Mark superseded specifications clearly or archive them through an intentional repository change. Do not delete or merge them based only on filename similarity.
+
+This is a documentation-governance risk because implementation agents may otherwise consume conflicting requirements, duplicate entities, or inconsistent interface definitions. The new integration specification is canonical at `systems/integration/simulation-integration-and-ai-decision-architecture.md`; it does not silently designate either similarly named military document as superseded.
+
 ## References
 
 - Command Ops 2: https://store.steampowered.com/app/521800/Command_Ops_2_Core_Game/
