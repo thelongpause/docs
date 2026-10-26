@@ -17,7 +17,7 @@ This document records the repository-wide interface audit required to complete M
 
 The audit covers the current repository tree, not unpublished notes or files outside the repository. Where a prior design decision is known from the user's earlier design but has no canonical repository source, the established value is recorded separately from unresolved implementation details such as denominator, units, data mapping or calibration.
 
-**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The most significant remaining missing dependencies are the full Government System and full Research System specifications. Supporting Government procurement/mobilisation and Research/Technology Progression interface contracts now exist. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment have canonical initial behavioural specifications; their detailed schemas, calibration and conformance tests remain open. The Government procurement/mobilisation interface is documented; the full Government System specification remains outside this dependency audit. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map, and Terrain specifications provide substantial foundations for the vertical slice.
+**Current outcome:** the principal Military behavioural specifications exist, including Logistics & Sustainment. Military is not yet integration-complete. The full Government and Research system specifications remain outside this Military dependency scope. Supporting Government procurement/mobilisation and Research/Technology Progression interface contracts exist. Movement and Transportation, Character, Communications, Intelligence and Weather/Environment have canonical behavioural specifications and now have an implementation-facing logical schema contract in `technical/data-schemas/world-and-command-interface-contracts.md` (SCHEMA-WORLD-CMD-001). Military supply/procurement/shipment contracts are in `technical/data-schemas/military-interface-contracts.md` (SCHEMA-MIL-001). Remaining gaps are the approved numeric/reference data, database-specific constraints, end-to-end runtime integration and executable conformance tests. Existing Economy, Industry Data, Production, Inventory, Catalogue, Infrastructure, World Map and Terrain specifications provide foundations for the sustainment slice.
 
 ## 2. Audit Method and Scope
 
@@ -297,16 +297,16 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 
 | ID | Gap | Severity | Required resolution | Status |
 |---|---|---|---|---|
-| IF-MIL-01 | Movement/Transportation implementation contract incomplete | Critical | Initial canonical specification authored; freeze schemas and test route/traversal/capacity contracts across World, Terrain, Infrastructure, Equipment and Logistics | Specification authored; conformance open |
-| IF-MIL-02 | Character System schemas and attribute catalogue incomplete | Critical | Initial canonical specification authored at `systems/characters/character-system.md` (CHAR-001); finalise general attribute catalogue, lifecycle schemas and Military extension conformance tests | Specification authored; schema/tests open |
-| IF-MIL-03 | Communications schemas and channel model incomplete | Critical | Initial specification authored at `systems/communications/communications-system.md` (COMM-001); finalise endpoint/channel schemas, historical catalogue and integrated tests | Specification authored; schema/tests open |
-| IF-MIL-04 | Intelligence schemas and assessment calibration incomplete | Critical | Initial specification authored at `systems/intelligence/intelligence-system.md` (INTEL-001); finalise source/assessment schemas, confidence calibration and integrated tests | Specification authored; schema/tests open |
+| IF-MIL-01 | Movement/Transportation implementation contract incomplete | Critical | Logical movement task, route, transport assignment, cargo manifest and event contracts now documented in SCHEMA-WORLD-CMD-001; resolve database types and calibrated mode/capacity data, then execute route/traversal/capacity tests across World, Terrain, Infrastructure, Equipment and Logistics | Logical schema documented; calibration/runtime tests open |
+| IF-MIL-02 | Character System schemas and attribute catalogue incomplete | Critical | Character identity, attribute-history, relationship, lifecycle and Military Officer extension contracts now documented in SCHEMA-WORLD-CMD-001; approve the general attribute catalogue/scales and execute lifecycle/extension tests | Logical schema documented; catalogue/tests open |
+| IF-MIL-03 | Communications schemas and channel model incomplete | Critical | Message, delivery-attempt, endpoint, link and event contracts now documented in SCHEMA-WORLD-CMD-001; approve channel taxonomy, historical availability and latency/reliability calibration, then execute delivery/retry tests | Logical schema documented; calibration/tests open |
+| IF-MIL-04 | Intelligence schemas and assessment calibration incomplete | Critical | Report, evidence link, assessment, actor-knowledge and event contracts now documented in SCHEMA-WORLD-CMD-001; approve source taxonomy and confidence/reliability calibration, then execute provenance, access and staleness tests | Logical schema documented; calibration/tests open |
 | IF-MIL-05 | Full Government System and Treasury/policy schemas incomplete | High | Minimum procurement/mobilisation interface authored at `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001); complete full Government schema and policy contracts after Military dependency closure | Interface documented; full system open |
 | IF-MIL-06 | Weather/Environment catalogue and calibration incomplete | High | Initial specification authored at `systems/world/weather-and-environment-system.md` (ENV-001); finalise variables, historical data, calibration and domain-consumer tests | Specification authored; calibration/tests open |
 | IF-MIL-07 | Full Research System specification missing | High | Supporting interface contract exists at `technical/architecture/research-technology-progression-interface.md` (RES-IF-001); author the full Research System after Military integration dependencies are closed | Interface documented; full system open |
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit configured with a Supply Depot; distinguish mobile Supply Base Unit from a fixed Supply Base/site | Resolved in Military Organisation and Logistics specifications |
 | IF-MIL-09 | Supply capacity values and exact baseline conversion remain incomplete | High | Standard Stock per Unit Size per Day factors and emergency thresholds have been recovered from the user's prior design; define category-specific physical conversion, threshold denominator, reserved/in-transit treatment, and numeric Handling/Payload/Bulk Fuel capacity data | Partially resolved; configuration/data open |
-| IF-MIL-10 | Shared event envelope and cross-system physical schemas not frozen | Critical | Draft logical contract authored at `technical/data-schemas/military-interface-contracts.md` (SCHEMA-MIL-001); finalise ID primitives, physical schemas, constraints, event ordering and conformance tests | Draft authored; implementation schema open |
+| IF-MIL-10 | Shared event envelope and cross-system physical schemas not frozen | Critical | SCHEMA-MIL-001 and SCHEMA-WORLD-CMD-001 now document the shared logical event envelope, domain record shapes, ownership boundaries and minimum conformance tests; select shared ID/time primitives, map to physical database schemas, add constraints/migrations and execute runtime tests | Logical contracts documented; physical schema/runtime tests open |
 | IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; complete detailed movement interfaces through schemas and conformance tests | Resolved at architecture-text level; detailed contract tests open |
 | IF-MIL-12 | End-to-end vertical slice not yet executed | Critical | Implement/run baseline and failure scenarios with deterministic state reconciliation | Open |
 | IF-MIL-13 | Medical/personnel effects of Basics and medical supplies lack confirmed owner interface | High | Confirm Character/Personnel/Medical authority; Logistics only publishes shortage/availability facts | Open |
@@ -314,18 +314,32 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 
 ## 10. Recommended Completion Order
 
-1. Complete Movement/Transportation schemas, detailed mode calibration and conformance tests; align the World dependency map and canonical register.
-2. Complete the Character general-attribute catalogue and schemas, and validate the Military Officer extension against the Character System.
-3. Complete Communications and Intelligence schemas/catalogues and integrate them with Sensors, EW, Command and AI.
-4. Complete the Government interface's exact policy/Treasury schema as needed for the vertical slice; define the minimum Research unlock data needed by equipment design; complete Weather/Environment variable catalogue and calibration.
+1. Review SCHEMA-MIL-001 and SCHEMA-WORLD-CMD-001 together; select shared ID/time primitives and translate logical contracts into database-specific schemas, constraints and migrations.
+2. Approve the Character general-attribute catalogue and scales; validate the Military Officer extension against Character without duplicating general state.
+3. Approve Communications channel definitions and Intelligence source/confidence representations; integrate message delivery, actor-specific knowledge, Sensors, EW, Command and AI.
+4. Define the initial Weather/Environment variable catalogue, canonical units, spatial/temporal resolution, uncertainty representation and terrain-transition handoff; calibrate movement-mode and carrier-capacity data.
 5. Define the category-specific generic-to-physical stock conversion, emergency-threshold denominator and reserved/in-transit treatment; recover the numeric Supply Base Unit Handling/Payload/Bulk Fuel and Supply Column capacity values.
-6. Freeze common event, transaction and lifecycle schemas.
-7. Execute the company-to-unit and command-to-intelligence vertical slices and the additional Military integration tests.
+6. Resolve the user-owned supply conversion, threshold-denominator and capacity decisions recorded in Section 11; publish them as versioned reference data rather than hard-coded constants.
+7. Implement and execute the company-to-unit sustainment and command-to-intelligence vertical slices, including save/load, retries, partial delivery, interruption, stale/contradictory intelligence, message loss and Player/AI parity.
 8. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
 
 ---
 
-## 11. Completion Rule
+## 11. Decisions Required to Close Supply Data
+
+The repository contains the established Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) and emergency triggers (below 50% of baseline for Ammunition/Fuel; below 30% for Basics). It does not contain the physical conversion or numeric capacity values needed to instantiate these rules without inventing data.
+
+The following require user confirmation before they can be frozen as canonical configuration:
+
+1. **Physical conversion basis:** should each formation/category map generic Standard Stock to explicit physical product quantities through its equipment/personnel/task profile, or do you have fixed category-specific conversion factors already intended?
+2. **Emergency denominator:** should the baseline be the unit's authorised standard requirement for the relevant category over one day, adjusted for current personnel/equipment/task, or a different defined period/profile? Should reserved stock count as unavailable, and should in-transit stock count only after confirmed receipt (recommended for immediately available stock)?
+3. **Supply Base Unit capacities:** provide the intended Handling throughput (tonnes/hour), Payload capacity (Ammunition + Basics, with the chosen mass/volume basis), and Bulk Fuel capacity (litres or tonnes, with product density/unit handling defined if mass-based).
+4. **Supply Column capacity:** provide cargo capacity and whether it is measured by mass, volume, pallet/standard load units, or multiple simultaneous constraints. If capacity varies by vehicle/formation class, provide the intended class-level table or confirm that it should derive from actual vehicle/equipment composition.
+5. **Initial scope:** should baseline capacity values be universal defaults for an abstract prototype, or should they be defined per Supply Depot/Unit and Supply Column configuration? The architecture supports per-configuration values; universal defaults should only be used if that is the intended abstraction.
+
+Do not supply estimates if you want these derived from historical doctrine/equipment data; in that case the next task is to establish a sourced, versioned reference-data table, with any uncertain values marked as estimates rather than canon.
+
+## 12. Completion Rule
 
 Military is complete only when the canonical Military specifications, required shared dependencies, state ownership contracts and acceptance tests agree. The minimum proof is an executable, save/load-safe vertical slice demonstrating procurement or valid stock sourcing, production where required, physical transport, receipt, consumption, and resulting operational consequences under both Player and AI control.
 
