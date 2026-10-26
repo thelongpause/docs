@@ -41,7 +41,7 @@ It does not replace domain specifications. A system specification owns its rules
 | Cross-system decision architecture, AI observations/actions, integration risks and tests | `systems/integration/simulation-integration-and-ai-decision-architecture.md` | INT-AI-001 | Canonical cross-system integration reference; domain rules remain with domain owners. |
 | Military logistics and sustainment | `systems/military/logistics-and-sustainment.md` | MIL-LOG-001 | Canonical behavioural specification. Owns military supply demand, allocation, procurement coordination, shipment planning and delivery coordination. Inventory, Economy, Production, Infrastructure, Movement/Transportation and other systems retain their authoritative state. Interface audit and vertical-slice plan are documented; executable tests remain open. |
 | Movement and Transportation | `systems/world/movement-and-transportation-system.md` | MOV-TRANS-001 | Canonical behavioural specification, initial draft. Owns physical movement execution, route feasibility, carrier traversal and arrival/interruption events. Detailed mode calibration, schemas and end-to-end conformance tests remain open. |
-| Character System | No canonical Character specification found in the repository tree | TBD | **Missing critical dependency.** Character owns persistent person identity and general attributes; Military owns the officer extension, service record, rank, appointments, qualifications and military-specific traits. |
+| Character System | `systems/characters/character-system.md` | CHAR-001 | Canonical initial behavioural specification. Owns persistent person identity, general attributes, personality, relationships, biography and global lifecycle. General attribute catalogue, schemas and domain-extension contracts remain open. |
 | Communications and message delivery | No canonical Communications specification found in the repository tree | TBD | **Missing critical dependency.** Must define message identity, sender/recipient, delivery state, latency, disruption, acknowledgement, relay and access rules for Command, Sensors, EW, Intelligence and AI. |
 | Intelligence | No canonical Intelligence specification found in the repository tree | TBD | **Missing critical dependency.** Must define assessment, source reliability, confidence, dissemination and actor-specific knowledge state; Sensors remains authoritative for observations and tracks. |
 | Weather and Environment | No canonical Weather/Environment specification found in the repository tree | TBD | **Missing dependency.** Must define environmental state, time/space scope, uncertainty and interfaces to Movement, Sensors, Equipment, Combat and Logistics. |
@@ -119,7 +119,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 ### Critical
 
 - **Movement/Transportation specification now exists as `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001).** Its schemas, detailed mode calibration and conformance tests remain open.
-- **Character System specification is missing.** The conceptual Officer Character boundary is agreed, but the shared person schema and lifecycle contract are not canonicalised.
+- **Character System now has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001).** Its general attribute catalogue, schemas, and integration tests remain open.
 - **Communications and Intelligence specifications are missing.** Command, Sensors, EW and AI need one authoritative message-delivery and intelligence-assessment contract.
 - **The end-to-end vertical slice has not yet been executed.** A documented plan exists, but runtime behaviour, transaction reconciliation and save/load idempotency remain unproven.
 
@@ -175,7 +175,8 @@ Military should not be declared complete until:
 - [x] Logistics & Sustainment specification is authored, registered and linked.
 - [x] Movement/Transportation behavioural specification and target route/traversal ownership contract are canonical.
 - [ ] Movement/Transportation schemas, detailed mode calibration and conformance tests are complete.
-- [ ] Character System path and shared person/Officer contract are canonical.
+- [x] Character System path and shared person/Officer ownership boundary are canonical.
+- [ ] General attribute catalogue, lifecycle schemas and shared person/Officer conformance tests are complete.
 - [ ] Communications and Intelligence owners are specified.
 - [ ] Government procurement/mobilisation authority, Weather/Environment and Research dependencies are confirmed or specified.
 - [ ] Shared military interface contracts and lifecycle/event rules are documented in implementation-ready schemas.
@@ -189,8 +190,8 @@ Military should not be declared complete until:
 
 ## 11. Recommended next system
 
-**Next dependencies to author: Character System, Communications and Intelligence.**
+**Next dependencies to author: Communications and Intelligence.**
 
-Movement and Transportation now has a canonical initial behavioural specification at `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001). Its implementation-ready schemas, detailed mode calibration and conformance tests remain open. Keep physical movement execution separate from Logistics' supply planning, shipment coordination and delivery reconciliation.
+Movement and Transportation now has a canonical initial behavioural specification at `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001), and Character has a canonical initial specification at `systems/characters/character-system.md` (CHAR-001). Their implementation-ready schemas, detailed calibration/attribute catalogues and conformance tests remain open.
 
-Next, author or recover the Character, Communications and Intelligence specifications, then resolve Government procurement authority, Weather/Environment and Research. Use the vertical-slice plan in [Military Interface Audit and End-to-End Vertical Slice](military-interface-audit-and-vertical-slice.md) to test the shared contracts. Do not move to the next top-level game system until the Military completion checklist is satisfied.
+Next, author Communications and Intelligence specifications, then resolve Government procurement authority, Weather/Environment and Research. Use the vertical-slice plan in [Military Interface Audit and End-to-End Vertical Slice](military-interface-audit-and-vertical-slice.md) to test the shared contracts. Do not move to the next top-level game system until the Military completion checklist is satisfied.
