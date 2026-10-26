@@ -510,21 +510,26 @@ This section defines the key hand-offs and identifies what must be verified or i
 
 ### 9.7 Logistics, industry, economy, and infrastructure
 
-**Owns:** resource availability, transport, production inputs, supply distribution, fuel and ammunition delivery, maintenance, infrastructure, and economic consequences.
+**Owns within Logistics:** military supply demand and forecasting, military-facing allocation priorities, sourcing coordination, supply planning, shipment coordination, and delivery lifecycle coordination. Logistics does not own physical stock, company production, market transactions, transport-network capacity, infrastructure state, or equipment serviceability.
 
-**Consumes:** force plans, production orders, mobilisation, movement, equipment state, battle expenditure, and national priorities.
+**Authoritative dependencies:** Inventory owns physical stock and stock transactions; Economy and Government own prices, budgets, procurement authority, contracts, and applicable trade rules; Industry Data defines Industry Types and company/industry configuration; Production owns production execution and capacity; the Good and Service Catalogue owns canonical product identity and units; Transportation and Infrastructure own transport execution, networks, and physical capacity; Equipment, Combat, and Military Organisation own their respective equipment, expenditure, unit, and operational state.
 
-**Provides:** actual availability, throughput, bottlenecks, delivery time, shortages, serviceability, costs, and sustainment limits.
+**Consumes:** force plans, unit and equipment demand, production and procurement forecasts, stock availability, transport feasibility, movement, battle expenditure, and national priorities.
+
+**Provides:** military demand forecasts, allocation decisions, sourcing and shipment plans, expected delivery times, shortfall explanations, and sustainment feasibility to command and national planning.
 
 **Integration requirements:**
 
 - Operational plans must query feasible sustainment, not just nominal stockpiles.
-- Production output must flow through delivery, acceptance, distribution, and installation before it changes field capability.
+- A company purchase or contract must not be treated as physical stock before the appropriate production, receipt, and inventory transitions complete.
+- Production output must flow through delivery, receipt, distribution, and installation or issue before it changes field capability.
 - A supply shortage must affect the relevant units and operations through defined rules and time, not through an arbitrary global combat penalty.
 - Military expenditure and mobilisation must have economic opportunity costs.
 - National AI must be able to recognise bottlenecks and choose between competing resource demands.
+- Industry Type is a supplier-discovery hint, not proof that a company can provide a particular product; supplier eligibility must be evaluated against product-level capability, stock, permissions, and delivery feasibility.
+- Inventory transactions and combat expenditure must be idempotent and reconcile across save/load and retry.
 
-**Gap status:** this document defines the required interface but does not replace a full logistics/economy integration audit. Confirm canonical ownership of inventory, transport capacity, resource accounting, infrastructure capacity, and maintenance scheduling before implementation.
+**Gap status:** the canonical behavioural specification now exists at [`systems/military/logistics-and-sustainment.md`](../military/logistics-and-sustainment.md) (MIL-LOG-001). The remaining work is interface conformance: verify exact existing Supply Unit, Supply Base Unit, Supply Column, baseline stock/day and emergency-threshold rules; locate/confirm Transportation and Government procurement contracts; settle product-level mapping from generic military categories to catalogue goods; and execute end-to-end acceptance tests. This section is an integration summary, not a replacement for the Logistics specification.
 
 ### 9.8 Intelligence, diplomacy, and national simulation
 
@@ -800,7 +805,7 @@ The canonical register is now maintained at [`technical/architecture/canonical-s
 
 The two shorter duplicate specifications have been marked as legacy/superseded, their retired document IDs reassigned to the canonical files, and their known unique requirements reconciled into the canonical specifications. They remain in the repository as read-only historical references until a separate housekeeping decision. Implementation agents should use only the canonical paths listed in the register.
 
-The audit also identifies Military Logistics & Sustainment as the next missing Military system specification, and flags Character System, Communications, Intelligence, and Environment ownership for confirmation before the Military interface contract is frozen.
+The canonical Military Logistics & Sustainment specification has now been added at `systems/military/logistics-and-sustainment.md` (MIL-LOG-001) and registered in the canonical register. It establishes product-level economic sourcing, military supply planning, shipment coordination, stock/transaction boundaries, and integration tests. The next task is cross-system interface conformance and an end-to-end vertical slice. Character System, Communications, Intelligence, Environment, Transportation, and Government procurement ownership still require confirmation before the full Military interface contract is frozen.
 
 ## References
 
