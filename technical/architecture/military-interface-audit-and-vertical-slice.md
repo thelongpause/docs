@@ -91,8 +91,8 @@ The canonical Military Organisation specification defines a **Combat Base Unit**
 - A **Supply Base** may be a fixed site/depot or a supply function provided by a configured formation. Unit identity, depot capability, facility/site identity and physical Inventory holdings remain distinct.
 - A **Supply Column** is a separate physical transport Unit dispatched from a Supply Base to a drawing Unit, delivers and unloads supplies, then returns. Its movement, loading, delivery, return, suspension and abort states must be explicit.
 - Supply Base Unit capacity must distinguish Handling (tonnes loaded/unloaded per hour), Payload (Ammunition and Basics), and Bulk Fuel (Fuel). The lower applicable Handling rate governs loading/unloading completion time where both stages apply. Numeric capacities were not recovered and must not be invented.
-- The prior user design specifies Standard Stock per Unit Size per Day factors: Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1 generic planning units. On receipt/issue to a drawing Unit, generic Ammunition and Basics quantities map to the specific requirements of that Unit's formation and standard requirement. These are not physical units; category-specific conversion to actual Catalogue products remains open.
-- Emergency requests trigger below 50% of baseline for Ammunition and Fuel, and below 30% for Basics (Food & Hydration). The exact denominator and treatment of reserved/in-transit stock remain open.
+- The legacy Standard Stock per Unit Size per Day factors (Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1) are retired from authoritative simulation calculations. The Player manages bulk Ammunition, Fuel and Basics (Food & Hydration); the physical cargo manifest is resolved from eligible source products and the receiving Unit's requirements during shipment preparation/loading, no later than dispatch. Product mass, requirements and allocation priorities remain reference-data work.
+- Emergency requests trigger strictly below 50% of the authorised one-day physical category baseline for Ammunition/Fuel and below 30% for Basics. Reserved/committed stock is excluded; in-transit stock is not available at the destination until Inventory confirms receipt. The baseline must resolve to a common physical category mass basis or return unknown/unsupported.
 
 ### 5.3 Basics, Fuel, Ammunition and Emergency Thresholds
 
@@ -100,8 +100,8 @@ The canonical Military Organisation specification defines a **Combat Base Unit**
 - Basics may aggregate food and hydration for military planning while preserving the actual product-level records beneath that category.
 - Fuel must be product-specific and compatible with the consuming equipment. An Industry Type of Oil is not proof that a company supplies the required refined fuel.
 - Ammunition expenditure is triggered by a Combat event, recorded once through Inventory, and reconciled with Logistics demand. Logistics must not deduct ammunition independently from the Combat event.
-- The established emergency thresholds are below 50% of baseline for Ammunition and Fuel, and below 30% of baseline for Basics (Food & Hydration). Their exact denominator and treatment of reserved/in-transit stock remain open and must be defined once in canonical configuration.
-- The prior design specifies generic Standard Stock per Unit Size per Day factors: Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1. These are generic planning units; category-specific physical conversion remains open. Numeric Supply Base Unit and Supply Column capacity values were not recovered.
+- The established emergency thresholds are strictly below 50% of the authorised one-day physical category baseline for Ammunition and Fuel, and below 30% for Basics (Food & Hydration). Reserved/committed stock is excluded and in-transit stock is not available at destination until Inventory confirms receipt.
+- Legacy Standard Stock factors are retired from authoritative calculations. Numeric Supply Base Unit and Supply Column capacity values, physical requirement profiles, product unit masses and allocation priorities remain open.
 
 ### 5.4 Logistics Versus Movement and Transportation
 
@@ -330,7 +330,7 @@ These are executable acceptance requirements, not a claim that the repository cu
 | IF-MIL-06 | Weather/Environment catalogue and calibration incomplete | High | Initial specification authored at `systems/world/weather-and-environment-system.md` (ENV-001); finalise variables, historical data, calibration and domain-consumer tests | Specification authored; calibration/tests open |
 | IF-MIL-07 | Full Research System specification missing | High | Supporting interface contract exists at `technical/architecture/research-technology-progression-interface.md` (RES-IF-001); author the full Research System after Military integration dependencies are closed | Interface documented; full system open |
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit configured with a Supply Depot; distinguish mobile Supply Base Unit from a fixed Supply Base/site | Resolved in Military Organisation and Logistics specifications |
-| IF-MIL-09 | Supply capacity values and exact baseline conversion remain incomplete | High | Standard Stock per Unit Size per Day factors and emergency thresholds have been recovered from the user's prior design; define category-specific physical conversion, threshold denominator, reserved/in-transit treatment, and numeric Handling/Payload/Bulk Fuel capacity data | Partially resolved; configuration/data open |
+| IF-MIL-09 | Supply capacity and physical allocation reference data remain incomplete | High | Bulk category allocation, physical one-day emergency baseline, reserved/in-transit treatment and the simplified Handling Rate inputs are defined; populate physical requirement profiles, product unit masses, allocation priorities, and numeric Handling/Payload/Bulk Fuel capacity data | Design resolved; configuration/data open |
 | IF-MIL-10 | Shared event envelope and cross-system physical schemas not frozen | Critical | SCHEMA-MIL-001 and SCHEMA-WORLD-CMD-001 now document the shared logical event envelope, domain record shapes, ownership boundaries and minimum conformance tests; select shared ID/time primitives, map to physical database schemas, add constraints/migrations and execute runtime tests | Logical contracts documented; physical schema/runtime tests open |
 | IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; complete detailed movement interfaces through schemas and conformance tests | Resolved at architecture-text level; detailed contract tests open |
 | IF-MIL-12 | End-to-end vertical slice not yet executed | Critical | Implement/run baseline and failure scenarios with deterministic state reconciliation | Open |
@@ -343,7 +343,7 @@ These are executable acceptance requirements, not a claim that the repository cu
 2. Approve the Character general-attribute catalogue and scales; validate the Military Officer extension against Character without duplicating general state.
 3. Approve Communications channel definitions and Intelligence source/confidence representations; integrate message delivery, actor-specific knowledge, Sensors, EW, Command and AI.
 4. Define the initial Weather/Environment variable catalogue, canonical units, spatial/temporal resolution, uncertainty representation and terrain-transition handoff; calibrate movement-mode data.
-5. Populate source-backed supply conversion records and Supply Base Unit/Supply Column capacity values under MIL-LOG-DATA-001; preserve unknown values where evidence is not yet available.
+5. Populate source-backed physical requirement profiles, product unit-mass/transport-mass data, category allocation priorities, and Supply Base Unit/Supply Column handling and capacity reference values under MIL-LOG-DATA-001; preserve unknown values where evidence is not yet available.
 7. Implement and execute the company-to-unit sustainment and command-to-intelligence vertical slices, including save/load, retries, partial delivery, interruption, stale/contradictory intelligence, message loss and Player/AI parity.
 8. Update the canonical register with evidence-based completion status. Do not mark Military complete merely because the required documents have been authored.
 
@@ -353,20 +353,20 @@ These are executable acceptance requirements, not a claim that the repository cu
 
 The following user decisions are now canonical and recorded in MIL-LOG-DATA-001 and the Logistics/Interface specifications:
 
-1. **Generic-to-physical conversion basis:** derive physical quantities from formation-specific personnel, equipment, task and category requirements through versioned product mappings. Do not use universal physical conversion factors.
+1. **Bulk-to-physical allocation:** derive category allocation from the receiving Unit's physical requirements and eligible shortages, actual compatible source stock, product unit masses and explicit priorities. Resolve the physical cargo manifest during shipment preparation/loading, no later than dispatch. Do not use universal physical conversion factors or generate unsupported stock.
 2. **Emergency denominator:** the authorised one-day requirement for the relevant Unit and category, derived from applicable formation, personnel, equipment, task and approved standard-profile data.
 3. **Reserved stock:** reserved or otherwise committed stock is unavailable and excluded from emergency-threshold available stock.
 4. **In-transit stock:** it does not count as available to the receiving Unit until Inventory confirms receipt. Forecasted/in-transit quantities may be shown separately, never as received stock or available simultaneously at source and destination.
 5. **Capacity basis:** define capacity per Supply Depot/Unit and per Supply Column configuration, deriving carrier capacity from actual assigned equipment/vehicle composition where possible.
 6. **Threshold comparison:** strictly below 50% for Ammunition/Fuel and below 30% for Basics; equality does not trigger.
 
-The numeric physical conversion records and capacities are deliberately not populated because the user requested sourced values rather than unsupported estimates. The canonical data requirements and evidence policy are specified in [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) (MIL-LOG-DATA-001). Remaining data acquisition work is:
+The physical requirement profiles, product unit-mass records and capacities are deliberately not populated where source evidence is not yet approved. The canonical data requirements and evidence policy are specified in [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) (MIL-LOG-DATA-001). Remaining data acquisition work is:
 
-- Populate formation/personnel/equipment/task-specific conversion mappings to compatible Catalogue products, with explicit units, time basis, compatibility, version and source provenance.
+- Populate formation/personnel/equipment/task-specific physical requirement profiles, compatible product eligibility and allocation priorities, with explicit units, time basis, product unit mass/transport mass, version and source provenance.
 - Source Supply Depot Handling throughput (including loading/unloading rates where distinct), Payload capacity and its mass/volume constraints, and Bulk Fuel capacity with canonical units and any required product density conversion.
 - Source Supply Column carrying-capacity data from actual vehicle/equipment definitions, preserving every supported mass, volume, vehicle-space and cargo-compatibility constraint.
 - Label each value as verified, estimated, provisional, disputed or unsupported. Any scenario estimate must be explicitly approved and must not be presented as verified historical canon.
-- Keep missing or unsupported values explicit; never substitute zero, unlimited capacity, or a fabricated conversion.
+- Keep missing or unsupported values explicit; never substitute zero, unlimited capacity, or fabricated stock, product mass, handling rates or capacity.
 
 ## 12. Completion Rule
 
