@@ -77,7 +77,7 @@ The canonical choice favours the more comprehensive documents because they inclu
 | Physical stock and movements | `systems/inventory/inventory-system.md` | Inventory owns stock quantities, reservations, transfers and stock-changing transactions. Military must not create a parallel ammunition or equipment stock ledger. |
 | Population and labour | `systems/population/population-centres-system.md`, `technical/data-schemas/population-schema.md` | Population, demographic state and labour availability remain owned outside Military. |
 | Shared relational data conventions | `technical/data-schemas/data-model-foundations.md` | Domain schemas must follow common identity, time, history, validation and transaction conventions. |
-| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Existing architecture reference remains authoritative for its stated scope; update its Movement/Transportation versus Logistics wording to align with `technical/architecture/military-interface-audit-and-vertical-slice.md`. |
+| World simulation dependencies | `technical/architecture/world-simulation-dependencies.md` | Existing architecture reference, now aligned to MOV-TRANS-001 and MIL-LOG-001; detailed movement schemas and conformance tests remain open. |
 
 ## 6. Military interface ownership matrix
 
