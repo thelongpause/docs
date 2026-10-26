@@ -112,7 +112,18 @@ Ammunition mappings must resolve to actual compatible ammunition products, not o
 
 ### 3.5 Basics-specific requirements
 
-Basics mappings must specify the relevant food and potable-water products and the personnel/time basis. Food and hydration may have different physical units and consumption profiles; a single generic Basics category must not obscure those distinct product-level requirements. Nutrition, packaging, storage, spoilage and environmental constraints apply where the underlying systems model them.
+Basics mappings must specify the relevant food and potable-water products and the authorised personnel/time basis. Food and potable water may have different physical units, storage needs and suitability; a generic Basics category may simplify planning but must not make those physical products interchangeable.
+
+Keep the simulation deliberately lightweight. Where supported by source data and useful to an operational decision, a Basics requirement profile may identify:
+- **Ration type:** a small set of broad provision types, such as standard, field/operational or a specialised condition-specific ration.
+- **Quality grade:** degraded, standard or superior, only if the distinction has a defined and bounded downstream consequence.
+- **Operating conditions/task intensity:** a reference to an approved profile or modifier, not an open-ended matrix of bespoke formulas.
+
+These are optional profile attributes, not mandatory fields on every physical food item. They must not create a parallel nutrition or medical model. Do not model calories, macronutrients, vitamins, individual meals, food preparation or item-level nutritional composition in the core Logistics system. Do not infer a physical food mass or water quantity from a reported energy value.
+
+If quality is modelled, it must not directly grant a combat-stat bonus. Logistics exposes the supply quality/sufficiency signal; the owning personnel, medical, morale or readiness system determines any gradual, bounded effect. A ration type is not automatically a quality grade: a specialised ration may be more suitable for a condition without being universally superior.
+
+Only add a distinction where it changes demand, compatibility, handling, suitability or a meaningful downstream outcome. Where a relevant requirement is unsupported, return unknown/unsupported rather than inventing a quantity.
 
 ### 3.6 Missing or invalid conversion
 
@@ -218,6 +229,8 @@ Do not silently apply modern equipment capacity to a 1955 configuration, or appl
 16. A changed definition does not retroactively alter previously committed simulation outcomes.
 17. Every numeric value is traceable to a source or explicitly approved scenario estimate.
 18. Player and AI produce the same result for equivalent state, configuration, authority and inputs.
+19. Basics requirements do not depend on calorie or nutrient simulation; a reported calorific value cannot be converted into a physical stock quantity.
+20. Ration type and quality affect outcomes only when an approved profile defines a meaningful suitability or bounded downstream effect; specialised does not automatically mean superior.
 
 ## 9. Outstanding data records
 
