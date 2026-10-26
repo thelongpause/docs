@@ -118,7 +118,7 @@ Adopt the following target boundary:
 
 A Logistics route plan is not the same as actual movement execution. A shipment is not received merely because a carrier's route ends at the destination. Movement reports progress and arrival; Logistics coordinates unloading and delivery; Inventory confirms receipt.
 
-The existing `world-simulation-dependencies.md` currently says both that Logistics owns network interpretation/transport capacity and that Movement owns unit traversal. Revise it to match the boundary above and avoid assigning physical movement to Logistics.
+The existing `world-simulation-dependencies.md` has been revised to separate physical movement traversal from Logistics shipment planning and delivery reconciliation. The canonical Movement/Transportation specification is still missing, so detailed carrier/network capacity interfaces remain open.
 
 ### 5.5 Company Procurement and Economic Supply
 
@@ -305,7 +305,7 @@ The company-to-unit scenario is necessary but not sufficient. The following test
 | IF-MIL-08 | Supply Base nomenclature conflict | Medium | Use canonical Combat Base Unit with Supply capability; distinguish it from fixed Supply Base | Resolved in Logistics specification |
 | IF-MIL-09 | Emergency thresholds and capacity table not found in repository | High | Recover source rules; confirm denominator, units and configuration ownership | Open |
 | IF-MIL-10 | Shared event envelope and cross-system schema not frozen | Critical | Extend data-model foundations and define stable IDs, time, provenance, idempotency and outcomes | Open |
-| IF-MIL-11 | World dependency map wording conflates Logistics network planning and Movement traversal | High | Update dependency map to separate route planning, physical traversal and cargo state | Open |
+| IF-MIL-11 | World dependency map wording conflated Logistics network planning and Movement traversal | High | Updated the dependency map to separate route planning, physical traversal and cargo state; detailed movement interfaces remain open until the missing Movement/Transportation specification is authored | Resolved at architecture-text level; system contract open |
 | IF-MIL-12 | End-to-end vertical slice not yet executed | Critical | Implement/run baseline and failure scenarios with deterministic state reconciliation | Open |
 | IF-MIL-13 | Medical/personnel effects of Basics and medical supplies lack confirmed owner interface | High | Confirm Character/Personnel/Medical authority; Logistics only publishes shortage/availability facts | Open |
 | IF-MIL-14 | Course catalogue scope unresolved | Medium | Keep within Military Organisation initially or define a supporting catalogue without duplicate course state | Open |
