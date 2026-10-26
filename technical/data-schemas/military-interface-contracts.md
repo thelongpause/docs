@@ -4,7 +4,7 @@
 **Canonical Path:** technical/data-schemas/military-interface-contracts.md  
 **Document ID:** SCHEMA-MIL-001  
 **Document Type:** Supporting Logical Data Schema and Interface Contract  
-**Status:** Draft for implementation review; domain-specific schemas and runtime conformance tests remain open  
+**Status:** Logical implementation contract established for review alongside SCHEMA-WORLD-CMD-001; database-specific schema types, numeric supply reference data and runtime conformance tests remain open  
 **Applies to:** Military Organisation, Equipment, Command, Combat, Sensors, EW, Logistics, Movement/Transportation, Character, Communications, Intelligence, Inventory, Economy, Production, Government and World systems
 
 ---
@@ -401,6 +401,7 @@ These decisions remain open until the authoritative owner supplies them. They mu
 - [Military Interface Audit and End-to-End Vertical Slice](../architecture/military-interface-audit-and-vertical-slice.md) — integration gaps and test scenario.
 - [Logistics and Sustainment](../../systems/military/logistics-and-sustainment.md) — supply demand, procurement coordination, shipments and delivery.
 - [Movement and Transportation](../../systems/world/movement-and-transportation-system.md) — physical movement and route execution.
+- [World and Command Interface Contracts](world-and-command-interface-contracts.md) — Movement, Character, Communications, Intelligence and Weather/Environment logical schemas.
 - [Inventory System](../../systems/inventory/inventory-system.md) — authoritative physical stock transactions.
 - [Communications System](../../systems/communications/communications-system.md) — message delivery and acknowledgement.
 - [Intelligence System](../../systems/intelligence/intelligence-system.md) — source assessment, confidence and actor knowledge.
