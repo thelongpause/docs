@@ -156,14 +156,55 @@ This register tracks candidate primary and secondary sources for the physical su
 - **Limitations:** The record is not a complete technical manual and does not establish payload limits for every QL variant, fuel consumption, or a generic Supply Column capacity. The vehicle's nominal class label must not substitute for verified variant specifications.
 - **Status:** Discovered; variant identification and primary technical manual required.
 
-## 4. What this first pass establishes
+## 4. Extracted evidence records
+
+The following findings have been transcribed from accessible source text. They remain **research evidence**, not approved universal conversion factors. Their source scope and limitations must travel with any derived record.
+
+### EXT-001 — British Army operational ration profile, 1954 publication
+
+- **Source:** H. G. Smith, “Army Operational Rations,” *Proceedings of the Nutrition Society*, vol. 13, symposium proceedings 1954, pp. 46–48 in the available PDF pagination.
+- **Source URL:** https://doi.org/10.1079/PNS19540014
+- **PDF:** https://www.cambridge.org/core/services/aop-cambridge-core/content/view/37D08975AC25F213A644172EAF9985F2/S0029665154000158a.pdf/army_operational_rations.pdf
+- **Author context:** The paper identifies Smith as a War Office catering officer and states that publication was permitted by the Director of Supplies and Transport, War Office, and the Government Chemist.
+- **Extracted facts:**
+  - The paper identifies operational ration types including ten-person composite, five-person composite, 24-hour General Service and 24-hour snow rations, plus a separate emergency ration.
+  - The ten-person composite ration is described as food for ten people for one day, or five people for two days.
+  - The five-person composite ration is described as one day's food for five people and as designed for tank crews.
+  - The paper reports an average energy value of 4,100 Calories per person per day for the ten-person and five-person composite ration profiles.
+  - The 24-hour GS ration is described as one person's food for one day in circumstances where each person must carry their own food; the reported calorific value is 3,000 Calories.
+  - The paper describes a distinct cold-weather 24-hour snow ration with a reported energy value of 4,250 Calories, demonstrating that ration profiles vary by operating context.
+  - The ten-person composite pack is described as a case containing 30 cans or smaller containers, with biscuits provided separately; the paper gives a case weight of 42 lb. The packaging/weight wording and whether this is gross shipping weight versus another measure must be checked against the original page image before use as a payload record.
+- **Interpretation:** This is useful evidence that ration demand must distinguish person-days, ration type, operational environment, pack composition and packaging. It is not a complete ration bill of materials, potable-water allowance, or general-purpose supply-column load factor.
+- **Historical applicability:** Published in 1954, but its exact validity as the authorised ration scale on 1 January 1955 must be confirmed against the relevant official ration instructions. The paper's reported calorific values are not physical food mass and must not be converted into kilograms of food without a separate item-level composition source.
+- **Confidence:** Source text located and extracted; exact physical pack-weight interpretation requires image-level verification.
+- **Status:** Extracted, not corroborated or approved.
+
+### EXT-002 — British garrison ration structure, Canal Zone, 1 April 1955
+
+- **Source:** UK House of Commons, Hansard written answer, “British Army, Canal Zone (Ration Scale),” HC Deb 1 April 1955, vol. 539, c. 64W.
+- **URL:** https://api.parliament.uk/historic-hansard/written-answers/1955/apr/01/british-army-canal-zone-ration-scale-1
+- **Extracted facts:** The answer states that British troops in the Canal Zone received the ration scale applicable to overseas garrisons generally, comprising a basic ration and a supplement for strenuous work. A special supplement had included meat, bacon, rolled oats, potatoes and dried peas or beans, and was discontinued after the exceptional conditions that prompted it had changed.
+- **Interpretation:** Ration requirement profiles may be conditional on duty intensity and operational circumstances, and special supplements should be modelled as explicit policy/profile changes rather than an unexplained permanent multiplier.
+- **Limitations:** This parliamentary answer does not provide the complete basic ration scale, item quantities, packaging or potable-water requirement.
+- **Status:** Extracted; useful for context-dependent profile structure, not sufficient to populate physical quantities.
+
+### EXT-003 — British 24-hour ration pack report, 1956
+
+- **Source:** UK House of Commons, Hansard, “Business of the House,” 15 March 1956.
+- **URL:** https://hansard.parliament.uk/commons/1956-03-15/debates/3dc46532-cadf-463f-a5bf-a578c2a4e009/BusinessOfTheHouse
+- **Extracted fact:** A speaker described a new type of 24-hour ration pack as weighing 27 oz and listed several of its components.
+- **Interpretation:** This is a post-start-date reference for a later ration-pack design, not a 1955 baseline value. It may help establish a later dated equipment/product variant after its context and exact statement are checked.
+- **Limitations:** The parliamentary speech is not, by itself, an official technical specification; the weight and composition must be corroborated with a formal specification before operational use.
+- **Status:** Extracted as a later historical lead; not applicable to the initial 1955 baseline without further evidence.
+
+## 5. What this first pass establishes
 
 - There are identifiable period-adjacent sources for ammunition-supply doctrine, ration practice, Quartermaster reference data and supply-unit organisation.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
 - The current findings are source-discovery results, not completed data extraction. No physical conversion or capacity values have been approved by this register.
 
-## 5. Data extraction queue
+## 6. Data extraction queue
 
 Extract and review in this order:
 
@@ -185,7 +226,7 @@ Extract and review in this order:
 - `approved`: permitted for canonical simulation use.
 - `rejected` / `superseded`: retained for audit but not used.
 
-## 6. Related specifications
+## 7. Related specifications
 
 - [Logistics and Sustainment](logistics-and-sustainment.md)
 - [Logistics Supply Reference Data](logistics-supply-reference-data.md)
