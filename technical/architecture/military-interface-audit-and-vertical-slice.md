@@ -99,13 +99,13 @@ The canonical Military Organisation specification defines a **Combat Base Unit**
 - Fuel must be product-specific and compatible with the consuming equipment. An Industry Type of Oil is not proof that a company supplies the required refined fuel.
 - Ammunition expenditure is triggered by a Combat event, recorded once through Inventory, and reconciled with Logistics demand. Logistics must not deduct ammunition independently from the Combat event.
 - The available design context records intended emergency thresholds of 50% below baseline for ammunition and fuel, and 30% below baseline for Basics. The repository audit did not find a canonical source defining the thresholds, their denominator or scope. They remain provisional until the original rule is recovered and then must be defined once in canonical configuration.
-- No authoritative numeric stock/day baselines or Supply Base capacity table were located in the current repository.
+- The prior design specifies generic Standard Stock per Unit Size per Day factors: Brigade 4, Battalion 2, Company 2, Platoon 1, Section 1. These are generic planning units; category-specific physical conversion remains open. Numeric Supply Base Unit and Supply Column capacity values were not recovered.
 
 ### 5.4 Logistics Versus Movement and Transportation
 
-The current architecture distinguishes Movement from Logistics, but the exact ownership wording is inconsistent across documents and there is no canonical Movement/Transportation specification.
+The current architecture distinguishes Movement from Logistics. The canonical Movement and Transportation specification now exists at `systems/world/movement-and-transportation-system.md` (MOV-TRANS-001), and the ownership wording in the World dependency map has been aligned.
 
-Adopt the following target boundary:
+The canonical boundary is:
 
 - **World Map:** geographic geometry, coordinates, spatial indexing and spatial queries.
 - **Terrain and Environment:** terrain features/state and weather/environmental state.
@@ -130,7 +130,7 @@ The canonical specifications already establish the necessary foundations:
 - Economy owns commercial orders, transaction prices, payment obligations and financial settlement.
 - Inventory owns stock quantities, reservation, physical transfer and receipt.
 - Logistics owns military demand and coordinates sourcing and delivery.
-- Government must supply the authority and policy decision for government procurement and military prioritisation; the Government specification is not present in the current tree.
+- Government supplies authority and policy decisions for government procurement and military prioritisation through the supporting contract `technical/architecture/government-procurement-and-mobilisation-interface.md` (GOV-IF-001); the full Government System specification remains outside the current Military dependency scope.
 
 A supplier is eligible only if the company or distributor has the requested canonical product in available stock or a feasible production route, has authority to sell it, meets the product specification, can satisfy the contract and timing, and can deliver it through a feasible transport/handling path. Industry Type is a candidate-discovery hint, not evidence of product availability.
 
