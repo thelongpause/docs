@@ -368,3 +368,10 @@ Crossings are represented as **Point primitives only**. A crossing identifies a 
 A Crossing Point may reference the relevant intersecting Terrain Objects and infrastructure features. Its simulation meaning is determined by the systems responsible for movement, infrastructure, logistics, and combat. Where the crossing represents a destructible bridge or other structure, condition, damage, restrictions, repair requirements, and repair progress are authoritative state owned by the appropriate infrastructure feature, not by the visual point marker alone.
 
 The MapMaker may render bridge or ford artwork that visually spans the route and watercourse, but the visual footprint does not change the canonical Point geometry or turn the crossing into a Line primitive.
+
+
+## Related Specifications
+
+- [Weather and Environment System](weather-and-environment-system.md) — environmental conditions may drive persistent terrain-state transitions.
+- [Movement and Transportation System](movement-and-transportation-system.md) — movement evaluates terrain geometry and current terrain state.
+- [World Map System](world-map-system.md) — authoritative coordinates, geometry and spatial queries.
