@@ -17,6 +17,8 @@ It is a navigation and integration reference. It does not replace the canonical 
 | Concern | Authoritative document |
 | --- | --- |
 | Shared geographic model, coordinates, spatial queries and Movement Grid | `systems/world/world-map-system.md` |
+| Physical unit/platform/carrier movement, route traversal and transportation | `systems/world/movement-and-transportation-system.md` |
+| Actual weather/climate state, environmental events and forecasts | `systems/world/weather-and-environment-system.md` |
 | Terrain Object model, attributes, states and initial type catalogue | `systems/world/terrain-objects.md` |
 | Population Centre geography, civilian demographics, cohort accounting, migration and population state | `systems/population/population-centres-system.md` |
 | Population assignments, event ledger, composition, spatial distribution, labour/education, needs and interest-profile schema | `technical/data-schemas/population-schema.md` |
