@@ -227,3 +227,9 @@ This is a documentation and interface-definition milestone, not implementation e
 - **Tested:** deterministic unit/integration/vertical-slice tests demonstrate conformance.
 
 Military remains open. Required next work is to reconcile command/order/task and event identities across the World/Command and Military Interface Contracts; close unresolved schema ownership and state transitions; then execute the command-to-intelligence and company-to-unit sustainment vertical slices, plus blocked-crossing, delayed-command, weather-disruption and combat/stock scenarios. Only mark checklist items complete when evidence exists at the appropriate status.
+
+## Cross-System Validation Scope Clarification (2026-10-27)
+
+The current integration pass also records Command Ops 2 boundaries for Economy, Population Centres, Government procurement/mobilisation, Research/Technology Progression, the shared AI decision architecture, world dependency propagation, and data-model time/persistence. These addenda close design-level interface expectations only. They do not mean the full Government or Research systems are authored, nor that runtime schedulers, save/load, event replay or end-to-end tests are implemented.
+
+The Military completion checklist remains open until the shared schemas are reconciled and the required integration/vertical-slice tests are executed. Only verified implementation evidence can change a test from defined to passing.
