@@ -251,18 +251,17 @@ Do not silently apply modern equipment capacity to a 1955 configuration, or appl
 
 ## 9. Outstanding data records
 
-The following records are deliberately not populated with invented numbers:
+These are follow-on refinements, not blockers to implementing Logistics:
 
-- Approved physical requirement profiles for Ammunition, Fuel and Basics, scoped by applicable formation/personnel/equipment/task/activity where needed.
-- Canonical product unit masses and, where relevant, separate net and gross/packaged transport mass. The source register contains an unapproved candidate mass for the 155 mm M107 projectile (EXT-006); do not treat it as a canonical 1955 product mass or gross packaged-load mass until the exact variant and item boundary are verified.
-- Explicit product eligibility, compatibility and allocation-priority data for multi-product category deliveries.
-- Supply Depot Handling Rate coefficients/modifiers, derived from personnel, logistics equipment, cargo category and operational condition.
-- Payload capacity values and approved mass/volume basis.
-- Bulk Fuel capacity values, units and applicable density/unit conversions.
-- Supply Column carrying-capacity values and supported capacity dimensions based on actual carrier/equipment definitions. EXT-004 and EXT-005 in MIL-LOG-SRC-001 contain candidate capacities for special-purpose US CCKW-353 tank bodies and two CCKW cargo-truck variants. They are not depot capacities or complete Supply Column capacities and remain unapproved pending source and applicability review.
-- Initial source dataset and value-by-value historical applicability/confidence review.
+- Populate Catalogue simulation mass and units for products used by the initial playable slice. Do not track packaging or pallet mass.
+- Add more specific national/formation requirement profiles incrementally. The generic Basics baseline is 2 kg food and 5 litres potable water per person per day.
+- Add fuel consumption/tank data and ammunition authorised-load data to relevant equipment/product profiles as those entries are built. Do not invent universal daily ammunition expenditure or fuel consumption rates.
+- Populate product eligibility and compatibility for the initial equipment set. Unresolved lines must not prevent other eligible products from being delivered.
+- The provisional Handling Rate, storage, bulk Fuel and generic cargo truck capacity values in Sections 4 and 5 are usable initial defaults. More specific equipment/depot values override them.
+- EXT-004, EXT-005 and EXT-006 in MIL-LOG-SRC-001 remain historical research evidence only. They may refine particular equipment records later but are not prerequisites for the initial system.
+- Historical source verification and detailed constraints are optional refinement tasks. Do not expand the runtime model into packaging, pallet, bay, shift or individual-worker tracking.
 
-These are data acquisition and approval tasks, not permission to substitute arbitrary defaults.
+The system distinguishes provisional gameplay values from verified historical values, while continuing to operate with provisional values where a safe generic rule exists.
 
 ## 10. Related specifications
 
