@@ -256,7 +256,7 @@ Do not silently apply modern equipment capacity to a 1955 configuration, or appl
 The following records are deliberately not populated with invented numbers:
 
 - Approved physical requirement profiles for Ammunition, Fuel and Basics, scoped by applicable formation/personnel/equipment/task/activity where needed.
-- Canonical product unit masses and, where relevant, separate net and gross/packaged transport mass.
+- Canonical product unit masses and, where relevant, separate net and gross/packaged transport mass. The source register contains an unapproved candidate mass for the 155 mm M107 projectile (EXT-006); do not treat it as a canonical 1955 product mass or gross packaged-load mass until the exact variant and item boundary are verified.
 - Explicit product eligibility, compatibility and allocation-priority data for multi-product category deliveries.
 - Supply Depot Handling Rate coefficients/modifiers, derived from personnel, logistics equipment, cargo category and operational condition.
 - Payload capacity values and approved mass/volume basis.
