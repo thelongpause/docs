@@ -373,3 +373,15 @@ Initial provisional gameplay defaults are now defined in [Logistics Supply Refer
 Military is complete only when the canonical Military specifications, required shared dependencies, state ownership contracts and acceptance tests agree. The minimum proof is an executable, save/load-safe vertical slice demonstrating procurement or valid stock sourcing, production where required, physical transport, receipt, consumption, and resulting operational consequences under both Player and AI control.
 
 A documented but unimplemented interface is an explicit integration dependency, not evidence that the simulation behaviour already works.
+
+## Command Ops 2 Integration Audit Update (2026-10-27)
+
+The merged Command Ops 2 design integration and these follow-on addenda define behavioural expectations for order delivery, movement, information access, combat feedback and sustainment. This is specification status, not evidence of runtime completion.
+
+### Required interface closure evidence
+
+Review conformance across Command Planning and Execution; Movement and Transportation; Terrain Objects and Weather; Communications; Intelligence and Sensors/Detection; Combat and Engagement; Logistics and Inventory; and the World/Command and Military Interface Contracts.
+
+For each interface, record: (1) source and receiving system plus the field/event contract; (2) owner of authoritative state and derived/read-only views; (3) failure, stale-data, retry, cancellation and save/load behaviour; (4) deterministic test fixture and expected transitions; and (5) status as specified, schema-defined, implemented or tested. These statuses are not interchangeable.
+
+Do not mark an interface validated merely because specifications link to one another. Numerical calibration, schema-level field reconciliation, runtime implementation and executable end-to-end tests remain open until evidenced. Keep Military open until the sustainment vertical slice and integration scenarios pass in the actual implementation.
