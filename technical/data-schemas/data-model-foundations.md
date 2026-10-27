@@ -325,3 +325,18 @@ The implementation sequence must respect domain dependencies rather than assume 
 10. Runtime persistence, event history, validation, and integration tests.
 
 This is a dependency order, not a requirement to complete every system before prototyping. Temporary adapters are permitted, but must not establish duplicate authoritative state.
+
+## Command Ops 2 Time, Event Replay and Persistence Contract (2026-10-27)
+
+Command and operational simulation rely on the shared time, identity, transaction and persistence conventions in this document. The following cross-domain requirements apply to orders, messages, plans, tasks, movement, combat, supply, inventory and actor knowledge.
+
+- Every consequential transition uses simulation effective time and a stable event/operation identity. Wall-clock time may be recorded for diagnostics but cannot determine operational order.
+- Commands/requests and confirmed events/results are distinct. A timeout or missing acknowledgement is an unresolved outcome until reconciled; it does not authorise a duplicate operation.
+- Event handlers are idempotent. Replaying the same event identity and payload is a no-op after successful application. Reusing an idempotency key with a materially different payload is a conflict requiring rejection or quarantine.
+- Persisted state must include enough in-flight workflow state to resume without inventing a new action: pending orders and expiry, message attempts/queues, plan versions, task state, movement progress, scheduled reassessment, inventory reservations/transactions, shipments/cargo and actor-specific knowledge.
+- Completed physical or financial effects are not replayed merely because their originating plan or message is restored. Recovery actions use new identities and explicit causation links.
+- Definitions that affect outcomes are versioned. Historical decisions and transitions retain the versions used, so later calibration or catalogue changes do not silently alter past outcomes.
+- Simultaneous event ordering must be specified by simulation-domain priority and stable tie-breaking. It must not depend on insertion order, UI/render timing, random identifiers or wall-clock timestamps.
+- Persistence validation checks conservation and cross-domain consistency: no duplicated stock, no entity simultaneously at origin and destination, no completed movement still active, no duplicate combat expenditure, and no reassessment/task completion unsupported by its owning-system result.
+
+Required tests: save/load during delayed command delivery; save/load during movement and shipment transit; replay of combat expenditure and inventory receipt; simultaneous route blockage and movement update; historical decision retained after configuration update. These are conformance targets, not a claim of runtime persistence completion.
