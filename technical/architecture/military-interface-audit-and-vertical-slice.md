@@ -385,3 +385,22 @@ Review conformance across Command Planning and Execution; Movement and Transport
 For each interface, record: (1) source and receiving system plus the field/event contract; (2) owner of authoritative state and derived/read-only views; (3) failure, stale-data, retry, cancellation and save/load behaviour; (4) deterministic test fixture and expected transitions; and (5) status as specified, schema-defined, implemented or tested. These statuses are not interchangeable.
 
 Do not mark an interface validated merely because specifications link to one another. Numerical calibration, schema-level field reconciliation, runtime implementation and executable end-to-end tests remain open until evidenced. Keep Military open until the sustainment vertical slice and integration scenarios pass in the actual implementation.
+
+## Command Ops 2 Test Registry (2026-10-27)
+
+Use these stable scenario IDs in implementation tickets, test names and review notes. The scenarios below are required conformance targets; they are not currently marked passing.
+
+| Test ID | Scenario | Systems involved | Required observable outcome |
+|---|---|---|---|
+| CMD-INT-01 | Blocked crossing during formation movement | Command, Movement, Terrain/Infrastructure, Logistics | Route becomes infeasible; no teleportation; movement emits a reasoned event; shipment estimate updates; Command reassesses under authority policy. |
+| CMD-INT-02 | Delayed and superseded command | Command, Communications | Unit follows last valid order until receipt; expiry/supersession validated; duplicate delivery causes no duplicate task. |
+| CMD-INT-03 | New intelligence reaches headquarters late | Sensors, Intelligence, Communications, Command | Assessment preserves provenance/freshness; actor knowledge changes only on authorised receipt; reassessment cannot occur before information is available. |
+| CMD-INT-04 | Weather invalidates a route | Environment, Terrain/Infrastructure, Movement, Command | Actual state changes under its owner; Movement recalculates feasibility; planning uses only the forecast available at decision time. |
+| CMD-INT-05 | Combat capability loss during a task | Combat, Equipment, Movement, Command | Physical effect is resolved once; mobility/firepower/readiness consequences reach owning systems; Command receives a trigger but does not overwrite the order automatically. |
+| CMD-INT-06 | Combat expenditure and supply reconciliation | Combat, Inventory, Logistics, Movement | Ammunition/stock changes occur once; shipment and movement identities remain distinct; receipt is confirmed by Inventory. |
+| CMD-INT-07 | Communications outage and restoration | Communications, EW, Command, Sensors/Intelligence | Delivery follows link conditions; local behaviour remains bounded by standing orders; stale messages are reconciled by identity/authority, not arrival order alone. |
+| CMD-INT-08 | Save/load with in-flight operations | Command, Communications, Movement, Combat, Logistics, Inventory | Pending orders, plans, tasks, queues, progress and transactions restore without duplicate side effects; event replay is deterministic under the supported model. |
+
+### Test execution record
+
+For every test, record the build/commit, fixture and simulation seed, initial state, ordered event stream, expected transitions, actual transitions, pass/fail result and any known unsupported subsystem. Do not convert a prose-defined scenario into a “passing test” until executed against the implementation. Run player/AI parity variants where the scenario involves actor knowledge or authority.
