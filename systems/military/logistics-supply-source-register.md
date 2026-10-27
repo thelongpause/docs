@@ -164,7 +164,7 @@ This register tracks candidate primary and secondary sources for physical requir
 - **Date:** 26 February 1954 (catalogued edition)
 - **Public index:** https://generalstab.org/library/field-manuals/us-army-field-manuals-1939-1999/?hsb_dir=10_quartermaster
 - **Potential use:** Establish depot organisation, personnel/equipment composition, operating functions and any explicitly stated handling or storage assumptions.
-- **Limitations:** The archive download currently redirects unsuccessfully through the web retrieval path. The index confirms a catalogue entry, not the manual's contents. No throughput or storage value may be inferred from the title or unit organisation.
+- **Limitations:** The archive lists a 4.3 MB PDF, but its download endpoint redirects unsuccessfully through the available retrieval path. The Library of Congress guide independently confirms the manual as a 152-page October 1951 publication. These catalogue records establish identity and availability, not the manual's contents. No throughput or storage value may be inferred from the title or unit organisation.
 - **Status:** Discovered; primary document extraction required.
 
 ### SRC-015 — US Army Quartermaster reference data, 1950
@@ -197,7 +197,16 @@ This register tracks candidate primary and secondary sources for physical requir
 - **Bibliographic cross-check:** Library of Congress, Series 10 Quartermaster field-manual guide: https://guides.loc.gov/us-army-field-manuals/series-1-20-series-10
 - **Potential use:** Organisation, equipment, duties and any explicit planning/capacity statements for a subsistence depot company. This is more directly relevant to Basics storage and handling than a general Quartermaster manual.
 - **Limitations:** The catalogue confirms the manual's title/date, not its numeric contents. The available download path was not extractable in this research pass. Do not infer throughput or storage capacity from the unit's name, personnel or equipment list alone.
-- **Status:** Discovered; full manual extraction and applicability review required.
+- **Status:** Discovered; catalogue identity cross-checked; full manual extraction and applicability review required.
+
+### SRC-018 — US government procurement description of the 155 mm M107 projectile
+
+- **Title/context:** US Government procurement notice describing the 155 mm M107 high-explosive projectile.
+- **Public record:** https://sam.gov/opp/49d98eaf53f445ee9cf0aac3beea030a/view
+- **Extracted statement:** The notice describes the M107 as a hollow forged-steel projectile containing TNT or Composition B and reports a complete projectile mass of approximately 95 lb (43.2 kg) and length of approximately 800 mm.
+- **Potential use:** Candidate product-unit-mass reference for a specific M107 projectile item in an ammunition catalogue, subject to exact product configuration and historical applicability review.
+- **Limitations:** A procurement notice is not a substitute for the applicable technical manual, packing specification or period drawing. The reported projectile mass must not be treated as the gross transport mass of a crated/palletised load or as the mass of a complete separate-loading artillery round including fuze, propelling charge and primer. The source is contemporary procurement context, not proof that every M107 variant/configuration in 1955 had precisely this mass.
+- **Status:** Extracted candidate product datum; historical variant, item boundary and packaging basis require verification. Not approved for canonical use.
 
 ## 4. Extracted evidence records
 
@@ -262,12 +271,24 @@ The following findings have been transcribed from accessible source text. They r
 - **Confidence:** Source text and catalogue date are accessible; the entry itself cites TM 9-801. Scan-level review and historical applicability approval remain outstanding.
 - **Status:** Extracted as scoped candidate data; not approved for canonical use.
 
+### EXT-006 — M107 projectile nominal item mass candidate
+
+- **Source:** US Government procurement notice for the 155 mm M107 high-explosive projectile (SRC-018).
+- **Source URL:** https://sam.gov/opp/49d98eaf53f445ee9cf0aac3beea030a/view
+- **Extracted candidate value:** Approximately 95 lb / 43.2 kg per projectile.
+- **Interpretation:** This is a candidate mass for the projectile item, not a universal mass for all 155 mm ammunition and not the gross transport mass of packaging, pallets or a complete separate-loading round.
+- **Illustrative arithmetic only:** At a hypothetical 5,000 kg payload, 5,000 ÷ 43.2 = 115.74, so the mass-only upper bound is 115 projectiles before packaging, securing equipment, other cargo, or any lower vehicle-specific operating limit. This arithmetic is not an approved payload/load record.
+- **Required validation:** Verify the precise M107 variant and item boundary against a technical manual applicable to the intended equipment/date; distinguish projectile mass from complete-round components and gross packaged mass. If the game treats each projectile as a separately inventoried item and the vehicle payload is gross mass, add the applicable packaging mass before calculating actual carried quantity.
+- **Status:** Candidate extracted; not corroborated or approved.
+
 ## 5. What this first pass establishes
 
 - Period-adjacent sources exist for ration types and operating contexts, Quartermaster organisation, and military supply practice, but the current source set does not yet establish approved physical requirement profiles, product unit masses or capacity values.
 - The ration evidence supports distinguishing broad ration types and condition-dependent profiles. It does not justify modelling calories, nutrient composition, individual meals, or a universal food-mass conversion.
 - The reported calorific figures in EXT-001 are retained solely as source-transcription context. They are not required simulation data, are not conversion factors, and must not become fields in the canonical Logistics model.
 - The source families are nationally and temporally scoped. They cannot be collapsed into a universal set of 1955 logistics values.
+- The M107 mass candidate illustrates the difference between **item mass** and **gross transported load mass**. A vehicle payload calculation may use product item mass only when that is the declared cargo accounting basis; otherwise packaging/pallet/securement mass must also be included. A mass-only division provides an upper bound, not necessarily a physically loadable quantity.
+- FM 10-30 (1951) and FM 10-52 (1954) are confirmed as catalogued manuals, but their PDF content could not be extracted through the available archive download route in this pass. No handling-rate or depot-capacity values have been inferred from them.
 - A 1955 baseline requires a country/service/equipment applicability key for every sourced record. This is especially important for formation establishments, ammunition expenditure, vehicle payload, depot configuration and fuel compatibility.
 - No numeric physical requirement profiles, product unit masses, Handling Rate coefficients or depot/column capacity values have been approved by this register. EXT-004 records two special-purpose vehicle-body capacities, and EXT-005 records two cargo-truck payload ratings, as scoped historical evidence only. They are not generic logistics constants and remain pending scan-level verification and applicability review. The accepted design uses bulk category orders resolved into physical manifests during shipment preparation/loading, no later than dispatch; receipt adds the manifested products to destination Inventory. The retired Standard Stock factors are not an operational conversion layer. Unresolved physical values remain explicitly unsupported until sourced and reviewed.
 
@@ -279,7 +300,7 @@ Continue only where the result supports a meaningful operational rule or physica
 2. **Basics:** Seek a usable authorised ration profile and potable-water requirement for a scoped formation and condition. Capture ration type, applicable personnel/time basis, physical units, unit/gross mass where available and relevant conditions only. Do not transcribe calorie or nutrient detail into simulation data.
 3. **Fuel:** Identify exact vehicle/equipment variants, fuel types, tank capacities and consumption basis. Separate tank capacity from operating consumption and depot bulk storage.
 4. **Ammunition:** Identify weapon-specific authorised load and consumption/allowance tables, with ammunition nature, unit of issue, packaging and operational conditions. Do not infer daily combat expenditure from basic load.
-5. **Product mass and Supply Column:** Identify canonical unit mass and, where relevant, packaging/gross transport mass for scoped ammunition, fuel and Basics products; identify actual vehicle types and their payload/volume constraints. EXT-005 provides candidate mass payload ratings for two CCKW cargo variants, but does not establish cargo volume or a complete column capacity. Derive column capacity from verified assigned composition rather than assigning a generic unit-size factor.
+5. **Product mass and Supply Column:** Identify canonical unit mass and, where relevant, packaging/gross transport mass for scoped ammunition, fuel and Basics products; identify actual vehicle types and their payload/volume constraints. EXT-005 provides candidate mass payload ratings for two CCKW cargo variants, but does not establish cargo volume or a complete column capacity. EXT-006 provides a candidate M107 projectile mass, but not gross packaged load mass or an approved 1955 item datum. Derive column capacity from verified assigned composition rather than assigning a generic unit-size factor.
 6. **Supply Base Handling Rate and capacity:** Prioritise FM 10-30 (1951) for subsistence-depot organisation and FM 10-52 (1954) for depot organisation. Identify personnel and logistics equipment inputs and any supported handling rates by cargo category. Model engagement/suppression as operational modifiers only where supported or approved. Seek explicit payload/storage limits and bulk-fuel capacity, keeping each capacity dimension separate. Catalogue records alone do not establish numeric capacity.
 
 If source access, applicability or units cannot be verified, retain the item as a research lead and leave the canonical numeric value unpopulated.
