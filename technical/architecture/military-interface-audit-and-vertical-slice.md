@@ -362,9 +362,9 @@ The following user decisions are now canonical and recorded in MIL-LOG-DATA-001 
 
 Initial provisional gameplay defaults are now defined in [Logistics Supply Reference Data](../../systems/military/logistics-supply-reference-data.md) (MIL-LOG-DATA-001): Basics baseline of 2 kg food and 5 litres potable water per person per day; simple personnel/equipment-derived Handling Rate and cargo/operational modifiers; 100-tonne combined Ammunition/Basics storage; 20,000-litre bulk Fuel storage; and 2.5-tonne fallback payload for an explicitly generic cargo truck. These are editable gameplay assumptions, not universal historical claims. Packaging/pallet mass is not tracked. Remaining refinement is incremental and does not block initial implementation:
 
-- Populate formation/personnel/equipment/task-specific physical requirement profiles, compatible product eligibility and allocation priorities, with explicit units, time basis, product unit mass/transport mass, version and source provenance.
-- Source Supply Depot Handling throughput (including loading/unloading rates where distinct), Payload capacity and its mass/volume constraints, and Bulk Fuel capacity with canonical units and any required product density conversion.
-- Source Supply Column carrying-capacity data from actual vehicle/equipment definitions, preserving every supported mass, volume, vehicle-space and cargo-compatibility constraint.
+- Populate Catalogue simulation mass and compatibility for products used by the initial playable slice; add more specific formation/equipment profiles only when they improve meaningful decisions.
+- Use the provisional Handling, storage and Bulk Fuel defaults in MIL-LOG-DATA-001; override them only when a specific equipment or depot record provides a useful value.
+- Use assigned vehicle payload values where available and the provisional generic cargo-truck fallback otherwise. Respect explicit volume or compatibility limits, but do not add packaging or vehicle-space micro-detail.
 - Label each value as verified, estimated, provisional, disputed or unsupported. Any scenario estimate must be explicitly approved and must not be presented as verified historical canon.
 - Keep missing or unsupported values explicit; never substitute zero, unlimited capacity, or fabricated stock, product mass, handling rates or capacity.
 
