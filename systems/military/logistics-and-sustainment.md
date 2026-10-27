@@ -354,26 +354,23 @@ A node's actual capabilities depend on infrastructure, equipment, personnel, sto
 
 ### 8.2 Capacity
 
-Capacity must be represented in the appropriate units for the operation being constrained. Supply Base Unit Handling throughput is expressed in tonnes per hour, with loading and unloading rates recorded separately where their performance differs. Payload capacity for Ammunition and Basics and Bulk Fuel capacity remain separate dimensions.
+Capacity is represented in three separate dimensions: handling throughput, Ammunition/Basics storage capacity, and bulk Fuel capacity.
 
-**Depot Handling Rate is derived from four inputs:**
+**Depot Handling Rate** is a simple Unit-level calculation based on available personnel, assigned logistics equipment, cargo category and operational condition:
 
-- **Personnel:** personnel present and available to contribute to handling.
-- **Logistics equipment:** type, quantity, capability and serviceability of assigned handling equipment.
-- **Cargo characteristics:** the cargo category and its handling profile, such as Ammunition, packaged Basics, bulk Fuel or mixed cargo.
-- **Operational condition:** the Unit's current condition, including whether it is engaged, suppressed or otherwise operationally impaired.
+`Effective Handling Rate = max(Personnel Rate, Equipment Rate) × Cargo Factor × Operational Factor`
 
-The logical calculation is a configurable rate derived from available personnel and equipment capability, modified by the applicable cargo profile and operational-condition factor. In compact form:
+The initial provisional gameplay defaults are maintained in [Logistics Supply Reference Data](logistics-supply-reference-data.md): 0.25 tonnes per available handling person per hour; cargo factors of 0.75 for Ammunition, 1.0 for Basics, 1.0 for bulk Fuel and 0.7 for mixed cargo; operational factors of 1.0 normally, 0.5 when engaged and 0.25 when suppressed. Use the lowest applicable operational factor rather than stacking repeated penalties. If no personnel or serviceable handling equipment is available, handling throughput is zero.
 
-`Effective Handling Rate = Personnel/Equipment Base Rate × Cargo Factor × Operational Factor`
+Personnel availability is based on those assigned to the task. Where no task allocation exists, use 10% of present personnel as the provisional handling allocation. Equipment throughput is the combined rated throughput of serviceable assigned handling equipment. Use the greater of personnel-derived throughput and equipment throughput, not their sum, to avoid double-counting. Loading and unloading use the same rate initially.
 
-The exact base-rate coefficients and modifiers are reference data and must be supported by evidence or explicitly approved scenario assumptions. Personnel and equipment are complementary contributors; the formula must not assume that the Unit's entire headcount performs handling. The model does not simulate individual workers, loading bays, warehouse layouts, queues or detailed shift organisation.
+For initial gameplay, a Supply Base Unit has a provisional combined storage capacity of 100 tonnes for Ammunition and Basics and a separate provisional bulk Fuel capacity of 20,000 litres unless assigned storage/tank equipment or an explicit Depot configuration provides a more specific value. A generic cargo truck with no more specific payload record may use a provisional 2.5-tonne payload. These are configurable gameplay defaults, not universal historical claims; their status must remain visible in data.
 
-Engagement, suppression and other explicitly modelled operational effects may reduce effective throughput. Do not add separate micro-management of facilities or work organisation unless later gameplay requirements demonstrate a material benefit.
+Use Catalogue item simulation mass as cargo mass. Do not track packaging, pallets, loading bays, warehouse layouts, queues, shifts or individual handlers. Supply Column capacity is derived from the actual assigned and available vehicles, their payload values and cargo compatibility. Respect volume or specialist restrictions only where those fields are explicitly defined; otherwise use mass and compatibility for the initial model.
 
-A supply base may have abundant stock but insufficient handling throughput. A route may have adequate throughput but lack a suitable carrier. A depot may have storage capacity but lack compatible equipment for a particular cargo. Each meaningful constraint is evaluated separately. Do not invent numeric rates or collapse Handling, Payload and Bulk Fuel into one universal capacity field.
+Handling throughput, storage capacity and bulk Fuel capacity must not be collapsed into one field. A base may have enough stock but insufficient handling rate; a carrier may have insufficient payload; a depot may have storage space but lack compatible fuel storage. Each remains a distinct meaningful constraint.
 
-### 8.3 Supply Bases and Depots
+## 8.3 Supply Bases and Depots
 
 Supply bases and depots support storage and distribution across strategic, operational, and tactical echelons. The model should permit national depots, regional depots, theatre depots, forward supply points, temporary depots, mobile supply units, and shipboard or airbase holdings where supported.
 
@@ -730,20 +727,18 @@ The following tests are mandatory for the initial implementation and integration
 
 ## 19. Open Decisions and Configuration Requirements
 
-The following details should be settled in data contracts and integration work rather than improvised separately by each subsystem:
+The initial Logistics design is settled. The following are implementation/integration tasks, not reasons to keep the system in an indefinite research phase:
 
-- Exact schema and units for demand, request, allocation, shipment, cargo manifest, and delivery events.
-- Define and populate approved physical requirement profiles, product unit masses, and category-to-product allocation rules. These support bulk-to-physical allocation during shipment preparation/loading, no later than dispatch; the retired Standard Stock factors are not an operational conversion layer.
-- Populate source-backed Supply Base Unit Handling throughput and operation-specific loading/unloading rates, Payload capacity with its physical basis, Bulk Fuel capacity with canonical units, and Supply Column carrying-capacity constraints. Do not invent values; see [Logistics Supply Reference Data](logistics-supply-reference-data.md).
-- Establish canonical product eligibility/compatibility, product unit-mass records, category membership, and explicit substitution/allocation priorities. Missing mappings or source stock must produce an unresolved/partial result, never invented cargo.
-- Which branch-specific consumption profiles and transport modes are initially supported.
-- The exact set of national procurement authorities, delegated purchasing permissions, contract types, and reserve-release rules.
-- Which storage degradation, spoilage, contamination, and loss mechanisms are modelled at launch.
-- Transportation and Infrastructure interface contracts, including route feasibility, capacity reservations, transit time, and disruption events.
-- Detailed unit consumption formulae and event ordering, ensuring Combat, Equipment, Inventory, and Logistics do not double-count expenditure.
-- The extent to which market prices, civilian shortages, and industrial competition are simulated in the initial economic implementation.
+- Implement the stable contracts for demand, allocation, shipment, cargo manifest, dispatch, receipt, issue, consumption and loss events.
+- Populate Catalogue products with their canonical simulation mass, units, category membership and compatibility. Do not track packaging or pallet mass.
+- Add formation/equipment requirement profiles incrementally, beginning with common unit classes and equipment actually used in the initial vertical slice. Where no profile exists, use the provisional baseline rules in MIL-LOG-DATA-001 and expose the value as provisional rather than silently treating it as verified history.
+- Use the simple provisional handling, depot storage, bulk Fuel and generic cargo truck defaults in MIL-LOG-DATA-001 until a more specific equipment or depot profile overrides them.
+- Fuel demand comes from the actual equipment operating profile and activity; ammunition demand comes from compatible weapon holdings, authorised load and current activity; Basics demand comes from personnel and the applicable ration/water profile. Do not use the retired Standard Stock factors.
+- Preserve the existing emergency triggers: strictly below 50% of the authorised one-day baseline for Ammunition/Fuel and below 30% for Basics. The initial baseline may be provisional, but its status must be visible.
+- Keep national procurement authority, contract types, reserve-release rules, infrastructure access and transport route feasibility with their authoritative systems.
+- Add more detailed loss, spoilage, contamination or storage restrictions only if they produce a meaningful operational consequence in the initial game.
 
-These are not permission to use arbitrary placeholders in authoritative state. Until a detailed contract exists, an interface must return an explicit unknown, unsupported, or unresolved state rather than silently invent a value.
+If a value is provisional, label it as provisional gameplay data. Missing data should block only the affected operation where no safe generic rule applies; it should not make the entire Logistics system unusable.
 
 ## 20. Related Canonical Specifications
 
@@ -773,12 +768,13 @@ These are not permission to use arbitrary placeholders in authoritative state. U
 
 The Logistics and Sustainment specification is ready for implementation when:
 
-1. Its state ownership boundaries are accepted by the related canonical systems.
-2. Product-level procurement is connected to company capabilities, Economy, Production, Inventory, and the canonical Good and Service Catalogue.
-3. Demand, reservation, shipment, receipt, issue, consumption, and loss interfaces have stable contracts.
-4. Bulk category ordering, demand-driven allocation to physical products, product-mass reconciliation, the one-day physical category baseline, reserved-stock exclusion, receipt-only treatment of in-transit stock, and composition-derived carrier capacity are defined in [Logistics Supply Reference Data](logistics-supply-reference-data.md). Product mass/requirement profiles and numeric handling/capacity inputs remain reference-data tasks.
-5. The required acceptance tests can be executed in an end-to-end scenario.
-6. Player and AI logistics use the same authoritative rules.
-7. Save/load and transaction retries preserve stock conservation and event idempotency.
+1. State ownership boundaries are respected: Inventory owns physical quantities and stock transactions; Logistics owns military supply planning, bulk allocation and shipment coordination; Movement/Transportation owns physical traversal; Economy and Production own their respective transactions and outputs.
+2. Bulk orders for Ammunition, Fuel and Basics resolve into compatible Catalogue products by shipment preparation/loading, no later than dispatch.
+3. Catalogue item simulation mass, unit and compatibility are used consistently. Packaging and pallet mass are not separately tracked.
+4. The provisional Handling, storage, Fuel and generic truck capacity defaults in MIL-LOG-DATA-001 provide usable initial behaviour, and specific configured equipment/depot values override them.
+5. Receipt, consumption, loss and retry handling preserve stock conservation and event idempotency.
+6. Player and AI logistics use the same rules.
+7. The company-to-unit sustainment scenario and its meaningful failure cases are executed once runtime implementation exists.
 
-Military should not be declared complete solely because this document exists. Completion requires the remaining interface audit, any missing cross-system dependencies, and an integrated scenario demonstrating procurement, production or stock sourcing, transport, receipt, unit consumption, and resulting operational consequences.
+This specification and its initial gameplay defaults are complete enough to implement. Historical refinement is optional follow-on work, not a blocker to building the system. Military-wide completion still depends on the separate cross-system integration and runtime tests listed in the Military Interface Audit.
+
