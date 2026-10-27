@@ -95,7 +95,7 @@ Each approved requirement/allocation profile must contain, at minimum:
 | source and provenance | Source, page/table, units, applicability, confidence and approval |
 | missing-data behaviour | Unknown/unsupported/infeasible outcome; no generated stock |
 
-A profile may allocate a category to multiple physical products. Product unit mass must be explicit and versioned when needed to reconcile item counts with bulk cargo mass. The definition must distinguish net product mass from packaged/gross transport mass where the difference is material. Do not infer mass from product names or treat projectile-only mass as complete-round mass.
+A profile may allocate a category to multiple physical products. Product unit mass must be explicit and versioned when needed to reconcile item counts with bulk cargo mass. Use one canonical simulation mass per Catalogue product for all Logistics cargo calculations. Do not maintain separate net/gross, packaging, pallet or container mass. Do not infer mass from product names or treat projectile-only mass as the mass of a different complete product.
 
 ### 3.3 Mass, units and cargo reconciliation
 
@@ -103,7 +103,7 @@ A profile may allocate a category to multiple physical products. Product unit ma
 - Physical Inventory quantities continue to use each Catalogue product's canonical unit. A product may be stocked as each, round, pack, litre, kilogram or another supported unit.
 - Product unit mass provides the conversion needed to calculate that product's contribution to cargo mass. It does not change the product's canonical inventory unit.
 - Total cargo mass is the sum of each physical line's quantity multiplied by its applicable transport unit mass.
-- Vehicle/depot payload limits apply to the appropriate total cargo mass, subject to any additionally supported volume, packaging or compatibility constraints.
+- Vehicle/depot payload limits apply to the sum of Catalogue simulation masses, subject to any explicitly defined volume or compatibility constraints. Packaging and pallet mass are outside the model.
 - Bulk category mass must reconcile to the mass of the allocated physical products within the defined rounding/indivisibility rules.
 - Any unallocated remainder remains explicit. Do not force allocation beyond eligible demand or source availability simply to exhaust a bulk order.
 - Missing, ambiguous or conflicting unit mass data returns an unresolved/unsupported result. Do not treat missing mass as zero.
