@@ -138,70 +138,64 @@ A bulk delivery may be accepted as a category-level order while physical fulfilm
 
 ## 4. Supply Base Unit capacity reference data
 
-A Supply Base Unit is a Combat Base Unit configured with a Supply Depot. Its capacity definition must preserve separate dimensions.
+A Supply Base Unit is a Combat Base Unit configured with a Supply Depot. Keep three separate dimensions: handling throughput, dry/general storage capacity for Ammunition and Basics, and bulk Fuel capacity.
 
 ### 4.1 Handling throughput
 
-- Measure Handling Rate in tonnes loaded or unloaded per hour.
-- Derive effective rate from four inputs: available personnel, assigned logistics equipment, cargo characteristics/category, and the Unit's operational condition.
-- A simple configurable model is:
+Use this simple initial gameplay model. These are **provisional gameplay defaults**, not claims about universal historical performance. They are editable configuration values and should not block implementation.
 
-`Effective Handling Rate = Personnel/Equipment Base Rate × Cargo Factor × Operational Factor`
+- Base manual handling rate: **0.25 tonnes per available handling person per hour**.
+- Equipment contribution: use the serviceable assigned equipment's handling-rate value where defined. For a simple initial model, use the greater of the personnel-derived rate and the assigned equipment's combined rated throughput; do not add both values together, which would double-count the same handling work.
+- Cargo factor: Ammunition **0.75**; Basics **1.0**; bulk Fuel **1.0**; mixed cargo **0.7**.
+- Operational factor: normal **1.0**; engaged **0.5**; suppressed **0.25**. If engaged and suppressed, use the lowest applicable factor rather than multiplying penalties repeatedly.
+- Loading and unloading use the same rate initially. Add separate rates only when a specific equipment profile requires it.
 
-- Personnel contribution is based on personnel present and available for handling, not automatically the entire Unit headcount.
-- Equipment contribution depends on equipment type, quantity, capability and serviceability.
-- Cargo factors distinguish meaningful differences such as Ammunition, packaged Basics, bulk Fuel and mixed cargo.
-- Operational factors may reduce throughput when the Unit is engaged, suppressed or otherwise operationally impaired.
-- Loading and unloading rates may differ and must be recorded separately when evidence or equipment characteristics justify it.
-- Coefficients and modifiers require traceable evidence or explicitly approved scenario assumptions. Do not invent values and present them as historical facts.
-- Do not model individual workers, loading bays, warehouse layouts, queues or detailed shifts. This is intentionally a Unit-level capability model.
+Formula:
 
-### 4.2 Payload capacity: Ammunition and Basics
+`Effective Handling Rate = max(Personnel Rate, Equipment Rate) × Cargo Factor × Operational Factor`
 
-Payload capacity applies to the Depot's Ammunition and Basics stocks, separate from Bulk Fuel.
+If there are no available handling personnel and no serviceable handling equipment, throughput is zero. A unit's full headcount is not assumed available for handling: use the personnel assigned as available for the task, or 10% of present personnel as the initial fallback when no task allocation exists. Round durations up to the next simulation time step; never round throughput up.
 
-The capacity definition must state its physical basis and constraints. Mass and volume may both matter. Product packaging, segregation, hazardous-material requirements, stacking, storage conditions and incompatibilities may impose additional constraints. Until a canonical capacity basis and actual values are sourced, the fields remain unpopulated; do not infer capacity from Handling throughput.
+This deliberately does not simulate individual workers, loading bays, warehouse layouts, queues, packaging, pallets or shifts.
+
+### 4.2 Storage and payload capacity: Ammunition and Basics
+
+Use the configured capacity of the Supply Depot or its assigned storage equipment when present. If no explicit capacity exists, use a provisional class default of **100 tonnes** for a Supply Base Unit's combined Ammunition and Basics storage. This is a gameplay fallback, not a historical claim. Current occupied stock reduces available capacity.
+
+Do not track packaging or pallet mass. Use the canonical Catalogue item's simulation mass as its cargo mass. Do not infer a depot's storage capacity from its handling rate.
 
 ### 4.3 Bulk Fuel capacity
 
-Bulk Fuel capacity applies to Fuel products and is separate from Payload capacity.
+Use the actual capacity of assigned tanks, fuel bowsers, tank vehicles or fixed fuel-storage equipment when defined. If no capacity exists, use a provisional class default of **20,000 litres** for a Supply Base Unit's bulk Fuel storage. This is a gameplay fallback, not a historical claim. Current usable Fuel stock reduces available capacity. Fuel capacity is separate from general Ammunition/Basics storage.
 
-The record must define the capacity unit and the applicable product/unit conversions. If mass-based, product-specific density and its provenance are required where conversion from volume is needed. If volume-based, the volume unit and any temperature/measurement assumptions must be defined. Tank count, tank capacity, product segregation, unusable reserve, transfer rate and current usable capacity belong in the appropriate facility/equipment/live-state records, not in an invented universal value.
+Where the Catalogue defines Fuel by mass rather than volume, use the Catalogue's canonical conversion/density value if available. If it is absent, keep Fuel storage and delivery in litres for that product rather than inventing a density.
 
 ### 4.4 Depot capacity record
 
-Each supply depot capacity profile must contain:
+The implementation needs only:
 
-- Stable ID and immutable version.
-- Depot/Supply Base Unit configuration reference.
-- Separate Handling, Payload and Bulk Fuel capacity definitions.
-- Explicit numeric value and canonical unit for each approved capacity; null/unsupported until evidence exists.
-- Operation type, product/category scope, concurrent-use assumptions and limiting constraints.
-- Required equipment, staffing, infrastructure and operating-state references.
-- Validity interval, source references, confidence status, review status and approval provenance.
-- Links to live facility/Inventory state used to calculate current available capacity.
+- Depot/Supply Base Unit reference.
+- Handling rate and current operational factor.
+- Combined Ammunition/Basics storage capacity and current occupied amount.
+- Bulk Fuel capacity and current occupied amount.
+- Assigned personnel/equipment inputs.
+- Value status: sourced, provisional gameplay default, or explicitly configured.
+- Effective date/version where definitions change.
 
-Capacity values are not inferred from unit size alone unless a sourced and approved class-level rule explicitly establishes that relationship.
+Do not create separate records for loading bays, package types, pallet layouts, shifts or individual handlers.
 
 ## 5. Supply Column carrying-capacity reference data
 
-A Supply Column is a physical mobile Unit, not an abstract teleportation or shipment mechanism. Its carrying capacity should derive from its actual assigned and serviceable vehicle/equipment composition where possible.
+A Supply Column is a physical mobile Unit. Its capacity derives from its actual assigned, serviceable vehicles and their Equipment definitions.
 
-Each supply column capacity profile must contain:
+- Use each vehicle's canonical payload capacity and applicable cargo compatibility.
+- Add the capacities of vehicles actually assigned and available for the shipment; exclude vehicles that are damaged, detached, committed elsewhere or otherwise unavailable.
+- Use canonical Catalogue item simulation mass for cargo accounting. Do not add a separate packaging or pallet allowance.
+- If an assigned vehicle lacks a payload value, use a provisional gameplay fallback of **2.5 tonnes per generic cargo truck** only when the vehicle is explicitly classified as a generic cargo truck and no more specific value exists. Mark the result provisional. Do not apply this fallback to tankers, passenger vehicles, aircraft, ships or specialist carriers.
+- If volume or a specific compatibility constraint is defined for the vehicle/product, respect it. Otherwise the initial model constrains cargo by payload mass and compatibility only; missing volume data does not block routine cargo.
+- Capacity cannot be counted twice across simultaneous shipments. Vehicle availability and load state must be checked at dispatch.
 
-- Stable ID/version and Supply Column or configuration-class reference.
-- Vehicle/equipment instance or type references and assigned quantities.
-- Payload mass limit and canonical mass unit where supported.
-- Cargo volume limit and canonical volume unit where supported.
-- Any vehicle-space, pallet, standard-load, axle/load distribution or other constraint if the relevant equipment model supports it.
-- Separate constraints for fuel, ammunition, Basics and any restricted goods.
-- Compatibility, hazardous cargo, packaging, segregation and load-distribution constraints.
-- Personnel/crew and equipment readiness prerequisites.
-- Effective interval, source references, confidence status and approval provenance.
-
-The feasible load is constrained by every applicable dimension. Mass and volume are not interchangeable; a load must satisfy all applicable limits. If the underlying equipment data does not support a capacity dimension, the result for that constraint is unsupported rather than unlimited.
-
-A configured class profile may provide a versioned baseline, but actual carrier capacity must account for the composition, condition, configuration and mission load of the assigned vehicles. Capacity must not be counted twice across concurrent assignments.
+This is sufficient for the initial game. Detailed axle loads, packaging, pallets, load distribution and vehicle-space accounting are out of scope unless a later mechanic demonstrates a meaningful gameplay need.
 
 ## 6. Source and evidence policy
 
