@@ -375,3 +375,15 @@ The MapMaker may render bridge or ford artwork that visually spans the route and
 - [Weather and Environment System](weather-and-environment-system.md) — environmental conditions may drive persistent terrain-state transitions.
 - [Movement and Transportation System](movement-and-transportation-system.md) — movement evaluates terrain geometry and current terrain state.
 - [World Map System](world-map-system.md) — authoritative coordinates, geometry and spatial queries.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Terrain Objects provide physical geometry, typed attributes and persistent terrain state. They do not own command intent, route choice, movement progress or an actor's belief.
+
+- Movement and other consumers must use declared terrain profiles and state; the crossing Point primitive alone does not prove a bridge or ford is passable.
+- Distinguish actual feature state from initial state and actor knowledge. Damage, destruction, flooding, obstruction and repair are committed by the authoritative Terrain or Infrastructure owner and exposed through state queries/events.
+- A state change can invalidate a movement plan and trigger reassessment, but must not directly edit an order.
+- Terrain may affect observation, line of sight, exposure and weapon effects only through the relevant consumer's declared rules; it must not directly set intelligence confidence or reveal contacts.
+- Overlapping effects follow explicit combination/precedence rules, never rendering order. Persistent state transitions must survive save/load and be replay-safe.
+
+Required tests: a bridge marker remains visible while its structure is impassable; an obstruction changes movement feasibility without editing command intent; a terrain-state transition is consistently observed by movement, combat and logistics after save/load.
