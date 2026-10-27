@@ -110,25 +110,29 @@ A profile may allocate a category to multiple physical products. Product unit ma
 
 ### 3.4 Fuel-specific requirements
 
-Fuel profiles must resolve to products compatible with the receiving equipment and intended use. Product canonical units and mass basis must remain explicit. If fuel is stored/consumed by volume but transported or capacity-limited by mass, an approved product-specific density and unit-conversion definition is required. Do not use a universal density or infer that all fuel products are interchangeable.
+Fuel demand is calculated from assigned equipment's fuel type, consumption rate and expected operating activity. Do not use a universal fuel-per-Unit factor. Fuel products must be compatible with the receiving equipment. Use defined tank capacity where available; otherwise leave the tank limit unspecified until the Equipment record provides it.
+
+Use the Catalogue's canonical simulation mass for cargo accounting. Do not add packaging, pallet or container mass. Keep fuel storage in the unit used by the tank, normally litres. Convert volume to mass only when needed and only when the Catalogue provides a conversion value.
 
 ### 3.5 Ammunition-specific requirements
 
-Ammunition profiles must identify ammunition products compatible with the weapons and equipment actually carried by the receiving Unit. Product identity must distinguish materially different ammunition natures, calibres, fuzes, charges, packaging or variants when those differences affect compatibility, use, mass or handling.
+Ammunition allocation is based on compatible weapons and equipment actually carried by the receiving Unit, authorised holdings/basic loads where defined, explicit orders and confirmed expenditure. An authorised basic load is not automatically a daily expenditure rate. Combat owns firing/expenditure events; Inventory reconciles physical stock reduction.
 
-An authorised basic load is not automatically a daily expenditure rate. Combat owns firing/expenditure events; Inventory reconciles the physical stock reduction. Logistics uses confirmed expenditure and approved demand profiles to request replenishment.
+For routine bulk allocation, prioritise: (1) explicit player/commander priority, (2) products below authorised load, (3) products with confirmed recent expenditure, then (4) remaining eligible compatible demand. Do not invent a universal daily ammunition consumption rate. If no compatible product or unit-mass record exists, leave that line unresolved and deliver other eligible products.
 
 ### 3.6 Basics-specific requirements
 
-Basics remains one high-level Player-facing category for Food & Hydration. Its physical allocation can include separate food and potable-water products because their units, mass, storage, transport and availability differ.
+Basics remains one Player-facing category for Food & Hydration, with food and potable water represented as distinct physical Catalogue products.
 
-Keep the model lightweight:
-- Quantity and sufficiency against an approved personnel/task/condition requirement.
-- Broad ration type only where operationally meaningful.
-- Optional quality grade only where supported by evidence and a modest, bounded downstream effect.
-- Operating-condition/task modifiers only where an approved profile supports them.
+Use these **provisional gameplay baselines** when no more specific national, formation or task profile exists:
 
-Do not model calories, macronutrients, vitamins, individual meals, food preparation or individual nutritional composition. A reported calorific value cannot be converted into physical stock mass. Specialised ration types do not automatically imply superior quality.
+- Food: **2 kg per person per day**.
+- Potable water: **5 litres per person per day** under routine temperate conditions.
+- Hot conditions or strenuous activity: increase the water baseline by **50%**. If both apply, use the higher single modifier rather than stacking them; cap the combined modifier at 2× the routine baseline.
+
+These are simplified gameplay assumptions, not universal historical claims. More specific profiles may override them. If present personnel are known but task allocation is not, use all present personnel for Basics demand. Food and water remain separate physical products even when ordered together under Basics.
+
+Keep the model to quantity and sufficiency. Do not model calories, macronutrients, vitamins, individual meals, food preparation or individual nutritional composition. Quality grades and special ration effects are out of scope for the initial implementation unless a clear operational need is established.
 
 ### 3.7 Missing or invalid data
 
