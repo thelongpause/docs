@@ -699,7 +699,7 @@ The following tests are mandatory for the initial implementation and integration
 15. A bulk Ammunition delivery is allocated only to compatible ammunition products held by the source and eligible for the receiving Unit; allocation follows authorised shortages/priorities and cannot create unsupported products.
 16. The physical mass of allocated products cannot exceed the bulk category mass delivered; any remainder stays explicitly unallocated or at its valid prior/in-transit holding.
 17. Product unit mass converts physical item quantities to cargo mass without changing the Catalogue quantity/unit or duplicating stock.
-18. A 5,000 kg payload with a 43.2 kg per-item mass supports at most 115 such items by mass, before packaging/other load constraints; a 5,000 lb payload supports at most 52. The actual ammunition cargo mass must use the complete stocked item's defined mass, not assume projectile-only mass is a complete round.
+18. Payload calculations use the Catalogue simulation mass for the exact stocked product. Do not apply a candidate item's mass to a different complete product.
 13. Loading and unloading consume time and respect the applicable throughput constraints.
 14. A route closure after dispatch causes a valid delay, reroute, return, diversion, or failure state without duplicating cargo.
 15. A receiving base lacking storage or handling capacity cannot silently accept unlimited cargo.
