@@ -404,3 +404,15 @@ Use these stable scenario IDs in implementation tickets, test names and review n
 ### Test execution record
 
 For every test, record the build/commit, fixture and simulation seed, initial state, ordered event stream, expected transitions, actual transitions, pass/fail result and any known unsupported subsystem. Do not convert a prose-defined scenario into a “passing test” until executed against the implementation. Run player/AI parity variants where the scenario involves actor knowledge or authority.
+
+## Strategic and Persistence Test Extensions (2026-10-27)
+
+| Test ID | Scenario | Systems involved | Required observable outcome |
+|---|---|---|---|
+| CMD-INT-09 | Military procurement chain | Command, Logistics, Government, Economy, Production, Inventory | Request, approval, contract/payment, production, stock receipt, shipment and delivery remain separate confirmed transitions; retries create no duplicate commitment. |
+| CMD-INT-10 | Technology unlocked but not fielded | Research, Equipment Design, Production, Inventory, Military Command | Unlock alone does not grant unit capability; capability becomes available only after valid design/production/receipt/assignment/readiness steps. |
+| CMD-INT-11 | Civilian effects of an operation | Command, Combat, World/Terrain, Population, Intelligence | Order alone causes no demographic change; resolved effects enter Population through owned events and update once; command receives only actor-accessible information. |
+| CMD-INT-12 | Save/load during an in-flight operation | Scheduler, Command, Communications, Movement, Combat, Logistics, Inventory, Population | Pending work and event identities restore; completed effects are not repeated; conservation and domain ownership invariants remain true. |
+| CMD-INT-13 | Player/AI parity under uncertainty | Simulation Integration, Command, Intelligence, Communications, Economy/Government | Equivalent actor knowledge, authority and resource constraints are applied consistently; no AI access to hidden state or unapproved resources. |
+
+These extend the previously listed CMD-INT-01 through CMD-INT-08. They remain required test definitions, not passing results. Research and Government remain interface dependencies until their full top-level systems and relevant implementation work are completed.
