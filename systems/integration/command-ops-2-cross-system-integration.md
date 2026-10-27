@@ -138,3 +138,9 @@ This order is a validation sequence, not a claim that downstream systems may be 
 - No claim is made that an interface is implemented until its owning specification and tests confirm it.
 
 **Status note:** This register is a design and integration checklist. It does not close the Military System or certify implementation completeness.
+
+## Follow-on Specification Alignment (2026-10-27)
+
+The following canonical specifications now carry explicit Command Ops 2 integration requirements in addition to this register: Command Planning and Execution; Military Branches and Unit Organisation; Doctrine, Command and Operations; Equipment and Materiel; Sensors and Detection; Electronic Warfare; Combat and Engagement; Movement and Transportation; Terrain Objects; Weather and Environment; Communications; Intelligence; Logistics and Sustainment; Inventory; World and Command Interface Contracts; and the Military Interface Audit and End-to-End Vertical Slice.
+
+This register remains a design checklist. As implementation proceeds, add schema references and test identifiers to each relevant row. Do not mark a row complete merely because its specification addendum exists.
