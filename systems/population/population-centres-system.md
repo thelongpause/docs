@@ -500,3 +500,17 @@ The Population System is conformant when:
 21. Population Interest Axes have explicit meanings, scales, versions and bounded transition rules; they are not hard-coded ideologies or player-assigned national sliders.
 22. Population publishes interest profiles to Political Systems, while organised political groups, platforms, support and political pressure remain under Political Systems ownership.
 23. Earnings, consumption, savings, wealth, taxes, transfers and disposable income remain Economy-owned; Population consumes only explicitly defined group-level outputs and uses explicit rules for any resulting interest changes.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Population owns demographic, social-group, civilian-harm and population-centre state under its existing update contract. Military command and combat systems must not directly rewrite population totals or infer civilian effects from orders alone.
+
+- Military presence, movement, occupation, combat and damage affect Population only through defined, time-stamped domain events and the Population-owned transition rules.
+- An order to attack, bombard, evacuate, secure or occupy an area is intent. Population effects occur only when the relevant physical/social event is resolved and accepted by the owning system.
+- Civilian harm, injury, displacement, migration, evacuation and service disruption are distinct outcomes. They must not be collapsed into a single generic population-loss modifier.
+- The same civilian-harm or displacement event must update population state once under stable event identity. Save/load and replay must not duplicate casualties, injuries, displacement or population changes.
+- Command AI may use only population/civilian information available to the represented actor under the intelligence and reporting rules. Authoritative demographic state must not be exposed as omniscient tactical knowledge unless the scenario explicitly grants that access.
+- Population and political consequences may be reported to command and Government for reassessment, but must not automatically cancel or rewrite military orders absent explicit policy/authority.
+- Economy remains authoritative for earnings, consumption, savings, wealth, taxes, transfers and disposable income; Population consumes only the defined outputs and applies its explicit transition rules.
+
+Required tests: an order alone causes no civilian-harm update; a resolved event changes population once; displacement remains distinct from population death; player and AI obey the same information boundaries; save/load preserves population and event reconciliation.
