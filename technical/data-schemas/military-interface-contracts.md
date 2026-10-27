@@ -137,7 +137,7 @@ The receiving Unit's approved physical requirement profile, eligible shortages, 
 
 The physical products allocated must not exceed source availability or the delivered bulk mass. The mass of allocated products is reconciled to the category shipment, with any unallocated remainder represented explicitly. Food and potable water remain separate physical products under the high-level Basics category. Fuel must be compatible with receiving equipment. Ammunition must be compatible with weapons actually carried by the Unit.
 
-Product unit mass supports cargo and payload calculations without changing the Catalogue product's canonical Inventory unit. Where packaging affects transport mass, the applicable gross transport mass must be distinguished from net product mass. The exact profiles, unit masses and priority data remain reference-data work under MIL-LOG-DATA-001.
+Catalogue simulation mass supports cargo and payload calculations without changing the product's canonical Inventory unit. Logistics uses one mass value per Catalogue product and does not model separate packaging, pallet or gross transport mass. Product mass and compatibility for the initial playable slice are configured under MIL-LOG-DATA-001.
 
 ### 5.3 Available Stock
 
