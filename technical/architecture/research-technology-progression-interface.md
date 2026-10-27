@@ -150,3 +150,16 @@ AI must not gain technology because the Player has researched it, unless the tec
 - Shared event schema, persistence, idempotency and migration policy.
 
 This contract is sufficient to identify the Research/Technology boundary needed by Military and Equipment Design. It is not a substitute for the full Research System specification, which should be authored as part of the Research top-level system after the Military integration dependencies are closed.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Research/Technology Progression governs knowledge and unlock eligibility. It does not automatically create an equipment design, production output, fielded equipment or operational capability.
+
+- A technology being known, available, researched or unlocked is distinct from a valid equipment design, prototype, approved procurement, production output, Inventory receipt, unit assignment and serviceable fielded capability.
+- Military planning and capability allocation must query the versioned design/technology requirements and the unit's actual fielded configuration. A technology unlock alone cannot satisfy a task requirement.
+- Historical availability and technology diffusion constrain what a nation, organisation or actor can know or build at the relevant simulation time. AI must not use foreign research or hidden design data unless its information and access rules permit it.
+- Command task outcomes must not retroactively change because a technology definition or research result is edited later. Completed outcomes retain the configuration/version references used at the time.
+- Research-driven capability changes should become operationally available only through the defined design, approval, production, inventory, assignment and readiness transitions.
+- Research completion, failed research, licensing, diffusion and reverse engineering may trigger reconsideration of future plans; they do not automatically change current orders or instantaneously re-equip units.
+
+Required tests: research unlock without fielding does not grant capability; a fielded variant is validated against the applicable date and configuration; AI cannot use inaccessible foreign research; save/load preserves technology/configuration references used by past decisions.
