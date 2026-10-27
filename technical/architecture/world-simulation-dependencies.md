@@ -183,3 +183,17 @@ The World Map System owns the spatial location and footprint geometry of install
 ### Rendering Contracts
 
 MapMaker and the runtime renderer consume world geometry and state from authoritative systems. They may derive labels, symbols, clusters, visual overlays, and simplified zoom representations, but these are presentation products. Company ownership, national sovereignty, military control, occupation, and facility operation are separate facts and must remain distinguishable in both data and visualisation.
+
+## Command Ops 2 Dependency and Reassessment Contract (2026-10-27)
+
+The dependency graph must model both data dependencies and causal state transitions. Command is a consumer of relevant domain information and the owner of operational decisions, not a substitute for World, Terrain, Movement, Communications, Combat, Logistics or Inventory.
+
+- World Map provides canonical spatial identity and geometry; Terrain/Infrastructure provide physical feature state; Environment provides actual conditions and forecasts; Movement calculates route feasibility and owns physical progress.
+- Sensors owns observations/tracks; Intelligence owns reports and assessments; Communications owns message delivery; Command consumes only information available to its actor and owns resulting orders/plans.
+- Combat owns engagement effects; Logistics owns supply demand/shipment coordination; Inventory owns physical stock and transactions; Economy/Government/Production/Research own their defined financial, approval, execution and knowledge transitions.
+- A producer emits a state-change event or exposes a versioned authoritative query. Consumers recalculate only the affected derived state and emit their own owned transitions; no downstream consumer writes back into an upstream authority.
+- Material changes may invalidate a derived plan, route, ETA or readiness estimate. Reassessment triggers must be explicit and coalesced, and a trigger does not itself amend an order.
+- Dependency cycles must be resolved through requests/events and scheduled subsequent updates, not recursive same-tick mutation. Event ordering for simultaneous movement, combat, supply receipt and damage remains an explicit scheduler contract.
+- Derived route, ETA, readiness, supply sufficiency and operational-picture values retain source/version/time references so they can be recomputed and explained.
+
+Required tests: route invalidation propagates through Movement and Logistics to Command without recursive mutation; one physical-state event produces one downstream transition per owner; simultaneous event ordering is deterministic; hidden authoritative state is not exposed to actor planning.

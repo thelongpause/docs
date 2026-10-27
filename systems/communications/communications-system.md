@@ -411,3 +411,15 @@ The Communications System is ready for implementation when:
 7. Player and AI use the same communication rules and information boundaries.
 
 The logical message, endpoint, link and delivery contracts are defined in SCHEMA-WORLD-CMD-001. Channel taxonomy, historical availability, numerical latency/reliability calibration, physical schema constraints and executable delivery tests remain open. The existence of this specification does not prove that communications simulation has been implemented.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Communications owns message transport/delivery state, not command validity, obedience or plan feasibility.
+
+- Issuance, delivery, acknowledgement and execution are separate states. A sent order is not necessarily received or executed; an acknowledgement may itself be delayed or lost.
+- Order, amendment and cancellation messages retain stable order identity and explicit supersession/cancellation references. Recipients validate authority, expiry, validity and supersession after delivery; arrival order alone must not let a stale message overwrite a newer valid command.
+- Delay, queueing, loss, retry, outage and EW effects follow the supported channel/link model. Duplicate delivery must not duplicate movement or fire-support tasks.
+- On disconnection, Command applies the last valid standing order and authorised delegation/doctrine. Communications loss does not grant unrestricted initiative. On restoration, stale messages are reconciled using authority and order identity, not simply latest arrival.
+- A command message that arrives after expiry is handled by the source domain's validity rules and is not automatically executed.
+
+Required tests: delayed order; cancellation arriving before an older order; duplicate order delivery; lost acknowledgement after successful delivery; outage followed by reconnection with stale messages.

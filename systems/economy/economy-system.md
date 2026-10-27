@@ -2267,3 +2267,16 @@ The Economy System must enforce the following invariants.
 - Each derived value must identify its source variables, units, valid range, calculation order and update frequency in the relevant specification.
 - System update dependencies must be compatible with the shared simulation scheduler.
 - Historical economic records must retain sufficient references to explain and reproduce their effects.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Economy supports procurement, contracts, prices, payments and fiscal/market consequences. It does not create military capability, physical stock, production output, delivery or command authority.
+
+- A military demand or procurement request is not a purchase, contract, payment or stock movement. Government owns procurement authority/policy; Economy owns commercial transactions and financial settlement; Production owns execution; Inventory owns physical stock; Logistics owns shipment/delivery coordination.
+- Command priority may influence authorised demand priority but cannot bypass Government approval, budget/credit rules, supplier eligibility, production capacity or stock availability.
+- A procurement/contract outcome must reference the originating request and stable transaction/contract IDs. Retries and command reassessment must not create duplicate purchases, payments, production requests or shipment commitments.
+- Financial effects must be driven by confirmed domain outcomes. A dispatched shipment does not prove delivery; physical receipt does not imply payment settlement unless the contract explicitly couples them through an owned transaction.
+- Military operations may affect economic activity through defined events and time-bounded inputs, but Economy must not apply undocumented universal “war” modifiers or directly decide combat, population, territorial control or readiness.
+- Historical economic records and source event references remain auditable through save/load and replay. A later model update must not silently rewrite prior transactions or operational decisions.
+
+Required tests: unauthorised procurement is rejected; duplicate request does not create duplicate financial transactions; contract/payment/production/receipt remain distinct; a delivery failure triggers the declared commercial remedies rather than silently recording success.

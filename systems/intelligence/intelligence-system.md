@@ -477,3 +477,16 @@ The Intelligence System is ready for implementation when:
 8. Player and AI use the same intelligence rules and information boundaries.
 
 The logical report, evidence, assessment and actor-knowledge contracts are defined in SCHEMA-WORLD-CMD-001. Source taxonomy, confidence/reliability calibration, physical schema constraints and executable provenance/access tests remain open. The existence of this specification does not prove that intelligence simulation has been implemented.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Intelligence supplies actor-specific, time-bounded assessments; it does not replace authoritative world truth.
+
+- Command plans against information available to the relevant actor at decision time, not global state or a later-updated picture.
+- Preserve provenance, assessment time, subject/location, uncertainty/confidence and freshness where supported. Stale, contradictory or incomplete information must not be silently upgraded to certainty.
+- Sensors own observations/detections/tracks; Intelligence owns reports and assessments; Communications owns delivery; EW owns electronic effects; Command owns authorised decisions and orders.
+- A new, contradicted or materially stale assessment may trigger reassessment, but does not automatically rewrite an order unless explicit bounded command policy permits it.
+- Actual combat/movement events remain owned by their physical systems. Intelligence may assess them from permitted evidence, but does not retroactively change them.
+- AI must not access reports or sources unavailable to its represented actor. Report receipt is not proof that its contents are true.
+
+Required tests: decision records the report version used; contradictory evidence triggers review without rewriting history; delayed report is unavailable until delivery; player and AI obey identical actor-specific information boundaries.

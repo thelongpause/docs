@@ -924,3 +924,17 @@ These decisions should be informed by implementation constraints and the Combat 
 ## 26. Summary
 
 Doctrine, Command & Operations connects military organisation to purposeful action. It defines how intent becomes orders, how headquarters coordinate forces, how commanders act under uncertainty, how operations are planned and adapted, and how logistics and readiness constrain what can be achieved. It preserves the distinction between world truth and information, between permanent organisation and temporary command, and between planned action and actual outcome. Combat resolution remains the responsibility of the Combat & Engagement Systems, while the Narrative Battle System presents the resulting events without inventing them.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Doctrine and Command define authority, intent, standing orders, task priorities, delegation and the permissible scope of initiative. They do not own physical movement, message transport, sensor truth, stock transactions or combat resolution.
+
+- Every subordinate action must be traceable to a valid order, standing instruction, doctrine-authorised reaction or explicitly defined emergency rule.
+- Local initiative is bounded by the commander's intent, assigned task, rules of engagement, capability, accessible information and current constraints. Communications loss invokes the last valid standing order and authorised delegation; it does not confer unrestricted autonomy.
+- Plans must distinguish assumptions, known constraints and unresolved/unknown inputs. A plan is not executable merely because a task was requested.
+- Reassessment may be periodic or event-triggered. A material event prompts evaluation; the command domain decides whether to amend, pause, cancel, delegate, continue or replace the plan.
+- Order issue, communication delivery, acknowledgement, subordinate acceptance, task execution and physical outcome are separate states. Doctrine does not treat an issued order as completed action.
+- Staff capacity, command workload, commander effectiveness and echelon may affect planning/reassessment latency. These effects must be explicit and reproducible, not arbitrary delay or a universal efficiency multiplier.
+- Command should record the information and material constraints used for a consequential decision so that later changes do not rewrite its historical basis.
+
+Required tests: a subordinate reacts within delegated authority but not beyond it; an event triggers review without automatically changing the order; a delayed order is not treated as received; a commander cannot allocate capability or resources the unit does not possess.

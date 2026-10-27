@@ -1499,3 +1499,15 @@ These are distinct states and must remain distinct in the simulation.
 Economy records financial consequences. Industry Data defines industry configuration. Production executes transformations. Production Processes and Recipes define the quantitative rules of those transformations. Logistics moves goods. Inventory records authoritative physical stock and its state throughout the process. The Good and Service Catalogue defines the goods and services referenced by these systems.
 
 **No purchase, production order, shipment, reservation, or requirement may be treated as physical stock unless the corresponding inventory state has been authoritatively recorded.**
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Inventory is authoritative for physical stock, reservations, custody, location and stock transactions. Other domains request or report effects but must not maintain competing stock balances.
+
+- A command order is not a reservation; a supply request is not stock-on-hand; a manifest does not itself create or destroy stock.
+- Combat expenditure, loading, transfer, loss, unloading and receipt must pass through valid stock transactions/state transitions with stable identity and idempotent replay.
+- Shipment identity, movement-task identity, cargo-manifest identity and stock-transaction identity are distinct. Rerouting changes a shipment's movement plan, not its identity or cargo quantity.
+- Commanders and AI use only stock information available under their reporting rules, while actual stock governs authoritative transaction resolution.
+- Shortfalls remain explicit constraints. Substitution or reallocation is allowed only under supported catalogue, reservation and authority rules.
+
+Required tests: duplicate expenditure event changes stock once; replanning does not duplicate shipment or stock; accepted requisition remains distinct from fulfilment; save/load preserves reservations and in-transit cargo without duplication.

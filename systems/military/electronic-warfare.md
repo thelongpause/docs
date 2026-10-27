@@ -675,3 +675,16 @@ Do not show a perfect list of all affected enemy systems to a player if their si
 The first playable EW implementation is complete when active emissions can be detected through Sensors and Detection; EMCON controls whether supported emitters operate; OECM affects only eligible systems according to documented compatibility, geometry and capacity; capacity selection is reproducible; DECM is resolved through Combat at the appropriate endgame stage; research and equipment definitions determine capability; Communications retains ownership of message delivery; and automated tests cover these boundaries.
 
 **Design objective:** Electronic Warfare should create a contest of sensing, concealment, interference and adaptation. The player should gain real advantages from better equipment, research and positioning while accepting the operational risks of emitting, consuming resources and relying on systems vulnerable to opposing countermeasures.
+
+## Command Ops 2 Command and Information Integration Contract (2026-10-27)
+
+Electronic Warfare owns supported electronic attack, protection, emissions, interference and deception effects. It does not own command-message delivery, contact truth, intelligence assessments or order validity.
+
+- EW effects alter eligible sensors, emitters, links or weapon systems only when compatibility, geometry, power/capacity, environment and equipment state permit. No universal “jammed” flag should replace system-specific effects.
+- Communications remains authoritative for whether and when a message is delivered. EW may degrade the relevant link or delivery conditions through the declared interface but must not directly delete, rewrite or reorder command messages.
+- Sensors owns observations and tracks; EW may affect collection or create supported electronic observations, while Intelligence owns subsequent assessment and Command owns the response.
+- Detection of an emitter, loss of a link, suspected deception or material degradation may trigger reassessment only when the information is available to that actor. Actual EW state must not be exposed to actors who have not detected or inferred it.
+- EMCON, emission control and countermeasure use follow equipment capability, doctrine, command authority and operational constraints. An AI commander must not activate an unavailable or incompatible capability.
+- EW changes and resulting effects must be time-stamped and replay-safe. Reassessment does not guarantee that the actor correctly identifies the cause of disruption.
+
+Required tests: jamming delays/degrades an eligible communications link without directly editing messages; a sensor degradation is not globally known; a command unit reacts according to existing doctrine; replay does not apply EW effects twice.

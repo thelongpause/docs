@@ -778,3 +778,15 @@ The Logistics and Sustainment specification is ready for implementation when:
 
 This specification and its initial gameplay defaults are complete enough to implement. Historical refinement is optional follow-on work, not a blocker to building the system. Military-wide completion still depends on the separate cross-system integration and runtime tests listed in the Military Interface Audit.
 
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Command provides priorities and authorised intent; Logistics calculates demand, stock visibility, procurement, shipment and delivery feasibility. A requested tempo is not proof that it can be sustained.
+
+- Movement owns physical transport progress and route execution; Logistics owns shipment coordination and delivery reconciliation; Inventory owns stock, reservations and transactions.
+- A planned route is not a delivered shipment. Blocked routes, delayed/lost cargo, depleted stocks and delivery shortfalls must update shipment/supply state and may trigger command reassessment.
+- Command priority cannot make unavailable stock available. Shortfalls may recommend resupply, redistribution, reduced tempo, withdrawal or mission reprioritisation, but do not silently amend an order.
+- Actor-facing supply pictures must respect information-access and delay rules; global actual stock is not automatically visible to every commander.
+- Delivery is complete only after physical arrival and receiving-side reconciliation. Partial/failure states remain explicit.
+- Retries and replanning must not duplicate requisitions, reservations, shipments or stock movements.
+
+Required tests: delayed convoy updates estimates without premature stock receipt; requested ammunition exceeds actual availability; partial cargo receipt; save/load of rerouted shipment; supply shortfall produces recommendation without unauthorised order cancellation.

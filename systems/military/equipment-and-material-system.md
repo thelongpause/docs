@@ -608,3 +608,16 @@ This specification is ready to inform architecture and schema design when:
 - [Installations and Facilities System](../infrastructure/installations-and-facilities-system.md)
 - [World Map System](../world/world-map-system.md)
 - [World Simulation Dependency Map](../../technical/architecture/world-simulation-dependencies.md)
+
+## Command Ops 2 Capability and Planning Integration Contract (2026-10-27)
+
+Equipment and Materiel defines designs, variants, compatibility and capability limits. It does not assert that a unit currently has an item, that the item is serviceable, or that its capability is available at the point of action.
+
+- Command allocation and plan-feasibility checks must separate **designed capability** from **fielded quantity**, **current serviceability/readiness**, **crew/operator availability**, **consumable stock**, and **environmental/operational constraints**.
+- Equipment class or nominal role is not proof that a unit can execute a task. Validate the actual fielded variant, supported configuration, compatibility, required mounts/sensors/communications, mobility, range and other task-specific requirements.
+- Research and design unlocks do not automatically equip a unit. Production, inventory, procurement, delivery, assignment and readiness remain separate authoritative steps.
+- Combat validates physical employment constraints; Sensors validates sensor capabilities; EW validates electronic compatibility; Movement validates mobility and carrier constraints; Logistics/Inventory validate supplies and stock.
+- If capability data is missing, invalid or unsupported for a date/variant, return an explicit unknown/invalid result rather than silently granting a default capability.
+- Capability-based task allocation must be deterministic and auditable, and must not duplicate a second operational capability catalogue inside Command.
+
+Required tests: a nominally suitable unit lacks the required fielded variant; an available design has not been produced or delivered; a damaged or unserviceable item cannot be treated as fully capable; save/load preserves the fielded configuration used by a plan.

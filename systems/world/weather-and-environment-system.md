@@ -385,3 +385,15 @@ Weather and Environment is ready for implementation when:
 8. Player and AI use the same environmental truth and forecast-access rules.
 
 The logical environmental state, variable, forecast, observation and event contracts are defined in SCHEMA-WORLD-CMD-001. The initial variable catalogue, units, spatial/temporal resolution, climate/weather model, calibration and executable downstream-effect tests remain open. The existence of this specification does not prove that weather or environmental simulation has been implemented.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Environment informs planning through actor-accessible forecasts and observations while owning actual environmental state. Actual state, observation and forecast remain distinct products with provenance and effective times.
+
+- Command planning may use only forecasts available to that actor at decision time, preserving issue time, horizon and uncertainty where represented. Never substitute future actual weather for a forecast.
+- Movement, equipment, sensors, communications, logistics and combat calculate their own domain-specific effects; no universal weather penalty replaces these mechanisms.
+- Environment may identify a driver or request a terrain transition, but the authoritative Terrain/Infrastructure domain commits persistent physical state.
+- Material changes should be observable by affected systems and may trigger reassessment. Environment does not issue/cancel orders. Use thresholds and deterministic rules to prevent route/replan thrashing.
+- Unsupported variables or resolution return unknown/unsupported rather than fabricated precision.
+
+Required tests: forecast differs from actual conditions while the decision retains its original information basis; severe weather invalidates a route without editing the order; environment-driven state transitions survive replay without duplicate application.

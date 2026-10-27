@@ -480,3 +480,17 @@ Movement and Transportation is ready for implementation when:
 7. Open mode-specific decisions are tracked explicitly and are not silently replaced by arbitrary defaults.
 
 The logical movement and transport schemas are defined in SCHEMA-WORLD-CMD-001. Database-specific constraints, movement-mode calibration, carrier/network capacity data and executable tests remain open. The existence of a specification or schema does not prove runtime movement has been implemented. Military integration remains open until the required shared dependencies and end-to-end tests pass.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Command owns authorised movement intent, constraints and the decision to amend/cancel an order. Movement owns route feasibility, movement tasks, physical position/progress, interruption and arrival. World/Terrain provide geometry and physical state; Infrastructure owns the condition of represented infrastructure; Environment owns actual weather and forecasts; Logistics owns shipment intent and delivery reconciliation; Inventory owns stock transactions.
+
+- A route is a revisable plan, not a guarantee. Feasibility must distinguish feasible, infeasible and unknown/insufficiently modelled.
+- Revalidation considers current terrain and infrastructure state, access restrictions, mode/carrier compatibility, known hazards, capacity where modelled, and supported weather effects. Unknown is not equivalent to passable.
+- A route blockage, crossing-state change, material delay, interruption, immobilised element or arrival emits a time-stamped movement event tied to stable task/entity identity.
+- A movement event may trigger command reassessment but does not silently rewrite the superior order. Autonomous rerouting is permitted only within the order's delegated destination, corridor, risk and timing constraints; otherwise the system reports alternatives and awaits authority.
+- Formation tempo is constrained by relevant constituent elements, transport dependencies, route restrictions and cohesion policy. Formation tasks and constituent movement tasks must not duplicate physical progress.
+- If detailed congestion/capacity is not implemented, expose that limitation rather than inventing exact queue times. Replanning must use deterministic tie-breaking and avoid route thrashing.
+- Physical arrival is not proof of cargo receipt. Shipment completion requires Logistics/Inventory reconciliation.
+
+Required tests: bridge becomes impassable mid-movement; rerouting is allowed versus disallowed by order; stale/unknown route data is not reported as certainly feasible; a constituent falls behind without duplicated progress; cargo arrives physically but receiving reconciliation fails. These are specification requirements, not evidence of runtime implementation.

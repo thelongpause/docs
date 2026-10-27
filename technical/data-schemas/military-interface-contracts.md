@@ -418,3 +418,45 @@ This contract is ready for implementation when:
 7. Every unresolved domain field has an explicit unsupported/unknown state rather than an arbitrary default.
 
 The existence of this contract does not prove that runtime code or the vertical slice has been implemented.
+
+## Command Ops 2 Command Schema Reconciliation (2026-10-27)
+
+This section reconciles the conceptual Command records in `command-planning-and-execution.md` with the existing Communications, Movement, Logistics, Inventory and shared event contracts. It establishes logical relationships; it does not freeze database-specific types.
+
+### Canonical records and ownership
+
+| Logical record | Authority | Required relationship and rule |
+|---|---|---|
+| Command Order | Command | Stable `order_id` and `order_version`; retains originator, effective sender, issuing authority, recipient, intent, priority, constraints, doctrine/ROE references, issue/expiry time, status, supersession and provenance. |
+| Order Delivery | Command-facing view of Communications delivery | References `order_id` and version plus the Communications `message_id`/delivery-attempt references. It is not a second message transport system and does not own delivery truth. |
+| Communications Message | Communications | Holds payload type/reference, endpoints, channel, priority/security policy, creation/expiry time, delivery state, attempts, idempotency key and transition event. Payload reference points to the Command Order/version; it does not duplicate the order as a new authoritative record. |
+| Command Plan | Command | Stable `plan_id`/version; references source order IDs/versions, operational-picture version, assumptions, review time, status and revision reason. Historical plans remain inspectable. |
+| Command Task | Command tasking record | Stable `task_id`, plan reference, task type, assigned entity, priority, prerequisites, owning system, request/accept/start/complete times, status, blocking reason and outcome reference. Physical/economic effects are executed by the named owning system. |
+| Movement Task | Movement and Transportation | Separate stable identity, references the requesting order/task/shipment ID and owns route, position, progress, interruption and arrival. A Command Task does not duplicate movement state. |
+| Shipment | Logistics | Stable shipment ID and cargo lines; references originating demand and Movement Task. Re-routing changes movement instructions, not shipment identity or quantity. |
+| Inventory Transaction | Inventory | Stable transaction ID and idempotency key; records accepted reservation, issue, transfer, loss, receipt or consumption. A Command Task, Shipment or Combat event is not itself a stock transaction. |
+| Command Event | Command | Stable event ID, event type/version, effective time, source, affected orders/plans, urgency and provenance. References the causal event/message/report/movement/combat/supply event and triggers evaluation, not automatic order mutation. |
+
+### Lifecycle and reconciliation rules
+
+1. Order issuance creates or versions the Command Order. Sending it creates a Communications Message that references that order/version. Neither action means delivery, acknowledgement or execution.
+2. Communications owns per-recipient delivery attempts and message delivery state. The receiving Command endpoint validates authority, expiry and supersession before the order becomes actionable.
+3. Acknowledgement is a separate message/event. Lack of acknowledgement means the sender may have uncertain delivery state, not proven non-delivery.
+4. Accepted command intent may create or revise a Plan and one or more Command Tasks. Each task names one owning system for its consequential physical/economic effect.
+5. A Movement Task is created only through the Movement interface and owns physical progress. A Command Task's completion depends on the owning system's result; it cannot assert arrival or combat effect itself.
+6. A task cancellation prevents new work where possible but does not erase already executed effects. Compensation or recovery must be a new authorised action with causal linkage.
+7. Events that cause reassessment preserve effective time, causation/correlation and idempotency identity. Duplicate events are no-ops after successful application; materially different payloads reusing an idempotency key are rejected/quarantined.
+8. Save/load restores in-flight orders, message attempts, plans, tasks, reviews and event identities without duplicating delivery, movement, combat, shipment or stock effects.
+
+### Required schema-level conformance tests
+
+- **CMD-SCH-01:** issuing an order without creating a Communications Message leaves delivery state unset/not-delivered.
+- **CMD-SCH-02:** one order delivered to two recipients has independent recipient delivery states.
+- **CMD-SCH-03:** duplicate delivery of the same order/version does not create a duplicate actionable task.
+- **CMD-SCH-04:** an older order arriving after a valid cancellation/superseding order is not made actionable.
+- **CMD-SCH-05:** a Command Task references a Movement Task but cannot mutate its position/progress.
+- **CMD-SCH-06:** completing a Command Task requires the authoritative owning-system outcome.
+- **CMD-SCH-07:** a repeated Inventory transaction/event does not duplicate physical stock effects.
+- **CMD-SCH-08:** save/load restores pending orders, message attempts, plans, tasks and review times without replaying completed side effects.
+
+These tests are acceptance definitions. Their existence here does not claim they are implemented or passing.

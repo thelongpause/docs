@@ -152,3 +152,17 @@ The contract must integrate with the shared event envelope and common data-model
 - How civilian demand and market effects are represented in the initial economy model.
 
 This interface contract is sufficient to define the Government decisions needed by the Military sustainment vertical slice. It is not a substitute for the full Government System specification, which should be authored as part of the Government top-level system after the Military integration dependencies are closed.
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+Government owns procurement authority, budget/policy approval, mobilisation policy and strategic-reserve rules. It does not own commercial settlement, production execution, physical stock or delivery.
+
+- Command/Logistics requests are proposals with stable identity and required-by time; they are not procurement approvals.
+- Government decisions retain the authority/policy version, authorised buyer, approved scope/quantity/value, conditions, effective time, decision status and reason. A rejection, partial approval, deferral or expiry must remain distinct.
+- Approval does not itself create an Economy contract/payment, Production output, Inventory stock or Logistics shipment. Each transition is confirmed by its owning system and linked to the originating request.
+- Emergency procurement and mobilisation may use explicit delegated powers, limits, expiry and review rules. Operational urgency does not bypass them by default.
+- Mobilisation may change authorised force availability or demand only through defined Government/Military/Population/Industry interfaces. It must not directly create trained personnel, equipment, supply or production capacity.
+- Repeated requests and reassessment must not create duplicate approvals, contracts, production orders, reserve releases or shipments. Every consequential decision must be auditable and replay-safe.
+- Government and Command AI use the same authority, budget, information and policy constraints as the Player.
+
+Required tests: a command request without approval creates no purchase or stock; partial approval constrains downstream commitments; mobilisation does not conjure personnel/equipment; a repeated request is idempotent; expired emergency authority cannot approve a new request.

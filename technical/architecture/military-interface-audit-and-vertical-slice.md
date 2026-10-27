@@ -373,3 +373,46 @@ Initial provisional gameplay defaults are now defined in [Logistics Supply Refer
 Military is complete only when the canonical Military specifications, required shared dependencies, state ownership contracts and acceptance tests agree. The minimum proof is an executable, save/load-safe vertical slice demonstrating procurement or valid stock sourcing, production where required, physical transport, receipt, consumption, and resulting operational consequences under both Player and AI control.
 
 A documented but unimplemented interface is an explicit integration dependency, not evidence that the simulation behaviour already works.
+
+## Command Ops 2 Integration Audit Update (2026-10-27)
+
+The merged Command Ops 2 design integration and these follow-on addenda define behavioural expectations for order delivery, movement, information access, combat feedback and sustainment. This is specification status, not evidence of runtime completion.
+
+### Required interface closure evidence
+
+Review conformance across Command Planning and Execution; Movement and Transportation; Terrain Objects and Weather; Communications; Intelligence and Sensors/Detection; Combat and Engagement; Logistics and Inventory; and the World/Command and Military Interface Contracts.
+
+For each interface, record: (1) source and receiving system plus the field/event contract; (2) owner of authoritative state and derived/read-only views; (3) failure, stale-data, retry, cancellation and save/load behaviour; (4) deterministic test fixture and expected transitions; and (5) status as specified, schema-defined, implemented or tested. These statuses are not interchangeable.
+
+Do not mark an interface validated merely because specifications link to one another. Numerical calibration, schema-level field reconciliation, runtime implementation and executable end-to-end tests remain open until evidenced. Keep Military open until the sustainment vertical slice and integration scenarios pass in the actual implementation.
+
+## Command Ops 2 Test Registry (2026-10-27)
+
+Use these stable scenario IDs in implementation tickets, test names and review notes. The scenarios below are required conformance targets; they are not currently marked passing.
+
+| Test ID | Scenario | Systems involved | Required observable outcome |
+|---|---|---|---|
+| CMD-INT-01 | Blocked crossing during formation movement | Command, Movement, Terrain/Infrastructure, Logistics | Route becomes infeasible; no teleportation; movement emits a reasoned event; shipment estimate updates; Command reassesses under authority policy. |
+| CMD-INT-02 | Delayed and superseded command | Command, Communications | Unit follows last valid order until receipt; expiry/supersession validated; duplicate delivery causes no duplicate task. |
+| CMD-INT-03 | New intelligence reaches headquarters late | Sensors, Intelligence, Communications, Command | Assessment preserves provenance/freshness; actor knowledge changes only on authorised receipt; reassessment cannot occur before information is available. |
+| CMD-INT-04 | Weather invalidates a route | Environment, Terrain/Infrastructure, Movement, Command | Actual state changes under its owner; Movement recalculates feasibility; planning uses only the forecast available at decision time. |
+| CMD-INT-05 | Combat capability loss during a task | Combat, Equipment, Movement, Command | Physical effect is resolved once; mobility/firepower/readiness consequences reach owning systems; Command receives a trigger but does not overwrite the order automatically. |
+| CMD-INT-06 | Combat expenditure and supply reconciliation | Combat, Inventory, Logistics, Movement | Ammunition/stock changes occur once; shipment and movement identities remain distinct; receipt is confirmed by Inventory. |
+| CMD-INT-07 | Communications outage and restoration | Communications, EW, Command, Sensors/Intelligence | Delivery follows link conditions; local behaviour remains bounded by standing orders; stale messages are reconciled by identity/authority, not arrival order alone. |
+| CMD-INT-08 | Save/load with in-flight operations | Command, Communications, Movement, Combat, Logistics, Inventory | Pending orders, plans, tasks, queues, progress and transactions restore without duplicate side effects; event replay is deterministic under the supported model. |
+
+### Test execution record
+
+For every test, record the build/commit, fixture and simulation seed, initial state, ordered event stream, expected transitions, actual transitions, pass/fail result and any known unsupported subsystem. Do not convert a prose-defined scenario into a “passing test” until executed against the implementation. Run player/AI parity variants where the scenario involves actor knowledge or authority.
+
+## Strategic and Persistence Test Extensions (2026-10-27)
+
+| Test ID | Scenario | Systems involved | Required observable outcome |
+|---|---|---|---|
+| CMD-INT-09 | Military procurement chain | Command, Logistics, Government, Economy, Production, Inventory | Request, approval, contract/payment, production, stock receipt, shipment and delivery remain separate confirmed transitions; retries create no duplicate commitment. |
+| CMD-INT-10 | Technology unlocked but not fielded | Research, Equipment Design, Production, Inventory, Military Command | Unlock alone does not grant unit capability; capability becomes available only after valid design/production/receipt/assignment/readiness steps. |
+| CMD-INT-11 | Civilian effects of an operation | Command, Combat, World/Terrain, Population, Intelligence | Order alone causes no demographic change; resolved effects enter Population through owned events and update once; command receives only actor-accessible information. |
+| CMD-INT-12 | Save/load during an in-flight operation | Scheduler, Command, Communications, Movement, Combat, Logistics, Inventory, Population | Pending work and event identities restore; completed effects are not repeated; conservation and domain ownership invariants remain true. |
+| CMD-INT-13 | Player/AI parity under uncertainty | Simulation Integration, Command, Intelligence, Communications, Economy/Government | Equivalent actor knowledge, authority and resource constraints are applied consistently; no AI access to hidden state or unapproved resources. |
+
+These extend the previously listed CMD-INT-01 through CMD-INT-08. They remain required test definitions, not passing results. Research and Government remain interface dependencies until their full top-level systems and relevant implementation work are completed.

@@ -215,3 +215,21 @@ Military should not be declared complete until:
 Initial canonical behavioural specifications now exist for Movement and Transportation (MOV-TRANS-001), Character (CHAR-001), Communications (COMM-001) and Intelligence (INTEL-001). Their schemas, calibration, domain integration and conformance tests remain open.
 
 The Government procurement authority and Research/Technology Progression interface contracts are documented, but the full Government and Research Systems remain outside scope until Military is complete. Next, complete shared database-specific schema decisions, calibrate Weather/Environment and movement, populate Catalogue simulation mass and compatibility for the initial playable slice, and implement and execute the company-to-unit and command-to-intelligence vertical slices. More specific historical Logistics profiles are incremental refinements, not a prerequisite for initial implementation. Do not move to the next top-level game system until the Military completion checklist is satisfied.
+
+## Command Ops 2 Integration Progress (2026-10-27)
+
+The Command Ops 2 integration pass has added explicit behavioural contracts to the canonical command, organisation, doctrine, equipment, sensors/detection, electronic warfare, combat, movement, terrain, weather, communications, intelligence, logistics and inventory specifications, with shared clarifications in World and Command Interface Contracts.
+
+This is a documentation and interface-definition milestone, not implementation evidence. The following remain distinct and must be tracked separately:
+- **Specified:** domain ownership and expected behaviour are documented.
+- **Schema-defined:** exact logical fields, enums, event envelopes and versioning are reconciled across contracts.
+- **Implemented:** runtime systems enforce the contracts.
+- **Tested:** deterministic unit/integration/vertical-slice tests demonstrate conformance.
+
+Military remains open. Required next work is to reconcile command/order/task and event identities across the World/Command and Military Interface Contracts; close unresolved schema ownership and state transitions; then execute the command-to-intelligence and company-to-unit sustainment vertical slices, plus blocked-crossing, delayed-command, weather-disruption and combat/stock scenarios. Only mark checklist items complete when evidence exists at the appropriate status.
+
+## Cross-System Validation Scope Clarification (2026-10-27)
+
+The current integration pass also records Command Ops 2 boundaries for Economy, Population Centres, Government procurement/mobilisation, Research/Technology Progression, the shared AI decision architecture, world dependency propagation, and data-model time/persistence. These addenda close design-level interface expectations only. They do not mean the full Government or Research systems are authored, nor that runtime schedulers, save/load, event replay or end-to-end tests are implemented.
+
+The Military completion checklist remains open until the shared schemas are reconciled and the required integration/vertical-slice tests are executed. Only verified implementation evidence can change a test from defined to passing.

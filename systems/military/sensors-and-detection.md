@@ -755,3 +755,17 @@ When useful, show reasons for poor detection, such as range, obstruction, poor v
 ## 25. Definition of Done
 
 The system is ready for integration when core entities and contracts are implemented; visual detection uses authoritative World and Terrain state; contact information is separate from hidden truth; classification, uncertainty and ageing work independently; reports use the Communications interface; automated tests cover core behaviour; the player can understand contact uncertainty; UI activity does not affect simulation outcomes; and additional sensor domains can be added without rewriting contact tracking.
+
+## Command Ops 2 Command-Planning Integration Contract (2026-10-27)
+
+Sensors and Detection owns sensor observations, detections, contact/track state and their uncertainty. It does not own Intelligence assessments, Communications delivery or command decisions.
+
+- Command planning consumes only contacts/tracks available to the relevant actor at decision time. Hidden world truth must not leak into route choice, target selection, threat assessment or reassessment.
+- Contact position, classification, confidence, source, observation time and age remain distinct attributes where supported. A stale or uncertain contact must not be treated as a perfectly current location.
+- A new, lost, updated, degraded or reclassified contact may generate an event for Intelligence and Command. The event prompts evaluation; it does not automatically retask a unit or alter an order.
+- Sensor tasking may be requested through authorised command/collection tasks, but actual performance depends on equipment capability, environmental conditions, geometry, emissions, EW and the actor's current operational state.
+- Intelligence owns reports and assessments derived from observations; Communications owns their delivery. A contact visible to one unit is not automatically visible to its headquarters or every friendly unit.
+- Combat outcomes and battle-damage assessment are separate. A weapon launch or impact does not automatically create a confirmed enemy loss without appropriate evidence.
+- Player and AI must use the same detection, ageing, access and dissemination rules.
+
+Required tests: a newly detected threat triggers a decision only for actors who receive the information; stale tracks preserve uncertainty; communications delay delays dissemination; terrain/weather/EW changes sensor performance through their owning interfaces without direct command edits.

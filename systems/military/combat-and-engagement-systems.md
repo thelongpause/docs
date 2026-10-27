@@ -1072,3 +1072,16 @@ These choices should be resolved through subsystem design, test scenarios, and c
 ## 33. Summary
 
 Combat & Engagement Systems connects orders and imperfect information to the physical and operational consequences of force. It combines Command Ops 2-inspired operational command, command latency, and subordinate execution with CMO-inspired platform detail, sensors, weapon allocation, mission control, and cross-domain engagement. Weapon and platform performance derive from the designed equipment actually fielded and available. Combat outcomes arise through a time-dependent chain of detection, decision, authorisation, weapon employment, transit, terminal interaction, damage, assessment, and reaction. The resulting losses, expenditure, damage, and tactical events flow back into the wider simulation, while the Narrative Battle System explains what happened without becoming a second source of truth.
+
+## Command Ops 2 Operational Integration Contract (2026-10-27)
+
+Command owns authorised intent and delegated control; Combat owns physical engagement resolution. A fire-support order creates a task/request, not a guaranteed target, firing solution or effect.
+
+- Combat validates target/contact quality, weapon/platform capability, range/geometry, ammunition, readiness, rules of engagement and relevant fire-control constraints through their authoritative systems.
+- Direct fire, anti-personnel fire, anti-armour fire, area fire, bombardment, registration and airstrikes retain their own target/area semantics and constraints rather than collapsing into one generic attack result.
+- Material effects such as suppression, casualties, morale/cohesion changes, mobility/firepower/sensor/command loss, ammunition depletion, withdrawal, rout or destruction may trigger command reassessment. Combat does not rewrite superior orders.
+- Actual damage is distinct from battle-damage assessment. The firing side does not automatically know an enemy was destroyed.
+- Expenditure updates Inventory/Logistics through the owning interface exactly once. Fatigue, cohesion, morale and communications effects are consumed from their authoritative systems, not duplicated as parallel modifiers.
+- Communications failure affects remote coordination through Communications and Command, not physical combat resolution.
+
+Required tests: stale target data constrains fire support; mobility kill updates movement and triggers reassessment; ammunition expenditure is idempotent; unobserved outcome remains uncertain; disconnected units continue valid standing orders and local combat.

@@ -814,3 +814,17 @@ The canonical Military Logistics & Sustainment specification is registered at `s
 - Command: Modern Operations manual: https://www.matrixgames.com/amazon/PDF/CMO/CMO_manual_EBOOK.pdf
 - pyCMO design article: https://minhhua.com/pycmo/
 - pyCMO repository: https://github.com/duyminh1998/pycmo
+
+## Command Ops 2 Integration Contract (2026-10-27)
+
+The shared simulation and AI architecture must preserve the same command, information, resource and event constraints for the Player and autonomous actors.
+
+- AI decisions are made from actor-accessible state snapshots and information products valid at the decision time. AI must not read hidden world truth, future actual weather, undelivered reports, enemy private state or globally authoritative inventory unless its actor has legitimate access.
+- The decision loop separates event intake, state/knowledge update, decision scheduling, plan evaluation, authorised order/task creation and owning-system execution. A decision request does not directly mutate Movement, Combat, Communications, Inventory or Population state.
+- Periodic reassessment and event-triggered reassessment use shared simulation scheduling, stable event identity and explicit trigger coalescing. One event must not trigger an unbounded cascade of duplicate plans or orders.
+- AI workload, staff capacity, command latency, doctrine and delegation constraints must be represented through the relevant domain contracts rather than an all-knowing instantaneous planner.
+- Cross-system events preserve effective simulation time, source, causation/correlation, schema/configuration versions and idempotency semantics. The scheduler must not use rendering frame rate, database insertion order or wall-clock time to determine simulation outcomes.
+- Save/load must restore pending decisions, scheduled reviews, in-flight messages, orders, plans, tasks and relevant actor knowledge without rerunning completed side effects.
+- When an interface returns unknown, stale, unsupported or unresolved, the AI must follow documented conservative/deferral behaviour rather than treating the result as success.
+
+Required tests: identical actor state and event sequence produces reproducible decisions under the supported determinism policy; Player/AI parity for authority and information access; duplicate trigger does not duplicate an order; save/load preserves scheduled reassessment and actor knowledge.

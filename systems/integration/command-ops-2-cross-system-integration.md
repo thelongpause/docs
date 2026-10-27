@@ -138,3 +138,17 @@ This order is a validation sequence, not a claim that downstream systems may be 
 - No claim is made that an interface is implemented until its owning specification and tests confirm it.
 
 **Status note:** This register is a design and integration checklist. It does not close the Military System or certify implementation completeness.
+
+## Follow-on Specification Alignment (2026-10-27)
+
+The following canonical specifications now carry explicit Command Ops 2 integration requirements in addition to this register: Command Planning and Execution; Military Branches and Unit Organisation; Doctrine, Command and Operations; Equipment and Materiel; Sensors and Detection; Electronic Warfare; Combat and Engagement; Movement and Transportation; Terrain Objects; Weather and Environment; Communications; Intelligence; Logistics and Sustainment; Inventory; World and Command Interface Contracts; and the Military Interface Audit and End-to-End Vertical Slice.
+
+This register remains a design checklist. As implementation proceeds, add schema references and test identifiers to each relevant row. Do not mark a row complete merely because its specification addendum exists.
+
+## Strategic, Population and Persistence Alignment (2026-10-27)
+
+The Command Ops 2 integration boundary has also been made explicit in Economy, Population Centres, Government Procurement and Mobilisation, Research/Technology Progression, Simulation Integration and AI Decision Architecture, World Simulation Dependencies, and Data Model Foundations.
+
+These are interface-level constraints, not completion of the full Government or Research systems. They ensure that military intent cannot bypass fiscal/procurement authority, research unlocks cannot be mistaken for fielded capability, military events affect civilians only through Population-owned transitions, and time/persistence/replay preserve state without duplicate side effects.
+
+Extend the integration matrix with the following checks: (1) procurement approval versus contract, production, stock and delivery; (2) technology unlock versus design/fielding/readiness; (3) command/combat intent versus resolved civilian effects; (4) Player/AI information and authority parity; and (5) save/load and deterministic replay during in-flight operations. Test definitions belong in the Military Interface Audit and End-to-End Vertical Slice register.
