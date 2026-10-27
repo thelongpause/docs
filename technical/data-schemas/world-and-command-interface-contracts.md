@@ -264,3 +264,32 @@ This contract does not invent or freeze the physical database ID type; exact sim
 - Intelligence System: ../../systems/intelligence/intelligence-system.md
 - Weather and Environment: ../../systems/world/weather-and-environment-system.md
 - Military Interface Audit and End-to-End Vertical Slice: ../architecture/military-interface-audit-and-vertical-slice.md
+
+## Command Ops 2 Cross-System Contract Clarifications (2026-10-27)
+
+These clarifications define interoperability behaviour without creating duplicate domain ownership or silently freezing database-specific schemas.
+
+### Identity and event semantics
+
+- Command order identity is stable across retries; amendments/cancellations explicitly identify the order they supersede or cancel.
+- Movement task identity is distinct from order identity. One order may create or amend multiple tasks; retrying a task must not create a second physical movement.
+- Shipment identity is distinct from movement task and manifest identity. Rerouting changes the movement plan, not shipment identity or cargo quantity.
+- Evidence/report identity is distinct from the physical event that generated it; an assessment must not rewrite its evidence.
+- Stock transaction identity is stable across retries/replay. Movement and combat events must not directly mutate inventory without a valid stock transaction.
+- Events that trigger state transitions or reassessment must be traceable to the source domain/entity and effective simulation time, and be handled idempotently using the existing event envelope conventions.
+
+### Reassessment triggers and information boundaries
+
+Material triggers include route/crossing infeasibility; immobilised or materially delayed formation elements; infrastructure/environment changes; critical stock depletion, shipment loss or delivery shortfall; new/contradicted/stale intelligence; communications outage/restoration or receipt of a superseding order; and combat effects that materially change capability. These are triggers for evaluation, not automatic order changes. Command policy decides the response under standing orders, doctrine, commander capacity and review intervals.
+
+Physical resolution uses authoritative domain state at event time. Planning and AI decisions use only actor-accessible observations, reports and forecasts available at decision time. Unknown, stale, contradictory, delayed, unsupported and delivered are distinct conditions and must not be collapsed into “clear”, “safe”, “current” or “complete”.
+
+### Mandatory integration scenarios
+
+1. Blocked crossing: Terrain/Infrastructure changes; Movement revises feasibility; Command receives a trigger; Logistics updates estimates; no teleportation or silent order rewrite.
+2. Delayed command: Communications delays an order; the unit continues the last valid standing order until receipt; expiry/supersession is validated; acknowledgement is independent.
+3. New intelligence: Sensors provide evidence; Intelligence updates an actor-specific assessment; Communications delivers it; Command reassesses only after receipt.
+4. Combat and stock: Combat resolves effects; Inventory records expenditure once; Movement/Command receive capability consequences without duplicate state.
+5. Weather disruption: Environment updates actual conditions; Terrain/Infrastructure commits physical state; consumers calculate their own effects; Command uses only forecasts available at decision time.
+
+These are logical conformance requirements, not claims of executable implementation.
